@@ -182,6 +182,11 @@
           "label": "Intervalle d'interrogation (secondes)",
           "hint": "S'applique à tous les appareils de ce compte."
         }
+      },
+      "capabilitiesOptions": {
+        "measure_power": {
+          "title": "Puissance (estimée)"
+        }
       }
     }
   },

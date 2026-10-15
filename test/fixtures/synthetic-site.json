@@ -116,7 +116,11 @@
       "type": "ON_OFF",
       "activationMode": "MANUAL",
       "status": {
-       "level": 100
+       "level": 100,
+       "activePowerMeter": null
+      },
+      "config": {
+       "ratedPower": 2000
       },
       "deviceStatus": "ACTIVE"
      }

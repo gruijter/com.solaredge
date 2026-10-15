@@ -182,6 +182,11 @@
           "label": "Abfrageintervall (Sekunden)",
           "hint": "Gilt für alle Geräte dieses Kontos."
         }
+      },
+      "capabilitiesOptions": {
+        "measure_power": {
+          "title": "Leistung (geschätzt)"
+        }
       }
     }
   },

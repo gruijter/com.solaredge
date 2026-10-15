@@ -182,6 +182,11 @@
           "label": "Interwał odpytywania (sekundy)",
           "hint": "Dotyczy wszystkich urządzeń tego konta."
         }
+      },
+      "capabilitiesOptions": {
+        "measure_power": {
+          "title": "Moc (szacowana)"
+        }
       }
     }
   },

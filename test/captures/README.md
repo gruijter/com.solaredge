@@ -28,7 +28,10 @@ made of the data, and where it did not match what they assume.
 
 `briadelour-ev-*.json` are the eight real `getSiteDevices` answers of one EV charger from
 [briadelour/SolarEdgeEVCharger](https://github.com/briadelour/SolarEdgeEVCharger)
-(`example_raw_json.zip`), one per charger state; `briadelour-ev` is not a real site id. A capture
+(`example_raw_json.zip`), one per charger state; `briadelour-ev` is not a real site id. `rolfschmidli-keba.json` is a real `getSiteDevices`
+answer with a KEBA EV charger and two home load controllers (`ON_OFF`), posted in
+[solaredge-evcharger-ha#6](https://github.com/briadelour/solaredge-evcharger-ha/issues/6)
+(vehicle ids and licence plate redacted). A capture
 with `"partial": true` replays what it holds (here: the EV charger pairing); pairing or polling
 that needs a call it lacks is reported as skipped, not failed. The same answers are in
 `test/fixtures/ev-charger-devices.json`, where `test/devices.js` checks the mapping of each state.

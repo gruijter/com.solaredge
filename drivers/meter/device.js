@@ -61,7 +61,8 @@ module.exports = class SolarEdgeMeterDevice extends CommonDevice {
     // Grid: import positive
     if (typeof sitePowerflow.grid?.currentPower === 'number') {
       let power = Math.round(sitePowerflow.grid.currentPower * 1000);
-      if (sitePowerflow.grid?.status === 'export') power *= -1;
+      // status import/export (compared case-insensitively, as openHAB's solaredge binding does)
+      if (String(sitePowerflow.grid?.status).toLowerCase() === 'export') power *= -1;
       await this.setCapability('measure_power', power);
       await this.setCapability('measure_power.grid', power);
     }

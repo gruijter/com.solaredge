@@ -182,6 +182,11 @@
           "label": "폴링 간격(초)",
           "hint": "이 계정의 모든 기기에 적용됩니다."
         }
+      },
+      "capabilitiesOptions": {
+        "measure_power": {
+          "title": "전력 (추정)"
+        }
       }
     }
   },

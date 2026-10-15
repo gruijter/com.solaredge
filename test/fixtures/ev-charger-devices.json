@@ -1,5 +1,5 @@
 {
- "_source": "https://github.com/briadelour/SolarEdgeEVCharger example_raw_json.zip (getSiteDevices of one EV charger in 8 states, 2026-01)",
+ "_source": "EV_CHARGER_SA states: https://github.com/briadelour/SolarEdgeEVCharger example_raw_json.zip (2026-01). keba_charging: https://github.com/briadelour/solaredge-evcharger-ha/issues/6 comment by rolfschmidli (2026-07), KEBA ONE EV Pro plus two ON_OFF load controllers; vehicle ids and plate redacted",
  "responses": {
   "charging": {
    "@c": ".SiteDevicesResponse",
@@ -966,6 +966,210 @@
       },
       "isAuthorizationEnabled": false,
       "ratedPower": 9600
+     }
+    ]
+   },
+   "gridProgram": null
+  },
+  "keba_charging": {
+   "@c": ".SiteDevicesResponse",
+   "status": "PASSED",
+   "httpStatus": 200,
+   "warningMessages": [],
+   "infoMessages": [],
+   "errorMessages": [],
+   "isUpdated": true,
+   "fieldLastUpdateTS": 1785027363901,
+   "updateRefreshRate": 3,
+   "globalCommunicationStatus": "ACTIVE",
+   "excessPvSupported": true,
+   "essentialDevicesSupported": true,
+   "rfIdCardsListSupported": "TRUE",
+   "billingProviders": [],
+   "devices": [
+    {
+     "communicationStatus": "ACTIVE",
+     "lastUpdated": 1785027363945,
+     "reporterId": 1257352290647958,
+     "serialNumber": "64041086",
+     "iconName": "BATTERY",
+     "name": "Wärme-Pumpe",
+     "manufacturer": "SolarEdge",
+     "model": "SEM-DCS-R08-00",
+     "macAddress": "0000000000000000",
+     "swVersion": "1.0.82",
+     "type": "ON_OFF",
+     "activationMode": "MANUAL",
+     "remoteOpInfo": null,
+     "deviceTriggers": [],
+     "isScenarioSupported": false,
+     "deviceStatus": "ACTIVE",
+     "status": {
+      "level": 100,
+      "activePowerMeter": null,
+      "activeTrigger": "MANUAL",
+      "startTime": 1783114849000,
+      "endTime": null,
+      "startTimeWithOffset": "2026-07-03T23:40:49+02:00",
+      "endTimeWithOffset": null,
+      "scheduleType": "NONE"
+     },
+     "config": {
+      "iconName": "BATTERY",
+      "deviceName": "Wärme-Pumpe",
+      "ratedPower": 1500.0,
+      "minOnTime": 10,
+      "maxOnTime": null,
+      "calculatedCommonPower": null
+     },
+     "excessPVConfiguration": {
+      "useExcessPV": true,
+      "excessPVActiveDays": [
+       "SUNDAY",
+       "MONDAY",
+       "TUESDAY",
+       "WEDNESDAY",
+       "THURSDAY",
+       "FRIDAY",
+       "SATURDAY"
+      ]
+     }
+    },
+    {
+     "communicationStatus": "ACTIVE",
+     "lastUpdated": 1785027363945,
+     "reporterId": 867949152714418,
+     "serialNumber": "6404e139",
+     "iconName": "HEAT_PUMP",
+     "name": "Entfeuchter",
+     "manufacturer": "SolarEdge",
+     "model": "SEM-SWT-R16-00",
+     "macAddress": "0000000000000000",
+     "swVersion": "1.0.82",
+     "type": "ON_OFF",
+     "activationMode": "AUTO",
+     "remoteOpInfo": null,
+     "deviceTriggers": [],
+     "isScenarioSupported": false,
+     "deviceStatus": "ACTIVE",
+     "status": {
+      "level": 0,
+      "activePowerMeter": null,
+      "activeTrigger": "SCHEDULED",
+      "startTime": null,
+      "endTime": null,
+      "startTimeWithOffset": null,
+      "endTimeWithOffset": null,
+      "scheduleType": "EXCESS_PV"
+     },
+     "config": {
+      "iconName": "HEAT_PUMP",
+      "deviceName": "Entfeuchter",
+      "ratedPower": 415.0,
+      "minOnTime": 5,
+      "maxOnTime": null,
+      "calculatedCommonPower": null
+     },
+     "excessPVConfiguration": {
+      "useExcessPV": true,
+      "excessPVActiveDays": [
+       "SUNDAY",
+       "MONDAY",
+       "TUESDAY",
+       "WEDNESDAY",
+       "THURSDAY",
+       "FRIDAY",
+       "SATURDAY"
+      ]
+     }
+    }
+   ],
+   "devicesByType": {
+    "EV_CHARGER": [
+     {
+      "communicationStatus": "ACTIVE",
+      "lastUpdated": 1785027363945,
+      "lastCommunicationTime": 1785027358708,
+      "features": {
+       "authorization": "true",
+       "stop-start": "true",
+       "schedules": "true",
+       "charging-history": "true",
+       "current-session-data": "true",
+       "connected-car": "true",
+       "solar-charging": "true"
+      },
+      "reporterId": 1147328470204095,
+      "serialNumber": "99203855",
+      "iconName": "AUTO",
+      "name": "EV Charger 99203855",
+      "manufacturer": "Keba AG",
+      "model": "ONE_EV_Pro",
+      "macAddress": null,
+      "swVersion": "04.00.44",
+      "type": "KEBA_CHARGER",
+      "activationMode": "AUTO",
+      "remoteOpInfo": null,
+      "deviceTriggers": [],
+      "isScenarioSupported": false,
+      "connectionStatus": "CHARGING",
+      "connectionSubStatus": "CHARGING",
+      "deviceStatus": "ACTIVE",
+      "actionOperationDetails": [
+       {
+        "actionOp": "OFF",
+        "actionText": "STOP_CHARGING",
+        "defaultOp": true
+       }
+      ],
+      "sessionStartTime": 1784985442574,
+      "firstSessionStartTime": 1763814311873,
+      "chargerStatus": "CHARGING",
+      "sessionActive": true,
+      "sessionDuration": 1376,
+      "sessionEnergy": 3502,
+      "billingSettings": null,
+      "currentSessionBillingAccount": null,
+      "sessionSolarUsage": "NONE",
+      "sessionDistance": 54.401047,
+      "activationState": "ACTIVE",
+      "chargerStatusSubTitle": [
+       {
+        "subStatusTitle": "CURRENT_POWER_WH",
+        "numericValue": 0.0
+       }
+      ],
+      "excessPV": -1,
+      "applianceData": {
+       "id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+       "siteApplianceUUID": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+       "manufacturer": "JAC",
+       "model": "E30X 51.5 kWh (136 Hp)",
+       "manufacturerYear": 2025,
+       "alias": "My JAC",
+       "color": "#9999ff",
+       "physicalId": "XXX-0000",
+       "type": "VEHICLE",
+       "energyMultiplicands": [
+        {
+         "multiplicandEnum": "DISTANCE",
+         "multiplicandValue": 0.01553428
+        }
+       ],
+       "originalEnergyMultiplicands": [
+        {
+         "multiplicandEnum": "DISTANCE",
+         "multiplicandValue": 0.0068
+        }
+       ],
+       "firstTimeSession": 1763814311873,
+       "origin": "GLOBAL"
+      },
+      "latestSessionApplianceAlias": {
+       "VEHICLE": "My JAC"
+      },
+      "isAuthorizationEnabled": false,
+      "ratedPower": 22080.0
      }
     ]
    },

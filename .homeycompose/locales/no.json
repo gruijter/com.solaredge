@@ -182,6 +182,11 @@
           "label": "Oppdateringsintervall (sekunder)",
           "hint": "Gjelder for alle enheter på denne kontoen."
         }
+      },
+      "capabilitiesOptions": {
+        "measure_power": {
+          "title": "Effekt (anslått)"
+        }
       }
     }
   },

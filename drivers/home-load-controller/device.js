@@ -24,6 +24,10 @@ const siteDevices = require('../../lib/siteDevices');
 
 const CAPABILITY = 'solaredge-home-load-controller-state';
 
+// added once the device reports a power or a rated power
+const OPTIONAL_CAPABILITIES = ['measure_power'];
+const CAPABILITY_ORDER = [CAPABILITY, ...OPTIONAL_CAPABILITIES];
+
 // capability value -> activationState
 const ACTIVATION_STATES = {
   on: { level: 100, mode: 'MANUAL' },
@@ -32,6 +36,14 @@ const ACTIVATION_STATES = {
 };
 
 module.exports = class SolarEdgeHomeLoadControllerDevice extends CommonDevice {
+
+  capabilityOrder() {
+    return CAPABILITY_ORDER;
+  }
+
+  optionalCapabilities() {
+    return OPTIONAL_CAPABILITIES;
+  }
 
   async onInit() {
     await super.onInit();
@@ -72,11 +84,33 @@ module.exports = class SolarEdgeHomeLoadControllerDevice extends CommonDevice {
 
     if (!['AUTO', 'MANUAL'].includes(device.activationMode)) this.logOnce(`mode ${device.activationMode}`, 'unknown activationMode', device.activationMode);
 
+    await this.updatePower(device);
+
     if (device.deviceStatus === 'ACTIVE') {
       await this.setAvailable();
     } else {
       await this.setUnavailable();
     }
+  }
+
+  /**
+   * W: the device's meter (status.activePowerMeter) when it has one, else config.ratedPower ×
+   * status.level / 100, which is what the SolarEdge app shows for relays without a meter
+   * (karuzo17/solaredge-api-home-assistant; fields seen in a real answer, solaredge-evcharger-ha#6).
+   * An estimate: a switched-on appliance can draw less than its rated power.
+   */
+  async updatePower(device) {
+    const number = (value) => (typeof value === 'number' && Number.isFinite(value) ? value : null);
+    const measured = number(device.status?.activePowerMeter);
+    const rated = number(device.config?.ratedPower);
+    const level = number(device.status?.level);
+    let power = null;
+    if (measured !== null) power = Math.round(measured);
+    else if (rated !== null && level !== null) power = Math.round((rated * level) / 100);
+    this.logOnce(`power ${measured === null ? 'estimated' : 'measured'}`, `power ${measured === null ? 'estimated from' : 'measured,'} rated ${rated} W`);
+
+    await this.recordSeenCaps({ measure_power: power });
+    if (power !== null) await this.setCapability('measure_power', power);
   }
 
 };

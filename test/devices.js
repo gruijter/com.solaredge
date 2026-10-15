@@ -55,6 +55,28 @@ const EV_EXPECTED = {
   unplugged_not_charging_excesspv_and_schedule_disabled: ['plugged_out', false, 'manual', false],
   'unplugged_not_charging_excesspv_disabled_but_schedule_enabled_M-F1000-1200_SASU0900-2000': ['plugged_out', false, 'auto', false],
   unplugged_not_charging_excesspv_enabled_schedule_disabled: ['plugged_out', false, 'auto', true],
+  keba_charging: ['plugged_in_charging', true, 'auto', true],
+};
+
+// the two ON_OFF devices of keba_charging (a relay at level 100 in MANUAL, a switch in AUTO), with
+// their power as rated power × level (no activePowerMeter): 1500 W at 100, 415 W at 0
+const HLC_EXPECTED = { 'Wärme-Pumpe': ['on', 1500], Entfeuchter: ['auto', 0] };
+
+const loadControllers = async () => {
+  const response = responses.keba_charging;
+  const Driver = require(path.join(ROOT, 'drivers', 'home-load-controller', 'driver.js')); // eslint-disable-line import/no-dynamic-require, global-require
+  const driver = new Driver();
+  driver.homey = {};
+  const offered = await driver.onPairListDevices({ client: { getSiteDevices: async () => response }, site: { id: 1 } });
+  check(JSON.stringify(offered.map((device) => device.name)) === JSON.stringify(Object.keys(HLC_EXPECTED)), `hlc offers ${JSON.stringify(offered.map((device) => device.name))}`);
+  for (const offer of offered) {
+    const device = newDevice('home-load-controller', offer.data, { getSiteDevices: async () => response });
+    await device.onPoll(); // eslint-disable-line no-await-in-loop
+    const got = [device.values['solaredge-home-load-controller-state'], device.values.measure_power];
+    check(JSON.stringify(got) === JSON.stringify(HLC_EXPECTED[offer.name]), `hlc ${offer.name}: ${JSON.stringify(got)}, expected ${JSON.stringify(HLC_EXPECTED[offer.name])}`);
+    check(device.available, `hlc ${offer.name}: unavailable`);
+    device.problems.forEach((problem) => failures.push(`hlc ${offer.name}: ${problem}`));
+  }
 };
 
 const evCharger = async () => {
@@ -106,6 +128,7 @@ const fahrenheit = async () => {
 
 (async () => {
   await evCharger();
+  await loadControllers();
   await monotonic();
   await batteryKwh();
   await fahrenheit();
@@ -114,7 +137,7 @@ const fahrenheit = async () => {
     failures.forEach((failure) => console.error(`  ${failure}`));
     process.exitCode = 1;
   } else {
-    console.log(`OK - devices: ${Object.keys(responses).length} EV charger states, monotonic counters, battery kWh, Fahrenheit`);
+    console.log(`OK - devices: ${Object.keys(responses).length} EV charger states, 2 load controllers, monotonic counters, battery kWh, Fahrenheit`);
   }
 })().catch((error) => {
   console.error(error);

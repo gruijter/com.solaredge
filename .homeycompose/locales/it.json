@@ -182,6 +182,11 @@
           "label": "Intervallo di polling (secondi)",
           "hint": "Vale per tutti i dispositivi di questo account."
         }
+      },
+      "capabilitiesOptions": {
+        "measure_power": {
+          "title": "Potenza (stimata)"
+        }
       }
     }
   },

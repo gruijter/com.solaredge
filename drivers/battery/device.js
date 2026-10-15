@@ -49,11 +49,13 @@ module.exports = class SolarEdgeBatteryDevice extends CommonDevice {
   async onPoll() {
     const sitePowerflow = await this.client.getSitePowerflow({ siteId: this.getData().siteId });
     const { storage } = sitePowerflow;
+    // charging/discharging/idle, compared case-insensitively (as openHAB's solaredge binding)
+    const status = typeof storage?.status === 'string' ? storage.status.toLowerCase() : storage?.status;
 
     // currentPower in kW, always positive: negative while discharging
     if (typeof storage?.currentPower === 'number') {
       let power = Math.round(storage.currentPower * 1000);
-      if (storage.status === 'discharging') power *= -1;
+      if (status === 'discharging') power *= -1;
       await this.setCapability('measure_power', power);
     }
 
@@ -61,8 +63,8 @@ module.exports = class SolarEdgeBatteryDevice extends CommonDevice {
       await this.setCapability('measure_battery', storage.chargeLevel);
     }
 
-    if (CHARGING_STATES.includes(storage?.status)) {
-      await this.setCapability('battery_charging_state', storage.status);
+    if (CHARGING_STATES.includes(status)) {
+      await this.setCapability('battery_charging_state', status);
     } else if (storage?.status) {
       this.logOnce(`status ${storage.status}`, 'unknown storage status', storage.status);
     }

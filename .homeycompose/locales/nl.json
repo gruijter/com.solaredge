@@ -182,6 +182,11 @@
           "label": "Pollinterval (seconden)",
           "hint": "Geldt voor alle apparaten van dit account."
         }
+      },
+      "capabilitiesOptions": {
+        "measure_power": {
+          "title": "Vermogen (geschat)"
+        }
       }
     }
   },

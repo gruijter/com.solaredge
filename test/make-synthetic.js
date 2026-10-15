@@ -43,7 +43,14 @@ const site = {
   id: SITE_ID, status: 'ACTIVE', name: 'Synthetic site', peakPower: 8, timezone: 'Europe/Amsterdam', installationDate: '2024-03-01T10:00:00Z',
 };
 const loadController = {
-  reporterId: 102, serialNumber: 'HLC0001', name: 'Boiler', type: 'ON_OFF', activationMode: 'MANUAL', status: { level: 100 }, deviceStatus: 'ACTIVE',
+  reporterId: 102,
+  serialNumber: 'HLC0001',
+  name: 'Boiler',
+  type: 'ON_OFF',
+  activationMode: 'MANUAL',
+  status: { level: 100, activePowerMeter: null },
+  config: { ratedPower: 2000 },
+  deviceStatus: 'ACTIVE',
 };
 const YEARS = { 2024: [1200000, 2500000], 2025: [1800000, 3100000], 2026: [1400000, 2700000] };
 

@@ -501,6 +501,25 @@
       "capabilities": [
         "solaredge-home-load-controller-state"
       ],
+      "capabilitiesOptions": {
+        "measure_power": {
+          "title": {
+            "ar": "القدرة (تقديرية)",
+            "da": "Effekt (anslået)",
+            "de": "Leistung (geschätzt)",
+            "en": "Power (estimated)",
+            "es": "Potencia (estimada)",
+            "fr": "Puissance (estimée)",
+            "it": "Potenza (stimata)",
+            "ko": "전력 (추정)",
+            "nl": "Vermogen (geschat)",
+            "no": "Effekt (anslått)",
+            "pl": "Moc (szacowana)",
+            "ru": "Мощность (оценка)",
+            "sv": "Effekt (uppskattad)"
+          }
+        }
+      },
       "id": "home-load-controller",
       "name": {
         "ar": "وحدة التحكم في الأحمال المنزلية",

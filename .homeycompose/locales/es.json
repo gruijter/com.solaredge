@@ -182,6 +182,11 @@
           "label": "Intervalo de consulta (segundos)",
           "hint": "Se aplica a todos los dispositivos de esta cuenta."
         }
+      },
+      "capabilitiesOptions": {
+        "measure_power": {
+          "title": "Potencia (estimada)"
+        }
       }
     }
   },

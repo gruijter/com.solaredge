@@ -84,7 +84,7 @@ const SYNTHETIC_EXPECTED = {
     ev_solar_charging: false,
     ev_vehicle: 'Ioniq',
   },
-  'home-load-controller': { 'solaredge-home-load-controller-state': 'on' },
+  'home-load-controller': { 'solaredge-home-load-controller-state': 'on', measure_power: 2000 },
   inverter: { measure_power: 5600, alarm_problem: true, inverter_status: 'Producing' },
 };
 

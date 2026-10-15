@@ -182,6 +182,11 @@
           "label": "Poll interval (seconds)",
           "hint": "Applies to all devices of this account."
         }
+      },
+      "capabilitiesOptions": {
+        "measure_power": {
+          "title": "Power (estimated)"
+        }
       }
     }
   },
