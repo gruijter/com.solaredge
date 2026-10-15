@@ -12,16 +12,16 @@
   ],
   "capabilitiesOptions": {
     "meter_power": {
-      "decimals": 2
+      "decimals": 3
     },
     "meter_power.day": {
-      "decimals": 2
+      "decimals": 3
     },
     "meter_power.month": {
-      "decimals": 2
+      "decimals": 3
     },
     "meter_power.year": {
-      "decimals": 2
+      "decimals": 3
     }
   }
 }

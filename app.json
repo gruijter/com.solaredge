@@ -160,7 +160,7 @@
       },
       "capabilitiesOptions": {
         "meter_power.charged": {
-          "decimals": 2,
+          "decimals": 3,
           "title": {
             "ar": "الطاقة المشحونة",
             "da": "Opladet energi",
@@ -178,7 +178,7 @@
           }
         },
         "meter_power.discharged": {
-          "decimals": 2,
+          "decimals": 3,
           "title": {
             "ar": "الطاقة المفرغة",
             "da": "Afladet energi",
@@ -337,7 +337,7 @@
       },
       "capabilitiesOptions": {
         "meter_power.charged": {
-          "decimals": 2,
+          "decimals": 3,
           "title": {
             "ar": "إجمالي الطاقة المشحونة",
             "da": "Samlet opladet energi",
@@ -355,7 +355,7 @@
           }
         },
         "meter_power.session": {
-          "decimals": 2,
+          "decimals": 3,
           "title": {
             "ar": "طاقة هذه الجلسة",
             "da": "Energi denne session",
@@ -664,7 +664,7 @@
       ],
       "capabilitiesOptions": {
         "meter_power": {
-          "decimals": 2,
+          "decimals": 3,
           "title": {
             "ar": "إجمالي الإنتاج",
             "da": "Samlet produktion",
@@ -682,7 +682,7 @@
           }
         },
         "meter_power.day": {
-          "decimals": 2,
+          "decimals": 3,
           "title": {
             "ar": "الإنتاج اليوم",
             "da": "Produceret i dag",
@@ -700,7 +700,7 @@
           }
         },
         "meter_power.month": {
-          "decimals": 2,
+          "decimals": 3,
           "title": {
             "ar": "الإنتاج هذا الشهر",
             "da": "Produceret denne måned",
@@ -718,7 +718,7 @@
           }
         },
         "meter_power.year": {
-          "decimals": 2,
+          "decimals": 3,
           "title": {
             "ar": "الإنتاج هذا العام",
             "da": "Produceret i år",
@@ -1084,7 +1084,7 @@
       },
       "capabilitiesOptions": {
         "meter_power.imported": {
-          "decimals": 2,
+          "decimals": 3,
           "title": {
             "ar": "الطاقة المستوردة",
             "da": "Importeret energi",
@@ -1102,7 +1102,7 @@
           }
         },
         "meter_power.exported": {
-          "decimals": 2,
+          "decimals": 3,
           "title": {
             "ar": "الطاقة المصدرة",
             "da": "Eksporteret energi",

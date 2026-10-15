@@ -13,10 +13,10 @@
   },
   "capabilitiesOptions": {
     "meter_power.charged": {
-      "decimals": 2
+      "decimals": 3
     },
     "meter_power.session": {
-      "decimals": 2
+      "decimals": 3
     }
   }
 }

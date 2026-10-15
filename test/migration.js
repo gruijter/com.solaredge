@@ -67,7 +67,7 @@ const CASES = [
     driverId: 'inverter',
     capabilities: ['measure_power', 'meter_power', 'meter_power.day', 'meter_power.month', 'meter_power.year'],
     values: { meter_power: 29337.6, 'meter_power.day': 6.2 },
-    options: { meter_power: { decimals: 3 } },
+    options: { meter_power: { decimals: 2 } },
     expected: ['measure_power', 'meter_power', 'meter_power.day', 'meter_power.month', 'meter_power.year', 'alarm_problem', 'alarm_connectivity'],
     keep: ['measure_power', 'meter_power', 'meter_power.day', 'meter_power.month', 'meter_power.year'],
   },

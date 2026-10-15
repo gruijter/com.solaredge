@@ -16,10 +16,10 @@
   },
   "capabilitiesOptions": {
     "meter_power.imported": {
-      "decimals": 2
+      "decimals": 3
     },
     "meter_power.exported": {
-      "decimals": 2
+      "decimals": 3
     }
   }
 }
