@@ -21,7 +21,7 @@ along with com.solaredge.  If not, see <http://www.gnu.org/licenses/>.
 
 const Homey = require('homey');
 const SolarEdgeCloudClient = require('./lib/SolarEdgeCloudClient');
-const { POLL_EVENT, POLL_INTERVAL } = require('./lib/solarEdgeConstants');
+const { DEFAULT_POLL_INTERVAL, ENERGY_POLL_INTERVAL, POLL_EVENT } = require('./lib/solarEdgeConstants');
 
 const clientId = ({ username, password }) => JSON.stringify([username, password]);
 
@@ -29,8 +29,9 @@ module.exports = class SolarEdgeApp extends Homey.App {
 
   async onInit() {
     this.clients = new Map();
+    // per client: { timer, lastEnergyTick }
+    this.pollers = new Map();
     this.registerFlowListeners();
-    this.startPolling();
     this.log('SolarEdge app initialized');
   }
 
@@ -75,13 +76,24 @@ module.exports = class SolarEdgeApp extends Homey.App {
       // setSettings does not call onSettings (SDK docs)
       // eslint-disable-next-line no-await-in-loop
       if (other !== device) await other.setSettings(credentials);
-      other.connect(credentials);
+      other.connect(other === device ? newSettings : other.getSettings());
     }
 
     const inUse = new Set(devices.map((other) => other.client));
     for (const [key, unused] of this.clients) {
-      if (!inUse.has(unused)) this.clients.delete(key);
+      if (inUse.has(unused)) continue;
+      this.clients.delete(key);
+      this.stopPolling(unused);
     }
+  }
+
+  /** A device's changed poll interval (s) holds for its whole account: all its devices follow. */
+  async changePollInterval({ device, interval }) {
+    for (const other of this.getDevices()) {
+      // eslint-disable-next-line no-await-in-loop
+      if (other !== device && other.client === device.client) await other.setSettings({ poll_interval: interval });
+    }
+    this.setPollInterval(device.client, interval);
   }
 
   getDevices() {
@@ -95,13 +107,44 @@ module.exports = class SolarEdgeApp extends Homey.App {
       });
   }
 
-  startPolling() {
-    this.pollInterval = this.homey.setInterval(() => this.homey.emit(POLL_EVENT), POLL_INTERVAL);
-    this.log(`poll job started, every ${POLL_INTERVAL / 1000} seconds`);
+  /**
+   * One poll tick per account: all its devices ask at the same moment, so their identical calls go
+   * out once (SolarEdgeCloudClient#request). Starts the account's tick unless it already runs.
+   * @param {SolarEdgeCloudClient} client
+   * @param {number} [interval] seconds
+   */
+  startPolling(client, interval) {
+    if (!this.pollers.has(client)) this.setPollInterval(client, interval);
+  }
+
+  setPollInterval(client, interval) {
+    const seconds = Number(interval) || DEFAULT_POLL_INTERVAL;
+    this.stopPolling(client);
+    client.pollInterval = seconds * 1000;
+    this.pollers.set(client, {
+      timer: this.homey.setInterval(() => this.tick(client), client.pollInterval),
+      lastEnergyTick: Date.now(),
+    });
+    this.log(`polling an account every ${seconds} seconds`);
+  }
+
+  stopPolling(client) {
+    const poller = this.pollers.get(client);
+    if (poller) this.homey.clearInterval(poller.timer);
+    this.pollers.delete(client);
+  }
+
+  /** Emit a tick for the account's devices; skipped while the client backs off after failures. */
+  tick(client) {
+    if (Date.now() < client.backoffUntil) return;
+    const poller = this.pollers.get(client);
+    const energy = Date.now() - poller.lastEnergyTick >= ENERGY_POLL_INTERVAL;
+    if (energy) poller.lastEnergyTick = Date.now();
+    this.homey.emit(POLL_EVENT, client, { energy });
   }
 
   async onUninit() {
-    if (this.pollInterval) this.homey.clearInterval(this.pollInterval);
+    for (const client of [...this.pollers.keys()]) this.stopPolling(client);
   }
 
 };

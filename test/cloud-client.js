@@ -22,7 +22,7 @@ along with com.solaredge.  If not, see <http://www.gnu.org/licenses/>.
 /*
  * SolarEdgeCloudClient against a local server that mimics monitoring.solaredge.com: the cookie
  * login (302), session expiry (401), error codes, request coalescing, the PUT body, the login
- * backoff and the pairing deadline.
+ * backoff, the outage backoff and the pairing deadline.
  * No network or credentials needed.
  */
 
@@ -59,6 +59,10 @@ const server = http.createServer((req, res) => {
       res.setHeader('Set-Cookie', ['JSESSIONID=abc; Path=/; HttpOnly', 'SPRING=xyz; Path=/']);
       res.writeHead(302, { Location: '/solaredge-web/p/home' });
       res.end();
+      return;
+    }
+    if (req.url === '/down') {
+      json(503, {});
       return;
     }
     if (req.url === '/slow') {
@@ -188,6 +192,29 @@ test('a late 401 does not drop a session from a later login', async () => {
   }
   assert.equal(client.cookies, fresh);
   assert.equal(count(isLogin), 1);
+});
+
+test('an outage pauses the account; failures of one tick count once; a success resumes', async () => {
+  const client = newClient();
+  await client.login();
+  const down = () => client.request({ url: 'https://monitoring.solaredge.com/down', errorText: 'x' });
+  const started = Date.now();
+  await Promise.all([down(), down()].map((p) => p.catch(() => {})));
+  assert.equal(client._outages, 1);
+  assert.ok(client.backoffUntil >= started + 2 * client.pollInterval);
+  client.backoffUntil = 0;
+  await down().catch(() => {});
+  assert.equal(client._outages, 2);
+  assert.ok(client.backoffUntil >= Date.now() + 3 * client.pollInterval);
+  await client.getSites();
+  assert.equal(client._outages, 0);
+  assert.equal(client.backoffUntil, 0);
+});
+
+test('an API error code is no outage', async () => {
+  const client = newClient();
+  await assert.rejects(client.getSiteMeasurements({ siteId: 1, endDate: '2020-12-31' }), /GENERAL_ERROR/);
+  assert.equal(client.backoffUntil, 0);
 });
 
 test('the deadline cuts a request short', async () => {

@@ -30,6 +30,10 @@
         },
         "password": {
           "label": "Passord"
+        },
+        "poll_interval": {
+          "label": "Oppdateringsintervall (sekunder)",
+          "hint": "Gjelder for alle enheter på denne kontoen."
         }
       }
     },
@@ -41,6 +45,10 @@
         },
         "password": {
           "label": "Passord"
+        },
+        "poll_interval": {
+          "label": "Oppdateringsintervall (sekunder)",
+          "hint": "Gjelder for alle enheter på denne kontoen."
         }
       },
       "capabilitiesOptions": {
@@ -60,6 +68,10 @@
         },
         "password": {
           "label": "Passord"
+        },
+        "poll_interval": {
+          "label": "Oppdateringsintervall (sekunder)",
+          "hint": "Gjelder for alle enheter på denne kontoen."
         }
       },
       "capabilitiesOptions": {
@@ -88,6 +100,10 @@
         },
         "password": {
           "label": "Passord"
+        },
+        "poll_interval": {
+          "label": "Oppdateringsintervall (sekunder)",
+          "hint": "Gjelder for alle enheter på denne kontoen."
         }
       },
       "capabilitiesOptions": {
@@ -113,6 +129,10 @@
         },
         "password": {
           "label": "Passord"
+        },
+        "poll_interval": {
+          "label": "Oppdateringsintervall (sekunder)",
+          "hint": "Gjelder for alle enheter på denne kontoen."
         }
       }
     }

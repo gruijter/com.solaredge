@@ -30,6 +30,10 @@
         },
         "password": {
           "label": "Mot de passe"
+        },
+        "poll_interval": {
+          "label": "Intervalle d'interrogation (secondes)",
+          "hint": "S'applique à tous les appareils de ce compte."
         }
       }
     },
@@ -41,6 +45,10 @@
         },
         "password": {
           "label": "Mot de passe"
+        },
+        "poll_interval": {
+          "label": "Intervalle d'interrogation (secondes)",
+          "hint": "S'applique à tous les appareils de ce compte."
         }
       },
       "capabilitiesOptions": {
@@ -60,6 +68,10 @@
         },
         "password": {
           "label": "Mot de passe"
+        },
+        "poll_interval": {
+          "label": "Intervalle d'interrogation (secondes)",
+          "hint": "S'applique à tous les appareils de ce compte."
         }
       },
       "capabilitiesOptions": {
@@ -88,6 +100,10 @@
         },
         "password": {
           "label": "Mot de passe"
+        },
+        "poll_interval": {
+          "label": "Intervalle d'interrogation (secondes)",
+          "hint": "S'applique à tous les appareils de ce compte."
         }
       },
       "capabilitiesOptions": {
@@ -113,6 +129,10 @@
         },
         "password": {
           "label": "Mot de passe"
+        },
+        "poll_interval": {
+          "label": "Intervalle d'interrogation (secondes)",
+          "hint": "S'applique à tous les appareils de ce compte."
         }
       }
     }

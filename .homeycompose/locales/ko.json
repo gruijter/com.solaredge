@@ -30,6 +30,10 @@
         },
         "password": {
           "label": "비밀번호"
+        },
+        "poll_interval": {
+          "label": "폴링 간격(초)",
+          "hint": "이 계정의 모든 기기에 적용됩니다."
         }
       }
     },
@@ -41,6 +45,10 @@
         },
         "password": {
           "label": "비밀번호"
+        },
+        "poll_interval": {
+          "label": "폴링 간격(초)",
+          "hint": "이 계정의 모든 기기에 적용됩니다."
         }
       },
       "capabilitiesOptions": {
@@ -60,6 +68,10 @@
         },
         "password": {
           "label": "비밀번호"
+        },
+        "poll_interval": {
+          "label": "폴링 간격(초)",
+          "hint": "이 계정의 모든 기기에 적용됩니다."
         }
       },
       "capabilitiesOptions": {
@@ -88,6 +100,10 @@
         },
         "password": {
           "label": "비밀번호"
+        },
+        "poll_interval": {
+          "label": "폴링 간격(초)",
+          "hint": "이 계정의 모든 기기에 적용됩니다."
         }
       },
       "capabilitiesOptions": {
@@ -113,6 +129,10 @@
         },
         "password": {
           "label": "비밀번호"
+        },
+        "poll_interval": {
+          "label": "폴링 간격(초)",
+          "hint": "이 계정의 모든 기기에 적용됩니다."
         }
       }
     }

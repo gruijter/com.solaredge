@@ -30,6 +30,10 @@
         },
         "password": {
           "label": "Wachtwoord"
+        },
+        "poll_interval": {
+          "label": "Pollinterval (seconden)",
+          "hint": "Geldt voor alle apparaten van dit account."
         }
       }
     },
@@ -41,6 +45,10 @@
         },
         "password": {
           "label": "Wachtwoord"
+        },
+        "poll_interval": {
+          "label": "Pollinterval (seconden)",
+          "hint": "Geldt voor alle apparaten van dit account."
         }
       },
       "capabilitiesOptions": {
@@ -60,6 +68,10 @@
         },
         "password": {
           "label": "Wachtwoord"
+        },
+        "poll_interval": {
+          "label": "Pollinterval (seconden)",
+          "hint": "Geldt voor alle apparaten van dit account."
         }
       },
       "capabilitiesOptions": {
@@ -88,6 +100,10 @@
         },
         "password": {
           "label": "Wachtwoord"
+        },
+        "poll_interval": {
+          "label": "Pollinterval (seconden)",
+          "hint": "Geldt voor alle apparaten van dit account."
         }
       },
       "capabilitiesOptions": {
@@ -113,6 +129,10 @@
         },
         "password": {
           "label": "Wachtwoord"
+        },
+        "poll_interval": {
+          "label": "Pollinterval (seconden)",
+          "hint": "Geldt voor alle apparaten van dit account."
         }
       }
     }

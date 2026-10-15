@@ -30,6 +30,10 @@
         },
         "password": {
           "label": "Hasło"
+        },
+        "poll_interval": {
+          "label": "Interwał odpytywania (sekundy)",
+          "hint": "Dotyczy wszystkich urządzeń tego konta."
         }
       }
     },
@@ -41,6 +45,10 @@
         },
         "password": {
           "label": "Hasło"
+        },
+        "poll_interval": {
+          "label": "Interwał odpytywania (sekundy)",
+          "hint": "Dotyczy wszystkich urządzeń tego konta."
         }
       },
       "capabilitiesOptions": {
@@ -60,6 +68,10 @@
         },
         "password": {
           "label": "Hasło"
+        },
+        "poll_interval": {
+          "label": "Interwał odpytywania (sekundy)",
+          "hint": "Dotyczy wszystkich urządzeń tego konta."
         }
       },
       "capabilitiesOptions": {
@@ -88,6 +100,10 @@
         },
         "password": {
           "label": "Hasło"
+        },
+        "poll_interval": {
+          "label": "Interwał odpytywania (sekundy)",
+          "hint": "Dotyczy wszystkich urządzeń tego konta."
         }
       },
       "capabilitiesOptions": {
@@ -113,6 +129,10 @@
         },
         "password": {
           "label": "Hasło"
+        },
+        "poll_interval": {
+          "label": "Interwał odpytywania (sekundy)",
+          "hint": "Dotyczy wszystkich urządzeń tego konta."
         }
       }
     }
