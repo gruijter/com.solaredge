@@ -7,3 +7,5 @@ tmp*
 zzz*
 .claude/
 AGENTS.md
+/test/captures/*
+!/test/captures/README.md

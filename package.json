@@ -7,11 +7,12 @@
   },
   "scripts": {
     "lint": "eslint --ext .js,.ts --ignore-path .gitignore .",
-    "test": "node test/cloud-client.js"
+    "test": "node test/check-manifests.js && node test/cloud-client.js && node test/responses.js"
   },
   "devDependencies": {
     "@types/homey": "npm:homey-apps-sdk-v3-types@beta",
     "eslint": "^8.57.1",
-    "eslint-config-athom": "^4.0.2"
+    "eslint-config-athom": "^4.0.2",
+    "homey-lib": "^2.52.3"
   }
 }
