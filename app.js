@@ -22,7 +22,10 @@ along with com.solaredge.  If not, see <http://www.gnu.org/licenses/>.
 const Homey = require('homey');
 const SolarEdgeCloudClient = require('./lib/SolarEdgeCloudClient');
 const capture = require('./lib/solarEdgeCapture');
-const { DEFAULT_POLL_INTERVAL, ENERGY_POLL_INTERVAL, POLL_EVENT } = require('./lib/solarEdgeConstants');
+const { DEFAULT_POLL_INTERVAL, POLL_EVENT } = require('./lib/solarEdgeConstants');
+const {
+  PERIOD_MS, MARGIN_MS, STALE_MS, tickPhase, adaptMargin, delayToNextTick,
+} = require('./lib/solarEdgeTiming');
 
 const clientId = ({ username, password }) => JSON.stringify([username, password]);
 
@@ -30,7 +33,7 @@ module.exports = class SolarEdgeApp extends Homey.App {
 
   async onInit() {
     this.clients = new Map();
-    // per client: { timer, lastEnergyTick }
+    // per client: { timer, energyTimer, phaseMs, marginMs, snapshots: Map(serial -> ms), judgePending }
     this.pollers = new Map();
     this.registerFlowListeners();
     // users are asked to restart the app before a diagnostics report
@@ -115,8 +118,10 @@ module.exports = class SolarEdgeApp extends Homey.App {
   }
 
   /**
-   * One poll tick per account: all its devices ask at the same moment, so their identical calls go
-   * out once (SolarEdgeCloudClient#request). Starts the account's tick unless it already runs.
+   * Per account a fast tick (the real-time powerflow, every poll_interval) and an energy tick once
+   * per PERIOD_MS, placed just after the inverters' new data (lib/solarEdgeTiming.js). All devices of
+   * the account ask at the same moment, so their identical calls go out once
+   * (SolarEdgeCloudClient#request). Starts the account's ticks unless they already run.
    * @param {SolarEdgeCloudClient} client
    * @param {number} [interval] seconds
    */
@@ -126,28 +131,67 @@ module.exports = class SolarEdgeApp extends Homey.App {
 
   setPollInterval(client, interval) {
     const seconds = Number(interval) || DEFAULT_POLL_INTERVAL;
-    this.stopPolling(client);
+    const previous = this.pollers.get(client);
+    if (previous) this.homey.clearInterval(previous.timer);
     client.pollInterval = seconds * 1000;
-    this.pollers.set(client, {
-      timer: this.homey.setInterval(() => this.tick(client), client.pollInterval),
-      lastEnergyTick: Date.now(),
-    });
+    const poller = previous || {
+      phaseMs: 0, marginMs: MARGIN_MS, snapshots: new Map(), judgePending: false,
+    };
+    poller.timer = this.homey.setInterval(() => this.tick(client), client.pollInterval);
+    this.pollers.set(client, poller);
+    if (!previous) this.scheduleEnergyTick(client);
     this.log(`polling an account every ${seconds} seconds`);
   }
 
   stopPolling(client) {
     const poller = this.pollers.get(client);
-    if (poller) this.homey.clearInterval(poller.timer);
+    if (poller) {
+      this.homey.clearInterval(poller.timer);
+      this.homey.clearTimeout(poller.energyTimer);
+    }
     this.pollers.delete(client);
   }
 
   /** Emit a tick for the account's devices; skipped while the client backs off after failures. */
-  tick(client) {
+  tick(client, { energy = false } = {}) {
     if (Date.now() < client.backoffUntil) return;
-    const poller = this.pollers.get(client);
-    const energy = Date.now() - poller.lastEnergyTick >= ENERGY_POLL_INTERVAL;
-    if (energy) poller.lastEnergyTick = Date.now();
     this.homey.emit(POLL_EVENT, client, { energy });
+  }
+
+  scheduleEnergyTick(client) {
+    const poller = this.pollers.get(client);
+    if (!poller) return;
+    this.homey.clearTimeout(poller.energyTimer);
+    poller.energyTimer = this.homey.setTimeout(() => {
+      poller.judgePending = true;
+      this.tick(client, { energy: true });
+      this.scheduleEnergyTick(client);
+    }, delayToNextTick(Date.now(), poller.phaseMs));
+  }
+
+  /**
+   * An inverter's latest measurement (getInvertersInformation lastMeasurement, epoch ms): the
+   * account's energy tick follows it. A tick that found the old one again came too early.
+   */
+  noteSnapshot(client, serial, at) {
+    const poller = this.pollers.get(client);
+    if (!poller || !Number.isFinite(at)) return;
+    const previous = poller.snapshots.get(serial);
+    poller.snapshots.set(serial, at);
+    // an inverter that stopped reporting (asleep at night) says nothing about the tick
+    if (poller.judgePending && previous && Date.now() - at < STALE_MS) {
+      poller.judgePending = false;
+      const margin = adaptMargin(poller.marginMs, at > previous);
+      if (margin !== poller.marginMs) {
+        this.log(`energy tick margin ${Math.round(poller.marginMs / 1000)}s -> ${Math.round(margin / 1000)}s (${at > previous ? 'new' : 'no new'} inverter data on the last tick)`);
+        poller.marginMs = margin;
+      }
+    }
+    const phase = tickPhase([...poller.snapshots.values()], poller.marginMs);
+    if (phase === poller.phaseMs) return;
+    poller.phaseMs = phase;
+    this.log(`energy tick moved to ${Math.round(phase / 1000)}s after each ${PERIOD_MS / 60000}-minute mark, right after the inverter data`);
+    this.scheduleEnergyTick(client);
   }
 
   async onUninit() {

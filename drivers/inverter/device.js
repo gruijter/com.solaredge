@@ -149,6 +149,11 @@ module.exports = class SolarEdgeInverterDevice extends CommonDevice {
       values[`measure_voltage.${phase}`] = round(voltage === null ? null : voltage / lines.length, 1);
     }
 
+    // the account's energy tick follows the inverters' measurement moments (app.js)
+    for (const [serial, data] of Object.entries(information?.serialToLiveData || {})) {
+      this.homey.app?.noteSnapshot?.(this.client, serial, Date.parse(data.lastMeasurement));
+    }
+
     const live = Object.values(information?.serialToLiveData || {});
     if (live.length === 1) values['measure_voltage.dc'] = round(finite(live[0].vDc_V), 1);
     if (phases.length && !phases.some((line) => PHASES.includes(line.lineNumber_3ph))) {
