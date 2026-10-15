@@ -1,1 +1,11 @@
-{}
+{
+  "errors": {
+    "invalidCredentials": "Ongeldig e-mailadres en/of wachtwoord.",
+    "timeout": "SolarEdge reageerde niet op tijd.",
+    "unreachable": "SolarEdge is niet bereikbaar.",
+    "api": "SolarEdge-fout",
+    "notLoggedIn": "Niet ingelogd.",
+    "deviceNotFound": "Apparaat niet gevonden op deze site.",
+    "reAddDevice": "Verwijder dit apparaat en voeg het opnieuw toe voor kWh-waarden."
+  }
+}

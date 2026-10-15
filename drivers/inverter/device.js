@@ -41,12 +41,14 @@ module.exports = class SolarEdgeInverterDevice extends CommonDevice {
       await this.setCapability('measure_power', Math.round(sitePowerflow.solarProduction.currentPower * 1000));
     }
 
-    const { energyProducedOverviewList } = await this.client.getSiteEnergyOverview({ siteId });
+    if (this.energyDue()) {
+      const { energyProducedOverviewList } = await this.client.getSiteEnergyOverview({ siteId });
 
-    for (const { timePeriod, energy } of Object.values(energyProducedOverviewList)) {
-      const capability = ENERGY_CAPABILITIES[timePeriod];
-      // eslint-disable-next-line no-await-in-loop
-      if (capability) await this.setCapability(capability, energy / 1000);
+      for (const { timePeriod, energy } of Object.values(energyProducedOverviewList)) {
+        const capability = ENERGY_CAPABILITIES[timePeriod];
+        // eslint-disable-next-line no-await-in-loop
+        if (capability) await this.setCapability(capability, energy / 1000);
+      }
     }
 
     if (sitePowerflow.solarProduction?.isActive) {

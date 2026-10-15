@@ -21,7 +21,8 @@ along with com.solaredge.  If not, see <http://www.gnu.org/licenses/>.
 
 /*
  * SolarEdgeCloudClient against a local server that mimics monitoring.solaredge.com: the cookie
- * login (302), session expiry (401), error codes, request coalescing and the PUT body.
+ * login (302), session expiry (401), error codes, request coalescing, the PUT body, the login
+ * backoff and the pairing deadline.
  * No network or credentials needed.
  */
 
@@ -31,6 +32,8 @@ const SolarEdgeCloudClient = require('../lib/SolarEdgeCloudClient');
 
 const requests = [];
 let sessionValid = true;
+// every API call answers 401, also right after a login
+let rejectSession = false;
 
 const server = http.createServer((req, res) => {
   let body = '';
@@ -58,7 +61,11 @@ const server = http.createServer((req, res) => {
       res.end();
       return;
     }
-    if (!sessionValid || req.headers.cookie !== 'JSESSIONID=abc; SPRING=xyz') {
+    if (req.url === '/slow') {
+      setTimeout(() => json(200, {}), 1000);
+      return;
+    }
+    if (rejectSession || !sessionValid || req.headers.cookie !== 'JSESSIONID=abc; SPRING=xyz') {
       json(401, {});
       return;
     }
@@ -128,14 +135,68 @@ test('concurrent callers share one login and one identical GET', async () => {
   assert.equal(count((r) => r.url.includes('/powerflow/latest')), 2);
 });
 
-test('a 401 drops the session; the next call logs in again', async () => {
+test('a wrong password holds back automatic logins until the retry delay has passed', async () => {
+  const client = newClient('wrong');
+  await assert.rejects(client.getSites(), (error) => error.code === 'INVALID_CREDENTIALS');
+  await assert.rejects(client.getSites(), (error) => error.code === 'INVALID_CREDENTIALS');
+  assert.equal(count(isLogin), 1);
+  // an explicit login (settings, pairing) still goes out, and doubles the delay
+  await assert.rejects(client.login(), (error) => error.code === 'INVALID_CREDENTIALS');
+  assert.equal(count(isLogin), 2);
+  assert.equal(client._loginRetryDelay, 2 * SolarEdgeCloudClient.LOGIN_RETRY_MIN);
+  client._loginBlockedUntil = 0;
+  client.password = 'secret';
+  await client.getSites();
+  assert.equal(count(isLogin), 3);
+  assert.equal(client._loginRetryDelay, 0);
+});
+
+test('a 401 logs in again and retries the call once', async () => {
   const client = newClient();
   await client.getSites();
   sessionValid = false;
-  await assert.rejects(client.getSites(), /^Error: Unauthorized$/);
-  assert.equal(client.isLoggedIn(), false);
-  await client.getSites();
+  const sites = await client.getSites();
+  assert.deepEqual(sites, { 1: { id: 1, name: 'Home' } });
   assert.equal(count(isLogin), 2);
+});
+
+test('a 401 on the retry too throws Unauthorized and drops the session', async () => {
+  const client = newClient();
+  await client.getSites();
+  rejectSession = true;
+  await assert.rejects(client.getSites(), (error) => error.code === 'UNAUTHORIZED');
+  assert.equal(client.isLoggedIn(), false);
+  assert.equal(count(isLogin), 2);
+});
+
+test('a late 401 does not drop a session from a later login', async () => {
+  const client = newClient();
+  await client.getSites();
+  const fresh = ['JSESSIONID=abc', 'SPRING=xyz'];
+  const realFetch = globalThis.fetch;
+  // a login lands while this call is in flight with stale cookies
+  globalThis.fetch = async (url, opts) => {
+    globalThis.fetch = realFetch;
+    const res = await realFetch(url, { ...opts, headers: { ...opts.headers, Cookie: 'old=1' } });
+    client.cookies = fresh;
+    return res;
+  };
+  try {
+    await client.getSites();
+  } finally {
+    globalThis.fetch = realFetch;
+  }
+  assert.equal(client.cookies, fresh);
+  assert.equal(count(isLogin), 1);
+});
+
+test('the deadline cuts a request short', async () => {
+  const client = newClient();
+  await client.login();
+  client.deadline = Date.now() + 100;
+  const started = Date.now();
+  await assert.rejects(client.request({ url: 'https://monitoring.solaredge.com/slow', errorText: 'x' }), { name: 'TimeoutError' });
+  assert.ok(Date.now() - started < 900);
 });
 
 test('the error code of a JSON error is the message', async () => {
@@ -171,6 +232,7 @@ async function run() {
   for (const { name, fn } of tests) {
     requests.length = 0;
     sessionValid = true;
+    rejectSession = false;
     try {
       // eslint-disable-next-line no-await-in-loop
       await fn();

@@ -21,6 +21,16 @@ along with com.solaredge.  If not, see <http://www.gnu.org/licenses/>.
 
 const CommonDevice = require('../../lib/common_device');
 
+// SolarEdge was founded in 2006: no site has data before
+const FIRST_YEAR = 2006;
+// a past year is stored only this long after it ended: then it has ended in every timezone and its
+// last data is in (assumed)
+const YEAR_SETTLE_TIME = 2 * 24 * 60 * 60 * 1000;
+// a year without data is asked again after this, in case that answer was a hiccup
+const MISSING_RECHECK_TIME = 24 * 60 * 60 * 1000;
+
+const isTotals = (value) => typeof value?.imported === 'number' && typeof value?.exported === 'number';
+
 module.exports = class SolarEdgeMeterDevice extends CommonDevice {
 
   async onPoll() {
@@ -64,7 +74,7 @@ module.exports = class SolarEdgeMeterDevice extends CommonDevice {
     }
 
     // the yearly totals take several calls: one run at a time, outside the poll
-    if (!this.getTotalPromise) {
+    if (!this.getTotalPromise && this.energyDue()) {
       this.getTotalPromise = this.updateTotals(siteId)
         .catch((error) => {
           this.error(`Error Fetching Totals: ${error.message}`);
@@ -75,36 +85,34 @@ module.exports = class SolarEdgeMeterDevice extends CommonDevice {
     }
   }
 
+  /** The current year in Homey's timezone, not the process clock's. */
+  currentYear() {
+    const timeZone = this.homey.clock.getTimezone();
+    return Number(new Intl.DateTimeFormat('en-US', { year: 'numeric', timeZone }).format(new Date()));
+  }
+
   /**
    * Lifetime import/export as the sum of all yearly totals. Past years are kept in the store as
-   * `measurements-<year>`: { imported, exported } in Wh, 'missing' (no data: the site did not exist
-   * yet) or 'error' (retried on the next run).
+   * `measurements-<year>`: { imported, exported } in Wh, or { missing: true, checkedAt } when there
+   * is no data (the site did not exist yet).
    */
   async updateTotals(siteId) {
     const measurements = {};
-    const currentYear = new Date().getFullYear();
+    const currentYear = this.currentYear();
 
-    for (let year = currentYear - 1; ; year -= 1) {
+    for (let year = currentYear - 1; year >= FIRST_YEAR; year -= 1) {
       // eslint-disable-next-line no-await-in-loop
       measurements[year] = await this.pastYearTotals(siteId, year);
-      // An error year fails this run anyway (below), so stop here: walking on to older years
-      // never ends while every request fails.
-      if (measurements[year] === 'missing' || measurements[year] === 'error') break;
+      if (measurements[year] === 'error') throw new Error(`Missing Data For Year ${year}`);
+      if (measurements[year] === 'missing') break;
     }
 
-    measurements[currentYear] = await this.client.getSiteMeasurements({
-      siteId,
-      endDate: `${currentYear}-12-31`,
-    }).then((result) => ({
-      imported: result.summary.import,
-      exported: result.summary.export,
-    }));
+    measurements[currentYear] = await this.yearTotals(siteId, currentYear);
 
     let totalImported = 0;
     let totalExported = 0;
     for (const year of Object.keys(measurements)) {
       if (measurements[year] === 'missing') continue;
-      if (measurements[year] === 'error') throw new Error(`Missing Data For Year ${year}`);
       totalImported += measurements[year].imported;
       totalExported += measurements[year].exported;
     }
@@ -114,11 +122,15 @@ module.exports = class SolarEdgeMeterDevice extends CommonDevice {
     await this.setCapability('meter_power.exported', Math.round(totalExported / 1000));
   }
 
-  /** A past year's totals: from the store, else fetched and stored. */
+  /**
+   * A past year's totals, 'missing' or 'error': from the store, else fetched and, once the year has
+   * settled, stored. Errors are not stored, so the next run asks again.
+   */
   async pastYearTotals(siteId, year) {
     const key = `measurements-${year}`;
     const stored = this.getStoreValue(key);
-    if (stored !== null && stored !== undefined && stored !== 'error') return stored;
+    if (isTotals(stored)) return stored;
+    if (stored?.missing && Date.now() - stored.checkedAt < MISSING_RECHECK_TIME) return 'missing';
 
     this.log(`Fetching measurements for ${year}...`);
     await new Promise((resolve) => {
@@ -127,23 +139,35 @@ module.exports = class SolarEdgeMeterDevice extends CommonDevice {
 
     let value;
     try {
-      const result = await this.client.getSiteMeasurements({ siteId, endDate: `${year}-12-31` });
-      if (!result.summary) throw new Error('empty_summary');
-      value = {
-        imported: result.summary.import,
-        exported: result.summary.export,
-      };
+      value = await this.yearTotals(siteId, year);
     } catch (err) {
-      if (err.message.includes('INVALID_ARGUMENTS') || err.message.includes('empty_summary')) {
-        this.log(`No more data for ${year}`);
-        value = 'missing';
-      } else {
+      if (!err.message.includes('INVALID_ARGUMENTS') && !err.message.includes('empty_summary')) {
         this.error(`Error fetching measurements for ${year}: ${err.message}`);
-        value = 'error';
+        return 'error';
       }
+      // with data for the year before, 'no data' cannot be the start of the site
+      if (isTotals(this.getStoreValue(`measurements-${year - 1}`))) {
+        this.error(`No data for ${year}, but there is for ${year - 1}`);
+        return 'error';
+      }
+      this.log(`No more data for ${year}`);
+      value = 'missing';
     }
-    await this.setStoreValue(key, value);
+
+    if (Date.now() >= Date.UTC(year + 1, 0, 1) + YEAR_SETTLE_TIME) {
+      await this.setStoreValue(key, value === 'missing' ? { missing: true, checkedAt: Date.now() } : value);
+    }
     return value;
+  }
+
+  /** A year's import/export in Wh; throws INVALID_ARGUMENTS or empty_summary when it has no data. */
+  async yearTotals(siteId, year) {
+    const result = await this.client.getSiteMeasurements({ siteId, endDate: `${year}-12-31` });
+    if (!result.summary) throw new Error('empty_summary');
+    return {
+      imported: result.summary.import,
+      exported: result.summary.export,
+    };
   }
 
 };

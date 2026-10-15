@@ -57,7 +57,7 @@ module.exports = class SolarEdgeHomeLoadControllerDevice extends CommonDevice {
 
     const device = devices.find((item) => item.reporterId === reporterId);
     if (!device) {
-      throw new Error('Device Not Found');
+      throw Object.assign(new Error('Device Not Found'), { code: 'DEVICE_NOT_FOUND' });
     }
 
     if (device.activationMode === 'AUTO') {

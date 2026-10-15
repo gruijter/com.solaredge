@@ -88,9 +88,11 @@ module.exports = class SolarEdgeEVChargerDevice extends CommonDevice {
 
     // devices paired before reporterId was stored cannot read their sessions
     if (!reporterId) {
-      await this.setWarning('Please remove & re-add this device to get kWh values.');
+      await this.setWarning(this.homey.__('errors.reAddDevice'));
       return;
     }
+
+    if (!this.energyDue()) return;
 
     const applianceSessionsHistory = await this.client.getSiteDeviceApplianceSessionsHistory({ siteId, reporterId });
 

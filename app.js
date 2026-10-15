@@ -23,6 +23,8 @@ const Homey = require('homey');
 const SolarEdgeCloudClient = require('./lib/SolarEdgeCloudClient');
 const { POLL_EVENT, POLL_INTERVAL } = require('./lib/solarEdgeConstants');
 
+const clientId = ({ username, password }) => JSON.stringify([username, password]);
+
 module.exports = class SolarEdgeApp extends Homey.App {
 
   async onInit() {
@@ -37,16 +39,53 @@ module.exports = class SolarEdgeApp extends Homey.App {
    * @returns {SolarEdgeCloudClient}
    */
   getClient({ username, password }) {
-    const id = `${username}|${password}`;
-    if (!this.clients.has(id)) {
-      this.clients.set(id, new SolarEdgeCloudClient({
-        username,
-        password,
-        log: (...args) => this.log('[client]', ...args),
-        error: (...args) => this.error('[client]', ...args),
-      }));
-    }
+    const id = clientId({ username, password });
+    if (!this.clients.has(id)) this.clients.set(id, this.newClient({ username, password }));
     return this.clients.get(id);
+  }
+
+  newClient({ username, password }) {
+    return new SolarEdgeCloudClient({
+      username,
+      password,
+      log: (...args) => this.log('[client]', ...args),
+      error: (...args) => this.error('[client]', ...args),
+    });
+  }
+
+  /**
+   * Log in with a device's changed credentials and switch the device to them; throws when the login
+   * fails. A new password for the same account moves all its devices along, so none keeps logging
+   * in with the old one. Clients no device uses any more are dropped.
+   */
+  async changeCredentials({ device, oldSettings, newSettings }) {
+    const credentials = { username: newSettings.username, password: newSettings.password };
+    const id = clientId(credentials);
+    const client = this.clients.get(id) || this.newClient(credentials);
+    await client.login();
+    this.clients.set(id, client);
+
+    const devices = this.getDevices();
+    const moving = [device];
+    if (oldSettings.username === newSettings.username) {
+      const oldId = clientId(oldSettings);
+      moving.push(...devices.filter((other) => other !== device && clientId(other.getSettings()) === oldId));
+    }
+    for (const other of moving) {
+      // setSettings does not call onSettings (SDK docs)
+      // eslint-disable-next-line no-await-in-loop
+      if (other !== device) await other.setSettings(credentials);
+      other.connect(credentials);
+    }
+
+    const inUse = new Set(devices.map((other) => other.client));
+    for (const [key, unused] of this.clients) {
+      if (!inUse.has(unused)) this.clients.delete(key);
+    }
+  }
+
+  getDevices() {
+    return Object.values(this.homey.drivers.getDrivers()).flatMap((driver) => driver.getDevices());
   }
 
   registerFlowListeners() {
