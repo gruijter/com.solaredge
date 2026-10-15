@@ -48,6 +48,13 @@ const DEVICE_CHECKS = {
     check(totals.every((value, i) => i === 0 || totals[i - 1] <= value), `${label}: day <= month <= year <= lifetime, got ${totals.join(' / ')} kWh`);
     const power = resultOf(capture, 'getSitePowerflow')?.solarProduction?.currentPower;
     if (typeof power === 'number') check(values.measure_power === Math.round(power * 1000), `${label}: measure_power ${values.measure_power} W for ${power} kW`);
+    const live = Object.values(resultOf(capture, 'getInvertersInformation')?.serialToLiveData || {});
+    const phases = [1, 2, 3].map((phase) => values[`measure_power.${phase}`]).filter((value) => typeof value === 'number');
+    if (live.length && phases.length) {
+      const ac = live.reduce((total, item) => total + item.pAc_W, 0);
+      const sum = phases.reduce((total, value) => total + value, 0);
+      check(Math.abs(sum - ac) <= Math.max(5, ac * 0.02), `${label}: phases add up to ${sum} W, the inverters report ${ac} W`);
+    }
   },
   meter: (values, capture, label) => {
     const years = capture.calls.filter((call) => call.method === 'getSiteMeasurements' && call.result?.summary);

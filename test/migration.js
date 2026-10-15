@@ -39,7 +39,7 @@ const CASES = [
     values: {
       'meter_power.imported': 1234, 'meter_power.exported': 567, 'measure_power.grid': -800, 'measure_power.solar': 2400,
     },
-    expected: ['measure_power', 'measure_power.load', 'measure_power.solar', 'measure_power.grid', 'meter_power.imported', 'meter_power.exported'],
+    expected: ['measure_power', 'measure_power.load', 'measure_power.solar', 'measure_power.grid', 'meter_power.imported', 'meter_power.exported', 'alarm_connectivity'],
     keep: [],
   },
   {
@@ -59,8 +59,26 @@ const CASES = [
     capabilities: ['measure_battery', 'measure_power', 'battery_charging_state'],
     energy: { homeBattery: true, batteries: ['INTERNAL'] },
     values: { measure_battery: 55 },
-    expected: ['measure_battery', 'measure_power', 'battery_charging_state'],
+    expected: ['measure_battery', 'measure_power', 'battery_charging_state', 'alarm_connectivity'],
     keep: ['measure_battery', 'measure_power', 'battery_charging_state'],
+  },
+  {
+    name: 'inverter from 1.8.1',
+    driverId: 'inverter',
+    capabilities: ['measure_power', 'meter_power', 'meter_power.day', 'meter_power.month', 'meter_power.year'],
+    values: { meter_power: 29337.6, 'meter_power.day': 6.2 },
+    expected: ['measure_power', 'meter_power', 'meter_power.day', 'meter_power.month', 'meter_power.year', 'alarm_problem', 'alarm_connectivity'],
+    keep: ['measure_power', 'meter_power', 'meter_power.day', 'meter_power.month', 'meter_power.year'],
+  },
+  {
+    name: 'inverter that reported phase 1 and temperature',
+    driverId: 'inverter',
+    capabilities: ['measure_power', 'meter_power', 'meter_power.day', 'meter_power.month', 'meter_power.year', 'alarm_problem', 'alarm_connectivity'],
+    store: { seenCaps: { 'measure_power.1': true, 'measure_temperature.max': true } },
+    values: { alarm_problem: false },
+    expected: ['measure_power', 'meter_power', 'meter_power.day', 'meter_power.month', 'meter_power.year',
+      'measure_temperature.max', 'measure_power.1', 'alarm_problem', 'alarm_connectivity'],
+    keep: ['measure_power', 'meter_power', 'meter_power.day', 'meter_power.month', 'meter_power.year'],
   },
   ...manifest.drivers.map((driver) => ({
     name: `${driver.id} freshly paired`,
@@ -78,7 +96,7 @@ const check = (condition, message) => {
 };
 
 const runCase = async ({
-  name, driverId, capabilities, energy, values, expected, keep,
+  name, driverId, capabilities, energy, store = {}, values, expected, keep,
 }) => {
   const driverManifest = manifest.drivers.find((driver) => driver.id === driverId);
   const DeviceClass = require(path.join(ROOT, 'drivers', driverId, 'device.js')); // eslint-disable-line import/no-dynamic-require, global-require
@@ -86,6 +104,7 @@ const runCase = async ({
     driverManifest, data: {}, settings: {}, capabilities, energy,
   });
   Object.assign(device.values, values);
+  Object.assign(device.store, store);
   const removed = [];
   const removeCapability = device.removeCapability.bind(device);
   device.removeCapability = async (id) => {
@@ -104,6 +123,8 @@ const runCase = async ({
     if (result.includes(id)) check(device.values[id] === value, `${name}: ${id} is ${device.values[id]}, was ${value}`);
   }
   check(device.available, `${name}: left unavailable`);
+  const untitled = device.optionalCapabilities().filter((id) => !driverManifest.capabilitiesOptions?.[id]?.title);
+  check(!untitled.length, `${name}: optional capabilities without a title: ${untitled.join(', ')}`);
   device.problems.forEach((problem) => failures.push(`${name}: ${problem}`));
   console.log(`  ${name}: removed ${JSON.stringify(removed)} -> ${JSON.stringify(result)}`);
 };

@@ -49,6 +49,10 @@ module.exports = class SolarEdgeBatteryDevice extends CommonDevice {
     } else {
       await this.setUnavailable();
     }
+
+    if (this.energyDue()) {
+      await this.updateSiteAlarms().catch((error) => this.error(`Error Fetching Site Alarms: ${error.message}`));
+    }
   }
 
 };

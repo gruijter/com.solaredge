@@ -34,11 +34,18 @@ const MISSING_RECHECK_TIME = 24 * 60 * 60 * 1000;
 // (same value as measure_power now)
 const LEGACY_CAPABILITIES = ['measure_power.grid'];
 
+const CAPABILITY_ORDER = ['measure_power', 'measure_power.load', 'measure_power.solar', 'measure_power.grid',
+  'meter_power.imported', 'meter_power.exported', 'alarm_connectivity'];
+
 const isTotals = (value) => typeof value?.imported === 'number' && typeof value?.exported === 'number';
 
 const yearIn = (date, timeZone) => Number(new Intl.DateTimeFormat('en-US', { year: 'numeric', timeZone }).format(date));
 
 module.exports = class SolarEdgeMeterDevice extends CommonDevice {
+
+  capabilityOrder() {
+    return CAPABILITY_ORDER;
+  }
 
   legacyCapabilities() {
     return LEGACY_CAPABILITIES;
@@ -75,8 +82,12 @@ module.exports = class SolarEdgeMeterDevice extends CommonDevice {
       await this.setUnavailable();
     }
 
+    if (!this.energyDue()) return;
+
+    await this.updateSiteAlarms().catch((error) => this.error(`Error Fetching Site Alarms: ${error.message}`));
+
     // the yearly totals take several calls: one run at a time, outside the poll
-    if (!this.getTotalPromise && this.energyDue()) {
+    if (!this.getTotalPromise) {
       this.getTotalPromise = this.updateTotals(siteId)
         .catch((error) => {
           this.error(`Error Fetching Totals: ${error.message}`);
@@ -87,17 +98,11 @@ module.exports = class SolarEdgeMeterDevice extends CommonDevice {
     }
   }
 
-  /**
-   * The site's timezone and first year with data, from the account's sites list (installationDate,
-   * timezone; seen live). Falls back to Homey's timezone and FIRST_YEAR. Fetched once per app run.
-   */
-  async siteYears(siteId) {
-    if (!this.site) {
-      const sites = await this.client.getSites();
-      this.site = Object.values(sites).find((site) => String(site.id) === String(siteId)) || {};
-    }
-    const timeZone = this.site.timezone || this.homey.clock.getTimezone();
-    const installed = this.site.installationDate ? new Date(this.site.installationDate) : null;
+  /** The site's current and first year with data (installationDate, seen live), else FIRST_YEAR. */
+  async siteYears() {
+    const timeZone = await this.siteTimeZone();
+    const { installationDate } = await this.site();
+    const installed = installationDate ? new Date(installationDate) : null;
     return {
       currentYear: yearIn(new Date(), timeZone),
       firstYear: installed ? yearIn(installed, timeZone) : FIRST_YEAR,
@@ -111,7 +116,7 @@ module.exports = class SolarEdgeMeterDevice extends CommonDevice {
    */
   async updateTotals(siteId) {
     const measurements = {};
-    const { currentYear, firstYear } = await this.siteYears(siteId);
+    const { currentYear, firstYear } = await this.siteYears();
 
     for (let year = currentYear - 1; year >= firstYear; year -= 1) {
       // eslint-disable-next-line no-await-in-loop

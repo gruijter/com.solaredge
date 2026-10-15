@@ -4,7 +4,8 @@
   "capabilities": [
     "measure_battery",
     "measure_power",
-    "battery_charging_state"
+    "battery_charging_state",
+    "alarm_connectivity"
   ],
   "energy": {
     "homeBattery": true

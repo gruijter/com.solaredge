@@ -86,6 +86,39 @@
         },
         "meter_power.year": {
           "title": "الإنتاج هذا العام"
+        },
+        "measure_power.1": {
+          "title": "قدرة المرحلة 1 (AC)"
+        },
+        "measure_power.2": {
+          "title": "قدرة المرحلة 2 (AC)"
+        },
+        "measure_power.3": {
+          "title": "قدرة المرحلة 3 (AC)"
+        },
+        "measure_voltage.1": {
+          "title": "جهد المرحلة 1 (AC)"
+        },
+        "measure_voltage.2": {
+          "title": "جهد المرحلة 2 (AC)"
+        },
+        "measure_voltage.3": {
+          "title": "جهد المرحلة 3 (AC)"
+        },
+        "measure_current.1": {
+          "title": "تيار المرحلة 1 (AC)"
+        },
+        "measure_current.2": {
+          "title": "تيار المرحلة 2 (AC)"
+        },
+        "measure_current.3": {
+          "title": "تيار المرحلة 3 (AC)"
+        },
+        "measure_voltage.dc": {
+          "title": "جهد التيار المستمر"
+        },
+        "measure_temperature.max": {
+          "title": "أقصى درجة حرارة للمُحسِّنات اليوم"
         }
       }
     },

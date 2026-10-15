@@ -86,6 +86,39 @@
         },
         "meter_power.year": {
           "title": "Выработано в этом году"
+        },
+        "measure_power.1": {
+          "title": "Мощность фазы 1 (AC)"
+        },
+        "measure_power.2": {
+          "title": "Мощность фазы 2 (AC)"
+        },
+        "measure_power.3": {
+          "title": "Мощность фазы 3 (AC)"
+        },
+        "measure_voltage.1": {
+          "title": "Напряжение фазы 1 (AC)"
+        },
+        "measure_voltage.2": {
+          "title": "Напряжение фазы 2 (AC)"
+        },
+        "measure_voltage.3": {
+          "title": "Напряжение фазы 3 (AC)"
+        },
+        "measure_current.1": {
+          "title": "Ток фазы 1 (AC)"
+        },
+        "measure_current.2": {
+          "title": "Ток фазы 2 (AC)"
+        },
+        "measure_current.3": {
+          "title": "Ток фазы 3 (AC)"
+        },
+        "measure_voltage.dc": {
+          "title": "Напряжение DC"
+        },
+        "measure_temperature.max": {
+          "title": "Макс. температура оптимизаторов сегодня"
         }
       }
     },

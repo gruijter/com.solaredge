@@ -86,6 +86,39 @@
         },
         "meter_power.year": {
           "title": "Erzeugung dieses Jahr"
+        },
+        "measure_power.1": {
+          "title": "Leistung Phase 1 (AC)"
+        },
+        "measure_power.2": {
+          "title": "Leistung Phase 2 (AC)"
+        },
+        "measure_power.3": {
+          "title": "Leistung Phase 3 (AC)"
+        },
+        "measure_voltage.1": {
+          "title": "Spannung Phase 1 (AC)"
+        },
+        "measure_voltage.2": {
+          "title": "Spannung Phase 2 (AC)"
+        },
+        "measure_voltage.3": {
+          "title": "Spannung Phase 3 (AC)"
+        },
+        "measure_current.1": {
+          "title": "Strom Phase 1 (AC)"
+        },
+        "measure_current.2": {
+          "title": "Strom Phase 2 (AC)"
+        },
+        "measure_current.3": {
+          "title": "Strom Phase 3 (AC)"
+        },
+        "measure_voltage.dc": {
+          "title": "DC-Spannung"
+        },
+        "measure_temperature.max": {
+          "title": "Max. Optimierertemperatur heute"
         }
       }
     },

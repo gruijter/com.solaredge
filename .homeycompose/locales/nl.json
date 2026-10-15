@@ -86,6 +86,39 @@
         },
         "meter_power.year": {
           "title": "Opgewekt dit jaar"
+        },
+        "measure_power.1": {
+          "title": "Vermogen fase 1 (AC)"
+        },
+        "measure_power.2": {
+          "title": "Vermogen fase 2 (AC)"
+        },
+        "measure_power.3": {
+          "title": "Vermogen fase 3 (AC)"
+        },
+        "measure_voltage.1": {
+          "title": "Spanning fase 1 (AC)"
+        },
+        "measure_voltage.2": {
+          "title": "Spanning fase 2 (AC)"
+        },
+        "measure_voltage.3": {
+          "title": "Spanning fase 3 (AC)"
+        },
+        "measure_current.1": {
+          "title": "Stroom fase 1 (AC)"
+        },
+        "measure_current.2": {
+          "title": "Stroom fase 2 (AC)"
+        },
+        "measure_current.3": {
+          "title": "Stroom fase 3 (AC)"
+        },
+        "measure_voltage.dc": {
+          "title": "DC-spanning"
+        },
+        "measure_temperature.max": {
+          "title": "Max. optimizertemperatuur vandaag"
         }
       }
     },

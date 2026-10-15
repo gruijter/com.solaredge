@@ -24,7 +24,7 @@ along with com.solaredge.  If not, see <http://www.gnu.org/licenses/>.
  * run `homey app build` after a compose change.
  *
  * 1. What existing devices depend on is still there (ids, setting keys, capabilities).
- * 2. Every capability a device sets is in its manifest or in its LEGACY_CAPABILITIES;
+ * 2. Every capability a device sets is in its manifest or in its OPTIONAL_ or LEGACY_CAPABILITIES;
  *    setCapability() skips an unknown one without a word.
  * 3. Every energy capability reference names a capability of the driver.
  * 4. Every translation has all 13 locales, every errors.* key used in code exists in every
@@ -85,11 +85,12 @@ const stringLiterals = (source) => [...source.matchAll(/'([^'\n]+)'/g)].map((mat
 for (const driver of app.drivers) {
   const file = path.join(ROOT, 'drivers', driver.id, 'device.js');
   const source = fs.readFileSync(file, 'utf8');
-  const legacy = stringLiterals(source.match(/LEGACY_CAPABILITIES = \[([^\]]*)\]/)?.[1] ?? '');
+  const listed = (name) => stringLiterals(source.match(new RegExp(`${name} = \\[([^\\]]*)\\]`))?.[1] ?? '');
+  const extra = [...listed('OPTIONAL_CAPABILITIES'), ...listed('LEGACY_CAPABILITIES')];
   const used = new Set(stringLiterals(source).filter((literal) => CAPABILITY_ID.test(literal)));
   for (const capability of used) {
-    if (!driver.capabilities.includes(capability) && !legacy.includes(capability)) {
-      failures.push(`${driver.id}/device.js uses ${capability}, which is neither in the manifest nor legacy`);
+    if (!driver.capabilities.includes(capability) && !extra.includes(capability)) {
+      failures.push(`${driver.id}/device.js uses ${capability}, which is not in the manifest, optional or legacy`);
     }
   }
 }

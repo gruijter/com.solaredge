@@ -6,6 +6,8 @@
     "meter_power",
     "meter_power.day",
     "meter_power.month",
-    "meter_power.year"
+    "meter_power.year",
+    "alarm_problem",
+    "alarm_connectivity"
   ]
 }

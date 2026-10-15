@@ -86,6 +86,39 @@
         },
         "meter_power.year": {
           "title": "Produceret i år"
+        },
+        "measure_power.1": {
+          "title": "Effekt fase 1 (AC)"
+        },
+        "measure_power.2": {
+          "title": "Effekt fase 2 (AC)"
+        },
+        "measure_power.3": {
+          "title": "Effekt fase 3 (AC)"
+        },
+        "measure_voltage.1": {
+          "title": "Spænding fase 1 (AC)"
+        },
+        "measure_voltage.2": {
+          "title": "Spænding fase 2 (AC)"
+        },
+        "measure_voltage.3": {
+          "title": "Spænding fase 3 (AC)"
+        },
+        "measure_current.1": {
+          "title": "Strøm fase 1 (AC)"
+        },
+        "measure_current.2": {
+          "title": "Strøm fase 2 (AC)"
+        },
+        "measure_current.3": {
+          "title": "Strøm fase 3 (AC)"
+        },
+        "measure_voltage.dc": {
+          "title": "DC-spænding"
+        },
+        "measure_temperature.max": {
+          "title": "Maks. optimizertemperatur i dag"
         }
       }
     },

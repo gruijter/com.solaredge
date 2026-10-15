@@ -86,6 +86,39 @@
         },
         "meter_power.year": {
           "title": "Prodotto quest'anno"
+        },
+        "measure_power.1": {
+          "title": "Potenza fase 1 (CA)"
+        },
+        "measure_power.2": {
+          "title": "Potenza fase 2 (CA)"
+        },
+        "measure_power.3": {
+          "title": "Potenza fase 3 (CA)"
+        },
+        "measure_voltage.1": {
+          "title": "Tensione fase 1 (CA)"
+        },
+        "measure_voltage.2": {
+          "title": "Tensione fase 2 (CA)"
+        },
+        "measure_voltage.3": {
+          "title": "Tensione fase 3 (CA)"
+        },
+        "measure_current.1": {
+          "title": "Corrente fase 1 (CA)"
+        },
+        "measure_current.2": {
+          "title": "Corrente fase 2 (CA)"
+        },
+        "measure_current.3": {
+          "title": "Corrente fase 3 (CA)"
+        },
+        "measure_voltage.dc": {
+          "title": "Tensione CC"
+        },
+        "measure_temperature.max": {
+          "title": "Temperatura max ottimizzatori oggi"
         }
       }
     },

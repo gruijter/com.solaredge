@@ -86,6 +86,39 @@
         },
         "meter_power.year": {
           "title": "올해 발전량"
+        },
+        "measure_power.1": {
+          "title": "전력 위상 1 (AC)"
+        },
+        "measure_power.2": {
+          "title": "전력 위상 2 (AC)"
+        },
+        "measure_power.3": {
+          "title": "전력 위상 3 (AC)"
+        },
+        "measure_voltage.1": {
+          "title": "전압 위상 1 (AC)"
+        },
+        "measure_voltage.2": {
+          "title": "전압 위상 2 (AC)"
+        },
+        "measure_voltage.3": {
+          "title": "전압 위상 3 (AC)"
+        },
+        "measure_current.1": {
+          "title": "전류 위상 1 (AC)"
+        },
+        "measure_current.2": {
+          "title": "전류 위상 2 (AC)"
+        },
+        "measure_current.3": {
+          "title": "전류 위상 3 (AC)"
+        },
+        "measure_voltage.dc": {
+          "title": "DC 전압"
+        },
+        "measure_temperature.max": {
+          "title": "오늘 옵티마이저 최고 온도"
         }
       }
     },

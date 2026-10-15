@@ -148,7 +148,8 @@
       "capabilities": [
         "measure_battery",
         "measure_power",
-        "battery_charging_state"
+        "battery_charging_state",
+        "alarm_connectivity"
       ],
       "energy": {
         "homeBattery": true
@@ -577,7 +578,9 @@
         "meter_power",
         "meter_power.day",
         "meter_power.month",
-        "meter_power.year"
+        "meter_power.year",
+        "alarm_problem",
+        "alarm_connectivity"
       ],
       "capabilitiesOptions": {
         "measure_power": {
@@ -663,6 +666,193 @@
             "pl": "Produkcja w tym roku",
             "ru": "Выработано в этом году",
             "sv": "Producerat i år"
+          }
+        },
+        "measure_power.1": {
+          "title": {
+            "ar": "قدرة المرحلة 1 (AC)",
+            "da": "Effekt fase 1 (AC)",
+            "de": "Leistung Phase 1 (AC)",
+            "en": "Power phase 1 (AC)",
+            "es": "Potencia fase 1 (CA)",
+            "fr": "Puissance phase 1 (CA)",
+            "it": "Potenza fase 1 (CA)",
+            "ko": "전력 위상 1 (AC)",
+            "nl": "Vermogen fase 1 (AC)",
+            "no": "Effekt fase 1 (AC)",
+            "pl": "Moc fazy 1 (AC)",
+            "ru": "Мощность фазы 1 (AC)",
+            "sv": "Effekt fas 1 (AC)"
+          }
+        },
+        "measure_power.2": {
+          "title": {
+            "ar": "قدرة المرحلة 2 (AC)",
+            "da": "Effekt fase 2 (AC)",
+            "de": "Leistung Phase 2 (AC)",
+            "en": "Power phase 2 (AC)",
+            "es": "Potencia fase 2 (CA)",
+            "fr": "Puissance phase 2 (CA)",
+            "it": "Potenza fase 2 (CA)",
+            "ko": "전력 위상 2 (AC)",
+            "nl": "Vermogen fase 2 (AC)",
+            "no": "Effekt fase 2 (AC)",
+            "pl": "Moc fazy 2 (AC)",
+            "ru": "Мощность фазы 2 (AC)",
+            "sv": "Effekt fas 2 (AC)"
+          }
+        },
+        "measure_power.3": {
+          "title": {
+            "ar": "قدرة المرحلة 3 (AC)",
+            "da": "Effekt fase 3 (AC)",
+            "de": "Leistung Phase 3 (AC)",
+            "en": "Power phase 3 (AC)",
+            "es": "Potencia fase 3 (CA)",
+            "fr": "Puissance phase 3 (CA)",
+            "it": "Potenza fase 3 (CA)",
+            "ko": "전력 위상 3 (AC)",
+            "nl": "Vermogen fase 3 (AC)",
+            "no": "Effekt fase 3 (AC)",
+            "pl": "Moc fazy 3 (AC)",
+            "ru": "Мощность фазы 3 (AC)",
+            "sv": "Effekt fas 3 (AC)"
+          }
+        },
+        "measure_voltage.1": {
+          "title": {
+            "ar": "جهد المرحلة 1 (AC)",
+            "da": "Spænding fase 1 (AC)",
+            "de": "Spannung Phase 1 (AC)",
+            "en": "Voltage phase 1 (AC)",
+            "es": "Voltaje fase 1 (CA)",
+            "fr": "Tension phase 1 (CA)",
+            "it": "Tensione fase 1 (CA)",
+            "ko": "전압 위상 1 (AC)",
+            "nl": "Spanning fase 1 (AC)",
+            "no": "Spenning fase 1 (AC)",
+            "pl": "Napięcie fazy 1 (AC)",
+            "ru": "Напряжение фазы 1 (AC)",
+            "sv": "Spänning fas 1 (AC)"
+          }
+        },
+        "measure_voltage.2": {
+          "title": {
+            "ar": "جهد المرحلة 2 (AC)",
+            "da": "Spænding fase 2 (AC)",
+            "de": "Spannung Phase 2 (AC)",
+            "en": "Voltage phase 2 (AC)",
+            "es": "Voltaje fase 2 (CA)",
+            "fr": "Tension phase 2 (CA)",
+            "it": "Tensione fase 2 (CA)",
+            "ko": "전압 위상 2 (AC)",
+            "nl": "Spanning fase 2 (AC)",
+            "no": "Spenning fase 2 (AC)",
+            "pl": "Napięcie fazy 2 (AC)",
+            "ru": "Напряжение фазы 2 (AC)",
+            "sv": "Spänning fas 2 (AC)"
+          }
+        },
+        "measure_voltage.3": {
+          "title": {
+            "ar": "جهد المرحلة 3 (AC)",
+            "da": "Spænding fase 3 (AC)",
+            "de": "Spannung Phase 3 (AC)",
+            "en": "Voltage phase 3 (AC)",
+            "es": "Voltaje fase 3 (CA)",
+            "fr": "Tension phase 3 (CA)",
+            "it": "Tensione fase 3 (CA)",
+            "ko": "전압 위상 3 (AC)",
+            "nl": "Spanning fase 3 (AC)",
+            "no": "Spenning fase 3 (AC)",
+            "pl": "Napięcie fazy 3 (AC)",
+            "ru": "Напряжение фазы 3 (AC)",
+            "sv": "Spänning fas 3 (AC)"
+          }
+        },
+        "measure_current.1": {
+          "title": {
+            "ar": "تيار المرحلة 1 (AC)",
+            "da": "Strøm fase 1 (AC)",
+            "de": "Strom Phase 1 (AC)",
+            "en": "Current phase 1 (AC)",
+            "es": "Corriente fase 1 (CA)",
+            "fr": "Courant phase 1 (CA)",
+            "it": "Corrente fase 1 (CA)",
+            "ko": "전류 위상 1 (AC)",
+            "nl": "Stroom fase 1 (AC)",
+            "no": "Strøm fase 1 (AC)",
+            "pl": "Prąd fazy 1 (AC)",
+            "ru": "Ток фазы 1 (AC)",
+            "sv": "Ström fas 1 (AC)"
+          }
+        },
+        "measure_current.2": {
+          "title": {
+            "ar": "تيار المرحلة 2 (AC)",
+            "da": "Strøm fase 2 (AC)",
+            "de": "Strom Phase 2 (AC)",
+            "en": "Current phase 2 (AC)",
+            "es": "Corriente fase 2 (CA)",
+            "fr": "Courant phase 2 (CA)",
+            "it": "Corrente fase 2 (CA)",
+            "ko": "전류 위상 2 (AC)",
+            "nl": "Stroom fase 2 (AC)",
+            "no": "Strøm fase 2 (AC)",
+            "pl": "Prąd fazy 2 (AC)",
+            "ru": "Ток фазы 2 (AC)",
+            "sv": "Ström fas 2 (AC)"
+          }
+        },
+        "measure_current.3": {
+          "title": {
+            "ar": "تيار المرحلة 3 (AC)",
+            "da": "Strøm fase 3 (AC)",
+            "de": "Strom Phase 3 (AC)",
+            "en": "Current phase 3 (AC)",
+            "es": "Corriente fase 3 (CA)",
+            "fr": "Courant phase 3 (CA)",
+            "it": "Corrente fase 3 (CA)",
+            "ko": "전류 위상 3 (AC)",
+            "nl": "Stroom fase 3 (AC)",
+            "no": "Strøm fase 3 (AC)",
+            "pl": "Prąd fazy 3 (AC)",
+            "ru": "Ток фазы 3 (AC)",
+            "sv": "Ström fas 3 (AC)"
+          }
+        },
+        "measure_voltage.dc": {
+          "title": {
+            "ar": "جهد التيار المستمر",
+            "da": "DC-spænding",
+            "de": "DC-Spannung",
+            "en": "DC voltage",
+            "es": "Voltaje CC",
+            "fr": "Tension CC",
+            "it": "Tensione CC",
+            "ko": "DC 전압",
+            "nl": "DC-spanning",
+            "no": "DC-spenning",
+            "pl": "Napięcie DC",
+            "ru": "Напряжение DC",
+            "sv": "DC-spänning"
+          }
+        },
+        "measure_temperature.max": {
+          "title": {
+            "ar": "أقصى درجة حرارة للمُحسِّنات اليوم",
+            "da": "Maks. optimizertemperatur i dag",
+            "de": "Max. Optimierertemperatur heute",
+            "en": "Max optimizer temperature today",
+            "es": "Temperatura máx. de optimizadores hoy",
+            "fr": "Température max. des optimiseurs aujourd'hui",
+            "it": "Temperatura max ottimizzatori oggi",
+            "ko": "오늘 옵티마이저 최고 온도",
+            "nl": "Max. optimizertemperatuur vandaag",
+            "no": "Maks. optimalisatortemperatur i dag",
+            "pl": "Maks. temperatura optymalizatorów dziś",
+            "ru": "Макс. температура оптимизаторов сегодня",
+            "sv": "Max optimerartemperatur idag"
           }
         }
       },
@@ -800,7 +990,8 @@
         "measure_power.load",
         "measure_power.solar",
         "meter_power.imported",
-        "meter_power.exported"
+        "meter_power.exported",
+        "alarm_connectivity"
       ],
       "energy": {
         "cumulative": true,
