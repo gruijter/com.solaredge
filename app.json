@@ -151,10 +151,7 @@
         "battery_charging_state"
       ],
       "energy": {
-        "homeBattery": true,
-        "batteries": [
-          "INTERNAL"
-        ]
+        "homeBattery": true
       },
       "id": "battery",
       "name": {
@@ -288,14 +285,12 @@
       "capabilities": [
         "measure_power",
         "meter_power.charged",
-        "meter_power.discharged",
         "evcharger_charging",
         "evcharger_charging_state"
       ],
       "energy": {
         "evCharger": true,
-        "meterPowerImportedCapability": "meter_power.charged",
-        "meterPowerExportedCapability": "meter_power.discharged"
+        "meterPowerImportedCapability": "meter_power.charged"
       },
       "capabilitiesOptions": {
         "meter_power.charged": {
@@ -313,23 +308,6 @@
             "pl": "Całkowita energia naładowana",
             "ru": "Всего заряжено энергии",
             "sv": "Total laddad energi"
-          }
-        },
-        "meter_power.discharged": {
-          "title": {
-            "ar": "إجمالي الطاقة المفرغة",
-            "da": "Samlet afladet energi",
-            "de": "Entladene Gesamtenergie",
-            "en": "Total Discharged Energy",
-            "es": "Energía total descargada",
-            "fr": "Énergie totale déchargée",
-            "it": "Energia totale scaricata",
-            "ko": "총 방전 에너지",
-            "nl": "Totaal ontladen energie",
-            "no": "Total utladet energi",
-            "pl": "Całkowita energia rozładowana",
-            "ru": "Всего разряжено энергии",
-            "sv": "Total urladdad energi"
           }
         }
       },
@@ -819,6 +797,8 @@
       "class": "sensor",
       "capabilities": [
         "measure_power",
+        "measure_power.load",
+        "measure_power.solar",
         "meter_power.imported",
         "meter_power.exported"
       ],
@@ -894,6 +874,23 @@
             "pl": "Moc fotowoltaiki",
             "ru": "Солнечная мощность",
             "sv": "Soleffekt"
+          }
+        },
+        "measure_power.load": {
+          "title": {
+            "ar": "استهلاك المنزل",
+            "da": "Husforbrug",
+            "de": "Hausverbrauch",
+            "en": "Home consumption",
+            "es": "Consumo doméstico",
+            "fr": "Consommation domestique",
+            "it": "Consumo domestico",
+            "ko": "가정 소비 전력",
+            "nl": "Thuisverbruik",
+            "no": "Husforbruk",
+            "pl": "Zużycie domowe",
+            "ru": "Домашнее потребление",
+            "sv": "Husförbrukning"
           }
         }
       },

@@ -54,9 +54,6 @@
       "capabilitiesOptions": {
         "meter_power.charged": {
           "title": "Всего заряжено энергии"
-        },
-        "meter_power.discharged": {
-          "title": "Всего разряжено энергии"
         }
       }
     },
@@ -118,6 +115,9 @@
         },
         "measure_power.solar": {
           "title": "Солнечная мощность"
+        },
+        "measure_power.load": {
+          "title": "Домашнее потребление"
         }
       }
     },
@@ -136,5 +136,6 @@
         }
       }
     }
-  }
+  },
+  "migrating": "Обновление возможностей…"
 }

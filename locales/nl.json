@@ -7,5 +7,6 @@
     "notLoggedIn": "Niet ingelogd.",
     "deviceNotFound": "Apparaat niet gevonden op deze site.",
     "reAddDevice": "Verwijder dit apparaat en voeg het opnieuw toe voor kWh-waarden."
-  }
+  },
+  "migrating": "Capabilities bijwerken…"
 }

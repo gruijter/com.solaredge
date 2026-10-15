@@ -3,6 +3,8 @@
   "class": "sensor",
   "capabilities": [
     "measure_power",
+    "measure_power.load",
+    "measure_power.solar",
     "meter_power.imported",
     "meter_power.exported"
   ],

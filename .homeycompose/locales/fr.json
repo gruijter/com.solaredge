@@ -54,9 +54,6 @@
       "capabilitiesOptions": {
         "meter_power.charged": {
           "title": "Énergie totale chargée"
-        },
-        "meter_power.discharged": {
-          "title": "Énergie totale déchargée"
         }
       }
     },
@@ -118,6 +115,9 @@
         },
         "measure_power.solar": {
           "title": "Puissance solaire"
+        },
+        "measure_power.load": {
+          "title": "Consommation domestique"
         }
       }
     },
@@ -136,5 +136,6 @@
         }
       }
     }
-  }
+  },
+  "migrating": "Mise à jour des capacités…"
 }

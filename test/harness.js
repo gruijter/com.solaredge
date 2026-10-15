@@ -74,13 +74,18 @@ class SimpleClass {
 /** Homey.Device as far as the devices use it; `problems` collects what would go wrong in Homey. */
 class Device extends SimpleClass {
 
-  constructor({ driverManifest, data, settings }) {
+  /** `capabilities`: the device's own list, as an older version left it; default the manifest's. */
+  constructor({
+    driverManifest, data, settings, capabilities = driverManifest.capabilities, energy = driverManifest.energy ?? null,
+  }) {
     super();
     this.homey = homey;
     this.driverManifest = driverManifest;
+    this.driver = { id: driverManifest.id, manifest: driverManifest };
     this.data = data;
     this.settings = settings;
-    this.values = Object.fromEntries(driverManifest.capabilities.map((id) => [id, null]));
+    this.values = Object.fromEntries(capabilities.map((id) => [id, null]));
+    this.energy = energy;
     this.store = {};
     this.available = true;
     this.problems = [];
@@ -102,8 +107,28 @@ class Device extends SimpleClass {
     return id in this.values;
   }
 
+  getCapabilities() {
+    return Object.keys(this.values);
+  }
+
+  getCapabilityValue(id) {
+    return this.values[id] ?? null;
+  }
+
   async addCapability(id) {
     if (!this.hasCapability(id)) this.values[id] = null;
+  }
+
+  async removeCapability(id) {
+    delete this.values[id];
+  }
+
+  getEnergy() {
+    return this.energy;
+  }
+
+  async setEnergy(energy) {
+    this.energy = energy;
   }
 
   async setCapabilityValue(id, value) {
@@ -119,6 +144,10 @@ class Device extends SimpleClass {
 
   async setStoreValue(key, value) {
     this.store[key] = value;
+  }
+
+  getAvailable() {
+    return this.available;
   }
 
   async setAvailable() {
@@ -285,6 +314,7 @@ const pairAndPoll = async ({ client, site }) => {
 
 module.exports = {
   CAPTURES,
+  manifest,
   freezeTime,
   pairAndPoll,
   recordingClient,

@@ -30,44 +30,43 @@ const YEAR_SETTLE_TIME = 2 * 24 * 60 * 60 * 1000;
 // a year without data is asked again after this, in case that answer was a hiccup
 const MISSING_RECHECK_TIME = 24 * 60 * 60 * 1000;
 
+// kept, for their flows, on devices paired while measure_power was still consumption
+// (same value as measure_power now)
+const LEGACY_CAPABILITIES = ['measure_power.grid'];
+
 const isTotals = (value) => typeof value?.imported === 'number' && typeof value?.exported === 'number';
 
 const yearIn = (date, timeZone) => Number(new Intl.DateTimeFormat('en-US', { year: 'numeric', timeZone }).format(date));
 
 module.exports = class SolarEdgeMeterDevice extends CommonDevice {
 
+  legacyCapabilities() {
+    return LEGACY_CAPABILITIES;
+  }
+
   async onPoll() {
     const { siteId } = this.getData();
 
     const sitePowerflow = await this.client.getSitePowerflow({ siteId });
 
-    // Consumption; currentPower in kW, null when there is none
-    if (sitePowerflow.consumption?.currentPower === null) {
-      await this.setCapability('measure_power', 0);
-    } else if (typeof sitePowerflow.consumption?.currentPower === 'number') {
-      await this.setCapability('measure_power', Math.round(sitePowerflow.consumption.currentPower * 1000));
-    }
+    // currentPower in kW, always positive; null when there is none
 
     // Grid: import positive
     if (typeof sitePowerflow.grid?.currentPower === 'number') {
-      if (!this.hasCapability('measure_power.grid')) {
-        await this.addCapability('measure_power.grid');
-      }
-
       let power = Math.round(sitePowerflow.grid.currentPower * 1000);
       if (sitePowerflow.grid?.status === 'export') power *= -1;
+      await this.setCapability('measure_power', power);
       await this.setCapability('measure_power.grid', power);
     }
 
-    // Solar
-    if (typeof sitePowerflow.solarProduction?.currentPower === 'number') {
-      if (!this.hasCapability('measure_power.solar')) {
-        await this.addCapability('measure_power.solar');
-      }
+    if (sitePowerflow.consumption?.currentPower === null) {
+      await this.setCapability('measure_power.load', 0);
+    } else if (typeof sitePowerflow.consumption?.currentPower === 'number') {
+      await this.setCapability('measure_power.load', Math.round(sitePowerflow.consumption.currentPower * 1000));
+    }
 
-      let power = Math.round(sitePowerflow.solarProduction.currentPower * 1000);
-      if (sitePowerflow.solarProduction?.isProducing === false) power *= -1;
-      await this.setCapability('measure_power.solar', power);
+    if (typeof sitePowerflow.solarProduction?.currentPower === 'number') {
+      await this.setCapability('measure_power.solar', Math.round(sitePowerflow.solarProduction.currentPower * 1000));
     }
 
     if (sitePowerflow.consumption?.isActive) {

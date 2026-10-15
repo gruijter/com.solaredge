@@ -54,9 +54,6 @@
       "capabilitiesOptions": {
         "meter_power.charged": {
           "title": "إجمالي الطاقة المشحونة"
-        },
-        "meter_power.discharged": {
-          "title": "إجمالي الطاقة المفرغة"
         }
       }
     },
@@ -118,6 +115,9 @@
         },
         "measure_power.solar": {
           "title": "القدرة الشمسية"
+        },
+        "measure_power.load": {
+          "title": "استهلاك المنزل"
         }
       }
     },
@@ -136,5 +136,6 @@
         }
       }
     }
-  }
+  },
+  "migrating": "جارٍ تحديث الإمكانيات…"
 }

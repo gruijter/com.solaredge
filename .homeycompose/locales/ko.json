@@ -54,9 +54,6 @@
       "capabilitiesOptions": {
         "meter_power.charged": {
           "title": "총 충전 에너지"
-        },
-        "meter_power.discharged": {
-          "title": "총 방전 에너지"
         }
       }
     },
@@ -118,6 +115,9 @@
         },
         "measure_power.solar": {
           "title": "태양광 전력"
+        },
+        "measure_power.load": {
+          "title": "가정 소비 전력"
         }
       }
     },
@@ -136,5 +136,6 @@
         }
       }
     }
-  }
+  },
+  "migrating": "기능 업데이트 중…"
 }

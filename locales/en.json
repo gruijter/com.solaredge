@@ -7,5 +7,6 @@
     "notLoggedIn": "Not logged in.",
     "deviceNotFound": "Device not found on this site.",
     "reAddDevice": "Remove and re-add this device to get kWh values."
-  }
+  },
+  "migrating": "Updating capabilities…"
 }

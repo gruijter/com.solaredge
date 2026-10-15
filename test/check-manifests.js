@@ -24,8 +24,8 @@ along with com.solaredge.  If not, see <http://www.gnu.org/licenses/>.
  * run `homey app build` after a compose change.
  *
  * 1. What existing devices depend on is still there (ids, setting keys, capabilities).
- * 2. Every capability a device sets is in its manifest or added in code; setCapability() skips
- *    an unknown one without a word.
+ * 2. Every capability a device sets is in its manifest or in its LEGACY_CAPABILITIES;
+ *    setCapability() skips an unknown one without a word.
  * 3. Every energy capability reference names a capability of the driver.
  * 4. Every translation has all 13 locales, every errors.* key used in code exists in every
  *    locales file, and every language has its README.
@@ -45,7 +45,8 @@ const PINNED = {
   settings: ['username', 'password'],
   drivers: {
     battery: ['measure_battery', 'measure_power', 'battery_charging_state'],
-    evcharger: ['measure_power', 'meter_power.charged', 'meter_power.discharged', 'evcharger_charging', 'evcharger_charging_state'],
+    // meter_power.discharged: removed by DeviceMigrator (always 0)
+    evcharger: ['measure_power', 'meter_power.charged', 'evcharger_charging', 'evcharger_charging_state'],
     'home-load-controller': ['solaredge-home-load-controller-state'],
     inverter: ['measure_power', 'meter_power', 'meter_power.day', 'meter_power.month', 'meter_power.year'],
     meter: ['measure_power', 'meter_power.imported', 'meter_power.exported'],
@@ -84,11 +85,11 @@ const stringLiterals = (source) => [...source.matchAll(/'([^'\n]+)'/g)].map((mat
 for (const driver of app.drivers) {
   const file = path.join(ROOT, 'drivers', driver.id, 'device.js');
   const source = fs.readFileSync(file, 'utf8');
-  const added = [...source.matchAll(/addCapability\('([^']+)'\)/g)].map((match) => match[1]);
+  const legacy = stringLiterals(source.match(/LEGACY_CAPABILITIES = \[([^\]]*)\]/)?.[1] ?? '');
   const used = new Set(stringLiterals(source).filter((literal) => CAPABILITY_ID.test(literal)));
   for (const capability of used) {
-    if (!driver.capabilities.includes(capability) && !added.includes(capability)) {
-      failures.push(`${driver.id}/device.js uses ${capability}, which is neither in the manifest nor added`);
+    if (!driver.capabilities.includes(capability) && !legacy.includes(capability)) {
+      failures.push(`${driver.id}/device.js uses ${capability}, which is neither in the manifest nor legacy`);
     }
   }
 }

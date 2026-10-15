@@ -66,14 +66,6 @@ module.exports = class SolarEdgeEVChargerDevice extends CommonDevice {
     }
 
     if (evCharger?.connectionStatus) {
-      if (!this.hasCapability('evcharger_charging_state')) {
-        await this.addCapability('evcharger_charging_state');
-      }
-
-      if (!this.hasCapability('evcharger_charging')) {
-        await this.addCapability('evcharger_charging');
-      }
-
       const [chargingState, charging] = CONNECTION_STATES[evCharger.connectionStatus] || [null, null];
       if (chargingState === null) this.log('Unknown EV Charger connection status', evCharger.connectionStatus);
       await this.setCapability('evcharger_charging_state', chargingState);
@@ -99,23 +91,13 @@ module.exports = class SolarEdgeEVChargerDevice extends CommonDevice {
     if (Array.isArray(applianceSessionsHistory?.applianceDetails)) {
       // Wh, summed over the sessions of the last year
       let totalCharged = 0;
-      const totalDischarged = 0;
       applianceSessionsHistory.applianceDetails.forEach((applianceDetails) => {
         const statisticsConsumedEnergy = applianceDetails.statistics.find((statistic) => statistic.subjectEnum === 'CONSUMED_ENERGY');
         if (typeof statisticsConsumedEnergy?.totalValue === 'number') {
           totalCharged += statisticsConsumedEnergy.totalValue;
         }
       });
-
-      if (!this.hasCapability('meter_power.charged')) {
-        await this.addCapability('meter_power.charged');
-      }
       await this.setCapability('meter_power.charged', totalCharged / 1000);
-
-      if (!this.hasCapability('meter_power.discharged')) {
-        await this.addCapability('meter_power.discharged');
-      }
-      await this.setCapability('meter_power.discharged', totalDischarged / 1000);
     }
   }
 

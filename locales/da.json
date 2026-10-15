@@ -7,5 +7,6 @@
     "notLoggedIn": "Ikke logget ind.",
     "deviceNotFound": "Enheden blev ikke fundet på dette anlæg.",
     "reAddDevice": "Fjern denne enhed, og tilføj den igen for at få kWh-værdier."
-  }
+  },
+  "migrating": "Opdaterer funktioner…"
 }

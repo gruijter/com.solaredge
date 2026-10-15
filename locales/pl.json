@@ -7,5 +7,6 @@
     "notLoggedIn": "Nie zalogowano.",
     "deviceNotFound": "Nie znaleziono urządzenia w tej instalacji.",
     "reAddDevice": "Usuń to urządzenie i dodaj je ponownie, aby uzyskać wartości kWh."
-  }
+  },
+  "migrating": "Aktualizowanie funkcji…"
 }

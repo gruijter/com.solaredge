@@ -4,13 +4,11 @@
   "capabilities": [
     "measure_power",
     "meter_power.charged",
-    "meter_power.discharged",
     "evcharger_charging",
     "evcharger_charging_state"
   ],
   "energy": {
     "evCharger": true,
-    "meterPowerImportedCapability": "meter_power.charged",
-    "meterPowerExportedCapability": "meter_power.discharged"
+    "meterPowerImportedCapability": "meter_power.charged"
   }
 }

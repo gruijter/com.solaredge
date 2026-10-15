@@ -7,5 +7,6 @@
     "notLoggedIn": "로그인되지 않았습니다.",
     "deviceNotFound": "이 사이트에서 기기를 찾을 수 없습니다.",
     "reAddDevice": "kWh 값을 받으려면 이 기기를 제거한 후 다시 추가하세요."
-  }
+  },
+  "migrating": "기능 업데이트 중…"
 }

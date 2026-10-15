@@ -7,5 +7,6 @@
     "notLoggedIn": "Inte inloggad.",
     "deviceNotFound": "Enheten hittades inte på den här anläggningen.",
     "reAddDevice": "Ta bort den här enheten och lägg till den igen för att få kWh-värden."
-  }
+  },
+  "migrating": "Uppdaterar funktioner…"
 }

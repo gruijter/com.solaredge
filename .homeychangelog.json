@@ -63,6 +63,6 @@
     "en": "Added icon for Home Load Controller."
   },
   "2.0.0": {
-    "en": "Complete app rewrite. Many fixes. Translations added."
+    "en": "Complete app rewrite. Many fixes. Translations added. Meter: Power now shows grid power (import positive); home consumption has its own tile. EV Charger: the always-zero discharged energy is removed."
   }
 }

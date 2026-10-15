@@ -54,9 +54,6 @@
       "capabilitiesOptions": {
         "meter_power.charged": {
           "title": "Total laddad energi"
-        },
-        "meter_power.discharged": {
-          "title": "Total urladdad energi"
         }
       }
     },
@@ -118,6 +115,9 @@
         },
         "measure_power.solar": {
           "title": "Soleffekt"
+        },
+        "measure_power.load": {
+          "title": "Husförbrukning"
         }
       }
     },
@@ -136,5 +136,6 @@
         }
       }
     }
-  }
+  },
+  "migrating": "Uppdaterar funktioner…"
 }

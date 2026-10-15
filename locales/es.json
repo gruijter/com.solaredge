@@ -7,5 +7,6 @@
     "notLoggedIn": "No has iniciado sesión.",
     "deviceNotFound": "Dispositivo no encontrado en este sitio.",
     "reAddDevice": "Elimina este dispositivo y vuelve a añadirlo para obtener los valores de kWh."
-  }
+  },
+  "migrating": "Actualizando capacidades…"
 }

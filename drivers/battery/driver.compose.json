@@ -7,9 +7,6 @@
     "battery_charging_state"
   ],
   "energy": {
-    "homeBattery": true,
-    "batteries": [
-      "INTERNAL"
-    ]
+    "homeBattery": true
   }
 }

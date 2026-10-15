@@ -7,5 +7,6 @@
     "notLoggedIn": "Accesso non effettuato.",
     "deviceNotFound": "Dispositivo non trovato in questo sito.",
     "reAddDevice": "Rimuovi questo dispositivo e aggiungilo di nuovo per ottenere i valori in kWh."
-  }
+  },
+  "migrating": "Aggiornamento delle funzionalità…"
 }
