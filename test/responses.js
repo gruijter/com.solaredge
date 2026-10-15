@@ -92,14 +92,30 @@ const runSite = async (file) => {
   const capture = JSON.parse(fs.readFileSync(file, 'utf8'));
   freezeTime(capture.capturedAt);
   const results = await pairAndPoll({ client: replayClient(capture.calls), site: capture.site });
-  const site = `${capture.synthetic ? 'synthetic ' : ''}site ${capture.site.id}`;
+  const site = `${capture.synthetic ? 'synthetic ' : ''}${capture.partial ? 'partial ' : ''}site ${capture.site.id}`;
+  // a partial capture holds only some calls: what needs another one is skipped, not failed
+  const skipped = (error) => capture.partial && /not captured/.test(error?.message ?? error ?? '');
 
+  const skips = [];
   for (const result of results) {
+    if (skipped(result.thrown)) {
+      skips.push(`${result.driverId} pairing`);
+      continue;
+    }
     check(!result.thrown, `${site} ${result.driverId}: pairing threw ${result.thrown?.message}`);
     for (const { device, thrown } of result.devices) {
       const label = `${site} ${result.driverId}`;
+      if (skipped(thrown)) {
+        console.log(`  ${label}: paired ${JSON.stringify(device.getData())}`);
+        skips.push(`${result.driverId} poll`);
+        continue;
+      }
       check(!thrown, `${label}: poll threw ${thrown?.message}`);
-      device.problems.forEach((problem) => failures.push(`${label}: ${problem}`));
+      device.problems.filter((problem) => !skipped(problem)).forEach((problem) => failures.push(`${label}: ${problem}`));
+      if (capture.partial) {
+        console.log(`  ${label} ${device.available ? 'available' : 'unavailable'}: ${JSON.stringify(device.values)}`);
+        continue;
+      }
       const empty = Object.keys(device.values).filter((id) => device.values[id] === null && !MAY_STAY_EMPTY.includes(id));
       check(!empty.length, `${label}: left empty: ${empty.join(', ')}`);
       DEVICE_CHECKS[result.driverId]?.(device.values, capture, label);
@@ -111,6 +127,7 @@ const runSite = async (file) => {
       console.log(`  ${label} ${device.available ? 'available' : 'unavailable'}: ${JSON.stringify(device.values)}`);
     }
   }
+  if (skips.length) console.log(`  ${site}: skipped (calls not in the capture): ${skips.join(', ')}`);
   const offered = results.filter((result) => result.offered?.length).map((result) => result.driverId);
   console.log(`  ${site} (captured ${new Date(capture.capturedAt).toISOString()}) offers: ${offered.join(', ') || 'nothing'}`);
 };
@@ -126,7 +143,7 @@ const run = async () => {
     failures.forEach((failure) => console.log(`  ${failure}`));
     process.exitCode = 1;
   } else {
-    console.log(`OK - ${captured.length} captured site(s) and the synthetic one`);
+    console.log(`OK - ${captured.length} capture(s) and the synthetic site`);
   }
 };
 

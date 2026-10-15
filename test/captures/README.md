@@ -24,6 +24,15 @@ device names are kept. Look in the report for the device lines logged once per a
 `device state`, `inverter status`, `unknown ...`, `... fell from ...`): they show what the drivers
 made of the data, and where it did not match what they assume.
 
+## Partial captures from other projects
+
+`briadelour-ev-*.json` are the eight real `getSiteDevices` answers of one EV charger from
+[briadelour/SolarEdgeEVCharger](https://github.com/briadelour/SolarEdgeEVCharger)
+(`example_raw_json.zip`), one per charger state; `briadelour-ev` is not a real site id. A capture
+with `"partial": true` replays what it holds (here: the EV charger pairing); pairing or polling
+that needs a call it lacks is reported as skipped, not failed. The same answers are in
+`test/fixtures/ev-charger-devices.json`, where `test/devices.js` checks the mapping of each state.
+
 ## From an account
 
 ```bash
