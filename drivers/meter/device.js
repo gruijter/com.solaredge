@@ -136,9 +136,9 @@ module.exports = class SolarEdgeMeterDevice extends CommonDevice {
       totalExported += measurements[year].exported;
     }
 
-    // Wh -> kWh
-    await this.setCapability('meter_power.imported', Math.round(totalImported / 1000));
-    await this.setCapability('meter_power.exported', Math.round(totalExported / 1000));
+    // Wh -> kWh, unrounded: the UI shows the manifest's decimals
+    await this.setCapability('meter_power.imported', totalImported / 1000);
+    await this.setCapability('meter_power.exported', totalExported / 1000);
   }
 
   /**

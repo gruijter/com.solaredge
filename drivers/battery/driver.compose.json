@@ -13,5 +13,13 @@
     "homeBattery": true,
     "meterPowerImportedCapability": "meter_power.charged",
     "meterPowerExportedCapability": "meter_power.discharged"
+  },
+  "capabilitiesOptions": {
+    "meter_power.charged": {
+      "decimals": 2
+    },
+    "meter_power.discharged": {
+      "decimals": 2
+    }
   }
 }

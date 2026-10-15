@@ -13,5 +13,13 @@
     "cumulative": true,
     "cumulativeImportedCapability": "meter_power.imported",
     "cumulativeExportedCapability": "meter_power.exported"
+  },
+  "capabilitiesOptions": {
+    "meter_power.imported": {
+      "decimals": 2
+    },
+    "meter_power.exported": {
+      "decimals": 2
+    }
   }
 }

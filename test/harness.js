@@ -121,6 +121,18 @@ class Device extends SimpleClass {
 
   async removeCapability(id) {
     delete this.values[id];
+    if (this.options) delete this.options[id];
+  }
+
+  // throws without options of its own, as Homey does (homey-app-development skill, section 18)
+  getCapabilityOptions(id) {
+    if (!this.options?.[id]) throw new Error(`Invalid Capability: ${id}`);
+    return this.options[id];
+  }
+
+  async setCapabilityOptions(id, options) {
+    if (!this.hasCapability(id)) throw new Error(`Invalid Capability: ${id}`);
+    this.options = { ...this.options, [id]: options };
   }
 
   getEnergy() {

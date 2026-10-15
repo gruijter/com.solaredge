@@ -160,6 +160,7 @@
       },
       "capabilitiesOptions": {
         "meter_power.charged": {
+          "decimals": 2,
           "title": {
             "ar": "الطاقة المشحونة",
             "da": "Opladet energi",
@@ -177,6 +178,7 @@
           }
         },
         "meter_power.discharged": {
+          "decimals": 2,
           "title": {
             "ar": "الطاقة المفرغة",
             "da": "Afladet energi",
@@ -335,6 +337,7 @@
       },
       "capabilitiesOptions": {
         "meter_power.charged": {
+          "decimals": 2,
           "title": {
             "ar": "إجمالي الطاقة المشحونة",
             "da": "Samlet opladet energi",
@@ -352,6 +355,7 @@
           }
         },
         "meter_power.session": {
+          "decimals": 2,
           "title": {
             "ar": "طاقة هذه الجلسة",
             "da": "Energi denne session",
@@ -659,24 +663,8 @@
         "alarm_connectivity"
       ],
       "capabilitiesOptions": {
-        "measure_power": {
-          "title": {
-            "ar": "القدرة المولدة",
-            "da": "Produceret effekt",
-            "de": "Erzeugte Leistung",
-            "en": "Generated Power",
-            "es": "Potencia generada",
-            "fr": "Puissance produite",
-            "it": "Potenza generata",
-            "ko": "발전 전력",
-            "nl": "Opgewekt vermogen",
-            "no": "Produsert effekt",
-            "pl": "Moc wytwarzana",
-            "ru": "Вырабатываемая мощность",
-            "sv": "Producerad effekt"
-          }
-        },
         "meter_power": {
+          "decimals": 2,
           "title": {
             "ar": "إجمالي الإنتاج",
             "da": "Samlet produktion",
@@ -694,6 +682,7 @@
           }
         },
         "meter_power.day": {
+          "decimals": 2,
           "title": {
             "ar": "الإنتاج اليوم",
             "da": "Produceret i dag",
@@ -711,6 +700,7 @@
           }
         },
         "meter_power.month": {
+          "decimals": 2,
           "title": {
             "ar": "الإنتاج هذا الشهر",
             "da": "Produceret denne måned",
@@ -728,6 +718,7 @@
           }
         },
         "meter_power.year": {
+          "decimals": 2,
           "title": {
             "ar": "الإنتاج هذا العام",
             "da": "Produceret i år",
@@ -742,6 +733,23 @@
             "pl": "Produkcja w tym roku",
             "ru": "Выработано в этом году",
             "sv": "Producerat i år"
+          }
+        },
+        "measure_power": {
+          "title": {
+            "ar": "القدرة المولدة",
+            "da": "Produceret effekt",
+            "de": "Erzeugte Leistung",
+            "en": "Generated Power",
+            "es": "Potencia generada",
+            "fr": "Puissance produite",
+            "it": "Potenza generata",
+            "ko": "발전 전력",
+            "nl": "Opgewekt vermogen",
+            "no": "Produsert effekt",
+            "pl": "Moc wytwarzana",
+            "ru": "Вырабатываемая мощность",
+            "sv": "Producerad effekt"
           }
         },
         "measure_power.1": {
@@ -1076,6 +1084,7 @@
       },
       "capabilitiesOptions": {
         "meter_power.imported": {
+          "decimals": 2,
           "title": {
             "ar": "الطاقة المستوردة",
             "da": "Importeret energi",
@@ -1093,6 +1102,7 @@
           }
         },
         "meter_power.exported": {
+          "decimals": 2,
           "title": {
             "ar": "الطاقة المصدرة",
             "da": "Eksporteret energi",

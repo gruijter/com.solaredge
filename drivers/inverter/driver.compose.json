@@ -9,5 +9,19 @@
     "meter_power.year",
     "alarm_problem",
     "alarm_connectivity"
-  ]
+  ],
+  "capabilitiesOptions": {
+    "meter_power": {
+      "decimals": 2
+    },
+    "meter_power.day": {
+      "decimals": 2
+    },
+    "meter_power.month": {
+      "decimals": 2
+    },
+    "meter_power.year": {
+      "decimals": 2
+    }
+  }
 }

@@ -67,6 +67,7 @@ const CASES = [
     driverId: 'inverter',
     capabilities: ['measure_power', 'meter_power', 'meter_power.day', 'meter_power.month', 'meter_power.year'],
     values: { meter_power: 29337.6, 'meter_power.day': 6.2 },
+    options: { meter_power: { decimals: 3 } },
     expected: ['measure_power', 'meter_power', 'meter_power.day', 'meter_power.month', 'meter_power.year', 'alarm_problem', 'alarm_connectivity'],
     keep: ['measure_power', 'meter_power', 'meter_power.day', 'meter_power.month', 'meter_power.year'],
   },
@@ -96,7 +97,7 @@ const check = (condition, message) => {
 };
 
 const runCase = async ({
-  name, driverId, capabilities, energy, store = {}, values, expected, keep,
+  name, driverId, capabilities, energy, store = {}, options, values, expected, keep,
 }) => {
   const driverManifest = manifest.drivers.find((driver) => driver.id === driverId);
   const DeviceClass = require(path.join(ROOT, 'drivers', driverId, 'device.js')); // eslint-disable-line import/no-dynamic-require, global-require
@@ -105,6 +106,7 @@ const runCase = async ({
   });
   Object.assign(device.values, values);
   Object.assign(device.store, store);
+  if (options) device.options = structuredClone(options);
   const removed = [];
   const removeCapability = device.removeCapability.bind(device);
   device.removeCapability = async (id) => {
@@ -123,6 +125,11 @@ const runCase = async ({
     if (result.includes(id)) check(device.values[id] === value, `${name}: ${id} is ${device.values[id]}, was ${value}`);
   }
   check(device.available, `${name}: left unavailable`);
+  // a device without options of its own shows the manifest's; one with other decimals is synced
+  const wrongDecimals = Object.entries(driverManifest.capabilitiesOptions || {})
+    .filter(([id, options]) => result.includes(id) && options.decimals !== undefined)
+    .filter(([id, options]) => (device.options?.[id] ?? options).decimals !== options.decimals);
+  check(!wrongDecimals.length, `${name}: decimals not synced: ${wrongDecimals.map(([id]) => id).join(', ')}`);
   const untitled = device.optionalCapabilities()
     .filter((id) => !driverManifest.capabilitiesOptions?.[id]?.title && !manifest.capabilities?.[id]?.title);
   check(!untitled.length, `${name}: optional capabilities without a title: ${untitled.join(', ')}`);

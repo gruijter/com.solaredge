@@ -10,5 +10,13 @@
   "energy": {
     "evCharger": true,
     "meterPowerImportedCapability": "meter_power.charged"
+  },
+  "capabilitiesOptions": {
+    "meter_power.charged": {
+      "decimals": 2
+    },
+    "meter_power.session": {
+      "decimals": 2
+    }
   }
 }
