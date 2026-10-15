@@ -1,0 +1,120 @@
+{
+  "$app": {
+    "name": "SolarEdge",
+    "description": "전 세계 사람들의 삶에 에너지를"
+  },
+  "$capabilities": {
+    "solaredge-home-load-controller-state": {
+      "title": "상태"
+    }
+  },
+  "$flow": {
+    "actions": {
+      "home-load-controller-set-state": {
+        "title": "상태 설정",
+        "titleFormatted": "상태를 [[state]](으)로 설정",
+        "args": {
+          "state": {
+            "title": "상태"
+          }
+        }
+      }
+    }
+  },
+  "$drivers": {
+    "battery": {
+      "name": "배터리",
+      "settings": {
+        "username": {
+          "label": "사용자 이름"
+        },
+        "password": {
+          "label": "비밀번호"
+        }
+      }
+    },
+    "evcharger": {
+      "name": "전기차 충전기",
+      "settings": {
+        "username": {
+          "label": "사용자 이름"
+        },
+        "password": {
+          "label": "비밀번호"
+        }
+      },
+      "capabilitiesOptions": {
+        "meter_power.charged": {
+          "title": "총 충전 에너지"
+        },
+        "meter_power.discharged": {
+          "title": "총 방전 에너지"
+        }
+      }
+    },
+    "inverter": {
+      "name": "인버터",
+      "settings": {
+        "username": {
+          "label": "사용자 이름"
+        },
+        "password": {
+          "label": "비밀번호"
+        }
+      },
+      "capabilitiesOptions": {
+        "measure_power": {
+          "title": "발전 전력"
+        },
+        "meter_power": {
+          "title": "총 발전량"
+        },
+        "meter_power.day": {
+          "title": "오늘 발전량"
+        },
+        "meter_power.month": {
+          "title": "이번 달 발전량"
+        },
+        "meter_power.year": {
+          "title": "올해 발전량"
+        }
+      }
+    },
+    "meter": {
+      "name": "계량기",
+      "settings": {
+        "username": {
+          "label": "사용자 이름"
+        },
+        "password": {
+          "label": "비밀번호"
+        }
+      },
+      "capabilitiesOptions": {
+        "meter_power.imported": {
+          "title": "수전 에너지"
+        },
+        "meter_power.exported": {
+          "title": "송전 에너지"
+        },
+        "measure_power.grid": {
+          "title": "계통 전력"
+        },
+        "measure_power.solar": {
+          "title": "태양광 전력"
+        }
+      }
+    },
+    "home-load-controller": {
+      "name": "가정 부하 컨트롤러",
+      "settings": {
+        "username": {
+          "label": "사용자 이름"
+        },
+        "password": {
+          "label": "비밀번호"
+        }
+      }
+    }
+  }
+}

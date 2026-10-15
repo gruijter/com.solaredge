@@ -1,0 +1,11 @@
+{
+  "errors": {
+    "invalidCredentials": "Correo electrónico y/o contraseña no válidos.",
+    "timeout": "SolarEdge no respondió a tiempo.",
+    "unreachable": "No se puede conectar con SolarEdge.",
+    "api": "Error de SolarEdge",
+    "notLoggedIn": "No has iniciado sesión.",
+    "deviceNotFound": "Dispositivo no encontrado en este sitio.",
+    "reAddDevice": "Elimina este dispositivo y vuelve a añadirlo para obtener los valores de kWh."
+  }
+}

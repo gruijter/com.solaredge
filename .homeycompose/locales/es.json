@@ -1,0 +1,120 @@
+{
+  "$app": {
+    "name": "SolarEdge",
+    "description": "Damos energía a las personas de todo el mundo"
+  },
+  "$capabilities": {
+    "solaredge-home-load-controller-state": {
+      "title": "Estado"
+    }
+  },
+  "$flow": {
+    "actions": {
+      "home-load-controller-set-state": {
+        "title": "Establecer el estado",
+        "titleFormatted": "Establecer el estado en [[state]]",
+        "args": {
+          "state": {
+            "title": "Estado"
+          }
+        }
+      }
+    }
+  },
+  "$drivers": {
+    "battery": {
+      "name": "Batería",
+      "settings": {
+        "username": {
+          "label": "Nombre de usuario"
+        },
+        "password": {
+          "label": "Contraseña"
+        }
+      }
+    },
+    "evcharger": {
+      "name": "Cargador de VE",
+      "settings": {
+        "username": {
+          "label": "Nombre de usuario"
+        },
+        "password": {
+          "label": "Contraseña"
+        }
+      },
+      "capabilitiesOptions": {
+        "meter_power.charged": {
+          "title": "Energía total cargada"
+        },
+        "meter_power.discharged": {
+          "title": "Energía total descargada"
+        }
+      }
+    },
+    "inverter": {
+      "name": "Inversor",
+      "settings": {
+        "username": {
+          "label": "Nombre de usuario"
+        },
+        "password": {
+          "label": "Contraseña"
+        }
+      },
+      "capabilitiesOptions": {
+        "measure_power": {
+          "title": "Potencia generada"
+        },
+        "meter_power": {
+          "title": "Generación total"
+        },
+        "meter_power.day": {
+          "title": "Generado hoy"
+        },
+        "meter_power.month": {
+          "title": "Generado este mes"
+        },
+        "meter_power.year": {
+          "title": "Generado este año"
+        }
+      }
+    },
+    "meter": {
+      "name": "Medidor",
+      "settings": {
+        "username": {
+          "label": "Nombre de usuario"
+        },
+        "password": {
+          "label": "Contraseña"
+        }
+      },
+      "capabilitiesOptions": {
+        "meter_power.imported": {
+          "title": "Energía importada"
+        },
+        "meter_power.exported": {
+          "title": "Energía exportada"
+        },
+        "measure_power.grid": {
+          "title": "Potencia de red"
+        },
+        "measure_power.solar": {
+          "title": "Potencia solar"
+        }
+      }
+    },
+    "home-load-controller": {
+      "name": "Controlador de cargas domésticas",
+      "settings": {
+        "username": {
+          "label": "Nombre de usuario"
+        },
+        "password": {
+          "label": "Contraseña"
+        }
+      }
+    }
+  }
+}

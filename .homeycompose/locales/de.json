@@ -1,7 +1,25 @@
 {
   "$app": {
     "name": "SolarEdge",
-    "description": "Energie für Menschen weltweit"
+    "description": "Energie für Menschen – weltweit"
+  },
+  "$capabilities": {
+    "solaredge-home-load-controller-state": {
+      "title": "Zustand"
+    }
+  },
+  "$flow": {
+    "actions": {
+      "home-load-controller-set-state": {
+        "title": "Zustand festlegen",
+        "titleFormatted": "Zustand auf [[state]] festlegen",
+        "args": {
+          "state": {
+            "title": "Zustand"
+          }
+        }
+      }
+    }
   },
   "$drivers": {
     "battery": {
@@ -83,7 +101,18 @@
           "title": "Netzleistung"
         },
         "measure_power.solar": {
-          "title": "Solar Leistung"
+          "title": "Solarleistung"
+        }
+      }
+    },
+    "home-load-controller": {
+      "name": "Hauslaststeuerung",
+      "settings": {
+        "username": {
+          "label": "Benutzername"
+        },
+        "password": {
+          "label": "Passwort"
         }
       }
     }

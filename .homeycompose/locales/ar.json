@@ -1,0 +1,120 @@
+{
+  "$app": {
+    "name": "SolarEdge",
+    "description": "طاقة لحياة الناس حول العالم"
+  },
+  "$capabilities": {
+    "solaredge-home-load-controller-state": {
+      "title": "الحالة"
+    }
+  },
+  "$flow": {
+    "actions": {
+      "home-load-controller-set-state": {
+        "title": "تعيين الحالة",
+        "titleFormatted": "تعيين الحالة إلى [[state]]",
+        "args": {
+          "state": {
+            "title": "الحالة"
+          }
+        }
+      }
+    }
+  },
+  "$drivers": {
+    "battery": {
+      "name": "البطارية",
+      "settings": {
+        "username": {
+          "label": "اسم المستخدم"
+        },
+        "password": {
+          "label": "كلمة المرور"
+        }
+      }
+    },
+    "evcharger": {
+      "name": "شاحن السيارة الكهربائية",
+      "settings": {
+        "username": {
+          "label": "اسم المستخدم"
+        },
+        "password": {
+          "label": "كلمة المرور"
+        }
+      },
+      "capabilitiesOptions": {
+        "meter_power.charged": {
+          "title": "إجمالي الطاقة المشحونة"
+        },
+        "meter_power.discharged": {
+          "title": "إجمالي الطاقة المفرغة"
+        }
+      }
+    },
+    "inverter": {
+      "name": "العاكس",
+      "settings": {
+        "username": {
+          "label": "اسم المستخدم"
+        },
+        "password": {
+          "label": "كلمة المرور"
+        }
+      },
+      "capabilitiesOptions": {
+        "measure_power": {
+          "title": "القدرة المولدة"
+        },
+        "meter_power": {
+          "title": "إجمالي الإنتاج"
+        },
+        "meter_power.day": {
+          "title": "الإنتاج اليوم"
+        },
+        "meter_power.month": {
+          "title": "الإنتاج هذا الشهر"
+        },
+        "meter_power.year": {
+          "title": "الإنتاج هذا العام"
+        }
+      }
+    },
+    "meter": {
+      "name": "العداد",
+      "settings": {
+        "username": {
+          "label": "اسم المستخدم"
+        },
+        "password": {
+          "label": "كلمة المرور"
+        }
+      },
+      "capabilitiesOptions": {
+        "meter_power.imported": {
+          "title": "الطاقة المستوردة"
+        },
+        "meter_power.exported": {
+          "title": "الطاقة المصدرة"
+        },
+        "measure_power.grid": {
+          "title": "قدرة الشبكة"
+        },
+        "measure_power.solar": {
+          "title": "القدرة الشمسية"
+        }
+      }
+    },
+    "home-load-controller": {
+      "name": "وحدة التحكم في الأحمال المنزلية",
+      "settings": {
+        "username": {
+          "label": "اسم المستخدم"
+        },
+        "password": {
+          "label": "كلمة المرور"
+        }
+      }
+    }
+  }
+}

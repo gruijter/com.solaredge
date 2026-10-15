@@ -71,18 +71,38 @@
           "id": "username",
           "type": "text",
           "label": {
+            "ar": "اسم المستخدم",
+            "da": "Brugernavn",
             "de": "Benutzername",
             "en": "Username",
-            "nl": "Gebruikersnaam"
+            "es": "Nombre de usuario",
+            "fr": "Nom d'utilisateur",
+            "it": "Nome utente",
+            "ko": "사용자 이름",
+            "nl": "Gebruikersnaam",
+            "no": "Brukernavn",
+            "pl": "Nazwa użytkownika",
+            "ru": "Имя пользователя",
+            "sv": "Användarnamn"
           }
         },
         {
           "id": "password",
           "type": "password",
           "label": {
-            "en": "Password",
+            "ar": "كلمة المرور",
+            "da": "Adgangskode",
             "de": "Passwort",
-            "nl": "Wachtwoord"
+            "en": "Password",
+            "es": "Contraseña",
+            "fr": "Mot de passe",
+            "it": "Password",
+            "ko": "비밀번호",
+            "nl": "Wachtwoord",
+            "no": "Passord",
+            "pl": "Hasło",
+            "ru": "Пароль",
+            "sv": "Lösenord"
           }
         }
       ],
@@ -100,9 +120,19 @@
       },
       "id": "battery",
       "name": {
+        "ar": "البطارية",
+        "da": "Batteri",
         "de": "Batterie",
         "en": "Battery",
-        "nl": "Batterij"
+        "es": "Batería",
+        "fr": "Batterie",
+        "it": "Batteria",
+        "ko": "배터리",
+        "nl": "Batterij",
+        "no": "Batteri",
+        "pl": "Akumulator",
+        "ru": "Аккумулятор",
+        "sv": "Batteri"
       }
     },
     {
@@ -143,18 +173,38 @@
           "id": "username",
           "type": "text",
           "label": {
+            "ar": "اسم المستخدم",
+            "da": "Brugernavn",
             "de": "Benutzername",
             "en": "Username",
-            "nl": "Gebruikersnaam"
+            "es": "Nombre de usuario",
+            "fr": "Nom d'utilisateur",
+            "it": "Nome utente",
+            "ko": "사용자 이름",
+            "nl": "Gebruikersnaam",
+            "no": "Brukernavn",
+            "pl": "Nazwa użytkownika",
+            "ru": "Имя пользователя",
+            "sv": "Användarnamn"
           }
         },
         {
           "id": "password",
           "type": "password",
           "label": {
-            "en": "Password",
+            "ar": "كلمة المرور",
+            "da": "Adgangskode",
             "de": "Passwort",
-            "nl": "Wachtwoord"
+            "en": "Password",
+            "es": "Contraseña",
+            "fr": "Mot de passe",
+            "it": "Password",
+            "ko": "비밀번호",
+            "nl": "Wachtwoord",
+            "no": "Passord",
+            "pl": "Hasło",
+            "ru": "Пароль",
+            "sv": "Lösenord"
           }
         }
       ],
@@ -174,24 +224,54 @@
       "capabilitiesOptions": {
         "meter_power.charged": {
           "title": {
+            "ar": "إجمالي الطاقة المشحونة",
+            "da": "Samlet opladet energi",
             "de": "Geladene Gesamtenergie",
             "en": "Total Charged Energy",
-            "nl": "Totaal opgeladen energie"
+            "es": "Energía total cargada",
+            "fr": "Énergie totale chargée",
+            "it": "Energia totale caricata",
+            "ko": "총 충전 에너지",
+            "nl": "Totaal opgeladen energie",
+            "no": "Total ladet energi",
+            "pl": "Całkowita energia naładowana",
+            "ru": "Всего заряжено энергии",
+            "sv": "Total laddad energi"
           }
         },
         "meter_power.discharged": {
           "title": {
+            "ar": "إجمالي الطاقة المفرغة",
+            "da": "Samlet afladet energi",
             "de": "Entladene Gesamtenergie",
             "en": "Total Discharged Energy",
-            "nl": "Totaal ontladen energie"
+            "es": "Energía total descargada",
+            "fr": "Énergie totale déchargée",
+            "it": "Energia totale scaricata",
+            "ko": "총 방전 에너지",
+            "nl": "Totaal ontladen energie",
+            "no": "Total utladet energi",
+            "pl": "Całkowita energia rozładowana",
+            "ru": "Всего разряжено энергии",
+            "sv": "Total urladdad energi"
           }
         }
       },
       "id": "evcharger",
       "name": {
+        "ar": "شاحن السيارة الكهربائية",
+        "da": "Elbillader",
         "de": "EV-Ladegerät",
         "en": "EV Charger",
-        "nl": "EV Lader"
+        "es": "Cargador de VE",
+        "fr": "Borne de recharge VE",
+        "it": "Caricatore EV",
+        "ko": "전기차 충전기",
+        "nl": "EV-lader",
+        "no": "Elbillader",
+        "pl": "Ładowarka EV",
+        "ru": "Зарядная станция для электромобиля",
+        "sv": "Elbilsladdare"
       }
     },
     {
@@ -232,14 +312,38 @@
           "id": "username",
           "type": "text",
           "label": {
-            "en": "Username"
+            "ar": "اسم المستخدم",
+            "da": "Brugernavn",
+            "de": "Benutzername",
+            "en": "Username",
+            "es": "Nombre de usuario",
+            "fr": "Nom d'utilisateur",
+            "it": "Nome utente",
+            "ko": "사용자 이름",
+            "nl": "Gebruikersnaam",
+            "no": "Brukernavn",
+            "pl": "Nazwa użytkownika",
+            "ru": "Имя пользователя",
+            "sv": "Användarnamn"
           }
         },
         {
           "id": "password",
           "type": "password",
           "label": {
-            "en": "Password"
+            "ar": "كلمة المرور",
+            "da": "Adgangskode",
+            "de": "Passwort",
+            "en": "Password",
+            "es": "Contraseña",
+            "fr": "Mot de passe",
+            "it": "Password",
+            "ko": "비밀번호",
+            "nl": "Wachtwoord",
+            "no": "Passord",
+            "pl": "Hasło",
+            "ru": "Пароль",
+            "sv": "Lösenord"
           }
         }
       ],
@@ -249,7 +353,19 @@
       ],
       "id": "home-load-controller",
       "name": {
-        "en": "Home Load Controller"
+        "ar": "وحدة التحكم في الأحمال المنزلية",
+        "da": "Styring af husstandsbelastning",
+        "de": "Hauslaststeuerung",
+        "en": "Home Load Controller",
+        "es": "Controlador de cargas domésticas",
+        "fr": "Contrôleur de charge domestique",
+        "it": "Controller dei carichi domestici",
+        "ko": "가정 부하 컨트롤러",
+        "nl": "Huislastregelaar",
+        "no": "Styring av husholdningslaster",
+        "pl": "Sterownik obciążeń domowych",
+        "ru": "Контроллер домашней нагрузки",
+        "sv": "Styrning av hushållslaster"
       }
     },
     {
@@ -290,18 +406,38 @@
           "id": "username",
           "type": "text",
           "label": {
+            "ar": "اسم المستخدم",
+            "da": "Brugernavn",
             "de": "Benutzername",
             "en": "Username",
-            "nl": "Gebruikersnaam"
+            "es": "Nombre de usuario",
+            "fr": "Nom d'utilisateur",
+            "it": "Nome utente",
+            "ko": "사용자 이름",
+            "nl": "Gebruikersnaam",
+            "no": "Brukernavn",
+            "pl": "Nazwa użytkownika",
+            "ru": "Имя пользователя",
+            "sv": "Användarnamn"
           }
         },
         {
           "id": "password",
           "type": "password",
           "label": {
-            "en": "Password",
+            "ar": "كلمة المرور",
+            "da": "Adgangskode",
             "de": "Passwort",
-            "nl": "Wachtwoord"
+            "en": "Password",
+            "es": "Contraseña",
+            "fr": "Mot de passe",
+            "it": "Password",
+            "ko": "비밀번호",
+            "nl": "Wachtwoord",
+            "no": "Passord",
+            "pl": "Hasło",
+            "ru": "Пароль",
+            "sv": "Lösenord"
           }
         }
       ],
@@ -316,45 +452,105 @@
       "capabilitiesOptions": {
         "measure_power": {
           "title": {
+            "ar": "القدرة المولدة",
+            "da": "Produceret effekt",
             "de": "Erzeugte Leistung",
             "en": "Generated Power",
-            "nl": "Opgewekt vermogen"
+            "es": "Potencia generada",
+            "fr": "Puissance produite",
+            "it": "Potenza generata",
+            "ko": "발전 전력",
+            "nl": "Opgewekt vermogen",
+            "no": "Produsert effekt",
+            "pl": "Moc wytwarzana",
+            "ru": "Вырабатываемая мощность",
+            "sv": "Producerad effekt"
           }
         },
         "meter_power": {
           "title": {
+            "ar": "إجمالي الإنتاج",
+            "da": "Samlet produktion",
             "de": "Gesamterzeugung",
             "en": "Generated Total",
-            "nl": "Totaal opgewekt"
+            "es": "Generación total",
+            "fr": "Production totale",
+            "it": "Produzione totale",
+            "ko": "총 발전량",
+            "nl": "Totaal opgewekt",
+            "no": "Total produksjon",
+            "pl": "Produkcja całkowita",
+            "ru": "Всего выработано",
+            "sv": "Total produktion"
           }
         },
         "meter_power.day": {
           "title": {
+            "ar": "الإنتاج اليوم",
+            "da": "Produceret i dag",
             "de": "Erzeugung heute",
             "en": "Generated Today",
-            "nl": "Opgewekt vandaag"
+            "es": "Generado hoy",
+            "fr": "Production aujourd'hui",
+            "it": "Prodotto oggi",
+            "ko": "오늘 발전량",
+            "nl": "Opgewekt vandaag",
+            "no": "Produsert i dag",
+            "pl": "Produkcja dzisiaj",
+            "ru": "Выработано сегодня",
+            "sv": "Producerat idag"
           }
         },
         "meter_power.month": {
           "title": {
+            "ar": "الإنتاج هذا الشهر",
+            "da": "Produceret denne måned",
             "de": "Erzeugung diesen Monat",
             "en": "Generated This Month",
-            "nl": "Opgewekt deze maand"
+            "es": "Generado este mes",
+            "fr": "Production ce mois-ci",
+            "it": "Prodotto questo mese",
+            "ko": "이번 달 발전량",
+            "nl": "Opgewekt deze maand",
+            "no": "Produsert denne måneden",
+            "pl": "Produkcja w tym miesiącu",
+            "ru": "Выработано в этом месяце",
+            "sv": "Producerat denna månad"
           }
         },
         "meter_power.year": {
           "title": {
+            "ar": "الإنتاج هذا العام",
+            "da": "Produceret i år",
             "de": "Erzeugung dieses Jahr",
             "en": "Generated This Year",
-            "nl": "Opgewekt dit jaar"
+            "es": "Generado este año",
+            "fr": "Production cette année",
+            "it": "Prodotto quest'anno",
+            "ko": "올해 발전량",
+            "nl": "Opgewekt dit jaar",
+            "no": "Produsert i år",
+            "pl": "Produkcja w tym roku",
+            "ru": "Выработано в этом году",
+            "sv": "Producerat i år"
           }
         }
       },
       "id": "inverter",
       "name": {
+        "ar": "العاكس",
+        "da": "Inverter",
         "de": "Wechselrichter",
         "en": "Inverter",
-        "nl": "Omvormer"
+        "es": "Inversor",
+        "fr": "Onduleur",
+        "it": "Inverter",
+        "ko": "인버터",
+        "nl": "Omvormer",
+        "no": "Inverter",
+        "pl": "Falownik",
+        "ru": "Инвертор",
+        "sv": "Växelriktare"
       }
     },
     {
@@ -395,18 +591,38 @@
           "id": "username",
           "type": "text",
           "label": {
+            "ar": "اسم المستخدم",
+            "da": "Brugernavn",
             "de": "Benutzername",
             "en": "Username",
-            "nl": "Gebruikersnaam"
+            "es": "Nombre de usuario",
+            "fr": "Nom d'utilisateur",
+            "it": "Nome utente",
+            "ko": "사용자 이름",
+            "nl": "Gebruikersnaam",
+            "no": "Brukernavn",
+            "pl": "Nazwa użytkownika",
+            "ru": "Имя пользователя",
+            "sv": "Användarnamn"
           }
         },
         {
           "id": "password",
           "type": "password",
           "label": {
-            "en": "Password",
+            "ar": "كلمة المرور",
+            "da": "Adgangskode",
             "de": "Passwort",
-            "nl": "Wachtwoord"
+            "en": "Password",
+            "es": "Contraseña",
+            "fr": "Mot de passe",
+            "it": "Password",
+            "ko": "비밀번호",
+            "nl": "Wachtwoord",
+            "no": "Passord",
+            "pl": "Hasło",
+            "ru": "Пароль",
+            "sv": "Lösenord"
           }
         }
       ],
@@ -424,38 +640,88 @@
       "capabilitiesOptions": {
         "meter_power.imported": {
           "title": {
+            "ar": "الطاقة المستوردة",
+            "da": "Importeret energi",
             "de": "Importierte Energie",
             "en": "Imported Energy",
-            "nl": "Geïmporteerde energie"
+            "es": "Energía importada",
+            "fr": "Énergie importée",
+            "it": "Energia importata",
+            "ko": "수전 에너지",
+            "nl": "Geïmporteerde energie",
+            "no": "Importert energi",
+            "pl": "Energia pobrana",
+            "ru": "Импортированная энергия",
+            "sv": "Importerad energi"
           }
         },
         "meter_power.exported": {
           "title": {
+            "ar": "الطاقة المصدرة",
+            "da": "Eksporteret energi",
             "de": "Exportierte Energie",
             "en": "Exported Energy",
-            "nl": "Geëxporteerde energie"
+            "es": "Energía exportada",
+            "fr": "Énergie exportée",
+            "it": "Energia esportata",
+            "ko": "송전 에너지",
+            "nl": "Geëxporteerde energie",
+            "no": "Eksportert energi",
+            "pl": "Energia oddana",
+            "ru": "Экспортированная энергия",
+            "sv": "Exporterad energi"
           }
         },
         "measure_power.grid": {
           "title": {
+            "ar": "قدرة الشبكة",
+            "da": "Neteffekt",
             "de": "Netzleistung",
             "en": "Grid Power",
-            "nl": "Netvermogen"
+            "es": "Potencia de red",
+            "fr": "Puissance réseau",
+            "it": "Potenza di rete",
+            "ko": "계통 전력",
+            "nl": "Netvermogen",
+            "no": "Netteffekt",
+            "pl": "Moc sieci",
+            "ru": "Мощность сети",
+            "sv": "Näteffekt"
           }
         },
         "measure_power.solar": {
           "title": {
-            "de": "Solar Leistung",
+            "ar": "القدرة الشمسية",
+            "da": "Solcelleeffekt",
+            "de": "Solarleistung",
             "en": "Solar Power",
-            "nl": "Zonne Energie"
+            "es": "Potencia solar",
+            "fr": "Puissance solaire",
+            "it": "Potenza solare",
+            "ko": "태양광 전력",
+            "nl": "Zonnevermogen",
+            "no": "Solcelleeffekt",
+            "pl": "Moc fotowoltaiki",
+            "ru": "Солнечная мощность",
+            "sv": "Soleffekt"
           }
         }
       },
       "id": "meter",
       "name": {
+        "ar": "العداد",
+        "da": "Måler",
         "de": "Zähler",
         "en": "Meter",
-        "nl": "Meter"
+        "es": "Medidor",
+        "fr": "Compteur",
+        "it": "Contatore",
+        "ko": "계량기",
+        "nl": "Meter",
+        "no": "Måler",
+        "pl": "Licznik",
+        "ru": "Счётчик",
+        "sv": "Mätare"
       }
     }
   ],
@@ -487,7 +753,9 @@
                   "fi": "Päällä",
                   "no": "På",
                   "ru": "Включено",
-                  "ko": "켜기"
+                  "ko": "켜기",
+                  "pl": "Włączony",
+                  "ar": "تشغيل"
                 }
               },
               {
@@ -504,7 +772,9 @@
                   "fi": "Pois päältä",
                   "no": "Av",
                   "ru": "Выключено",
-                  "ko": "끄기"
+                  "ko": "끄기",
+                  "pl": "Wyłączony",
+                  "ar": "إيقاف"
                 }
               },
               {
@@ -521,20 +791,58 @@
                   "fi": "Auto",
                   "no": "Auto",
                   "ru": "Авто",
-                  "ko": "자동"
+                  "ko": "자동",
+                  "pl": "Auto",
+                  "ar": "تلقائي"
                 }
               }
             ],
             "title": {
-              "en": "State"
+              "ar": "الحالة",
+              "da": "Tilstand",
+              "de": "Zustand",
+              "en": "State",
+              "es": "Estado",
+              "fr": "État",
+              "it": "Stato",
+              "ko": "상태",
+              "nl": "Status",
+              "no": "Tilstand",
+              "pl": "Stan",
+              "ru": "Состояние",
+              "sv": "Tillstånd"
             }
           }
         ],
         "title": {
-          "en": "Set the state"
+          "ar": "تعيين الحالة",
+          "da": "Indstil tilstanden",
+          "de": "Zustand festlegen",
+          "en": "Set the state",
+          "es": "Establecer el estado",
+          "fr": "Définir l'état",
+          "it": "Imposta lo stato",
+          "ko": "상태 설정",
+          "nl": "Stel de status in",
+          "no": "Angi tilstanden",
+          "pl": "Ustaw stan",
+          "ru": "Установить состояние",
+          "sv": "Ställ in tillståndet"
         },
         "titleFormatted": {
-          "en": "Set the state to [[state]]"
+          "ar": "تعيين الحالة إلى [[state]]",
+          "da": "Indstil tilstanden til [[state]]",
+          "de": "Zustand auf [[state]] festlegen",
+          "en": "Set the state to [[state]]",
+          "es": "Establecer el estado en [[state]]",
+          "fr": "Définir l'état sur [[state]]",
+          "it": "Imposta lo stato su [[state]]",
+          "ko": "상태를 [[state]](으)로 설정",
+          "nl": "Stel de status in op [[state]]",
+          "no": "Angi tilstanden til [[state]]",
+          "pl": "Ustaw stan na [[state]]",
+          "ru": "Установить состояние [[state]]",
+          "sv": "Ställ in tillståndet till [[state]]"
         }
       }
     ]
@@ -559,7 +867,9 @@
             "fi": "Päällä",
             "no": "På",
             "ru": "Включено",
-            "ko": "켜기"
+            "ko": "켜기",
+            "pl": "Włączony",
+            "ar": "تشغيل"
           }
         },
         {
@@ -576,7 +886,9 @@
             "fi": "Pois päältä",
             "no": "Av",
             "ru": "Выключено",
-            "ko": "끄기"
+            "ko": "끄기",
+            "pl": "Wyłączony",
+            "ar": "إيقاف"
           }
         },
         {
@@ -593,23 +905,57 @@
             "fi": "Auto",
             "no": "Auto",
             "ru": "Авто",
-            "ko": "자동"
+            "ko": "자동",
+            "pl": "Auto",
+            "ar": "تلقائي"
           }
         }
       ],
       "title": {
-        "en": "State"
+        "ar": "الحالة",
+        "da": "Tilstand",
+        "de": "Zustand",
+        "en": "State",
+        "es": "Estado",
+        "fr": "État",
+        "it": "Stato",
+        "ko": "상태",
+        "nl": "Status",
+        "no": "Tilstand",
+        "pl": "Stan",
+        "ru": "Состояние",
+        "sv": "Tillstånd"
       }
     }
   },
   "name": {
+    "ar": "SolarEdge",
+    "da": "SolarEdge",
     "de": "SolarEdge",
     "en": "SolarEdge",
-    "nl": "SolarEdge"
+    "es": "SolarEdge",
+    "fr": "SolarEdge",
+    "it": "SolarEdge",
+    "ko": "SolarEdge",
+    "nl": "SolarEdge",
+    "no": "SolarEdge",
+    "pl": "SolarEdge",
+    "ru": "SolarEdge",
+    "sv": "SolarEdge"
   },
   "description": {
-    "de": "Energie für Menschen weltweit",
+    "ar": "طاقة لحياة الناس حول العالم",
+    "da": "Energi til mennesker over hele verden",
+    "de": "Energie für Menschen – weltweit",
     "en": "Powering People's Lives Around the World",
-    "nl": "Energie voor mensen wereldwijd"
+    "es": "Damos energía a las personas de todo el mundo",
+    "fr": "L'énergie au service de nos vies dans le monde entier",
+    "it": "Diamo energia alle persone in tutto il mondo",
+    "ko": "전 세계 사람들의 삶에 에너지를",
+    "nl": "Het leven van mensen over de hele wereld stimuleren",
+    "no": "Energi til mennesker over hele verden",
+    "pl": "Dostarczamy energię dla ludzi na całym świecie",
+    "ru": "Энергия для людей по всему миру",
+    "sv": "Driver människors liv runtom i världen"
   }
 }

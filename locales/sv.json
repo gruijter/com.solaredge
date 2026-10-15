@@ -1,0 +1,11 @@
+{
+  "errors": {
+    "invalidCredentials": "Ogiltig e-postadress och/eller lösenord.",
+    "timeout": "SolarEdge svarade inte i tid.",
+    "unreachable": "SolarEdge kan inte nås.",
+    "api": "SolarEdge-fel",
+    "notLoggedIn": "Inte inloggad.",
+    "deviceNotFound": "Enheten hittades inte på den här anläggningen.",
+    "reAddDevice": "Ta bort den här enheten och lägg till den igen för att få kWh-värden."
+  }
+}

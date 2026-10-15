@@ -1,7 +1,25 @@
 {
   "$app": {
     "name": "SolarEdge",
-    "description": "Energie voor mensen wereldwijd"
+    "description": "Het leven van mensen over de hele wereld stimuleren"
+  },
+  "$capabilities": {
+    "solaredge-home-load-controller-state": {
+      "title": "Status"
+    }
+  },
+  "$flow": {
+    "actions": {
+      "home-load-controller-set-state": {
+        "title": "Stel de status in",
+        "titleFormatted": "Stel de status in op [[state]]",
+        "args": {
+          "state": {
+            "title": "Status"
+          }
+        }
+      }
+    }
   },
   "$drivers": {
     "battery": {
@@ -16,7 +34,7 @@
       }
     },
     "evcharger": {
-      "name": "EV Lader",
+      "name": "EV-lader",
       "settings": {
         "username": {
           "label": "Gebruikersnaam"
@@ -83,7 +101,18 @@
           "title": "Netvermogen"
         },
         "measure_power.solar": {
-          "title": "Zonne Energie"
+          "title": "Zonnevermogen"
+        }
+      }
+    },
+    "home-load-controller": {
+      "name": "Huislastregelaar",
+      "settings": {
+        "username": {
+          "label": "Gebruikersnaam"
+        },
+        "password": {
+          "label": "Wachtwoord"
         }
       }
     }

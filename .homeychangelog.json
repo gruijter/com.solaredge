@@ -61,5 +61,8 @@
   },
   "1.8.1": {
     "en": "Added icon for Home Load Controller."
+  },
+  "2.0.0": {
+    "en": "Complete app rewrite. Many fixes. Translations added."
   }
 }

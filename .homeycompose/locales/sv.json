@@ -1,0 +1,120 @@
+{
+  "$app": {
+    "name": "SolarEdge",
+    "description": "Driver människors liv runtom i världen"
+  },
+  "$capabilities": {
+    "solaredge-home-load-controller-state": {
+      "title": "Tillstånd"
+    }
+  },
+  "$flow": {
+    "actions": {
+      "home-load-controller-set-state": {
+        "title": "Ställ in tillståndet",
+        "titleFormatted": "Ställ in tillståndet till [[state]]",
+        "args": {
+          "state": {
+            "title": "Tillstånd"
+          }
+        }
+      }
+    }
+  },
+  "$drivers": {
+    "battery": {
+      "name": "Batteri",
+      "settings": {
+        "username": {
+          "label": "Användarnamn"
+        },
+        "password": {
+          "label": "Lösenord"
+        }
+      }
+    },
+    "evcharger": {
+      "name": "Elbilsladdare",
+      "settings": {
+        "username": {
+          "label": "Användarnamn"
+        },
+        "password": {
+          "label": "Lösenord"
+        }
+      },
+      "capabilitiesOptions": {
+        "meter_power.charged": {
+          "title": "Total laddad energi"
+        },
+        "meter_power.discharged": {
+          "title": "Total urladdad energi"
+        }
+      }
+    },
+    "inverter": {
+      "name": "Växelriktare",
+      "settings": {
+        "username": {
+          "label": "Användarnamn"
+        },
+        "password": {
+          "label": "Lösenord"
+        }
+      },
+      "capabilitiesOptions": {
+        "measure_power": {
+          "title": "Producerad effekt"
+        },
+        "meter_power": {
+          "title": "Total produktion"
+        },
+        "meter_power.day": {
+          "title": "Producerat idag"
+        },
+        "meter_power.month": {
+          "title": "Producerat denna månad"
+        },
+        "meter_power.year": {
+          "title": "Producerat i år"
+        }
+      }
+    },
+    "meter": {
+      "name": "Mätare",
+      "settings": {
+        "username": {
+          "label": "Användarnamn"
+        },
+        "password": {
+          "label": "Lösenord"
+        }
+      },
+      "capabilitiesOptions": {
+        "meter_power.imported": {
+          "title": "Importerad energi"
+        },
+        "meter_power.exported": {
+          "title": "Exporterad energi"
+        },
+        "measure_power.grid": {
+          "title": "Näteffekt"
+        },
+        "measure_power.solar": {
+          "title": "Soleffekt"
+        }
+      }
+    },
+    "home-load-controller": {
+      "name": "Styrning av hushållslaster",
+      "settings": {
+        "username": {
+          "label": "Användarnamn"
+        },
+        "password": {
+          "label": "Lösenord"
+        }
+      }
+    }
+  }
+}

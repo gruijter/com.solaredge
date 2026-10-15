@@ -25,7 +25,8 @@ module.exports = class SolarEdgeMeterDriver extends CommonDriver {
 
   async onPairFilterSite({ client, site }) {
     const sitePowerflow = await client.getSitePowerflow({ siteId: site.id });
-    return sitePowerflow?.consumption?.isActive === true;
+    // a site without a grid meter also reports consumption as active, with 0 kW (seen live)
+    return sitePowerflow?.grid?.isActive === true;
   }
 
 };

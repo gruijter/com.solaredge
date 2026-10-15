@@ -1,0 +1,120 @@
+{
+  "$app": {
+    "name": "SolarEdge",
+    "description": "Энергия для людей по всему миру"
+  },
+  "$capabilities": {
+    "solaredge-home-load-controller-state": {
+      "title": "Состояние"
+    }
+  },
+  "$flow": {
+    "actions": {
+      "home-load-controller-set-state": {
+        "title": "Установить состояние",
+        "titleFormatted": "Установить состояние [[state]]",
+        "args": {
+          "state": {
+            "title": "Состояние"
+          }
+        }
+      }
+    }
+  },
+  "$drivers": {
+    "battery": {
+      "name": "Аккумулятор",
+      "settings": {
+        "username": {
+          "label": "Имя пользователя"
+        },
+        "password": {
+          "label": "Пароль"
+        }
+      }
+    },
+    "evcharger": {
+      "name": "Зарядная станция для электромобиля",
+      "settings": {
+        "username": {
+          "label": "Имя пользователя"
+        },
+        "password": {
+          "label": "Пароль"
+        }
+      },
+      "capabilitiesOptions": {
+        "meter_power.charged": {
+          "title": "Всего заряжено энергии"
+        },
+        "meter_power.discharged": {
+          "title": "Всего разряжено энергии"
+        }
+      }
+    },
+    "inverter": {
+      "name": "Инвертор",
+      "settings": {
+        "username": {
+          "label": "Имя пользователя"
+        },
+        "password": {
+          "label": "Пароль"
+        }
+      },
+      "capabilitiesOptions": {
+        "measure_power": {
+          "title": "Вырабатываемая мощность"
+        },
+        "meter_power": {
+          "title": "Всего выработано"
+        },
+        "meter_power.day": {
+          "title": "Выработано сегодня"
+        },
+        "meter_power.month": {
+          "title": "Выработано в этом месяце"
+        },
+        "meter_power.year": {
+          "title": "Выработано в этом году"
+        }
+      }
+    },
+    "meter": {
+      "name": "Счётчик",
+      "settings": {
+        "username": {
+          "label": "Имя пользователя"
+        },
+        "password": {
+          "label": "Пароль"
+        }
+      },
+      "capabilitiesOptions": {
+        "meter_power.imported": {
+          "title": "Импортированная энергия"
+        },
+        "meter_power.exported": {
+          "title": "Экспортированная энергия"
+        },
+        "measure_power.grid": {
+          "title": "Мощность сети"
+        },
+        "measure_power.solar": {
+          "title": "Солнечная мощность"
+        }
+      }
+    },
+    "home-load-controller": {
+      "name": "Контроллер домашней нагрузки",
+      "settings": {
+        "username": {
+          "label": "Имя пользователя"
+        },
+        "password": {
+          "label": "Пароль"
+        }
+      }
+    }
+  }
+}

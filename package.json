@@ -1,6 +1,6 @@
 {
   "name": "com.solaredge",
-  "version": "1.8.1",
+  "version": "2.0.0",
   "main": "app.js",
   "engines": {
     "node": ">=22.0.0"

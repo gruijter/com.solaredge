@@ -21,7 +21,8 @@ along with com.solaredge.  If not, see <http://www.gnu.org/licenses/>.
 
 const CommonDevice = require('../../lib/common_device');
 
-// SolarEdge was founded in 2006: no site has data before
+// SolarEdge was founded in 2006: no site has data before. Only used when the site's
+// installationDate is unknown.
 const FIRST_YEAR = 2006;
 // a past year is stored only this long after it ended: then it has ended in every timezone and its
 // last data is in (assumed)
@@ -30,6 +31,8 @@ const YEAR_SETTLE_TIME = 2 * 24 * 60 * 60 * 1000;
 const MISSING_RECHECK_TIME = 24 * 60 * 60 * 1000;
 
 const isTotals = (value) => typeof value?.imported === 'number' && typeof value?.exported === 'number';
+
+const yearIn = (date, timeZone) => Number(new Intl.DateTimeFormat('en-US', { year: 'numeric', timeZone }).format(date));
 
 module.exports = class SolarEdgeMeterDevice extends CommonDevice {
 
@@ -85,10 +88,21 @@ module.exports = class SolarEdgeMeterDevice extends CommonDevice {
     }
   }
 
-  /** The current year in Homey's timezone, not the process clock's. */
-  currentYear() {
-    const timeZone = this.homey.clock.getTimezone();
-    return Number(new Intl.DateTimeFormat('en-US', { year: 'numeric', timeZone }).format(new Date()));
+  /**
+   * The site's timezone and first year with data, from the account's sites list (installationDate,
+   * timezone; seen live). Falls back to Homey's timezone and FIRST_YEAR. Fetched once per app run.
+   */
+  async siteYears(siteId) {
+    if (!this.site) {
+      const sites = await this.client.getSites();
+      this.site = Object.values(sites).find((site) => String(site.id) === String(siteId)) || {};
+    }
+    const timeZone = this.site.timezone || this.homey.clock.getTimezone();
+    const installed = this.site.installationDate ? new Date(this.site.installationDate) : null;
+    return {
+      currentYear: yearIn(new Date(), timeZone),
+      firstYear: installed ? yearIn(installed, timeZone) : FIRST_YEAR,
+    };
   }
 
   /**
@@ -98,9 +112,9 @@ module.exports = class SolarEdgeMeterDevice extends CommonDevice {
    */
   async updateTotals(siteId) {
     const measurements = {};
-    const currentYear = this.currentYear();
+    const { currentYear, firstYear } = await this.siteYears(siteId);
 
-    for (let year = currentYear - 1; year >= FIRST_YEAR; year -= 1) {
+    for (let year = currentYear - 1; year >= firstYear; year -= 1) {
       // eslint-disable-next-line no-await-in-loop
       measurements[year] = await this.pastYearTotals(siteId, year);
       if (measurements[year] === 'error') throw new Error(`Missing Data For Year ${year}`);
@@ -160,13 +174,17 @@ module.exports = class SolarEdgeMeterDevice extends CommonDevice {
     return value;
   }
 
-  /** A year's import/export in Wh; throws INVALID_ARGUMENTS or empty_summary when it has no data. */
+  /**
+   * A year's import/export in Wh; throws INVALID_ARGUMENTS or empty_summary when it has no data
+   * (a year before the site existed answers summary: null, seen live). Without a grid meter in that
+   * year import/export are null: counted as 0.
+   */
   async yearTotals(siteId, year) {
     const result = await this.client.getSiteMeasurements({ siteId, endDate: `${year}-12-31` });
     if (!result.summary) throw new Error('empty_summary');
     return {
-      imported: result.summary.import,
-      exported: result.summary.export,
+      imported: result.summary.import ?? 0,
+      exported: result.summary.export ?? 0,
     };
   }
 

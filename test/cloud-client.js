@@ -79,7 +79,7 @@ const server = http.createServer((req, res) => {
       return;
     }
     if (req.url.includes('/measurements')) {
-      json(400, { code: 'INVALID_ARGUMENTS' });
+      json(404, { error: { code: 'GENERAL_ERROR', messages: null } });
       return;
     }
     if (req.url.endsWith('/activationState')) {
@@ -201,7 +201,7 @@ test('the deadline cuts a request short', async () => {
 
 test('the error code of a JSON error is the message', async () => {
   const client = newClient();
-  await assert.rejects(client.getSiteMeasurements({ siteId: 1, endDate: '2020-12-31' }), /^Error: INVALID_ARGUMENTS$/);
+  await assert.rejects(client.getSiteMeasurements({ siteId: 1, endDate: '2020-12-31' }), /^Error: GENERAL_ERROR$/);
   const call = requests.find((r) => r.url.includes('/measurements'));
   assert.equal(call.url, '/services/m/so/dashboard/site/1/measurements?period=YEAR&measurement-unit=WATT_HOUR&end-date=2020-12-31');
 });

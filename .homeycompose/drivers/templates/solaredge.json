@@ -38,10 +38,7 @@
     },
     {
       "id": "password",
-      "type": "password",
-      "label": {
-        "en": "Password"
-      }
+      "type": "password"
     }
   ]
 }

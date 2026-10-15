@@ -1,0 +1,120 @@
+{
+  "$app": {
+    "name": "SolarEdge",
+    "description": "Energi til mennesker over hele verden"
+  },
+  "$capabilities": {
+    "solaredge-home-load-controller-state": {
+      "title": "Tilstand"
+    }
+  },
+  "$flow": {
+    "actions": {
+      "home-load-controller-set-state": {
+        "title": "Indstil tilstanden",
+        "titleFormatted": "Indstil tilstanden til [[state]]",
+        "args": {
+          "state": {
+            "title": "Tilstand"
+          }
+        }
+      }
+    }
+  },
+  "$drivers": {
+    "battery": {
+      "name": "Batteri",
+      "settings": {
+        "username": {
+          "label": "Brugernavn"
+        },
+        "password": {
+          "label": "Adgangskode"
+        }
+      }
+    },
+    "evcharger": {
+      "name": "Elbillader",
+      "settings": {
+        "username": {
+          "label": "Brugernavn"
+        },
+        "password": {
+          "label": "Adgangskode"
+        }
+      },
+      "capabilitiesOptions": {
+        "meter_power.charged": {
+          "title": "Samlet opladet energi"
+        },
+        "meter_power.discharged": {
+          "title": "Samlet afladet energi"
+        }
+      }
+    },
+    "inverter": {
+      "name": "Inverter",
+      "settings": {
+        "username": {
+          "label": "Brugernavn"
+        },
+        "password": {
+          "label": "Adgangskode"
+        }
+      },
+      "capabilitiesOptions": {
+        "measure_power": {
+          "title": "Produceret effekt"
+        },
+        "meter_power": {
+          "title": "Samlet produktion"
+        },
+        "meter_power.day": {
+          "title": "Produceret i dag"
+        },
+        "meter_power.month": {
+          "title": "Produceret denne måned"
+        },
+        "meter_power.year": {
+          "title": "Produceret i år"
+        }
+      }
+    },
+    "meter": {
+      "name": "Måler",
+      "settings": {
+        "username": {
+          "label": "Brugernavn"
+        },
+        "password": {
+          "label": "Adgangskode"
+        }
+      },
+      "capabilitiesOptions": {
+        "meter_power.imported": {
+          "title": "Importeret energi"
+        },
+        "meter_power.exported": {
+          "title": "Eksporteret energi"
+        },
+        "measure_power.grid": {
+          "title": "Neteffekt"
+        },
+        "measure_power.solar": {
+          "title": "Solcelleeffekt"
+        }
+      }
+    },
+    "home-load-controller": {
+      "name": "Styring af husstandsbelastning",
+      "settings": {
+        "username": {
+          "label": "Brugernavn"
+        },
+        "password": {
+          "label": "Adgangskode"
+        }
+      }
+    }
+  }
+}

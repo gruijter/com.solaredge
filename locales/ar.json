@@ -1,0 +1,11 @@
+{
+  "errors": {
+    "invalidCredentials": "البريد الإلكتروني و/أو كلمة المرور غير صحيحة.",
+    "timeout": "لم يستجب SolarEdge في الوقت المحدد.",
+    "unreachable": "تعذر الوصول إلى SolarEdge.",
+    "api": "خطأ في SolarEdge",
+    "notLoggedIn": "لم يتم تسجيل الدخول.",
+    "deviceNotFound": "لم يتم العثور على الجهاز في هذا الموقع.",
+    "reAddDevice": "احذف هذا الجهاز ثم أضفه مرة أخرى للحصول على قيم kWh."
+  }
+}

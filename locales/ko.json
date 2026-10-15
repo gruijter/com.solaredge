@@ -1,0 +1,11 @@
+{
+  "errors": {
+    "invalidCredentials": "이메일 및/또는 비밀번호가 올바르지 않습니다.",
+    "timeout": "SolarEdge가 제시간에 응답하지 않았습니다.",
+    "unreachable": "SolarEdge에 연결할 수 없습니다.",
+    "api": "SolarEdge 오류",
+    "notLoggedIn": "로그인되지 않았습니다.",
+    "deviceNotFound": "이 사이트에서 기기를 찾을 수 없습니다.",
+    "reAddDevice": "kWh 값을 받으려면 이 기기를 제거한 후 다시 추가하세요."
+  }
+}

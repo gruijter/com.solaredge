@@ -1,0 +1,120 @@
+{
+  "$app": {
+    "name": "SolarEdge",
+    "description": "Dostarczamy energię dla ludzi na całym świecie"
+  },
+  "$capabilities": {
+    "solaredge-home-load-controller-state": {
+      "title": "Stan"
+    }
+  },
+  "$flow": {
+    "actions": {
+      "home-load-controller-set-state": {
+        "title": "Ustaw stan",
+        "titleFormatted": "Ustaw stan na [[state]]",
+        "args": {
+          "state": {
+            "title": "Stan"
+          }
+        }
+      }
+    }
+  },
+  "$drivers": {
+    "battery": {
+      "name": "Akumulator",
+      "settings": {
+        "username": {
+          "label": "Nazwa użytkownika"
+        },
+        "password": {
+          "label": "Hasło"
+        }
+      }
+    },
+    "evcharger": {
+      "name": "Ładowarka EV",
+      "settings": {
+        "username": {
+          "label": "Nazwa użytkownika"
+        },
+        "password": {
+          "label": "Hasło"
+        }
+      },
+      "capabilitiesOptions": {
+        "meter_power.charged": {
+          "title": "Całkowita energia naładowana"
+        },
+        "meter_power.discharged": {
+          "title": "Całkowita energia rozładowana"
+        }
+      }
+    },
+    "inverter": {
+      "name": "Falownik",
+      "settings": {
+        "username": {
+          "label": "Nazwa użytkownika"
+        },
+        "password": {
+          "label": "Hasło"
+        }
+      },
+      "capabilitiesOptions": {
+        "measure_power": {
+          "title": "Moc wytwarzana"
+        },
+        "meter_power": {
+          "title": "Produkcja całkowita"
+        },
+        "meter_power.day": {
+          "title": "Produkcja dzisiaj"
+        },
+        "meter_power.month": {
+          "title": "Produkcja w tym miesiącu"
+        },
+        "meter_power.year": {
+          "title": "Produkcja w tym roku"
+        }
+      }
+    },
+    "meter": {
+      "name": "Licznik",
+      "settings": {
+        "username": {
+          "label": "Nazwa użytkownika"
+        },
+        "password": {
+          "label": "Hasło"
+        }
+      },
+      "capabilitiesOptions": {
+        "meter_power.imported": {
+          "title": "Energia pobrana"
+        },
+        "meter_power.exported": {
+          "title": "Energia oddana"
+        },
+        "measure_power.grid": {
+          "title": "Moc sieci"
+        },
+        "measure_power.solar": {
+          "title": "Moc fotowoltaiki"
+        }
+      }
+    },
+    "home-load-controller": {
+      "name": "Sterownik obciążeń domowych",
+      "settings": {
+        "username": {
+          "label": "Nazwa użytkownika"
+        },
+        "password": {
+          "label": "Hasło"
+        }
+      }
+    }
+  }
+}
