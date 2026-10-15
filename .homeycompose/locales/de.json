@@ -66,6 +66,9 @@
       "capabilitiesOptions": {
         "meter_power.charged": {
           "title": "Geladene Gesamtenergie"
+        },
+        "meter_power.session": {
+          "title": "Energie dieser Sitzung"
         }
       }
     },

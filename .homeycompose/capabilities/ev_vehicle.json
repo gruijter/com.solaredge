@@ -1,0 +1,23 @@
+{
+  "type": "string",
+  "title": {
+    "en": "Vehicle",
+    "nl": "Voertuig",
+    "de": "Fahrzeug",
+    "fr": "Véhicule",
+    "es": "Vehículo",
+    "it": "Veicolo",
+    "da": "Køretøj",
+    "sv": "Fordon",
+    "no": "Kjøretøy",
+    "pl": "Pojazd",
+    "ru": "Автомобиль",
+    "ar": "المركبة",
+    "ko": "차량"
+  },
+  "getable": true,
+  "setable": false,
+  "insights": false,
+  "uiComponent": "sensor",
+  "icon": "./assets/ev_vehicle.svg"
+}

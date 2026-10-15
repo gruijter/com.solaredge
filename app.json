@@ -350,6 +350,23 @@
             "ru": "Всего заряжено энергии",
             "sv": "Total laddad energi"
           }
+        },
+        "meter_power.session": {
+          "title": {
+            "ar": "طاقة هذه الجلسة",
+            "da": "Energi denne session",
+            "de": "Energie dieser Sitzung",
+            "en": "Energy this session",
+            "es": "Energía de esta sesión",
+            "fr": "Énergie de cette session",
+            "it": "Energia di questa sessione",
+            "ko": "이번 세션 에너지",
+            "nl": "Energie deze sessie",
+            "no": "Energi denne økten",
+            "pl": "Energia tej sesji",
+            "ru": "Энергия за сеанс",
+            "sv": "Energi denna session"
+          }
         }
       },
       "id": "evcharger",
@@ -1306,6 +1323,153 @@
     ]
   },
   "capabilities": {
+    "ev_charge_mode": {
+      "type": "enum",
+      "title": {
+        "en": "Charge mode",
+        "nl": "Laadmodus",
+        "de": "Lademodus",
+        "fr": "Mode de charge",
+        "es": "Modo de carga",
+        "it": "Modalità di ricarica",
+        "da": "Opladningstilstand",
+        "sv": "Laddläge",
+        "no": "Lademodus",
+        "pl": "Tryb ładowania",
+        "ru": "Режим зарядки",
+        "ar": "وضع الشحن",
+        "ko": "충전 모드"
+      },
+      "values": [
+        {
+          "id": "auto",
+          "title": {
+            "en": "Automatic",
+            "nl": "Automatisch",
+            "de": "Automatisch",
+            "fr": "Automatique",
+            "es": "Automático",
+            "it": "Automatica",
+            "da": "Automatisk",
+            "sv": "Automatiskt",
+            "no": "Automatisk",
+            "pl": "Automatyczny",
+            "ru": "Автоматически",
+            "ar": "تلقائي",
+            "ko": "자동"
+          }
+        },
+        {
+          "id": "manual",
+          "title": {
+            "en": "Manual",
+            "nl": "Handmatig",
+            "de": "Manuell",
+            "fr": "Manuel",
+            "es": "Manual",
+            "it": "Manuale",
+            "da": "Manuel",
+            "sv": "Manuellt",
+            "no": "Manuell",
+            "pl": "Ręczny",
+            "ru": "Вручную",
+            "ar": "يدوي",
+            "ko": "수동"
+          }
+        }
+      ],
+      "getable": true,
+      "setable": false,
+      "insights": false,
+      "uiComponent": "sensor",
+      "icon": "./assets/ev_charge_mode.svg"
+    },
+    "ev_session_duration": {
+      "type": "number",
+      "title": {
+        "en": "Session duration",
+        "nl": "Sessieduur",
+        "de": "Sitzungsdauer",
+        "fr": "Durée de session",
+        "es": "Duración de la sesión",
+        "it": "Durata sessione",
+        "da": "Sessionsvarighed",
+        "sv": "Sessionstid",
+        "no": "Øktvarighet",
+        "pl": "Czas sesji",
+        "ru": "Длительность сеанса",
+        "ar": "مدة الجلسة",
+        "ko": "세션 시간"
+      },
+      "units": {
+        "en": "min",
+        "nl": "min",
+        "de": "min",
+        "fr": "min",
+        "es": "min",
+        "it": "min",
+        "da": "min",
+        "sv": "min",
+        "no": "min",
+        "pl": "min",
+        "ru": "мин",
+        "ar": "دقيقة",
+        "ko": "분"
+      },
+      "decimals": 0,
+      "min": 0,
+      "getable": true,
+      "setable": false,
+      "insights": true,
+      "uiComponent": "sensor",
+      "icon": "./assets/ev_session_duration.svg"
+    },
+    "ev_solar_charging": {
+      "type": "boolean",
+      "title": {
+        "en": "Solar charging",
+        "nl": "Laden op zonne-overschot",
+        "de": "Solarüberschussladen",
+        "fr": "Recharge solaire",
+        "es": "Carga solar",
+        "it": "Ricarica solare",
+        "da": "Solcelleopladning",
+        "sv": "Solladdning",
+        "no": "Sollading",
+        "pl": "Ładowanie solarne",
+        "ru": "Зарядка от солнца",
+        "ar": "الشحن الشمسي",
+        "ko": "태양광 충전"
+      },
+      "getable": true,
+      "setable": false,
+      "insights": true,
+      "uiComponent": "sensor",
+      "icon": "./assets/ev_solar_charging.svg"
+    },
+    "ev_vehicle": {
+      "type": "string",
+      "title": {
+        "en": "Vehicle",
+        "nl": "Voertuig",
+        "de": "Fahrzeug",
+        "fr": "Véhicule",
+        "es": "Vehículo",
+        "it": "Veicolo",
+        "da": "Køretøj",
+        "sv": "Fordon",
+        "no": "Kjøretøy",
+        "pl": "Pojazd",
+        "ru": "Автомобиль",
+        "ar": "المركبة",
+        "ko": "차량"
+      },
+      "getable": true,
+      "setable": false,
+      "insights": false,
+      "uiComponent": "sensor",
+      "icon": "./assets/ev_vehicle.svg"
+    },
     "inverter_status": {
       "type": "string",
       "title": {

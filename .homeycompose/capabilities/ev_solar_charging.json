@@ -1,0 +1,23 @@
+{
+  "type": "boolean",
+  "title": {
+    "en": "Solar charging",
+    "nl": "Laden op zonne-overschot",
+    "de": "Solarüberschussladen",
+    "fr": "Recharge solaire",
+    "es": "Carga solar",
+    "it": "Ricarica solare",
+    "da": "Solcelleopladning",
+    "sv": "Solladdning",
+    "no": "Sollading",
+    "pl": "Ładowanie solarne",
+    "ru": "Зарядка от солнца",
+    "ar": "الشحن الشمسي",
+    "ko": "태양광 충전"
+  },
+  "getable": true,
+  "setable": false,
+  "insights": true,
+  "uiComponent": "sensor",
+  "icon": "./assets/ev_solar_charging.svg"
+}

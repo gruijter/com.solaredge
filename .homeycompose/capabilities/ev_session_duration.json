@@ -1,0 +1,40 @@
+{
+  "type": "number",
+  "title": {
+    "en": "Session duration",
+    "nl": "Sessieduur",
+    "de": "Sitzungsdauer",
+    "fr": "Durée de session",
+    "es": "Duración de la sesión",
+    "it": "Durata sessione",
+    "da": "Sessionsvarighed",
+    "sv": "Sessionstid",
+    "no": "Øktvarighet",
+    "pl": "Czas sesji",
+    "ru": "Длительность сеанса",
+    "ar": "مدة الجلسة",
+    "ko": "세션 시간"
+  },
+  "units": {
+    "en": "min",
+    "nl": "min",
+    "de": "min",
+    "fr": "min",
+    "es": "min",
+    "it": "min",
+    "da": "min",
+    "sv": "min",
+    "no": "min",
+    "pl": "min",
+    "ru": "мин",
+    "ar": "دقيقة",
+    "ko": "분"
+  },
+  "decimals": 0,
+  "min": 0,
+  "getable": true,
+  "setable": false,
+  "insights": true,
+  "uiComponent": "sensor",
+  "icon": "./assets/ev_session_duration.svg"
+}

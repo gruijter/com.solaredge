@@ -20,6 +20,7 @@ along with com.solaredge.  If not, see <http://www.gnu.org/licenses/>.
 'use strict';
 
 const CommonDevice = require('../../lib/common_device');
+const siteDevices = require('../../lib/siteDevices');
 
 const CAPABILITY = 'solaredge-home-load-controller-state';
 
@@ -53,7 +54,7 @@ module.exports = class SolarEdgeHomeLoadControllerDevice extends CommonDevice {
   async onPoll() {
     const { siteId, reporterId } = this.getData();
 
-    const { devices } = await this.client.getSiteDevices({ siteId });
+    const devices = siteDevices(await this.client.getSiteDevices({ siteId }));
 
     const device = devices.find((item) => item.reporterId === reporterId);
     if (!device) {

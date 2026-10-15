@@ -66,6 +66,9 @@
       "capabilitiesOptions": {
         "meter_power.charged": {
           "title": "Всего заряжено энергии"
+        },
+        "meter_power.session": {
+          "title": "Энергия за сеанс"
         }
       }
     },

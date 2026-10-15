@@ -35,13 +35,12 @@ const { freezeTime, pairAndPoll, recordingClient } = require('./harness');
 const SITE_ID = 9999999;
 const CAPTURED_AT = Date.UTC(2026, 9, 15, 11, 0, 0);
 const live = JSON.parse(fs.readFileSync(path.join(__dirname, 'fixtures', 'inverter-live.json'), 'utf8'));
+// a real getSiteDevices answer with an EV charger, from another project (see its _source)
+const evAnswer = JSON.parse(fs.readFileSync(path.join(__dirname, 'fixtures', 'ev-charger-devices.json'), 'utf8')).responses.charging;
 const answer = (method) => structuredClone(live.find((call) => call.method === method).result);
 
 const site = {
   id: SITE_ID, status: 'ACTIVE', name: 'Synthetic site', peakPower: 8, timezone: 'Europe/Amsterdam', installationDate: '2024-03-01T10:00:00Z',
-};
-const evCharger = {
-  reporterId: 101, serialNumber: 'EV0001', name: 'EV Charger', type: 'EV_CHARGER', activationMode: 'AUTO', status: { level: 0 }, deviceStatus: 'ACTIVE', excessPV: -1, sessionSolarUsage: 'HIGH',
 };
 const loadController = {
   reporterId: 102, serialNumber: 'HLC0001', name: 'Boiler', type: 'ON_OFF', activationMode: 'MANUAL', status: { level: 100 }, deviceStatus: 'ACTIVE',
@@ -67,7 +66,8 @@ const backend = {
       isActive: true, connectionStatus: 'charging', currentPower: 3.1, faultLabel: null, label: null,
     },
   }),
-  getSiteDevices: async () => ({ devices: [evCharger, loadController], devicesByType: { EV_CHARGER: [evCharger], ON_OFF: [loadController] } }),
+  // the EV charger only in devicesByType, as in the real answer; the load controller in devices, as the original app reads it
+  getSiteDevices: async () => ({ ...evAnswer, devices: [loadController] }),
   getSiteDeviceApplianceSessionsHistory: async () => ({
     applianceDetails: [{ statistics: [{ subjectEnum: 'CONSUMED_ENERGY', totalValue: 123456 }] }, { statistics: [{ subjectEnum: 'CONSUMED_ENERGY', totalValue: 4000 }] }],
   }),

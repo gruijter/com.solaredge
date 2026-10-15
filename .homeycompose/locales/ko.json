@@ -66,6 +66,9 @@
       "capabilitiesOptions": {
         "meter_power.charged": {
           "title": "총 충전 에너지"
+        },
+        "meter_power.session": {
+          "title": "이번 세션 에너지"
         }
       }
     },

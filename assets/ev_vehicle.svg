@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <g fill="none" stroke="#000000" stroke-width="34" stroke-linecap="round" stroke-linejoin="round">
+    <!-- car: the vehicle of the session -->
+    <path d="M64 344v-72l48-24 40-80c8-16 22-24 40-24h128c18 0 32 8 40 24l40 80 48 24v72c0 9-7 16-16 16H80c-9 0-16-7-16-16z"/>
+    <path d="M112 248h288"/>
+    <path d="M112 360v40M400 360v40"/>
+  </g>
+  <circle cx="148" cy="304" r="20" fill="#000000"/>
+  <circle cx="364" cy="304" r="20" fill="#000000"/>
+</svg>

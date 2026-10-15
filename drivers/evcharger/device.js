@@ -20,13 +20,24 @@ along with com.solaredge.  If not, see <http://www.gnu.org/licenses/>.
 'use strict';
 
 const CommonDevice = require('../../lib/common_device');
+const siteDevices = require('../../lib/siteDevices');
 
-// powerflow evCharger.connectionStatus -> [evcharger_charging_state, evcharger_charging]
+// connectionStatus -> [evcharger_charging_state, evcharger_charging]; lower case in the powerflow
+// (original app), upper case in getSiteDevices (briadelour example_raw_json)
 const CONNECTION_STATES = {
   connected: ['plugged_in', false],
   charging: ['plugged_in_charging', true],
   disconnected: ['plugged_out', false],
 };
+
+// added once getSiteDevices reports a value
+const OPTIONAL_CAPABILITIES = ['meter_power.session', 'ev_session_duration', 'ev_charge_mode', 'ev_solar_charging', 'ev_vehicle'];
+
+const CAPABILITY_ORDER = ['measure_power', 'meter_power.charged', 'evcharger_charging', 'evcharger_charging_state', ...OPTIONAL_CAPABILITIES];
+
+const ACTIVATION_MODES = { AUTO: 'auto', MANUAL: 'manual' };
+// excessPV: -1 solar surplus charging on, -2 off (briadelour const.py, example_raw_json)
+const EXCESS_PV = { '-1': true, '-2': false };
 
 module.exports = class SolarEdgeEVChargerDevice extends CommonDevice {
 
@@ -38,10 +49,19 @@ module.exports = class SolarEdgeEVChargerDevice extends CommonDevice {
     });
   }
 
+  capabilityOrder() {
+    return CAPABILITY_ORDER;
+  }
+
+  optionalCapabilities() {
+    return OPTIONAL_CAPABILITIES;
+  }
+
   /** Back to the charger's own control: schedule and solar surplus (activationState AUTO). */
   async setAutomatic() {
     const { siteId, reporterId } = this.getData();
-    // AUTO is confirmed for hot-water controllers (barnold89, rolflied), not for the EV charger
+    // the payload of the hot-water projects (barnold89, rolflied); an EV charger in AUTO is seen in
+    // briadelour's example_raw_json, switching one to it from here is not
     await this.client.setSiteDeviceApplianceActivationState({ siteId, reporterId, state: { mode: 'AUTO' } });
     this.log(this.getName(), 'set to automatic');
   }
@@ -60,6 +80,13 @@ module.exports = class SolarEdgeEVChargerDevice extends CommonDevice {
     });
   }
 
+  async setConnectionStatus(status) {
+    const [chargingState, charging] = CONNECTION_STATES[String(status).toLowerCase()] || [null, null];
+    if (chargingState === null) this.logOnce(`status ${status}`, 'unknown connection status', status);
+    await this.setCapability('evcharger_charging_state', chargingState);
+    await this.setCapability('evcharger_charging', charging);
+  }
+
   async onPoll() {
     const { siteId, reporterId } = this.getData();
 
@@ -73,12 +100,7 @@ module.exports = class SolarEdgeEVChargerDevice extends CommonDevice {
       await this.setCapability('measure_power', Math.round(evCharger.currentPower * 1000));
     }
 
-    if (evCharger?.connectionStatus) {
-      const [chargingState, charging] = CONNECTION_STATES[evCharger.connectionStatus] || [null, null];
-      if (chargingState === null) this.logOnce(`status ${evCharger.connectionStatus}`, 'unknown connection status', evCharger.connectionStatus);
-      await this.setCapability('evcharger_charging_state', chargingState);
-      await this.setCapability('evcharger_charging', charging);
-    }
+    if (evCharger?.connectionStatus) await this.setConnectionStatus(evCharger.connectionStatus);
 
     if (evCharger?.isActive) {
       await this.setAvailable();
@@ -92,9 +114,10 @@ module.exports = class SolarEdgeEVChargerDevice extends CommonDevice {
       return;
     }
 
-    if (!this.energyDue()) return;
+    // optional readings: a failure leaves the device as it is
+    await this.updateSession(!evCharger?.connectionStatus).catch((error) => this.error(`Error Fetching Site Devices: ${error.message}`));
 
-    await this.logDeviceState().catch((error) => this.error(`Error Fetching Site Devices: ${error.message}`));
+    if (!this.energyDue()) return;
 
     const applianceSessionsHistory = await this.client.getSiteDeviceApplianceSessionsHistory({ siteId, reporterId });
 
@@ -107,45 +130,55 @@ module.exports = class SolarEdgeEVChargerDevice extends CommonDevice {
           totalCharged += statisticsConsumedEnergy.totalValue;
         }
       });
-      await this.setCapability('meter_power.charged', await this.cumulativeCharged(totalCharged / 1000));
+      // old sessions leave the year: monotonic() keeps the Energy meter rising
+      await this.setCapability('meter_power.charged', await this.monotonic('charged', totalCharged / 1000));
     }
   }
 
   /**
-   * The sessions of the last year as a counter that never falls, for Homey Energy: when old
-   * sessions drop out of the year the total falls, and the drop is added to a stored offset.
-   * A session that starts while an old one drops out in the same tick is partly lost.
-   * @param {number} yearTotal kWh over the last year
+   * The charger's entry in getSiteDevices (devicesByType.EV_CHARGER; seen in briadelour's
+   * example_raw_json, not on a site of ours): sessionEnergy Wh, sessionDuration s, activationMode
+   * AUTO/MANUAL, excessPV, applianceData.alias. The session values stay after unplugging
+   * (sessionActive false) and show the last session.
+   * @param {boolean} withStatus also take the connection status: the powerflow had none
    */
-  async cumulativeCharged(yearTotal) {
-    const last = this.getStoreValue('chargedYearTotal');
-    let offset = this.getStoreValue('chargedOffset') || 0;
-    if (typeof last === 'number' && yearTotal < last) {
-      offset += last - yearTotal;
-      this.log(`${this.getName()} year total fell from ${last} to ${yearTotal} kWh; offset now ${offset} kWh`);
-      await this.setStoreValue('chargedOffset', offset);
-    }
-    if (yearTotal !== last) await this.setStoreValue('chargedYearTotal', yearTotal);
-    return Math.round((yearTotal + offset) * 1000) / 1000;
-  }
-
-  /** The charger's control state from the site's devices, logged once per value (diagnostics). */
-  async logDeviceState() {
+  async updateSession(withStatus) {
     const { siteId, reporterId } = this.getData();
-    const { devices } = await this.client.getSiteDevices({ siteId });
-    const device = (devices || []).find((item) => item.reporterId === reporterId);
-    if (!device) {
+    const charger = siteDevices(await this.client.getSiteDevices({ siteId }))
+      .find((item) => String(item.reporterId) === String(reporterId));
+    if (!charger) {
       this.logOnce('not in devices', 'not in getSiteDevices');
       return;
     }
+
     const state = {
-      activationMode: device.activationMode,
-      level: device.status?.level,
-      deviceStatus: device.deviceStatus,
-      excessPV: device.excessPV,
-      sessionSolarUsage: device.sessionSolarUsage,
+      activationMode: charger.activationMode,
+      chargerStatus: charger.chargerStatus,
+      connectionStatus: charger.connectionStatus,
+      excessPV: charger.excessPV,
+      sessionSolarUsage: charger.sessionSolarUsage,
+      type: charger.type,
     };
-    this.logOnce(`state ${JSON.stringify(state)}`, 'device state', JSON.stringify(state));
+    this.logOnce(`state ${JSON.stringify(state)}`, 'charger state', JSON.stringify(state));
+    if (charger.activationMode && !ACTIVATION_MODES[charger.activationMode]) this.logOnce(`mode ${charger.activationMode}`, 'unknown activationMode', charger.activationMode);
+    if (withStatus && charger.connectionStatus) await this.setConnectionStatus(charger.connectionStatus);
+
+    const number = (value) => (typeof value === 'number' && Number.isFinite(value) ? value : null);
+    const energy = number(charger.sessionEnergy);
+    const duration = number(charger.sessionDuration);
+    const values = {
+      'meter_power.session': energy === null ? null : energy / 1000,
+      ev_session_duration: duration === null ? null : Math.round(duration / 60),
+      ev_charge_mode: ACTIVATION_MODES[charger.activationMode] ?? null,
+      ev_solar_charging: EXCESS_PV[charger.excessPV] ?? null,
+      ev_vehicle: typeof charger.applianceData?.alias === 'string' ? charger.applianceData.alias : null,
+    };
+
+    await this.recordSeenCaps(values);
+    for (const [capability, value] of Object.entries(values)) {
+      // eslint-disable-next-line no-await-in-loop
+      if (value !== null) await this.setCapability(capability, value);
+    }
   }
 
 };

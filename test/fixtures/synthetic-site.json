@@ -94,20 +94,21 @@
     "siteId": 9999999
    },
    "result": {
+    "@c": ".SiteDevicesResponse",
+    "status": "PASSED",
+    "httpStatus": 200,
+    "warningMessages": [],
+    "infoMessages": [],
+    "errorMessages": [],
+    "isUpdated": true,
+    "fieldLastUpdateTS": 1768052703901,
+    "updateRefreshRate": 3,
+    "globalCommunicationStatus": "ACTIVE",
+    "excessPvSupported": true,
+    "essentialDevicesSupported": false,
+    "rfIdCardsListSupported": "XXXXXXXXXXX",
+    "billingProviders": [],
     "devices": [
-     {
-      "reporterId": 101,
-      "serialNumber": "EV0001",
-      "name": "EV Charger",
-      "type": "EV_CHARGER",
-      "activationMode": "AUTO",
-      "status": {
-       "level": 0
-      },
-      "deviceStatus": "ACTIVE",
-      "excessPV": -1,
-      "sessionSolarUsage": "HIGH"
-     },
      {
       "reporterId": 102,
       "serialNumber": "HLC0001",
@@ -123,40 +124,117 @@
     "devicesByType": {
      "EV_CHARGER": [
       {
-       "reporterId": 101,
-       "serialNumber": "EV0001",
-       "name": "EV Charger",
-       "type": "EV_CHARGER",
-       "activationMode": "AUTO",
-       "status": {
-        "level": 0
+       "communicationStatus": "ACTIVE",
+       "lastUpdated": 1768052703941,
+       "lastCommunicationTime": 1768052702163,
+       "features": {
+        "authorization": "false",
+        "charging-history": "true",
+        "connected-car": "true",
+        "current-session-data": "true",
+        "schedules": "true",
+        "solar-charging": "true",
+        "stop-start": "true"
        },
-       "deviceStatus": "ACTIVE",
-       "excessPV": -1,
-       "sessionSolarUsage": "HIGH"
-      }
-     ],
-     "ON_OFF": [
-      {
-       "reporterId": 102,
-       "serialNumber": "HLC0001",
-       "name": "Boiler",
-       "type": "ON_OFF",
+       "reporterId": 1000001479067354,
+       "serialNumber": "05F60667",
+       "iconName": "AUTO",
+       "name": "EV Charger with Boost",
+       "manufacturer": "Solaredge",
+       "model": "EV Charger",
+       "macAddress": null,
+       "swVersion": "2.2.10",
+       "type": "EV_CHARGER_SA",
        "activationMode": "MANUAL",
-       "status": {
-        "level": 100
+       "remoteOpInfo": null,
+       "deviceTriggers": [
+        {
+         "enable": false,
+         "scheduledDays": [
+          "SUNDAY",
+          "MONDAY",
+          "TUESDAY",
+          "WEDNESDAY",
+          "THURSDAY",
+          "FRIDAY",
+          "SATURDAY"
+         ],
+         "startTime": 600,
+         "endTime": 720,
+         "smartSaver": false,
+         "triggerId": 1000003486326916
+        }
+       ],
+       "isScenarioSupported": false,
+       "connectionStatus": "CHARGING",
+       "connectionSubStatus": "CHARGING",
+       "deviceStatus": "ACTIVE",
+       "actionOperationDetails": [
+        {
+         "actionOp": "OFF",
+         "actionText": "STOP_CHARGING",
+         "defaultOp": true
+        }
+       ],
+       "sessionStartTime": 1768052656000,
+       "firstSessionStartTime": 1690210944000,
+       "chargerStatus": "CHARGING",
+       "sessionActive": true,
+       "sessionDuration": 38,
+       "sessionEnergy": 93,
+       "billingSettings": null,
+       "currentSessionBillingAccount": null,
+       "sessionSolarUsage": "NONE",
+       "sessionDistance": 0.66867,
+       "activationState": "ACTIVE",
+       "chargerStatusSubTitle": [
+        {
+         "subStatusTitle": "CURRENT_POWER_WH",
+         "numericValue": 9508.838
+        }
+       ],
+       "excessPV": -2,
+       "applianceData": {
+        "id": "XXXXXXXXXXXXXXXXXXXX",
+        "siteApplianceUUID": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+        "manufacturer": "Hyundai",
+        "model": "IONIQ 6 Standard 53 kWh (151 Hp) BEV",
+        "manufacturerYear": 2023,
+        "alias": "Ioniq",
+        "color": "#9999ff",
+        "physicalId": "XXX-0000",
+        "type": "VEHICLE",
+        "energyMultiplicands": [
+         {
+          "multiplicandEnum": "DISTANCE",
+          "multiplicandValue": 0.0071900003
+         }
+        ],
+        "originalEnergyMultiplicands": [
+         {
+          "multiplicandEnum": "DISTANCE",
+          "multiplicandValue": 0.00719
+         }
+        ],
+        "firstTimeSession": 1690215196000,
+        "origin": "GLOBAL"
        },
-       "deviceStatus": "ACTIVE"
+       "latestSessionApplianceAlias": {
+        "VEHICLE": "Ioniq"
+       },
+       "isAuthorizationEnabled": false,
+       "ratedPower": 9600
       }
      ]
-    }
+    },
+    "gridProgram": null
    }
   },
   {
    "method": "getSiteDeviceApplianceSessionsHistory",
    "args": {
     "siteId": 9999999,
-    "reporterId": 101
+    "reporterId": 1000001479067354
    },
    "result": {
     "applianceDetails": [

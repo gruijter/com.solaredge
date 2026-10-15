@@ -66,6 +66,9 @@
       "capabilitiesOptions": {
         "meter_power.charged": {
           "title": "Samlet opladet energi"
+        },
+        "meter_power.session": {
+          "title": "Energi denne session"
         }
       }
     },

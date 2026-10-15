@@ -66,6 +66,9 @@
       "capabilitiesOptions": {
         "meter_power.charged": {
           "title": "Total Charged Energy"
+        },
+        "meter_power.session": {
+          "title": "Energy this session"
         }
       }
     },

@@ -20,11 +20,12 @@ along with com.solaredge.  If not, see <http://www.gnu.org/licenses/>.
 'use strict';
 
 const CommonDriver = require('../../lib/common_driver');
+const siteDevices = require('../../lib/siteDevices');
 
 module.exports = class SolarEdgeHomeLoadControllerDriver extends CommonDriver {
 
   async onPairListDevices({ client, site }) {
-    const { devices } = await client.getSiteDevices({ siteId: site.id });
+    const devices = siteDevices(await client.getSiteDevices({ siteId: site.id }));
 
     return devices
       .filter((device) => device.type === 'ON_OFF')

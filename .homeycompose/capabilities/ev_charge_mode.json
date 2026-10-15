@@ -1,0 +1,61 @@
+{
+  "type": "enum",
+  "title": {
+    "en": "Charge mode",
+    "nl": "Laadmodus",
+    "de": "Lademodus",
+    "fr": "Mode de charge",
+    "es": "Modo de carga",
+    "it": "Modalità di ricarica",
+    "da": "Opladningstilstand",
+    "sv": "Laddläge",
+    "no": "Lademodus",
+    "pl": "Tryb ładowania",
+    "ru": "Режим зарядки",
+    "ar": "وضع الشحن",
+    "ko": "충전 모드"
+  },
+  "values": [
+    {
+      "id": "auto",
+      "title": {
+        "en": "Automatic",
+        "nl": "Automatisch",
+        "de": "Automatisch",
+        "fr": "Automatique",
+        "es": "Automático",
+        "it": "Automatica",
+        "da": "Automatisk",
+        "sv": "Automatiskt",
+        "no": "Automatisk",
+        "pl": "Automatyczny",
+        "ru": "Автоматически",
+        "ar": "تلقائي",
+        "ko": "자동"
+      }
+    },
+    {
+      "id": "manual",
+      "title": {
+        "en": "Manual",
+        "nl": "Handmatig",
+        "de": "Manuell",
+        "fr": "Manuel",
+        "es": "Manual",
+        "it": "Manuale",
+        "da": "Manuel",
+        "sv": "Manuellt",
+        "no": "Manuell",
+        "pl": "Ręczny",
+        "ru": "Вручную",
+        "ar": "يدوي",
+        "ko": "수동"
+      }
+    }
+  ],
+  "getable": true,
+  "setable": false,
+  "insights": false,
+  "uiComponent": "sensor",
+  "icon": "./assets/ev_charge_mode.svg"
+}

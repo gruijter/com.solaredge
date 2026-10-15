@@ -53,6 +53,13 @@ const sum = (items, key) => {
   return values.includes(null) ? null : values.reduce((total, value) => total + value, 0);
 };
 
+/** { temperature, temperatureUnit } in °C; FAHRENHEIT converted, as Solarlibs/solaredge-web does. */
+const celsius = (reading) => {
+  const value = finite(reading?.temperature);
+  if (value === null) return null;
+  return String(reading.temperatureUnit || 'CELSIUS').toUpperCase() === 'FAHRENHEIT' ? round(((value - 32) * 5) / 9, 1) : value;
+};
+
 /** Today in `timeZone` as YYYY-MM-DD. */
 const dateIn = (date, timeZone) => new Intl.DateTimeFormat('en-CA', {
   timeZone, year: 'numeric', month: '2-digit', day: '2-digit',
@@ -161,8 +168,7 @@ module.exports = class SolarEdgeInverterDevice extends CommonDevice {
     });
     const temperatures = (byInverter?.inverters || [])
       .flatMap((inverter) => inverter.optimizers || [])
-      .filter((optimizer) => optimizer.temperature?.temperatureUnit === 'CELSIUS')
-      .map((optimizer) => finite(optimizer.temperature.temperature))
+      .map((optimizer) => celsius(optimizer.temperature))
       .filter((temperature) => temperature !== null);
     // none yet today (before sunrise): cleared rather than yesterday's
     values['measure_temperature.max'] = temperatures.length ? Math.max(...temperatures) : null;

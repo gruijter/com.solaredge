@@ -81,9 +81,11 @@ module.exports = class SolarEdgeBatteryDevice extends CommonDevice {
 
   /**
    * Energy, remaining energy and health of the site's batteries (getSiteBatteries, summed). Not
-   * verified on a site with a battery: the fields are from nerd2/solaredgego, energies are
-   * assumed in Wh (as SolarEdge's monitoring API) and chargeEnergy/dischargeEnergy lifetime
-   * counters. The raw values are logged once per app run to check that in diagnostics reports.
+   * seen live: the fields are from nerd2/solaredgego. Energies are taken as Wh, as in the other
+   * home-automation answers (EV sessionEnergy Wh, ratedPower W: briadelour example_raw_json),
+   * unless the nameplate is below 100, which can only be kWh. chargeEnergy/dischargeEnergy may be
+   * lifetime or periodic counters: monotonic() keeps the Energy meters rising either way. The raw
+   * values are logged once per app run to check this in diagnostics reports.
    */
   async updateBatteries() {
     const response = await this.client.getSiteBatteries({ siteId: this.getData().siteId });
@@ -105,26 +107,23 @@ module.exports = class SolarEdgeBatteryDevice extends CommonDevice {
       }));
     });
 
-    const charged = sum(batteries, 'chargeEnergy');
-    const discharged = sum(batteries, 'dischargeEnergy');
-    const remaining = sum(batteries, 'remainingEnergy');
-    const fullPack = sum(batteries, 'fullPackEnergy');
     const namePlate = sum(batteries, 'namePlateEnergy');
+    const toKwh = namePlate !== null && namePlate > 0 && namePlate < 100 ? 1 : 1 / 1000;
+    this.logOnce(`unit ${toKwh}`, `battery energies taken as ${toKwh === 1 ? 'kWh' : 'Wh'} (nameplate ${namePlate})`);
+    const kwh = (key) => {
+      const value = sum(batteries, key);
+      return value === null ? null : value * toKwh;
+    };
+    const charged = kwh('chargeEnergy');
+    const discharged = kwh('dischargeEnergy');
+    const fullPack = kwh('fullPackEnergy');
 
     const values = {
-      'meter_power.charged': charged === null ? null : charged / 1000,
-      'meter_power.discharged': discharged === null ? null : discharged / 1000,
-      measure_residual_energy: remaining === null ? null : remaining / 1000,
-      measure_soh: fullPack !== null && namePlate > 0 ? Math.min(100, Math.round((fullPack / namePlate) * 100)) : null,
+      'meter_power.charged': charged === null ? null : await this.monotonic('charged', charged),
+      'meter_power.discharged': discharged === null ? null : await this.monotonic('discharged', discharged),
+      measure_residual_energy: kwh('remainingEnergy'),
+      measure_soh: fullPack !== null && namePlate > 0 ? Math.min(100, Math.round((fullPack / (namePlate * toKwh)) * 100)) : null,
     };
-
-    // Homey Energy needs counters that never fall; a fall means the assumption above is wrong
-    for (const capability of ['meter_power.charged', 'meter_power.discharged']) {
-      const previous = this.getCapabilityValue(capability);
-      if (typeof previous === 'number' && values[capability] !== null && values[capability] < previous) {
-        this.logOnce(`${capability} fell`, `${capability} fell from ${previous} to ${values[capability]} kWh`);
-      }
-    }
 
     await this.recordSeenCaps(values);
     for (const [capability, value] of Object.entries(values)) {
