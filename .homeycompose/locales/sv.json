@@ -18,6 +18,10 @@
             "title": "Tillstånd"
           }
         }
+      },
+      "evcharger-set-auto": {
+        "title": "Ladda automatiskt",
+        "hint": "Tillbaka till laddarens schema och laddning på solöverskott."
       }
     }
   },
@@ -34,6 +38,14 @@
         "poll_interval": {
           "label": "Uppdateringsintervall (sekunder)",
           "hint": "Gäller för alla enheter på det här kontot."
+        }
+      },
+      "capabilitiesOptions": {
+        "meter_power.charged": {
+          "title": "Laddad energi"
+        },
+        "meter_power.discharged": {
+          "title": "Urladdad energi"
         }
       }
     },
@@ -170,5 +182,15 @@
       }
     }
   },
-  "migrating": "Uppdaterar funktioner…"
+  "migrating": "Uppdaterar funktioner…",
+  "inverterStatus": {
+    "production": "Producerar",
+    "sleeping": "Viloläge",
+    "starting": "Startar",
+    "throttled": "Begränsad",
+    "shutting_down": "Stänger av",
+    "fault": "Fel",
+    "standby": "Standby",
+    "off": "Av"
+  }
 }

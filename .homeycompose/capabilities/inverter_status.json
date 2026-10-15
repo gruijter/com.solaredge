@@ -1,0 +1,23 @@
+{
+  "type": "string",
+  "title": {
+    "en": "Inverter status",
+    "nl": "Omvormerstatus",
+    "de": "Wechselrichterstatus",
+    "fr": "État de l'onduleur",
+    "es": "Estado del inversor",
+    "it": "Stato inverter",
+    "da": "Inverterstatus",
+    "sv": "Växelriktarstatus",
+    "no": "Vekselretterstatus",
+    "pl": "Stan inwertera",
+    "ru": "Состояние инвертора",
+    "ar": "حالة العاكس",
+    "ko": "인버터 상태"
+  },
+  "getable": true,
+  "setable": false,
+  "insights": false,
+  "uiComponent": "sensor",
+  "icon": "./assets/inverter_status.svg"
+}

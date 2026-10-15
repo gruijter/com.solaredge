@@ -18,6 +18,10 @@
             "title": "상태"
           }
         }
+      },
+      "evcharger-set-auto": {
+        "title": "자동 충전",
+        "hint": "충전기 일정 및 태양광 잉여 충전으로 돌아갑니다."
       }
     }
   },
@@ -34,6 +38,14 @@
         "poll_interval": {
           "label": "폴링 간격(초)",
           "hint": "이 계정의 모든 기기에 적용됩니다."
+        }
+      },
+      "capabilitiesOptions": {
+        "meter_power.charged": {
+          "title": "충전된 에너지"
+        },
+        "meter_power.discharged": {
+          "title": "방전된 에너지"
         }
       }
     },
@@ -170,5 +182,15 @@
       }
     }
   },
-  "migrating": "기능 업데이트 중…"
+  "migrating": "기능 업데이트 중…",
+  "inverterStatus": {
+    "production": "발전 중",
+    "sleeping": "절전",
+    "starting": "시작 중",
+    "throttled": "출력 제한",
+    "shutting_down": "종료 중",
+    "fault": "고장",
+    "standby": "대기",
+    "off": "꺼짐"
+  }
 }

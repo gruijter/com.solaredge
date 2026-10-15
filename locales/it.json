@@ -8,5 +8,15 @@
     "deviceNotFound": "Dispositivo non trovato in questo sito.",
     "reAddDevice": "Rimuovi questo dispositivo e aggiungilo di nuovo per ottenere i valori in kWh."
   },
-  "migrating": "Aggiornamento delle funzionalità…"
+  "migrating": "Aggiornamento delle funzionalità…",
+  "inverterStatus": {
+    "production": "In produzione",
+    "sleeping": "In riposo",
+    "starting": "Avvio",
+    "throttled": "Limitato",
+    "shutting_down": "Spegnimento",
+    "fault": "Guasto",
+    "standby": "Standby",
+    "off": "Spento"
+  }
 }

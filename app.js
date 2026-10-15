@@ -21,6 +21,7 @@ along with com.solaredge.  If not, see <http://www.gnu.org/licenses/>.
 
 const Homey = require('homey');
 const SolarEdgeCloudClient = require('./lib/SolarEdgeCloudClient');
+const capture = require('./lib/solarEdgeCapture');
 const { DEFAULT_POLL_INTERVAL, ENERGY_POLL_INTERVAL, POLL_EVENT } = require('./lib/solarEdgeConstants');
 
 const clientId = ({ username, password }) => JSON.stringify([username, password]);
@@ -32,6 +33,8 @@ module.exports = class SolarEdgeApp extends Homey.App {
     // per client: { timer, lastEnergyTick }
     this.pollers = new Map();
     this.registerFlowListeners();
+    // users are asked to restart the app before a diagnostics report
+    capture.arm('app start', { force: true });
     this.log('SolarEdge app initialized');
   }
 
@@ -45,13 +48,15 @@ module.exports = class SolarEdgeApp extends Homey.App {
     return this.clients.get(id);
   }
 
+  /** A client whose answers go to the log while capturing is armed (lib/solarEdgeCapture.js). */
   newClient({ username, password }) {
-    return new SolarEdgeCloudClient({
+    const client = new SolarEdgeCloudClient({
       username,
       password,
       log: (...args) => this.log('[client]', ...args),
       error: (...args) => this.error('[client]', ...args),
     });
+    return capture.wrap(client, (line) => this.log(line));
   }
 
   /**
@@ -105,6 +110,8 @@ module.exports = class SolarEdgeApp extends Homey.App {
       .registerRunListener(async ({ device, state }) => {
         await device.triggerCapabilityListener('solaredge-home-load-controller-state', state);
       });
+    this.homey.flow.getActionCard('evcharger-set-auto')
+      .registerRunListener(async ({ device }) => device.setAutomatic());
   }
 
   /**

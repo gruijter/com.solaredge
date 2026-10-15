@@ -18,6 +18,10 @@
             "title": "État"
           }
         }
+      },
+      "evcharger-set-auto": {
+        "title": "Charger automatiquement",
+        "hint": "Retour au planning et à la recharge sur surplus solaire de la borne."
       }
     }
   },
@@ -34,6 +38,14 @@
         "poll_interval": {
           "label": "Intervalle d'interrogation (secondes)",
           "hint": "S'applique à tous les appareils de ce compte."
+        }
+      },
+      "capabilitiesOptions": {
+        "meter_power.charged": {
+          "title": "Énergie chargée"
+        },
+        "meter_power.discharged": {
+          "title": "Énergie déchargée"
         }
       }
     },
@@ -170,5 +182,15 @@
       }
     }
   },
-  "migrating": "Mise à jour des capacités…"
+  "migrating": "Mise à jour des capacités…",
+  "inverterStatus": {
+    "production": "En production",
+    "sleeping": "En veille",
+    "starting": "Démarrage",
+    "throttled": "Bridé",
+    "shutting_down": "Arrêt en cours",
+    "fault": "Défaut",
+    "standby": "Veille",
+    "off": "Arrêté"
+  }
 }

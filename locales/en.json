@@ -8,5 +8,15 @@
     "deviceNotFound": "Device not found on this site.",
     "reAddDevice": "Remove and re-add this device to get kWh values."
   },
-  "migrating": "Updating capabilities…"
+  "migrating": "Updating capabilities…",
+  "inverterStatus": {
+    "production": "Producing",
+    "sleeping": "Sleeping",
+    "starting": "Starting",
+    "throttled": "Throttled",
+    "shutting_down": "Shutting down",
+    "fault": "Fault",
+    "standby": "Standby",
+    "off": "Off"
+  }
 }

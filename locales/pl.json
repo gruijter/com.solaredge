@@ -8,5 +8,15 @@
     "deviceNotFound": "Nie znaleziono urządzenia w tej instalacji.",
     "reAddDevice": "Usuń to urządzenie i dodaj je ponownie, aby uzyskać wartości kWh."
   },
-  "migrating": "Aktualizowanie funkcji…"
+  "migrating": "Aktualizowanie funkcji…",
+  "inverterStatus": {
+    "production": "Produkcja",
+    "sleeping": "Uśpienie",
+    "starting": "Uruchamianie",
+    "throttled": "Ograniczony",
+    "shutting_down": "Wyłączanie",
+    "fault": "Awaria",
+    "standby": "Czuwanie",
+    "off": "Wyłączony"
+  }
 }

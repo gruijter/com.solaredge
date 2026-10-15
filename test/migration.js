@@ -59,7 +59,7 @@ const CASES = [
     capabilities: ['measure_battery', 'measure_power', 'battery_charging_state'],
     energy: { homeBattery: true, batteries: ['INTERNAL'] },
     values: { measure_battery: 55 },
-    expected: ['measure_battery', 'measure_power', 'battery_charging_state', 'alarm_connectivity'],
+    expected: ['measure_battery', 'measure_power', 'battery_charging_state', 'meter_power.charged', 'meter_power.discharged', 'alarm_connectivity'],
     keep: ['measure_battery', 'measure_power', 'battery_charging_state'],
   },
   {
@@ -123,7 +123,8 @@ const runCase = async ({
     if (result.includes(id)) check(device.values[id] === value, `${name}: ${id} is ${device.values[id]}, was ${value}`);
   }
   check(device.available, `${name}: left unavailable`);
-  const untitled = device.optionalCapabilities().filter((id) => !driverManifest.capabilitiesOptions?.[id]?.title);
+  const untitled = device.optionalCapabilities()
+    .filter((id) => !driverManifest.capabilitiesOptions?.[id]?.title && !manifest.capabilities?.[id]?.title);
   check(!untitled.length, `${name}: optional capabilities without a title: ${untitled.join(', ')}`);
   device.problems.forEach((problem) => failures.push(`${name}: ${problem}`));
   console.log(`  ${name}: removed ${JSON.stringify(removed)} -> ${JSON.stringify(result)}`);

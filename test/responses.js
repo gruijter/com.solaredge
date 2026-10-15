@@ -64,11 +64,27 @@ const DEVICE_CHECKS = {
   },
 };
 
+// test/fixtures/synthetic-site.json (make-synthetic.js): what the drivers make of its made-up answers
+const SYNTHETIC = path.join(__dirname, 'fixtures', 'synthetic-site.json');
+const SYNTHETIC_EXPECTED = {
+  meter: {
+    measure_power: -1200, 'measure_power.load': 800, 'measure_power.solar': 5600, 'meter_power.imported': 4400, 'meter_power.exported': 8300, alarm_connectivity: false,
+  },
+  battery: {
+    measure_power: 500, measure_battery: 62, battery_charging_state: 'charging', 'meter_power.charged': 1234.567, 'meter_power.discharged': 1000, measure_residual_energy: 6.2, measure_soh: 95,
+  },
+  evcharger: {
+    measure_power: 3100, evcharger_charging: true, evcharger_charging_state: 'plugged_in_charging', 'meter_power.charged': 127.456,
+  },
+  'home-load-controller': { 'solaredge-home-load-controller-state': 'on' },
+  inverter: { measure_power: 5600, alarm_problem: true, inverter_status: 'Producing' },
+};
+
 const runSite = async (file) => {
-  const capture = JSON.parse(fs.readFileSync(path.join(CAPTURES, file), 'utf8'));
+  const capture = JSON.parse(fs.readFileSync(file, 'utf8'));
   freezeTime(capture.capturedAt);
   const results = await pairAndPoll({ client: replayClient(capture.calls), site: capture.site });
-  const site = `site ${capture.site.id}`;
+  const site = `${capture.synthetic ? 'synthetic ' : ''}site ${capture.site.id}`;
 
   for (const result of results) {
     check(!result.thrown, `${site} ${result.driverId}: pairing threw ${result.thrown?.message}`);
@@ -79,6 +95,11 @@ const runSite = async (file) => {
       const empty = Object.keys(device.values).filter((id) => device.values[id] === null && !MAY_STAY_EMPTY.includes(id));
       check(!empty.length, `${label}: left empty: ${empty.join(', ')}`);
       DEVICE_CHECKS[result.driverId]?.(device.values, capture, label);
+      if (capture.synthetic) {
+        for (const [id, value] of Object.entries(SYNTHETIC_EXPECTED[result.driverId] || {})) {
+          check(device.values[id] === value, `${label}: ${id} is ${JSON.stringify(device.values[id])}, expected ${JSON.stringify(value)}`);
+        }
+      }
       console.log(`  ${label} ${device.available ? 'available' : 'unavailable'}: ${JSON.stringify(device.values)}`);
     }
   }
@@ -87,11 +108,9 @@ const runSite = async (file) => {
 };
 
 const run = async () => {
-  const files = fs.existsSync(CAPTURES) ? fs.readdirSync(CAPTURES).filter((file) => file.endsWith('.json')).sort() : [];
-  if (!files.length) {
-    console.log('responses: no captures in test/captures, skipped (see test/captures/README.md)');
-    return;
-  }
+  const captured = fs.existsSync(CAPTURES) ? fs.readdirSync(CAPTURES).filter((file) => file.endsWith('.json')).sort() : [];
+  if (!captured.length) console.log('responses: no captures in test/captures (see test/captures/README.md)');
+  const files = [SYNTHETIC, ...captured.map((file) => path.join(CAPTURES, file))];
   for (const file of files) await runSite(file); // eslint-disable-line no-await-in-loop
 
   if (failures.length) {
@@ -99,7 +118,7 @@ const run = async () => {
     failures.forEach((failure) => console.log(`  ${failure}`));
     process.exitCode = 1;
   } else {
-    console.log(`OK - ${files.length} captured site(s)`);
+    console.log(`OK - ${captured.length} captured site(s) and the synthetic one`);
   }
 };
 

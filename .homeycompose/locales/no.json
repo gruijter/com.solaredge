@@ -18,6 +18,10 @@
             "title": "Tilstand"
           }
         }
+      },
+      "evcharger-set-auto": {
+        "title": "Lad automatisk",
+        "hint": "Tilbake til laderens tidsplan og lading på soloverskudd."
       }
     }
   },
@@ -34,6 +38,14 @@
         "poll_interval": {
           "label": "Oppdateringsintervall (sekunder)",
           "hint": "Gjelder for alle enheter på denne kontoen."
+        }
+      },
+      "capabilitiesOptions": {
+        "meter_power.charged": {
+          "title": "Ladet energi"
+        },
+        "meter_power.discharged": {
+          "title": "Utladet energi"
         }
       }
     },
@@ -170,5 +182,15 @@
       }
     }
   },
-  "migrating": "Oppdaterer funksjoner…"
+  "migrating": "Oppdaterer funksjoner…",
+  "inverterStatus": {
+    "production": "Produserer",
+    "sleeping": "Hvilemodus",
+    "starting": "Starter",
+    "throttled": "Begrenset",
+    "shutting_down": "Slår seg av",
+    "fault": "Feil",
+    "standby": "Standby",
+    "off": "Av"
+  }
 }

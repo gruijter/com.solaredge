@@ -18,6 +18,10 @@
             "title": "Stan"
           }
         }
+      },
+      "evcharger-set-auto": {
+        "title": "Ładuj automatycznie",
+        "hint": "Powrót do harmonogramu ładowarki i ładowania nadwyżką solarną."
       }
     }
   },
@@ -34,6 +38,14 @@
         "poll_interval": {
           "label": "Interwał odpytywania (sekundy)",
           "hint": "Dotyczy wszystkich urządzeń tego konta."
+        }
+      },
+      "capabilitiesOptions": {
+        "meter_power.charged": {
+          "title": "Naładowana energia"
+        },
+        "meter_power.discharged": {
+          "title": "Rozładowana energia"
         }
       }
     },
@@ -170,5 +182,15 @@
       }
     }
   },
-  "migrating": "Aktualizowanie funkcji…"
+  "migrating": "Aktualizowanie funkcji…",
+  "inverterStatus": {
+    "production": "Produkcja",
+    "sleeping": "Uśpienie",
+    "starting": "Uruchamianie",
+    "throttled": "Ograniczony",
+    "shutting_down": "Wyłączanie",
+    "fault": "Awaria",
+    "standby": "Czuwanie",
+    "off": "Wyłączony"
+  }
 }

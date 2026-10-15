@@ -18,6 +18,10 @@
             "title": "الحالة"
           }
         }
+      },
+      "evcharger-set-auto": {
+        "title": "الشحن تلقائيًا",
+        "hint": "العودة إلى جدول الشاحن والشحن من فائض الطاقة الشمسية."
       }
     }
   },
@@ -34,6 +38,14 @@
         "poll_interval": {
           "label": "فاصل الاستعلام (ثوانٍ)",
           "hint": "ينطبق على جميع أجهزة هذا الحساب."
+        }
+      },
+      "capabilitiesOptions": {
+        "meter_power.charged": {
+          "title": "الطاقة المشحونة"
+        },
+        "meter_power.discharged": {
+          "title": "الطاقة المفرغة"
         }
       }
     },
@@ -170,5 +182,15 @@
       }
     }
   },
-  "migrating": "جارٍ تحديث الإمكانيات…"
+  "migrating": "جارٍ تحديث الإمكانيات…",
+  "inverterStatus": {
+    "production": "ينتج",
+    "sleeping": "سكون",
+    "starting": "بدء التشغيل",
+    "throttled": "مقيد",
+    "shutting_down": "إيقاف التشغيل",
+    "fault": "عطل",
+    "standby": "استعداد",
+    "off": "متوقف"
+  }
 }

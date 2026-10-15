@@ -38,6 +38,7 @@ const OPTIONAL_CAPABILITIES = [
   ...PHASES.map((phase) => `measure_current.${phase}`),
   ...PHASES.map((phase) => `measure_power.${phase}`),
   'measure_voltage.dc',
+  'inverter_status',
 ];
 
 const CAPABILITY_ORDER = ['measure_power', 'meter_power', 'meter_power.day', 'meter_power.month', 'meter_power.year',
@@ -101,6 +102,13 @@ module.exports = class SolarEdgeInverterDevice extends CommonDevice {
     }
   }
 
+  /** The translated text of an inverterStatus, else the status itself. */
+  statusText(status) {
+    const key = `inverterStatus.${status.toLowerCase()}`;
+    const text = this.homey.__(key);
+    return text && text !== key ? text : status;
+  }
+
   /** The serials of the site's inverters, from its equipment list; fetched once per app run. */
   async inverterSerials() {
     if (!this.serials?.length) {
@@ -136,6 +144,15 @@ module.exports = class SolarEdgeInverterDevice extends CommonDevice {
 
     const live = Object.values(information?.serialToLiveData || {});
     if (live.length === 1) values['measure_voltage.dc'] = round(finite(live[0].vDc_V), 1);
+    if (phases.length && !phases.some((line) => PHASES.includes(line.lineNumber_3ph))) {
+      this.logOnce('phases', 'phase measurements without lineNumber_3ph 1-3:', JSON.stringify(phases));
+    }
+
+    // only 'production' was seen live; the others are assumed after the SunSpec states (fault first)
+    const statuses = live.map((item) => item.inverterStatus).filter((status) => typeof status === 'string');
+    statuses.forEach((status) => this.logOnce(`status ${status}`, 'inverter status', status));
+    const status = statuses.find((item) => item.toLowerCase() === 'fault') || statuses[0];
+    if (status) values.inverter_status = this.statusText(status);
 
     // the highest temperature of each optimizer over the date range
     const today = dateIn(new Date(), await this.siteTimeZone());

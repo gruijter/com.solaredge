@@ -8,5 +8,15 @@
     "deviceNotFound": "Appareil introuvable sur ce site.",
     "reAddDevice": "Supprimez cet appareil et ajoutez-le à nouveau pour obtenir les valeurs en kWh."
   },
-  "migrating": "Mise à jour des capacités…"
+  "migrating": "Mise à jour des capacités…",
+  "inverterStatus": {
+    "production": "En production",
+    "sleeping": "En veille",
+    "starting": "Démarrage",
+    "throttled": "Bridé",
+    "shutting_down": "Arrêt en cours",
+    "fault": "Défaut",
+    "standby": "Veille",
+    "off": "Arrêté"
+  }
 }

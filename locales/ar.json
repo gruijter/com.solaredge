@@ -8,5 +8,15 @@
     "deviceNotFound": "لم يتم العثور على الجهاز في هذا الموقع.",
     "reAddDevice": "احذف هذا الجهاز ثم أضفه مرة أخرى للحصول على قيم kWh."
   },
-  "migrating": "جارٍ تحديث الإمكانيات…"
+  "migrating": "جارٍ تحديث الإمكانيات…",
+  "inverterStatus": {
+    "production": "ينتج",
+    "sleeping": "سكون",
+    "starting": "بدء التشغيل",
+    "throttled": "مقيد",
+    "shutting_down": "إيقاف التشغيل",
+    "fault": "عطل",
+    "standby": "استعداد",
+    "off": "متوقف"
+  }
 }

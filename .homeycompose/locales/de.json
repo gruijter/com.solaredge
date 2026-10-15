@@ -18,6 +18,10 @@
             "title": "Zustand"
           }
         }
+      },
+      "evcharger-set-auto": {
+        "title": "Automatisch laden",
+        "hint": "Zurück zum Zeitplan und Überschussladen der Wallbox."
       }
     }
   },
@@ -34,6 +38,14 @@
         "poll_interval": {
           "label": "Abfrageintervall (Sekunden)",
           "hint": "Gilt für alle Geräte dieses Kontos."
+        }
+      },
+      "capabilitiesOptions": {
+        "meter_power.charged": {
+          "title": "Geladene Energie"
+        },
+        "meter_power.discharged": {
+          "title": "Entladene Energie"
         }
       }
     },
@@ -170,5 +182,15 @@
       }
     }
   },
-  "migrating": "Fähigkeiten werden aktualisiert…"
+  "migrating": "Fähigkeiten werden aktualisiert…",
+  "inverterStatus": {
+    "production": "Produziert",
+    "sleeping": "Ruhemodus",
+    "starting": "Startet",
+    "throttled": "Gedrosselt",
+    "shutting_down": "Fährt herunter",
+    "fault": "Störung",
+    "standby": "Standby",
+    "off": "Aus"
+  }
 }

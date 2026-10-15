@@ -18,6 +18,10 @@
             "title": "Estado"
           }
         }
+      },
+      "evcharger-set-auto": {
+        "title": "Cargar automáticamente",
+        "hint": "Volver a la programación y la carga con excedente solar del cargador."
       }
     }
   },
@@ -34,6 +38,14 @@
         "poll_interval": {
           "label": "Intervalo de consulta (segundos)",
           "hint": "Se aplica a todos los dispositivos de esta cuenta."
+        }
+      },
+      "capabilitiesOptions": {
+        "meter_power.charged": {
+          "title": "Energía cargada"
+        },
+        "meter_power.discharged": {
+          "title": "Energía descargada"
         }
       }
     },
@@ -170,5 +182,15 @@
       }
     }
   },
-  "migrating": "Actualizando capacidades…"
+  "migrating": "Actualizando capacidades…",
+  "inverterStatus": {
+    "production": "Produciendo",
+    "sleeping": "En reposo",
+    "starting": "Iniciando",
+    "throttled": "Limitado",
+    "shutting_down": "Apagando",
+    "fault": "Fallo",
+    "standby": "En espera",
+    "off": "Apagado"
+  }
 }

@@ -18,6 +18,10 @@
             "title": "State"
           }
         }
+      },
+      "evcharger-set-auto": {
+        "title": "Charge automatically",
+        "hint": "Back to the charger's schedule and solar surplus charging."
       }
     }
   },
@@ -34,6 +38,14 @@
         "poll_interval": {
           "label": "Poll interval (seconds)",
           "hint": "Applies to all devices of this account."
+        }
+      },
+      "capabilitiesOptions": {
+        "meter_power.charged": {
+          "title": "Charged energy"
+        },
+        "meter_power.discharged": {
+          "title": "Discharged energy"
         }
       }
     },
@@ -170,5 +182,15 @@
       }
     }
   },
-  "migrating": "Updating capabilities…"
+  "migrating": "Updating capabilities…",
+  "inverterStatus": {
+    "production": "Producing",
+    "sleeping": "Sleeping",
+    "starting": "Starting",
+    "throttled": "Throttled",
+    "shutting_down": "Shutting down",
+    "fault": "Fault",
+    "standby": "Standby",
+    "off": "Off"
+  }
 }

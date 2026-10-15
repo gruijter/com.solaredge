@@ -1,0 +1,39 @@
+{
+  "type": "number",
+  "title": {
+    "en": "Remaining energy",
+    "nl": "Resterende energie",
+    "de": "Restenergie",
+    "fr": "Énergie restante",
+    "es": "Energía restante",
+    "it": "Energia residua",
+    "da": "Resterende energi",
+    "sv": "Återstående energi",
+    "no": "Gjenværende energi",
+    "pl": "Pozostała energia",
+    "ru": "Оставшаяся энергия",
+    "ar": "الطاقة المتبقية",
+    "ko": "잔여 에너지"
+  },
+  "units": {
+    "en": "kWh",
+    "nl": "kWh",
+    "de": "kWh",
+    "fr": "kWh",
+    "es": "kWh",
+    "it": "kWh",
+    "da": "kWh",
+    "sv": "kWh",
+    "no": "kWh",
+    "pl": "kWh",
+    "ru": "kWh",
+    "ar": "kWh",
+    "ko": "kWh"
+  },
+  "decimals": 2,
+  "getable": true,
+  "setable": false,
+  "insights": true,
+  "uiComponent": "sensor",
+  "icon": "./assets/measure_residual_energy.svg"
+}

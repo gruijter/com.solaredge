@@ -18,6 +18,10 @@
             "title": "Stato"
           }
         }
+      },
+      "evcharger-set-auto": {
+        "title": "Ricarica automatica",
+        "hint": "Torna alla programmazione e alla ricarica con surplus solare del caricatore."
       }
     }
   },
@@ -34,6 +38,14 @@
         "poll_interval": {
           "label": "Intervallo di polling (secondi)",
           "hint": "Vale per tutti i dispositivi di questo account."
+        }
+      },
+      "capabilitiesOptions": {
+        "meter_power.charged": {
+          "title": "Energia caricata"
+        },
+        "meter_power.discharged": {
+          "title": "Energia scaricata"
         }
       }
     },
@@ -170,5 +182,15 @@
       }
     }
   },
-  "migrating": "Aggiornamento delle funzionalità…"
+  "migrating": "Aggiornamento delle funzionalità…",
+  "inverterStatus": {
+    "production": "In produzione",
+    "sleeping": "In riposo",
+    "starting": "Avvio",
+    "throttled": "Limitato",
+    "shutting_down": "Spegnimento",
+    "fault": "Guasto",
+    "standby": "Standby",
+    "off": "Spento"
+  }
 }

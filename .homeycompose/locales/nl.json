@@ -18,6 +18,10 @@
             "title": "Status"
           }
         }
+      },
+      "evcharger-set-auto": {
+        "title": "Automatisch laden",
+        "hint": "Terug naar het schema en laden op zonne-overschot van de lader."
       }
     }
   },
@@ -34,6 +38,14 @@
         "poll_interval": {
           "label": "Pollinterval (seconden)",
           "hint": "Geldt voor alle apparaten van dit account."
+        }
+      },
+      "capabilitiesOptions": {
+        "meter_power.charged": {
+          "title": "Geladen energie"
+        },
+        "meter_power.discharged": {
+          "title": "Ontladen energie"
         }
       }
     },
@@ -170,5 +182,15 @@
       }
     }
   },
-  "migrating": "Capabilities bijwerken…"
+  "migrating": "Capabilities bijwerken…",
+  "inverterStatus": {
+    "production": "Produceert",
+    "sleeping": "Slaapstand",
+    "starting": "Opstarten",
+    "throttled": "Begrensd",
+    "shutting_down": "Afsluiten",
+    "fault": "Storing",
+    "standby": "Stand-by",
+    "off": "Uit"
+  }
 }

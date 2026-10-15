@@ -8,5 +8,15 @@
     "deviceNotFound": "Enheden blev ikke fundet på dette anlæg.",
     "reAddDevice": "Fjern denne enhed, og tilføj den igen for at få kWh-værdier."
   },
-  "migrating": "Opdaterer funktioner…"
+  "migrating": "Opdaterer funktioner…",
+  "inverterStatus": {
+    "production": "Producerer",
+    "sleeping": "Dvale",
+    "starting": "Starter",
+    "throttled": "Begrænset",
+    "shutting_down": "Lukker ned",
+    "fault": "Fejl",
+    "standby": "Standby",
+    "off": "Slukket"
+  }
 }

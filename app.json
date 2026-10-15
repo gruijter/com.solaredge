@@ -149,10 +149,50 @@
         "measure_battery",
         "measure_power",
         "battery_charging_state",
+        "meter_power.charged",
+        "meter_power.discharged",
         "alarm_connectivity"
       ],
       "energy": {
-        "homeBattery": true
+        "homeBattery": true,
+        "meterPowerImportedCapability": "meter_power.charged",
+        "meterPowerExportedCapability": "meter_power.discharged"
+      },
+      "capabilitiesOptions": {
+        "meter_power.charged": {
+          "title": {
+            "ar": "الطاقة المشحونة",
+            "da": "Opladet energi",
+            "de": "Geladene Energie",
+            "en": "Charged energy",
+            "es": "Energía cargada",
+            "fr": "Énergie chargée",
+            "it": "Energia caricata",
+            "ko": "충전된 에너지",
+            "nl": "Geladen energie",
+            "no": "Ladet energi",
+            "pl": "Naładowana energia",
+            "ru": "Заряженная энергия",
+            "sv": "Laddad energi"
+          }
+        },
+        "meter_power.discharged": {
+          "title": {
+            "ar": "الطاقة المفرغة",
+            "da": "Afladet energi",
+            "de": "Entladene Energie",
+            "en": "Discharged energy",
+            "es": "Energía descargada",
+            "fr": "Énergie déchargée",
+            "it": "Energia scaricata",
+            "ko": "방전된 에너지",
+            "nl": "Ontladen energie",
+            "no": "Utladet energi",
+            "pl": "Rozładowana energia",
+            "ru": "Разряженная энергия",
+            "sv": "Urladdad energi"
+          }
+        }
       },
       "id": "battery",
       "name": {
@@ -1106,6 +1146,46 @@
   "flow": {
     "actions": [
       {
+        "id": "evcharger-set-auto",
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=evcharger"
+          }
+        ],
+        "title": {
+          "ar": "الشحن تلقائيًا",
+          "da": "Oplad automatisk",
+          "de": "Automatisch laden",
+          "en": "Charge automatically",
+          "es": "Cargar automáticamente",
+          "fr": "Charger automatiquement",
+          "it": "Ricarica automatica",
+          "ko": "자동 충전",
+          "nl": "Automatisch laden",
+          "no": "Lad automatisk",
+          "pl": "Ładuj automatycznie",
+          "ru": "Заряжать автоматически",
+          "sv": "Ladda automatiskt"
+        },
+        "hint": {
+          "ar": "العودة إلى جدول الشاحن والشحن من فائض الطاقة الشمسية.",
+          "da": "Tilbage til laderens tidsplan og opladning på solcelleoverskud.",
+          "de": "Zurück zum Zeitplan und Überschussladen der Wallbox.",
+          "en": "Back to the charger's schedule and solar surplus charging.",
+          "es": "Volver a la programación y la carga con excedente solar del cargador.",
+          "fr": "Retour au planning et à la recharge sur surplus solaire de la borne.",
+          "it": "Torna alla programmazione e alla ricarica con surplus solare del caricatore.",
+          "ko": "충전기 일정 및 태양광 잉여 충전으로 돌아갑니다.",
+          "nl": "Terug naar het schema en laden op zonne-overschot van de lader.",
+          "no": "Tilbake til laderens tidsplan og lading på soloverskudd.",
+          "pl": "Powrót do harmonogramu ładowarki i ładowania nadwyżką solarną.",
+          "ru": "Вернуться к расписанию зарядной станции и зарядке от избытка солнечной энергии.",
+          "sv": "Tillbaka till laddarens schema och laddning på solöverskott."
+        }
+      },
+      {
         "id": "home-load-controller-set-state",
         "args": [
           {
@@ -1226,6 +1306,109 @@
     ]
   },
   "capabilities": {
+    "inverter_status": {
+      "type": "string",
+      "title": {
+        "en": "Inverter status",
+        "nl": "Omvormerstatus",
+        "de": "Wechselrichterstatus",
+        "fr": "État de l'onduleur",
+        "es": "Estado del inversor",
+        "it": "Stato inverter",
+        "da": "Inverterstatus",
+        "sv": "Växelriktarstatus",
+        "no": "Vekselretterstatus",
+        "pl": "Stan inwertera",
+        "ru": "Состояние инвертора",
+        "ar": "حالة العاكس",
+        "ko": "인버터 상태"
+      },
+      "getable": true,
+      "setable": false,
+      "insights": false,
+      "uiComponent": "sensor",
+      "icon": "./assets/inverter_status.svg"
+    },
+    "measure_residual_energy": {
+      "type": "number",
+      "title": {
+        "en": "Remaining energy",
+        "nl": "Resterende energie",
+        "de": "Restenergie",
+        "fr": "Énergie restante",
+        "es": "Energía restante",
+        "it": "Energia residua",
+        "da": "Resterende energi",
+        "sv": "Återstående energi",
+        "no": "Gjenværende energi",
+        "pl": "Pozostała energia",
+        "ru": "Оставшаяся энергия",
+        "ar": "الطاقة المتبقية",
+        "ko": "잔여 에너지"
+      },
+      "units": {
+        "en": "kWh",
+        "nl": "kWh",
+        "de": "kWh",
+        "fr": "kWh",
+        "es": "kWh",
+        "it": "kWh",
+        "da": "kWh",
+        "sv": "kWh",
+        "no": "kWh",
+        "pl": "kWh",
+        "ru": "kWh",
+        "ar": "kWh",
+        "ko": "kWh"
+      },
+      "decimals": 2,
+      "getable": true,
+      "setable": false,
+      "insights": true,
+      "uiComponent": "sensor",
+      "icon": "./assets/measure_residual_energy.svg"
+    },
+    "measure_soh": {
+      "type": "number",
+      "title": {
+        "en": "Battery health",
+        "nl": "Batterijgezondheid",
+        "de": "Batteriezustand",
+        "fr": "État de santé batterie",
+        "es": "Salud de la batería",
+        "it": "Stato di salute batteria",
+        "da": "Batteritilstand",
+        "sv": "Batterihälsa",
+        "no": "Batterihelse",
+        "pl": "Kondycja akumulatora",
+        "ru": "Состояние батареи",
+        "ar": "صحة البطارية",
+        "ko": "배터리 수명 상태"
+      },
+      "units": {
+        "en": "%",
+        "nl": "%",
+        "de": "%",
+        "fr": "%",
+        "es": "%",
+        "it": "%",
+        "da": "%",
+        "sv": "%",
+        "no": "%",
+        "pl": "%",
+        "ru": "%",
+        "ar": "%",
+        "ko": "%"
+      },
+      "decimals": 0,
+      "min": 0,
+      "max": 100,
+      "getable": true,
+      "setable": false,
+      "insights": true,
+      "uiComponent": "sensor",
+      "icon": "./assets/measure_soh.svg"
+    },
     "solaredge-home-load-controller-state": {
       "type": "enum",
       "getable": true,

@@ -23,7 +23,28 @@ const CommonDevice = require('../../lib/common_device');
 
 const CHARGING_STATES = ['charging', 'discharging', 'idle'];
 
+// added once getSiteBatteries reports a value
+const OPTIONAL_CAPABILITIES = ['measure_residual_energy', 'measure_soh'];
+
+const CAPABILITY_ORDER = ['measure_battery', 'measure_power', 'battery_charging_state', ...OPTIONAL_CAPABILITIES,
+  'meter_power.charged', 'meter_power.discharged', 'alarm_connectivity'];
+
+/** The sum of `key` over the batteries, or null when one of them has no number. */
+const sum = (batteries, key) => {
+  const values = batteries.map((battery) => battery[key]);
+  if (!values.length || values.some((value) => typeof value !== 'number' || !Number.isFinite(value))) return null;
+  return values.reduce((total, value) => total + value, 0);
+};
+
 module.exports = class SolarEdgeBatteryDevice extends CommonDevice {
+
+  capabilityOrder() {
+    return CAPABILITY_ORDER;
+  }
+
+  optionalCapabilities() {
+    return OPTIONAL_CAPABILITIES;
+  }
 
   async onPoll() {
     const sitePowerflow = await this.client.getSitePowerflow({ siteId: this.getData().siteId });
@@ -42,6 +63,8 @@ module.exports = class SolarEdgeBatteryDevice extends CommonDevice {
 
     if (CHARGING_STATES.includes(storage?.status)) {
       await this.setCapability('battery_charging_state', storage.status);
+    } else if (storage?.status) {
+      this.logOnce(`status ${storage.status}`, 'unknown storage status', storage.status);
     }
 
     if (storage?.isActive) {
@@ -51,7 +74,62 @@ module.exports = class SolarEdgeBatteryDevice extends CommonDevice {
     }
 
     if (this.energyDue()) {
+      await this.updateBatteries().catch((error) => this.error(`Error Fetching Batteries: ${error.message}`));
       await this.updateSiteAlarms().catch((error) => this.error(`Error Fetching Site Alarms: ${error.message}`));
+    }
+  }
+
+  /**
+   * Energy, remaining energy and health of the site's batteries (getSiteBatteries, summed). Not
+   * verified on a site with a battery: the fields are from nerd2/solaredgego, energies are
+   * assumed in Wh (as SolarEdge's monitoring API) and chargeEnergy/dischargeEnergy lifetime
+   * counters. The raw values are logged once per app run to check that in diagnostics reports.
+   */
+  async updateBatteries() {
+    const response = await this.client.getSiteBatteries({ siteId: this.getData().siteId });
+    const batteries = response?.devicesByType?.BATTERY || [];
+    if (!batteries.length) {
+      this.logOnce('no batteries', 'getSiteBatteries lists no BATTERY:', JSON.stringify(response?.devicesByType));
+      return;
+    }
+    batteries.forEach((battery) => {
+      this.logOnce(`battery ${battery.info?.serialNumber}`, 'battery', JSON.stringify({
+        batteryState: battery.batteryState,
+        chargeEnergy: battery.chargeEnergy,
+        dischargeEnergy: battery.dischargeEnergy,
+        remainingEnergy: battery.remainingEnergy,
+        fullPackEnergy: battery.fullPackEnergy,
+        namePlateEnergy: battery.namePlateEnergy,
+        communicationStatus: battery.communicationStatus,
+        model: battery.info?.model,
+      }));
+    });
+
+    const charged = sum(batteries, 'chargeEnergy');
+    const discharged = sum(batteries, 'dischargeEnergy');
+    const remaining = sum(batteries, 'remainingEnergy');
+    const fullPack = sum(batteries, 'fullPackEnergy');
+    const namePlate = sum(batteries, 'namePlateEnergy');
+
+    const values = {
+      'meter_power.charged': charged === null ? null : charged / 1000,
+      'meter_power.discharged': discharged === null ? null : discharged / 1000,
+      measure_residual_energy: remaining === null ? null : remaining / 1000,
+      measure_soh: fullPack !== null && namePlate > 0 ? Math.min(100, Math.round((fullPack / namePlate) * 100)) : null,
+    };
+
+    // Homey Energy needs counters that never fall; a fall means the assumption above is wrong
+    for (const capability of ['meter_power.charged', 'meter_power.discharged']) {
+      const previous = this.getCapabilityValue(capability);
+      if (typeof previous === 'number' && values[capability] !== null && values[capability] < previous) {
+        this.logOnce(`${capability} fell`, `${capability} fell from ${previous} to ${values[capability]} kWh`);
+      }
+    }
+
+    await this.recordSeenCaps(values);
+    for (const [capability, value] of Object.entries(values)) {
+      // eslint-disable-next-line no-await-in-loop
+      if (value !== null) await this.setCapability(capability, value);
     }
   }
 

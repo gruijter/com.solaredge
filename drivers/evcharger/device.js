@@ -38,6 +38,14 @@ module.exports = class SolarEdgeEVChargerDevice extends CommonDevice {
     });
   }
 
+  /** Back to the charger's own control: schedule and solar surplus (activationState AUTO). */
+  async setAutomatic() {
+    const { siteId, reporterId } = this.getData();
+    // AUTO is confirmed for hot-water controllers (barnold89, rolflied), not for the EV charger
+    await this.client.setSiteDeviceApplianceActivationState({ siteId, reporterId, state: { mode: 'AUTO' } });
+    this.log(this.getName(), 'set to automatic');
+  }
+
   async onCapabilityEVChargerState(value) {
     const { siteId, reporterId } = this.getData();
 
@@ -67,7 +75,7 @@ module.exports = class SolarEdgeEVChargerDevice extends CommonDevice {
 
     if (evCharger?.connectionStatus) {
       const [chargingState, charging] = CONNECTION_STATES[evCharger.connectionStatus] || [null, null];
-      if (chargingState === null) this.log('Unknown EV Charger connection status', evCharger.connectionStatus);
+      if (chargingState === null) this.logOnce(`status ${evCharger.connectionStatus}`, 'unknown connection status', evCharger.connectionStatus);
       await this.setCapability('evcharger_charging_state', chargingState);
       await this.setCapability('evcharger_charging', charging);
     }
@@ -86,6 +94,8 @@ module.exports = class SolarEdgeEVChargerDevice extends CommonDevice {
 
     if (!this.energyDue()) return;
 
+    await this.logDeviceState().catch((error) => this.error(`Error Fetching Site Devices: ${error.message}`));
+
     const applianceSessionsHistory = await this.client.getSiteDeviceApplianceSessionsHistory({ siteId, reporterId });
 
     if (Array.isArray(applianceSessionsHistory?.applianceDetails)) {
@@ -97,8 +107,45 @@ module.exports = class SolarEdgeEVChargerDevice extends CommonDevice {
           totalCharged += statisticsConsumedEnergy.totalValue;
         }
       });
-      await this.setCapability('meter_power.charged', totalCharged / 1000);
+      await this.setCapability('meter_power.charged', await this.cumulativeCharged(totalCharged / 1000));
     }
+  }
+
+  /**
+   * The sessions of the last year as a counter that never falls, for Homey Energy: when old
+   * sessions drop out of the year the total falls, and the drop is added to a stored offset.
+   * A session that starts while an old one drops out in the same tick is partly lost.
+   * @param {number} yearTotal kWh over the last year
+   */
+  async cumulativeCharged(yearTotal) {
+    const last = this.getStoreValue('chargedYearTotal');
+    let offset = this.getStoreValue('chargedOffset') || 0;
+    if (typeof last === 'number' && yearTotal < last) {
+      offset += last - yearTotal;
+      this.log(`${this.getName()} year total fell from ${last} to ${yearTotal} kWh; offset now ${offset} kWh`);
+      await this.setStoreValue('chargedOffset', offset);
+    }
+    if (yearTotal !== last) await this.setStoreValue('chargedYearTotal', yearTotal);
+    return Math.round((yearTotal + offset) * 1000) / 1000;
+  }
+
+  /** The charger's control state from the site's devices, logged once per value (diagnostics). */
+  async logDeviceState() {
+    const { siteId, reporterId } = this.getData();
+    const { devices } = await this.client.getSiteDevices({ siteId });
+    const device = (devices || []).find((item) => item.reporterId === reporterId);
+    if (!device) {
+      this.logOnce('not in devices', 'not in getSiteDevices');
+      return;
+    }
+    const state = {
+      activationMode: device.activationMode,
+      level: device.status?.level,
+      deviceStatus: device.deviceStatus,
+      excessPV: device.excessPV,
+      sessionSolarUsage: device.sessionSolarUsage,
+    };
+    this.logOnce(`state ${JSON.stringify(state)}`, 'device state', JSON.stringify(state));
   }
 
 };

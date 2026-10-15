@@ -5,9 +5,13 @@
     "measure_battery",
     "measure_power",
     "battery_charging_state",
+    "meter_power.charged",
+    "meter_power.discharged",
     "alarm_connectivity"
   ],
   "energy": {
-    "homeBattery": true
+    "homeBattery": true,
+    "meterPowerImportedCapability": "meter_power.charged",
+    "meterPowerExportedCapability": "meter_power.discharged"
   }
 }

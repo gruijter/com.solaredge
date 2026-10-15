@@ -18,6 +18,10 @@
             "title": "Tilstand"
           }
         }
+      },
+      "evcharger-set-auto": {
+        "title": "Oplad automatisk",
+        "hint": "Tilbage til laderens tidsplan og opladning på solcelleoverskud."
       }
     }
   },
@@ -34,6 +38,14 @@
         "poll_interval": {
           "label": "Opdateringsinterval (sekunder)",
           "hint": "Gælder for alle enheder på denne konto."
+        }
+      },
+      "capabilitiesOptions": {
+        "meter_power.charged": {
+          "title": "Opladet energi"
+        },
+        "meter_power.discharged": {
+          "title": "Afladet energi"
         }
       }
     },
@@ -170,5 +182,15 @@
       }
     }
   },
-  "migrating": "Opdaterer funktioner…"
+  "migrating": "Opdaterer funktioner…",
+  "inverterStatus": {
+    "production": "Producerer",
+    "sleeping": "Dvale",
+    "starting": "Starter",
+    "throttled": "Begrænset",
+    "shutting_down": "Lukker ned",
+    "fault": "Fejl",
+    "standby": "Standby",
+    "off": "Slukket"
+  }
 }
