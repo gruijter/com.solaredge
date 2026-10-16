@@ -33,20 +33,6 @@ const ENERGY_CAPABILITIES = {
 
 const PHASES = [1, 2, 3];
 
-// added once getInvertersInformation / getSiteEnergyByInverter report a value. Last in the order,
-// and the temperature (none before sunrise) last of them: a capability added in the middle makes
-// DeviceMigrator remove and re-add every one after it. Phase power and current are left out: an
-// inverter feeds its phases evenly (Dijker: 348/349/343 W), so they are a third of measure_power.
-// So is the DC voltage: optimizers hold it fixed (Dijker: 745-748 V producing, ~1 V at night).
-const OPTIONAL_CAPABILITIES = [
-  ...PHASES.map((phase) => `measure_voltage.${phase}`),
-  'inverter_status',
-  'measure_temperature.max',
-];
-
-const CAPABILITY_ORDER = ['measure_power', 'meter_power', 'meter_power.day', 'meter_power.month', 'meter_power.year',
-  'alarm_problem', 'alarm_connectivity', ...OPTIONAL_CAPABILITIES];
-
 const round = (value, decimals) => (value === null ? null : Number(value.toFixed(decimals)));
 
 /** The sum of `key` over `items`, or null when one of them has no number. */
@@ -67,15 +53,55 @@ const dateIn = (date, timeZone) => new Intl.DateTimeFormat('en-CA', {
   timeZone, year: 'numeric', month: '2-digit', day: '2-digit',
 }).format(date);
 
+/** The serials of the site's inverters, from getSiteEquipment. */
+const serialsOf = (equipment) => (equipment?.inverters?.details || []).flatMap((detail) => detail.serialNumbers || []);
+
+/**
+ * Voltage per phase (averaged over the site's inverters) and status, from getInvertersInformation.
+ * @param {object} information
+ * @param {object} options
+ * @param {string[]} options.statuses the values of the inverter_status capability
+ * @param {number} [options.cadenceMs] the account's upload interval (isAsleep)
+ * @returns {{values: object, phases: object[], live: object[], reported: string[]}}
+ */
+const liveValues = (information, { statuses, cadenceMs }) => {
+  const values = {};
+
+  // lineNumber_3ph 1-3; v_ac_V line to neutral
+  const phases = Object.values(information?.serialToPhaseMeasurements || {}).flat();
+  for (const phase of PHASES) {
+    const lines = phases.filter((line) => line.lineNumber_3ph === phase);
+    if (!lines.length) continue;
+    const voltage = sum(lines, 'v_ac_V');
+    values[`measure_voltage.${phase}`] = round(voltage === null ? null : voltage / lines.length, 1);
+  }
+
+  // only 'production' was seen live; the others are assumed after the SunSpec states (fault first)
+  const live = Object.values(information?.serialToLiveData || {});
+  const reported = live.map((item) => item.inverterStatus).filter((status) => typeof status === 'string');
+  const status = (reported.find((item) => item.toLowerCase() === 'fault') || reported[0])?.toLowerCase();
+  // asleep for the night the inverter stops uploading, its last status still 'production' (Dijker)
+  if (isAsleep(live, { cadenceMs })) values.inverter_status = 'sleeping';
+  else if (status) values.inverter_status = statuses.includes(status) ? status : null;
+
+  return {
+    values, phases, live, reported,
+  };
+};
+
+/** The highest temperature of each optimizer over the date range, from getSiteEnergyByInverter; null when none. */
+const maxTemperature = (byInverter) => {
+  const temperatures = (byInverter?.inverters || [])
+    .flatMap((inverter) => inverter.optimizers || [])
+    .map((optimizer) => celsius(optimizer.temperature))
+    .filter((temperature) => temperature !== null);
+  return temperatures.length ? Math.max(...temperatures) : null;
+};
+
+/** The values of the inverter_status capability (app.json): lower-case inverterStatus, plus 'sleeping'. */
+const statusesOf = (homey) => homey.manifest.capabilities.inverter_status.values.map((value) => value.id);
+
 module.exports = class SolarEdgeInverterDevice extends CommonDevice {
-
-  capabilityOrder() {
-    return CAPABILITY_ORDER;
-  }
-
-  optionalCapabilities() {
-    return OPTIONAL_CAPABILITIES;
-  }
 
   async onPoll() {
     const { siteId } = this.getData();
@@ -116,15 +142,9 @@ module.exports = class SolarEdgeInverterDevice extends CommonDevice {
   /** The serials of the site's inverters, from its equipment list; fetched once per app run. */
   async inverterSerials() {
     if (!this.serials?.length) {
-      const equipment = await this.client.getSiteEquipment({ siteId: this.getData().siteId });
-      this.serials = (equipment?.inverters?.details || []).flatMap((detail) => detail.serialNumbers || []);
+      this.serials = serialsOf(await this.client.getSiteEquipment({ siteId: this.getData().siteId }));
     }
     return this.serials;
-  }
-
-  /** The values of the inverter_status capability (app.json): lower-case inverterStatus, plus 'sleeping'. */
-  statuses() {
-    return this.homey.manifest.capabilities.inverter_status.values.map((value) => value.id);
   }
 
   /** isAsleep at the account's upload interval. */
@@ -159,48 +179,27 @@ module.exports = class SolarEdgeInverterDevice extends CommonDevice {
     const serials = await this.inverterSerials();
     if (!serials.length) return;
 
-    const values = {};
     const information = await this.client.getInvertersInformation({ serials });
-
-    // lineNumber_3ph 1-3; v_ac_V line to neutral
-    const phases = Object.values(information?.serialToPhaseMeasurements || {}).flat();
-    for (const phase of PHASES) {
-      const lines = phases.filter((line) => line.lineNumber_3ph === phase);
-      if (!lines.length) continue;
-      const voltage = sum(lines, 'v_ac_V');
-      values[`measure_voltage.${phase}`] = round(voltage === null ? null : voltage / lines.length, 1);
-    }
+    const {
+      values, phases, live, reported,
+    } = liveValues(information, { statuses: statusesOf(this.homey), cadenceMs: this.homey.app?.uploadCadence?.(this.client) });
 
     // the account's energy tick follows the inverters' measurement moments (app.js)
     for (const [serial, data] of Object.entries(information?.serialToLiveData || {})) {
       this.homey.app?.noteSnapshot?.(this.client, serial, Date.parse(data.lastMeasurement));
     }
 
-    const live = Object.values(information?.serialToLiveData || {});
     this.live = live;
     if (phases.length && !phases.some((line) => PHASES.includes(line.lineNumber_3ph))) {
       this.logOnce('phases', 'phase measurements without lineNumber_3ph 1-3:', JSON.stringify(phases));
     }
+    reported.forEach((status) => this.logOnce(`status ${status}`, 'inverter status', status));
 
-    // only 'production' was seen live; the others are assumed after the SunSpec states (fault first)
-    const statuses = live.map((item) => item.inverterStatus).filter((status) => typeof status === 'string');
-    statuses.forEach((status) => this.logOnce(`status ${status}`, 'inverter status', status));
-    const status = (statuses.find((item) => item.toLowerCase() === 'fault') || statuses[0])?.toLowerCase();
-    // asleep for the night the inverter stops uploading, its last status still 'production' (Dijker)
-    if (this.asleep(live)) values.inverter_status = 'sleeping';
-    else if (status) values.inverter_status = this.statuses().includes(status) ? status : null;
-
-    // the highest temperature of each optimizer over the date range
-    const today = dateIn(new Date(), await this.siteTimeZone());
-    const byInverter = await this.client.getSiteEnergyByInverter({
-      siteId, startDate: today, endDate: today, inverterSerials: serials, includeMaxTemperature: true,
-    });
-    const temperatures = (byInverter?.inverters || [])
-      .flatMap((inverter) => inverter.optimizers || [])
-      .map((optimizer) => celsius(optimizer.temperature))
-      .filter((temperature) => temperature !== null);
     // none yet today (before sunrise): cleared rather than yesterday's
-    values['measure_temperature.max'] = temperatures.length ? Math.max(...temperatures) : null;
+    const today = dateIn(new Date(), await this.siteTimeZone());
+    values['measure_temperature.max'] = maxTemperature(await this.client.getSiteEnergyByInverter({
+      siteId, startDate: today, endDate: today, inverterSerials: serials, includeMaxTemperature: true,
+    }));
 
     await this.recordSeenCaps(values);
     for (const [capability, value] of Object.entries(values)) {
@@ -209,6 +208,21 @@ module.exports = class SolarEdgeInverterDevice extends CommonDevice {
       // eslint-disable-next-line no-await-in-loop
       await this.setCapability(capability, value);
     }
+  }
+
+  /**
+   * The readings of updateInverterDetails, for pairing (lib/common_driver.js): the same calls.
+   * Before sunrise there is no temperature yet: it is added on the first poll that has one.
+   */
+  static async pairValues({ client, site, homey }) {
+    const serials = serialsOf(await client.getSiteEquipment({ siteId: site.id }));
+    if (!serials.length) return {};
+    const { values } = liveValues(await client.getInvertersInformation({ serials }), { statuses: statusesOf(homey) });
+    const today = dateIn(new Date(), site.timezone || homey.clock.getTimezone());
+    values['measure_temperature.max'] = maxTemperature(await client.getSiteEnergyByInverter({
+      siteId: site.id, startDate: today, endDate: today, inverterSerials: serials, includeMaxTemperature: true,
+    }));
+    return values;
   }
 
 };

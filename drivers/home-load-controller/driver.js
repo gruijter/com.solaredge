@@ -20,6 +20,7 @@ along with com.solaredge.  If not, see <http://www.gnu.org/licenses/>.
 'use strict';
 
 const CommonDriver = require('../../lib/common_driver');
+const SolarEdgeHomeLoadControllerDevice = require('./device');
 const siteDevices = require('../../lib/siteDevices');
 
 module.exports = class SolarEdgeHomeLoadControllerDriver extends CommonDriver {
@@ -36,6 +37,10 @@ module.exports = class SolarEdgeHomeLoadControllerDriver extends CommonDriver {
           serialNumber: device.serialNumber,
         },
       }));
+  }
+
+  async onPairCapabilityValues({ client, site, device }) {
+    return SolarEdgeHomeLoadControllerDevice.pairValues({ client, site, device });
   }
 
 };

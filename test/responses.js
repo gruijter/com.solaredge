@@ -104,7 +104,7 @@ const runSite = async (file) => {
       continue;
     }
     check(!result.thrown, `${site} ${result.driverId}: pairing threw ${result.thrown?.message}`);
-    for (const { device, thrown } of result.devices) {
+    for (const { device, offer, thrown } of result.devices) {
       const label = `${site} ${result.driverId}`;
       if (skipped(thrown)) {
         console.log(`  ${label}: paired ${JSON.stringify(device.getData())}`);
@@ -113,6 +113,9 @@ const runSite = async (file) => {
       }
       check(!thrown, `${label}: poll threw ${thrown?.message}`);
       device.problems.filter((problem) => !skipped(problem)).forEach((problem) => failures.push(`${label}: ${problem}`));
+      // pairing gave it every capability its first poll sets: no migration
+      check(device.getCapabilities().join() === offer.capabilities.join(),
+        `${label}: paired with ${offer.capabilities.join(', ')}, migrated to ${device.getCapabilities().join(', ')}`);
       if (capture.partial) {
         console.log(`  ${label} ${device.available ? 'available' : 'unavailable'}: ${JSON.stringify(device.values)}`);
         continue;

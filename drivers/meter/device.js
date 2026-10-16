@@ -31,26 +31,11 @@ const YEAR_SETTLE_TIME = 2 * 24 * 60 * 60 * 1000;
 // was a hiccup
 const MISSING_RECHECK_TIME = 24 * 60 * 60 * 1000;
 
-// kept, for their flows, on devices paired while measure_power was still consumption
-// (same value as measure_power now)
-const LEGACY_CAPABILITIES = ['measure_power.grid'];
-
-const CAPABILITY_ORDER = ['measure_power', 'measure_power.load', 'measure_power.solar', 'measure_power.grid',
-  'meter_power.imported', 'meter_power.exported', 'alarm_connectivity'];
-
 const isTotals = (value) => typeof value?.imported === 'number' && typeof value?.exported === 'number';
 
 const yearIn = (date, timeZone) => Number(new Intl.DateTimeFormat('en-US', { year: 'numeric', timeZone }).format(date));
 
 module.exports = class SolarEdgeMeterDevice extends CommonDevice {
-
-  capabilityOrder() {
-    return CAPABILITY_ORDER;
-  }
-
-  legacyCapabilities() {
-    return LEGACY_CAPABILITIES;
-  }
 
   async onPoll() {
     const { siteId } = this.getData();

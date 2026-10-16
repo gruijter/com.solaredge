@@ -33,6 +33,7 @@ along with com.solaredge.  If not, see <http://www.gnu.org/licenses/>.
 const fs = require('node:fs');
 const path = require('node:path');
 const { manifest } = require('./harness');
+const deviceCapabilities = require('../lib/deviceCapabilities');
 
 const ROOT = path.join(__dirname, '..');
 const failures = [];
@@ -116,9 +117,8 @@ const run = async () => {
   // --- 3. triggers Homey runs itself ------------------------------------------------------
 
   const possible = Object.fromEntries(manifest.drivers.map((driver) => {
-    const DeviceClass = require(path.join(ROOT, 'drivers', driver.id, 'device.js')); // eslint-disable-line import/no-dynamic-require, global-require
-    const device = new DeviceClass({ driverManifest: driver, data: {}, settings: {} });
-    return [driver.id, new Set([...driver.capabilities, ...device.capabilityOrder(), ...device.optionalCapabilities(), ...device.legacyCapabilities()])];
+    return [driver.id, new Set([...driver.capabilities, ...deviceCapabilities.order(driver.id), ...deviceCapabilities.optional(driver.id),
+      ...deviceCapabilities.legacy(driver.id)])];
   }));
   const code = ['app.js', ...fs.readdirSync(path.join(ROOT, 'lib')).map((file) => path.join('lib', file)),
     ...manifest.drivers.flatMap((driver) => ['driver.js', 'device.js'].map((file) => path.join('drivers', driver.id, file)))]

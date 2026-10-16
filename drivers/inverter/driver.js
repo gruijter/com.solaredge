@@ -20,12 +20,17 @@ along with com.solaredge.  If not, see <http://www.gnu.org/licenses/>.
 'use strict';
 
 const CommonDriver = require('../../lib/common_driver');
+const SolarEdgeInverterDevice = require('./device');
 
 module.exports = class SolarEdgeInverterDriver extends CommonDriver {
 
   async onPairFilterSite({ client, site }) {
     const sitePowerflow = await client.getSitePowerflow({ siteId: site.id });
     return sitePowerflow?.solarProduction?.isActive === true;
+  }
+
+  async onPairCapabilityValues({ client, site }) {
+    return SolarEdgeInverterDevice.pairValues({ client, site, homey: this.homey });
   }
 
 };

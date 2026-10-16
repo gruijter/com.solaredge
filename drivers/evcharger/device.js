@@ -31,14 +31,25 @@ const CONNECTION_STATES = {
   disconnected: ['plugged_out', false],
 };
 
-// added once getSiteDevices reports a value
-const OPTIONAL_CAPABILITIES = ['meter_power.session', 'ev_session_duration', 'ev_charge_mode', 'ev_solar_charging', 'ev_vehicle'];
-
-const CAPABILITY_ORDER = ['measure_power', 'meter_power.charged', 'evcharger_charging', 'evcharger_charging_state', ...OPTIONAL_CAPABILITIES];
-
 const ACTIVATION_MODES = { AUTO: 'auto', MANUAL: 'manual' };
 // excessPV: -1 solar surplus charging on, -2 off (briadelour const.py, example_raw_json)
 const EXCESS_PV = { '-1': true, '-2': false };
+
+/** The session values of the charger's getSiteDevices entry (updateSession). */
+const sessionValues = (charger) => {
+  const energy = finite(charger.sessionEnergy);
+  const duration = finite(charger.sessionDuration);
+  return {
+    'meter_power.session': energy === null ? null : energy / 1000,
+    ev_session_duration: duration === null ? null : Math.round(duration / 60),
+    ev_charge_mode: ACTIVATION_MODES[charger.activationMode] ?? null,
+    ev_solar_charging: EXCESS_PV[charger.excessPV] ?? null,
+    ev_vehicle: typeof charger.applianceData?.alias === 'string' ? charger.applianceData.alias : null,
+  };
+};
+
+/** The charger's entry in a getSiteDevices answer. */
+const chargerIn = (response, reporterId) => siteDevices(response).find((item) => String(item.reporterId) === String(reporterId));
 
 module.exports = class SolarEdgeEVChargerDevice extends CommonDevice {
 
@@ -48,14 +59,6 @@ module.exports = class SolarEdgeEVChargerDevice extends CommonDevice {
     this.registerCapabilityListener('evcharger_charging', async (value) => {
       await this.onCapabilityEVChargerState(value);
     });
-  }
-
-  capabilityOrder() {
-    return CAPABILITY_ORDER;
-  }
-
-  optionalCapabilities() {
-    return OPTIONAL_CAPABILITIES;
   }
 
   /** Back to the charger's own control: schedule and solar surplus (activationState AUTO). */
@@ -158,8 +161,7 @@ module.exports = class SolarEdgeEVChargerDevice extends CommonDevice {
    */
   async updateSession(withStatus) {
     const { siteId, reporterId } = this.getData();
-    const charger = siteDevices(await this.client.getSiteDevices({ siteId }))
-      .find((item) => String(item.reporterId) === String(reporterId));
+    const charger = chargerIn(await this.client.getSiteDevices({ siteId }), reporterId);
     if (!charger) {
       this.logOnce('not in devices', 'not in getSiteDevices');
       return null;
@@ -177,16 +179,7 @@ module.exports = class SolarEdgeEVChargerDevice extends CommonDevice {
     if (charger.activationMode && !ACTIVATION_MODES[charger.activationMode]) this.logOnce(`mode ${charger.activationMode}`, 'unknown activationMode', charger.activationMode);
     if (withStatus && charger.connectionStatus) await this.setConnectionStatus(charger.connectionStatus);
 
-    const energy = finite(charger.sessionEnergy);
-    const duration = finite(charger.sessionDuration);
-    const values = {
-      'meter_power.session': energy === null ? null : energy / 1000,
-      ev_session_duration: duration === null ? null : Math.round(duration / 60),
-      ev_charge_mode: ACTIVATION_MODES[charger.activationMode] ?? null,
-      ev_solar_charging: EXCESS_PV[charger.excessPV] ?? null,
-      ev_vehicle: typeof charger.applianceData?.alias === 'string' ? charger.applianceData.alias : null,
-    };
-
+    const values = sessionValues(charger);
     await this.recordSeenCaps(values);
     for (const [capability, value] of Object.entries(values)) {
       // eslint-disable-next-line no-await-in-loop
@@ -198,6 +191,12 @@ module.exports = class SolarEdgeEVChargerDevice extends CommonDevice {
     if (status === 'CHARGING' && power === 0) power = null;
     if (power === null && status && status !== 'CHARGING') power = 0;
     return { active: charger.deviceStatus === 'ACTIVE', power: power === null ? null : Math.round(power) };
+  }
+
+  /** The readings of updateSession, for pairing (lib/common_driver.js): the same call. */
+  static async pairValues({ client, site, device }) {
+    const charger = chargerIn(await client.getSiteDevices({ siteId: site.id }), device.data.reporterId);
+    return charger ? sessionValues(charger) : {};
   }
 
 };

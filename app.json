@@ -1300,8 +1300,8 @@
       ],
       "class": "battery",
       "capabilities": [
-        "measure_battery",
         "measure_power",
+        "measure_battery",
         "battery_charging_state",
         "meter_power.charged",
         "meter_power.discharged",
@@ -1481,9 +1481,9 @@
       "class": "evcharger",
       "capabilities": [
         "measure_power",
-        "meter_power.charged",
         "evcharger_charging",
-        "evcharger_charging_state"
+        "evcharger_charging_state",
+        "meter_power.charged"
       ],
       "energy": {
         "evCharger": true,

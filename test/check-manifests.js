@@ -24,7 +24,8 @@ along with com.solaredge.  If not, see <http://www.gnu.org/licenses/>.
  * run `homey app build` after a compose change.
  *
  * 1. What existing devices depend on is still there (ids, setting keys, capabilities).
- * 2. Every capability a device sets is in its manifest or in its OPTIONAL_ or LEGACY_CAPABILITIES;
+ * 2. Every capability a device sets is in its manifest or optional or legacy (lib/deviceCapabilities.js),
+ *    and the manifest's are in its tile order;
  *    setCapability() skips an unknown one without a word.
  * 3. Every energy capability reference names a capability of the driver.
  * 4. Every translation has all 13 locales, every errors.* key used in code exists in every
@@ -33,6 +34,7 @@ along with com.solaredge.  If not, see <http://www.gnu.org/licenses/>.
 
 const fs = require('fs');
 const path = require('path');
+const deviceCapabilities = require('../lib/deviceCapabilities');
 
 const ROOT = path.join(__dirname, '..');
 const LOCALES = ['en', 'nl', 'de', 'fr', 'es', 'it', 'da', 'sv', 'no', 'pl', 'ru', 'ar', 'ko'];
@@ -85,13 +87,17 @@ const stringLiterals = (source) => [...source.matchAll(/'([^'\n]+)'/g)].map((mat
 for (const driver of app.drivers) {
   const file = path.join(ROOT, 'drivers', driver.id, 'device.js');
   const source = fs.readFileSync(file, 'utf8');
-  const listed = (name) => stringLiterals(source.match(new RegExp(`${name} = \\[([^\\]]*)\\]`))?.[1] ?? '');
-  const extra = [...listed('OPTIONAL_CAPABILITIES'), ...listed('LEGACY_CAPABILITIES')];
+  const extra = [...deviceCapabilities.optional(driver.id), ...deviceCapabilities.legacy(driver.id)];
   const used = new Set(stringLiterals(source).filter((literal) => CAPABILITY_ID.test(literal)));
   for (const capability of used) {
     if (!driver.capabilities.includes(capability) && !extra.includes(capability)) {
       failures.push(`${driver.id}/device.js uses ${capability}, which is not in the manifest, optional or legacy`);
     }
+  }
+  const order = deviceCapabilities.order(driver.id);
+  const inOrder = order.filter((capability) => driver.capabilities.includes(capability));
+  if (inOrder.join() !== driver.capabilities.join()) {
+    failures.push(`${driver.id}: manifest capabilities ${driver.capabilities.join(', ')} not in the tile order ${order.join(', ')}`);
   }
 }
 

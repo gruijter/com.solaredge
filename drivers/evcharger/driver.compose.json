@@ -3,9 +3,9 @@
   "class": "evcharger",
   "capabilities": [
     "measure_power",
-    "meter_power.charged",
     "evcharger_charging",
-    "evcharger_charging_state"
+    "evcharger_charging_state",
+    "meter_power.charged"
   ],
   "energy": {
     "evCharger": true,

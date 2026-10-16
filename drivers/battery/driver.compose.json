@@ -2,8 +2,8 @@
   "$extends": "solaredge",
   "class": "battery",
   "capabilities": [
-    "measure_battery",
     "measure_power",
+    "measure_battery",
     "battery_charging_state",
     "meter_power.charged",
     "meter_power.discharged",

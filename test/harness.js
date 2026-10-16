@@ -287,8 +287,9 @@ const loadDriver = (id) => {
 };
 
 /**
- * Pair every driver on `site`, then poll each offered device once, with the energy totals.
- * @returns {Promise<object[]>} per driver: { driverId, offered, devices: [{ device, thrown }] }
+ * Pair every driver on `site`, then poll each offered device once, with the energy totals. A device
+ * starts with the capabilities and store pairing gave it.
+ * @returns {Promise<object[]>} per driver: { driverId, offered, devices: [{ device, offer, thrown }] }
  */
 const pairAndPoll = async ({ client, site }) => {
   const results = [];
@@ -297,7 +298,7 @@ const pairAndPoll = async ({ client, site }) => {
     const result = { driverId: id, devices: [] };
     results.push(result);
     try {
-      result.offered = await driver.onPairListDevices({ client, site }); // eslint-disable-line no-await-in-loop
+      result.offered = await driver.pairDevices({ client, site }); // eslint-disable-line no-await-in-loop
     } catch (error) {
       result.thrown = error;
       continue;
@@ -308,10 +309,12 @@ const pairAndPoll = async ({ client, site }) => {
         driverManifest: driver.manifest,
         data: { ...offer.data, siteId: site.id },
         settings: { ...offer.settings },
+        capabilities: offer.capabilities,
       });
+      device.store = structuredClone(offer.store);
       device.client = client;
       device.energyPending = true;
-      const entry = { device };
+      const entry = { device, offer };
       result.devices.push(entry);
       try {
         await device.onPoll(); // eslint-disable-line no-await-in-loop

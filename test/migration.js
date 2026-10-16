@@ -27,6 +27,7 @@ along with com.solaredge.  If not, see <http://www.gnu.org/licenses/>.
 const path = require('node:path');
 const { isDeepStrictEqual } = require('node:util');
 const { manifest } = require('./harness');
+const deviceCapabilities = require('../lib/deviceCapabilities');
 
 const ROOT = path.join(__dirname, '..');
 
@@ -50,8 +51,8 @@ const CASES = [
       evCharger: true, meterPowerImportedCapability: 'meter_power.charged', meterPowerExportedCapability: 'meter_power.discharged',
     },
     values: { 'meter_power.charged': 321, evcharger_charging: true, evcharger_charging_state: 'plugged_in_charging' },
-    expected: ['measure_power', 'meter_power.charged', 'evcharger_charging', 'evcharger_charging_state'],
-    keep: ['meter_power.charged', 'evcharger_charging', 'evcharger_charging_state'],
+    expected: ['measure_power', 'evcharger_charging', 'evcharger_charging_state', 'meter_power.charged'],
+    keep: ['measure_power'],
   },
   {
     name: 'battery from 1.8.1',
@@ -59,8 +60,8 @@ const CASES = [
     capabilities: ['measure_battery', 'measure_power', 'battery_charging_state'],
     energy: { homeBattery: true, batteries: ['INTERNAL'] },
     values: { measure_battery: 55 },
-    expected: ['measure_battery', 'measure_power', 'battery_charging_state', 'meter_power.charged', 'meter_power.discharged', 'alarm_connectivity'],
-    keep: ['measure_battery', 'measure_power', 'battery_charging_state'],
+    expected: ['measure_power', 'measure_battery', 'battery_charging_state', 'meter_power.charged', 'meter_power.discharged', 'alarm_connectivity'],
+    keep: [],
   },
   {
     name: 'inverter from 1.8.1',
@@ -78,21 +79,20 @@ const CASES = [
     store: { seenCaps: { 'measure_voltage.1': true, 'measure_temperature.max': true } },
     values: { alarm_problem: false },
     expected: ['measure_power', 'meter_power', 'meter_power.day', 'meter_power.month', 'meter_power.year',
-      'alarm_problem', 'alarm_connectivity', 'measure_voltage.1', 'measure_temperature.max'],
-    keep: ['measure_power', 'meter_power', 'meter_power.day', 'meter_power.month', 'meter_power.year', 'alarm_problem', 'alarm_connectivity'],
+      'measure_temperature.max', 'measure_voltage.1', 'alarm_problem', 'alarm_connectivity'],
+    keep: ['measure_power', 'meter_power', 'meter_power.day', 'meter_power.month', 'meter_power.year'],
   },
   {
-    // paired at night: the optimizer temperature comes the next morning, after the phases
+    // paired before sunrise: the optimizer temperature comes in the morning
     name: 'inverter that reports its temperature later',
     driverId: 'inverter',
-    capabilities: ['measure_power', 'meter_power', 'meter_power.day', 'meter_power.month', 'meter_power.year', 'alarm_problem', 'alarm_connectivity',
-      'measure_voltage.1', 'inverter_status'],
+    capabilities: ['measure_power', 'meter_power', 'meter_power.day', 'meter_power.month', 'meter_power.year',
+      'measure_voltage.1', 'inverter_status', 'alarm_problem', 'alarm_connectivity'],
     store: { seenCaps: { 'measure_voltage.1': true, inverter_status: true, 'measure_temperature.max': true } },
     values: {},
-    expected: ['measure_power', 'meter_power', 'meter_power.day', 'meter_power.month', 'meter_power.year', 'alarm_problem', 'alarm_connectivity',
-      'measure_voltage.1', 'inverter_status', 'measure_temperature.max'],
-    keep: ['measure_power', 'meter_power', 'meter_power.day', 'meter_power.month', 'meter_power.year', 'alarm_problem', 'alarm_connectivity',
-      'measure_voltage.1', 'inverter_status'],
+    expected: ['measure_power', 'meter_power', 'meter_power.day', 'meter_power.month', 'meter_power.year',
+      'measure_temperature.max', 'measure_voltage.1', 'inverter_status', 'alarm_problem', 'alarm_connectivity'],
+    keep: ['measure_power', 'meter_power', 'meter_power.day', 'meter_power.month', 'meter_power.year'],
   },
   {
     name: 'inverter with phase power, phase current and DC voltage',
@@ -105,18 +105,18 @@ const CASES = [
       },
     },
     values: { 'measure_voltage.1': 234.8, inverter_status: 'production' },
-    expected: ['measure_power', 'meter_power', 'meter_power.day', 'meter_power.month', 'meter_power.year', 'alarm_problem', 'alarm_connectivity',
-      'measure_voltage.1', 'inverter_status', 'measure_temperature.max'],
-    keep: ['measure_power', 'meter_power', 'meter_power.day', 'meter_power.month', 'meter_power.year'],
+    expected: ['measure_power', 'meter_power', 'meter_power.day', 'meter_power.month', 'meter_power.year', 'measure_temperature.max',
+      'measure_voltage.1', 'inverter_status', 'alarm_problem', 'alarm_connectivity'],
+    keep: ['measure_power', 'meter_power', 'meter_power.day', 'meter_power.month', 'meter_power.year', 'measure_temperature.max', 'measure_voltage.1'],
   },
   {
     name: 'battery that reported its health',
     driverId: 'battery',
-    capabilities: ['measure_battery', 'measure_power', 'battery_charging_state', 'meter_power.charged', 'meter_power.discharged', 'alarm_connectivity'],
+    capabilities: ['measure_power', 'measure_battery', 'battery_charging_state', 'meter_power.charged', 'meter_power.discharged', 'alarm_connectivity'],
     store: { seenCaps: { measure_soh: true } },
     values: { 'meter_power.charged': 12.5 },
-    expected: ['measure_battery', 'measure_power', 'battery_charging_state', 'meter_power.charged', 'meter_power.discharged', 'alarm_connectivity', 'measure_soh'],
-    keep: ['measure_battery', 'measure_power', 'battery_charging_state', 'meter_power.charged', 'meter_power.discharged', 'alarm_connectivity'],
+    expected: ['measure_power', 'measure_battery', 'battery_charging_state', 'meter_power.charged', 'meter_power.discharged', 'measure_soh', 'alarm_connectivity'],
+    keep: ['measure_power', 'measure_battery', 'battery_charging_state', 'meter_power.charged', 'meter_power.discharged'],
   },
   ...manifest.drivers.map((driver) => ({
     name: `${driver.id} freshly paired`,
@@ -168,7 +168,7 @@ const runCase = async ({
     .filter(([id, options]) => (device.options?.[id] ?? options).decimals !== options.decimals);
   check(!wrongDecimals.length, `${name}: decimals not synced: ${wrongDecimals.map(([id]) => id).join(', ')}`);
   // a system capability has its own title; a sub-capability needs one
-  const untitled = device.optionalCapabilities()
+  const untitled = deviceCapabilities.optional(driverId)
     .filter((id) => id.includes('.') && !driverManifest.capabilitiesOptions?.[id]?.title && !manifest.capabilities?.[id]?.title);
   check(!untitled.length, `${name}: optional capabilities without a title: ${untitled.join(', ')}`);
   device.problems.forEach((problem) => failures.push(`${name}: ${problem}`));

@@ -26,10 +26,6 @@ const siteDevices = require('../../lib/siteDevices');
 
 const CAPABILITY = 'solaredge-home-load-controller-state';
 
-// added once the device reports a power or a rated power
-const OPTIONAL_CAPABILITIES = ['measure_power'];
-const CAPABILITY_ORDER = [CAPABILITY, ...OPTIONAL_CAPABILITIES];
-
 // capability value -> activationState
 const ACTIVATION_STATES = {
   on: { level: 100, mode: 'MANUAL' },
@@ -37,15 +33,24 @@ const ACTIVATION_STATES = {
   auto: { mode: 'AUTO', level: null, duration: null },
 };
 
+/**
+ * W: the device's meter (status.activePowerMeter) when it has one, else config.ratedPower ×
+ * status.level / 100, which is what the SolarEdge app shows for relays without a meter
+ * (karuzo17/solaredge-api-home-assistant; fields seen in a real answer, solaredge-evcharger-ha#6).
+ * An estimate: a switched-on appliance can draw less than its rated power.
+ * @returns {{power: (number|null), measured: (number|null), rated: (number|null)}}
+ */
+const powerOf = (device) => {
+  const measured = finite(device.status?.activePowerMeter);
+  const rated = finite(device.config?.ratedPower);
+  const level = finite(device.status?.level);
+  let power = null;
+  if (measured !== null) power = Math.round(measured);
+  else if (rated !== null && level !== null) power = Math.round((rated * level) / 100);
+  return { power, measured, rated };
+};
+
 module.exports = class SolarEdgeHomeLoadControllerDevice extends CommonDevice {
-
-  capabilityOrder() {
-    return CAPABILITY_ORDER;
-  }
-
-  optionalCapabilities() {
-    return OPTIONAL_CAPABILITIES;
-  }
 
   /** measure_power is marked approximated (Homey Energy docs) unless the device has a meter. */
   capabilityOptions() {
@@ -103,19 +108,9 @@ module.exports = class SolarEdgeHomeLoadControllerDevice extends CommonDevice {
     }
   }
 
-  /**
-   * W: the device's meter (status.activePowerMeter) when it has one, else config.ratedPower ×
-   * status.level / 100, which is what the SolarEdge app shows for relays without a meter
-   * (karuzo17/solaredge-api-home-assistant; fields seen in a real answer, solaredge-evcharger-ha#6).
-   * An estimate: a switched-on appliance can draw less than its rated power.
-   */
+  /** measure_power (powerOf), and whether it is measured. */
   async updatePower(device) {
-    const measured = finite(device.status?.activePowerMeter);
-    const rated = finite(device.config?.ratedPower);
-    const level = finite(device.status?.level);
-    let power = null;
-    if (measured !== null) power = Math.round(measured);
-    else if (rated !== null && level !== null) power = Math.round((rated * level) / 100);
+    const { power, measured, rated } = powerOf(device);
     this.logOnce(`power ${measured === null ? 'estimated' : 'measured'}`, `power ${measured === null ? 'estimated from' : 'measured,'} rated ${rated} W`);
 
     await this.recordSeenCaps({ measure_power: power });
@@ -125,6 +120,12 @@ module.exports = class SolarEdgeHomeLoadControllerDevice extends CommonDevice {
       await DeviceMigrator.syncCapabilityOptions(this, this.capabilityOptions());
     }
     await this.setCapability('measure_power', power);
+  }
+
+  /** The power of updatePower, for pairing (lib/common_driver.js): the same call. */
+  static async pairValues({ client, site, device }) {
+    const entry = siteDevices(await client.getSiteDevices({ siteId: site.id })).find((item) => item.reporterId === device.data.reporterId);
+    return entry ? { measure_power: powerOf(entry).power } : {};
   }
 
 };

@@ -23,13 +23,6 @@ const CommonDevice = require('../../lib/common_device');
 
 const CHARGING_STATES = ['charging', 'discharging', 'idle'];
 
-// added once getSiteBatteries reports a value; last in the order, so adding one never makes
-// DeviceMigrator remove and re-add the Energy meters
-const OPTIONAL_CAPABILITIES = ['measure_residual_energy', 'measure_soh'];
-
-const CAPABILITY_ORDER = ['measure_battery', 'measure_power', 'battery_charging_state',
-  'meter_power.charged', 'meter_power.discharged', 'alarm_connectivity', ...OPTIONAL_CAPABILITIES];
-
 /** The sum of `key` over the batteries, or null when one of them has no number. */
 const sum = (batteries, key) => {
   const values = batteries.map((battery) => battery[key]);
@@ -37,15 +30,33 @@ const sum = (batteries, key) => {
   return values.reduce((total, value) => total + value, 0);
 };
 
+/** kWh per unit of the battery energies: kWh below a nameplate of 100, else Wh; null without a nameplate. */
+const unitOf = (namePlate) => {
+  if (namePlate === null || namePlate <= 0) return null;
+  return namePlate < 100 ? 1 : 1 / 1000;
+};
+
+/**
+ * Energies (kWh) and health of the batteries; charged and discharged before monotonic().
+ * @param {object[]} batteries
+ * @param {number} toKwh
+ */
+const readings = (batteries, toKwh) => {
+  const kwh = (key) => {
+    const value = sum(batteries, key);
+    return value === null ? null : value * toKwh;
+  };
+  const namePlate = sum(batteries, 'namePlateEnergy');
+  const fullPack = kwh('fullPackEnergy');
+  return {
+    'meter_power.charged': kwh('chargeEnergy'),
+    'meter_power.discharged': kwh('dischargeEnergy'),
+    measure_residual_energy: kwh('remainingEnergy'),
+    measure_soh: fullPack !== null && namePlate > 0 ? Math.min(100, Math.round((fullPack / (namePlate * toKwh)) * 100)) : null,
+  };
+};
+
 module.exports = class SolarEdgeBatteryDevice extends CommonDevice {
-
-  capabilityOrder() {
-    return CAPABILITY_ORDER;
-  }
-
-  optionalCapabilities() {
-    return OPTIONAL_CAPABILITIES;
-  }
 
   async onPoll() {
     const sitePowerflow = await this.client.getSitePowerflow({ siteId: this.getData().siteId });
@@ -116,32 +127,30 @@ module.exports = class SolarEdgeBatteryDevice extends CommonDevice {
     // would change the counters 1000-fold, which monotonic() keeps for good
     const namePlate = sum(batteries, 'namePlateEnergy');
     let toKwh = this.getStoreValue('energyToKwh') ?? 1 / 1000;
-    if (namePlate !== null && namePlate > 0) {
-      const unit = namePlate < 100 ? 1 : 1 / 1000;
+    const unit = unitOf(namePlate);
+    if (unit !== null) {
       if (unit !== toKwh) await this.setStoreValue('energyToKwh', unit);
       toKwh = unit;
     }
     this.logOnce(`unit ${toKwh}`, `battery energies taken as ${toKwh === 1 ? 'kWh' : 'Wh'} (nameplate ${namePlate})`);
-    const kwh = (key) => {
-      const value = sum(batteries, key);
-      return value === null ? null : value * toKwh;
-    };
-    const charged = kwh('chargeEnergy');
-    const discharged = kwh('dischargeEnergy');
-    const fullPack = kwh('fullPackEnergy');
 
-    const values = {
-      'meter_power.charged': charged === null ? null : await this.monotonic('charged', charged),
-      'meter_power.discharged': discharged === null ? null : await this.monotonic('discharged', discharged),
-      measure_residual_energy: kwh('remainingEnergy'),
-      measure_soh: fullPack !== null && namePlate > 0 ? Math.min(100, Math.round((fullPack / (namePlate * toKwh)) * 100)) : null,
-    };
+    const values = readings(batteries, toKwh);
+    for (const [capability, name] of [['meter_power.charged', 'charged'], ['meter_power.discharged', 'discharged']]) {
+      // eslint-disable-next-line no-await-in-loop
+      if (values[capability] !== null) values[capability] = await this.monotonic(name, values[capability]);
+    }
 
     await this.recordSeenCaps(values);
     for (const [capability, value] of Object.entries(values)) {
       // eslint-disable-next-line no-await-in-loop
       if (value !== null) await this.setCapability(capability, value);
     }
+  }
+
+  /** The readings of updateBatteries, for pairing (lib/common_driver.js): the same call. */
+  static async pairValues({ client, site }) {
+    const batteries = (await client.getSiteBatteries({ siteId: site.id }))?.devicesByType?.BATTERY || [];
+    return batteries.length ? readings(batteries, unitOf(sum(batteries, 'namePlateEnergy')) ?? 1 / 1000) : {};
   }
 
 };

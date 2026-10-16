@@ -20,12 +20,17 @@ along with com.solaredge.  If not, see <http://www.gnu.org/licenses/>.
 'use strict';
 
 const CommonDriver = require('../../lib/common_driver');
+const SolarEdgeBatteryDevice = require('./device');
 
 module.exports = class SolarEdgeBatteryDriver extends CommonDriver {
 
   async onPairFilterSite({ client, site }) {
     const sitePowerflow = await client.getSitePowerflow({ siteId: site.id });
     return sitePowerflow?.storage?.isActive === true;
+  }
+
+  async onPairCapabilityValues({ client, site, device }) {
+    return SolarEdgeBatteryDevice.pairValues({ client, site, device });
   }
 
 };
