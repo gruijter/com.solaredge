@@ -164,13 +164,30 @@ test('a 401 logs in again and retries the call once', async () => {
   assert.equal(count(isLogin), 2);
 });
 
-test('a 401 on the retry too throws Unauthorized and drops the session', async () => {
+test('a 401 right after the new login is a rejected login and drops the session', async () => {
   const client = newClient();
   await client.getSites();
   rejectSession = true;
-  await assert.rejects(client.getSites(), (error) => error.code === 'UNAUTHORIZED');
+  await assert.rejects(client.getSites(), (error) => error.code === 'INVALID_CREDENTIALS');
   assert.equal(client.isLoggedIn(), false);
   assert.equal(count(isLogin), 2);
+});
+
+test('a 302 whose session answers 401 holds back automatic logins, doubling per login', async () => {
+  const client = newClient();
+  rejectSession = true;
+  await assert.rejects(client.getSites(), (error) => error.code === 'INVALID_CREDENTIALS');
+  await assert.rejects(client.getSitePowerflow({ siteId: 1 }), (error) => error.code === 'INVALID_CREDENTIALS');
+  assert.equal(count(isLogin), 1);
+  assert.equal(client._loginRetryDelay, SolarEdgeCloudClient.LOGIN_RETRY_MIN);
+  client._loginBlockedUntil = 0;
+  await assert.rejects(client.getSites(), (error) => error.code === 'INVALID_CREDENTIALS');
+  assert.equal(count(isLogin), 2);
+  assert.equal(client._loginRetryDelay, 2 * SolarEdgeCloudClient.LOGIN_RETRY_MIN);
+  rejectSession = false;
+  client._loginBlockedUntil = 0;
+  await client.getSites();
+  assert.equal(client._loginRetryDelay, 0);
 });
 
 test('a late 401 does not drop a session from a later login', async () => {

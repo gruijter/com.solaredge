@@ -37,7 +37,7 @@ const unitOf = (namePlate) => {
 };
 
 /**
- * Energies (kWh) and health of the batteries; charged and discharged before monotonic().
+ * Energies (kWh) and health of the batteries; charged and discharged as reported, without monotonic().
  * @param {object[]} batteries
  * @param {number} toKwh
  */
@@ -124,7 +124,7 @@ module.exports = class SolarEdgeBatteryDevice extends CommonDevice {
     });
 
     // the unit is kept from the last answer with a nameplate: a guess that flips between answers
-    // would change the counters 1000-fold, which monotonic() keeps for good
+    // would change the counters 1000-fold
     const namePlate = sum(batteries, 'namePlateEnergy');
     let toKwh = this.getStoreValue('energyToKwh') ?? 1 / 1000;
     const unit = unitOf(namePlate);
@@ -135,9 +135,15 @@ module.exports = class SolarEdgeBatteryDevice extends CommonDevice {
     this.logOnce(`unit ${toKwh}`, `battery energies taken as ${toKwh === 1 ? 'kWh' : 'Wh'} (nameplate ${namePlate})`);
 
     const values = readings(batteries, toKwh);
-    for (const [capability, name] of [['meter_power.charged', 'charged'], ['meter_power.discharged', 'discharged']]) {
+    // monotonic() on the raw counters: a unit corrected later then rescales them, instead of
+    // leaving an offset in the wrong unit
+    for (const [capability, name, key] of [
+      ['meter_power.charged', 'chargedRaw', 'chargeEnergy'],
+      ['meter_power.discharged', 'dischargedRaw', 'dischargeEnergy'],
+    ]) {
+      const raw = sum(batteries, key);
       // eslint-disable-next-line no-await-in-loop
-      if (values[capability] !== null) values[capability] = await this.monotonic(name, values[capability]);
+      if (raw !== null) values[capability] = Math.round((await this.monotonic(name, raw)) * toKwh * 1000) / 1000;
     }
 
     await this.recordSeenCaps(values);

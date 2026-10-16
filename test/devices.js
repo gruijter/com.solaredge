@@ -119,6 +119,13 @@ const batteryKwh = async () => {
   await device.updateBatteries();
   const v = device.values;
   check(v['meter_power.charged'] === 1234.5 && v.measure_residual_energy === 6.2 && v.measure_soh === 95, `battery kWh: ${JSON.stringify(v)}`);
+
+  // a unit taken as kWh first, Wh later: the counter rescales, no offset is left behind
+  battery.namePlateEnergy = 9700;
+  await device.updateBatteries();
+  await device.updateBatteries();
+  const offset = device.getStoreValue('chargedRawOffset');
+  check(device.values['meter_power.charged'] === 1.235 && !offset, `battery unit change: ${device.values['meter_power.charged']} kWh, offset ${offset}`);
 };
 
 const fahrenheit = async () => {
