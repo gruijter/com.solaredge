@@ -1,4 +1,5 @@
 {
+  "highlight": true,
   "tokens": [
     {
       "name": "meter_power.day",

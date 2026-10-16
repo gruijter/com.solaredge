@@ -132,6 +132,7 @@
         }
       },
       {
+        "highlight": true,
         "tokens": [
           {
             "name": "inverter_status",
@@ -179,6 +180,7 @@
         }
       },
       {
+        "highlight": true,
         "tokens": [
           {
             "name": "measure_power.load",
@@ -367,6 +369,7 @@
         }
       },
       {
+        "highlight": true,
         "tokens": [
           {
             "name": "meter_power.day",
@@ -414,6 +417,7 @@
         }
       },
       {
+        "highlight": true,
         "tokens": [
           {
             "name": "meter_power.exported",
@@ -461,6 +465,7 @@
         }
       },
       {
+        "highlight": true,
         "tokens": [
           {
             "name": "meter_power.imported",
@@ -694,6 +699,7 @@
         }
       },
       {
+        "highlight": true,
         "args": [
           {
             "type": "device",
@@ -1019,6 +1025,7 @@
     ],
     "actions": [
       {
+        "highlight": true,
         "args": [
           {
             "type": "device",
@@ -1059,6 +1066,7 @@
         }
       },
       {
+        "highlight": true,
         "args": [
           {
             "type": "device",
