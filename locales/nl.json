@@ -34,7 +34,10 @@
       "intro": "Geef het apparaat eerst een vast IP-adres in je router, zodat het na een herstart blijft werken.",
       "legend": "Verbinding",
       "connect": "Verbinden",
-      "modbus": "Zet eerst Modbus TCP aan op het apparaat. Het accepteert maar één Modbus-verbinding tegelijk."
+      "modbus": "Zet eerst Modbus TCP aan op het apparaat. Het accepteert maar één Modbus-verbinding tegelijk.",
+      "searching": "Je netwerk wordt doorzocht...",
+      "found": "Gevonden:",
+      "notFound": "Niets automatisch gevonden: vul het adres in."
     }
   },
   "settings": {

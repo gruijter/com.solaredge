@@ -5385,6 +5385,16 @@
       }
     }
   },
+  "discovery": {
+    "solaredge-modbus": {
+      "type": "mdns-sd",
+      "mdns-sd": {
+        "name": "solaredge-modbus",
+        "protocol": "tcp"
+      },
+      "id": "{{name}}"
+    }
+  },
   "name": {
     "ar": "SolarEdge",
     "da": "SolarEdge",

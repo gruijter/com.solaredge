@@ -80,6 +80,9 @@ const homey = {
       },
     }),
   },
+  // Modbus pairing: mDNS sees nothing, the scan runs on loopback
+  discovery: { getStrategy: () => ({ getDiscoveryResults: () => ({}) }) },
+  cloud: { getLocalAddress: async () => '127.0.0.1:80' },
 };
 
 class SimpleClass {

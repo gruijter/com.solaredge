@@ -34,7 +34,10 @@
       "intro": "Assegna prima un indirizzo IP fisso nel router, così continua a funzionare dopo un riavvio.",
       "legend": "Connessione",
       "connect": "Connetti",
-      "modbus": "Attiva prima Modbus TCP sul dispositivo. Accetta una sola connessione Modbus alla volta."
+      "modbus": "Attiva prima Modbus TCP sul dispositivo. Accetta una sola connessione Modbus alla volta.",
+      "searching": "Ricerca nella tua rete...",
+      "found": "Trovato:",
+      "notFound": "Nessun risultato automatico: inserisci l'indirizzo."
     }
   },
   "settings": {

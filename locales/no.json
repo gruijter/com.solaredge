@@ -34,7 +34,10 @@
       "intro": "Gi enheten en fast IP-adresse i ruteren først, slik at den fortsetter å virke etter omstart.",
       "legend": "Tilkobling",
       "connect": "Koble til",
-      "modbus": "Slå først på Modbus TCP på enheten. Den godtar bare én Modbus-tilkobling om gangen."
+      "modbus": "Slå først på Modbus TCP på enheten. Den godtar bare én Modbus-tilkobling om gangen.",
+      "searching": "Søker i nettverket ditt...",
+      "found": "Funnet:",
+      "notFound": "Ingenting funnet automatisk: skriv inn adressen."
     }
   },
   "settings": {

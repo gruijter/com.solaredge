@@ -34,7 +34,10 @@
       "intro": "재시작 후에도 작동하도록 라우터에서 장치에 고정 IP 주소를 먼저 지정하세요.",
       "legend": "연결",
       "connect": "연결",
-      "modbus": "먼저 장치에서 Modbus TCP를 켜세요. 한 번에 하나의 Modbus 연결만 허용됩니다."
+      "modbus": "먼저 장치에서 Modbus TCP를 켜세요. 한 번에 하나의 Modbus 연결만 허용됩니다.",
+      "searching": "네트워크를 검색하는 중...",
+      "found": "찾음:",
+      "notFound": "자동으로 찾지 못했습니다. 주소를 입력하세요."
     }
   },
   "settings": {

@@ -34,7 +34,10 @@
       "intro": "Najpierw przypisz urządzeniu stały adres IP w routerze, aby działało po restarcie.",
       "legend": "Połączenie",
       "connect": "Połącz",
-      "modbus": "Najpierw włącz Modbus TCP w urządzeniu. Akceptuje ono tylko jedno połączenie Modbus naraz."
+      "modbus": "Najpierw włącz Modbus TCP w urządzeniu. Akceptuje ono tylko jedno połączenie Modbus naraz.",
+      "searching": "Przeszukiwanie sieci...",
+      "found": "Znaleziono:",
+      "notFound": "Nic nie znaleziono automatycznie: wpisz adres."
     }
   },
   "settings": {

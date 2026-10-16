@@ -34,7 +34,10 @@
       "intro": "Give the device a fixed IP address in your router first, so it keeps working after a restart.",
       "legend": "Connection",
       "connect": "Connect",
-      "modbus": "Turn on Modbus TCP on the device first. It accepts only one Modbus connection at a time."
+      "modbus": "Turn on Modbus TCP on the device first. It accepts only one Modbus connection at a time.",
+      "searching": "Searching your network...",
+      "found": "Found:",
+      "notFound": "Nothing found automatically: enter the address."
     }
   },
   "settings": {

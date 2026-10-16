@@ -1,6 +1,7 @@
 <header class="homey-header">
   <p class="homey-subtitle" id="intro"></p>
   <p class="homey-subtitle" id="modbus"></p>
+  <p class="homey-subtitle" id="discovery"></p>
 </header>
 
 <form class="homey-form" id="form">
@@ -73,13 +74,33 @@
       });
   };
 
-  // the driver's defaults: port 1502 and unit 1 on an inverter, 502 and 255 on the EV charger
+  var status = document.getElementById('discovery');
+
+  // the driver's defaults (port 1502 and unit 1 on an inverter, 502 and 255 on the EV charger),
+  // then what discovery found, unless the user already typed a host
   Homey.emit('manual_fields')
     .then(function (fields) {
       document.getElementById('port').value = fields.port;
       document.getElementById('unitId').value = fields.unitId;
     })
-    .catch(function () {});
+    .catch(function () {})
+    .then(function () {
+      status.innerText = __('pair.manual.searching', 'Searching your network...');
+      return Homey.emit('discover').catch(function () { return []; });
+    })
+    .then(function (found) {
+      if (!found.length) {
+        status.innerText = __('pair.manual.notFound', 'Nothing found automatically: enter the address.');
+        return;
+      }
+      status.innerText = __('pair.manual.found', 'Found:') + ' ' + found.map(function (endpoint) {
+        return endpoint.host + ':' + endpoint.port;
+      }).join(', ');
+      if (document.getElementById('host').value) return;
+      document.getElementById('host').value = found[0].host;
+      document.getElementById('port').value = found[0].port;
+      document.getElementById('unitId').value = found[0].unitId;
+    });
 
   Homey.ready();
 </script>

@@ -455,8 +455,49 @@ const kebaIdentity = () => {
   }), `KEBA identity: ${JSON.stringify(identity)}`);
 };
 
+/**
+ * Pairing discovery against the fake server on loopback: the scan of 127.0.0.0/24, mDNS (which the
+ * scan then skips), and no offer for another SunSpec brand.
+ */
+const discovery = async () => {
+  const load = (dump) => Object.fromEntries(Object.entries(JSON.parse(fs.readFileSync(path.join(FIXTURES, `${dump}.json`), 'utf8')).holding)
+    .map(([address, word]) => [Number(address), word]));
+  const holding = load('se17k_3phase');
+  const server = await serve(holding);
+  const { port } = server.address();
+  try {
+    const driver = loadDriver('inverter_modbus');
+    await driver.onInit();
+    driver.scanPorts = () => [port];
+    const scanned = await driver.discover();
+    check(isDeepStrictEqual(scanned, [{
+      host: '127.0.0.1', port, unitId: 1, count: 1,
+    }]), `discovery by scan: ${JSON.stringify(scanned)}`);
+
+    driver.homey = {
+      ...driver.homey,
+      discovery: { getStrategy: () => ({ getDiscoveryResults: () => ({ a: { address: '127.0.0.1', port: String(port), txt: { modbus_id: '1' } } }) }) },
+      cloud: {
+        getLocalAddress: async () => {
+          throw Error('no scan expected');
+        },
+      },
+    };
+    const announced = await driver.discover();
+    check(announced.length === 1 && announced[0].port === port, `discovery by mDNS: ${JSON.stringify(announced)}`);
+
+    // "Fronius" in the common block
+    [holding[40004], holding[40005], holding[40006], holding[40007]] = [0x4672, 0x6f6e, 0x6975, 0x7300];
+    driver.homey = loadDriver('inverter_modbus').homey;
+    check((await driver.discover()).length === 0, 'discovery offered a non-SolarEdge SunSpec inverter');
+  } finally {
+    server.close();
+  }
+};
+
 (async () => {
   kebaIdentity();
+  await discovery();
   const modbusDrivers = manifest.drivers.filter((driver) => driver.connectivity.includes('lan')).map((driver) => driver.id);
   for (const testCase of CASES) {
     const { holding } = testCase.registers

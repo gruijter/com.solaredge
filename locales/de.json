@@ -34,7 +34,10 @@
       "intro": "Vergib im Router zuerst eine feste IP-Adresse, damit es nach einem Neustart weiter funktioniert.",
       "legend": "Verbindung",
       "connect": "Verbinden",
-      "modbus": "Aktiviere zuerst Modbus TCP am Gerät. Es akzeptiert nur eine Modbus-Verbindung gleichzeitig."
+      "modbus": "Aktiviere zuerst Modbus TCP am Gerät. Es akzeptiert nur eine Modbus-Verbindung gleichzeitig.",
+      "searching": "Dein Netzwerk wird durchsucht...",
+      "found": "Gefunden:",
+      "notFound": "Nichts automatisch gefunden: gib die Adresse ein."
     }
   },
   "settings": {

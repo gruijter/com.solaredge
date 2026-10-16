@@ -34,7 +34,10 @@
       "intro": "Attribuez d'abord une adresse IP fixe dans votre routeur, pour que cela continue de fonctionner après un redémarrage.",
       "legend": "Connexion",
       "connect": "Connecter",
-      "modbus": "Activez d'abord Modbus TCP sur l'appareil. Il n'accepte qu'une seule connexion Modbus à la fois."
+      "modbus": "Activez d'abord Modbus TCP sur l'appareil. Il n'accepte qu'une seule connexion Modbus à la fois.",
+      "searching": "Recherche sur votre réseau...",
+      "found": "Trouvé :",
+      "notFound": "Rien trouvé automatiquement : saisissez l'adresse."
     }
   },
   "settings": {
