@@ -175,8 +175,9 @@ class Device extends SimpleClass {
     this.values[id] = value;
   }
 
+  // null for a key never set, as Homey (seen live 2026-10-16, Paul's Homey Pro mini)
   getStoreValue(key) {
-    return this.store[key];
+    return this.store[key] ?? null;
   }
 
   async setStoreValue(key, value) {
