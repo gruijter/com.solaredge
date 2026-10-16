@@ -1,0 +1,16 @@
+{
+  "tokens": [
+    {
+      "name": "ev_charge_mode",
+      "type": "string",
+      "example": "auto"
+    }
+  ],
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=evcharger&capabilities=ev_charge_mode"
+    }
+  ]
+}

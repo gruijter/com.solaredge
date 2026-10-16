@@ -32,6 +32,1152 @@
   "support": "https://community.homey.app/t/134605",
   "homeyCommunityTopicId": 134605,
   "source": "https://github.com/gruijter/com.solaredge",
+  "flow": {
+    "triggers": [
+      {
+        "tokens": [
+          {
+            "name": "ev_charge_mode",
+            "type": "string",
+            "example": "auto",
+            "title": {
+              "ar": "وضع الشحن",
+              "da": "Opladningstilstand",
+              "de": "Lademodus",
+              "en": "Charge mode",
+              "es": "Modo de carga",
+              "fr": "Mode de charge",
+              "it": "Modalità di ricarica",
+              "ko": "충전 모드",
+              "nl": "Laadmodus",
+              "no": "Lademodus",
+              "pl": "Tryb ładowania",
+              "ru": "Режим зарядки",
+              "sv": "Laddläge"
+            }
+          }
+        ],
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=evcharger&capabilities=ev_charge_mode"
+          }
+        ],
+        "id": "ev_charge_mode_changed",
+        "title": {
+          "ar": "تغيّر وضع الشحن",
+          "da": "Opladningstilstand er ændret",
+          "de": "Lademodus hat sich geändert",
+          "en": "Charge mode changed",
+          "es": "El modo de carga ha cambiado",
+          "fr": "Le mode de charge a changé",
+          "it": "La modalità di ricarica è cambiata",
+          "ko": "충전 모드가 변경됨",
+          "nl": "Laadmodus is veranderd",
+          "no": "Lademodus er endret",
+          "pl": "Tryb ładowania się zmienił",
+          "ru": "Режим зарядки изменился",
+          "sv": "Laddläget har ändrats"
+        }
+      },
+      {
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=evcharger&capabilities=ev_solar_charging"
+          }
+        ],
+        "id": "ev_solar_charging_false",
+        "title": {
+          "ar": "تم إيقاف الشحن الشمسي",
+          "da": "Solcelleopladning slået fra",
+          "de": "Solarüberschussladen ausgeschaltet",
+          "en": "Solar charging turned off",
+          "es": "Carga solar desactivada",
+          "fr": "Recharge solaire désactivée",
+          "it": "Ricarica solare disattivata",
+          "ko": "태양광 충전 꺼짐",
+          "nl": "Laden op zonne-overschot uitgeschakeld",
+          "no": "Sollading slått av",
+          "pl": "Ładowanie solarne wyłączone",
+          "ru": "Зарядка от солнца выключена",
+          "sv": "Solladdning avaktiverad"
+        }
+      },
+      {
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=evcharger&capabilities=ev_solar_charging"
+          }
+        ],
+        "id": "ev_solar_charging_true",
+        "title": {
+          "ar": "تم تشغيل الشحن الشمسي",
+          "da": "Solcelleopladning slået til",
+          "de": "Solarüberschussladen eingeschaltet",
+          "en": "Solar charging turned on",
+          "es": "Carga solar activada",
+          "fr": "Recharge solaire activée",
+          "it": "Ricarica solare attivata",
+          "ko": "태양광 충전 켜짐",
+          "nl": "Laden op zonne-overschot ingeschakeld",
+          "no": "Sollading slått på",
+          "pl": "Ładowanie solarne włączone",
+          "ru": "Зарядка от солнца включена",
+          "sv": "Solladdning aktiverad"
+        }
+      },
+      {
+        "tokens": [
+          {
+            "name": "inverter_status",
+            "type": "string",
+            "example": "production",
+            "title": {
+              "ar": "حالة العاكس",
+              "da": "Inverterstatus",
+              "de": "Wechselrichterstatus",
+              "en": "Inverter status",
+              "es": "Estado del inversor",
+              "fr": "État de l'onduleur",
+              "it": "Stato inverter",
+              "ko": "인버터 상태",
+              "nl": "Omvormerstatus",
+              "no": "Vekselretterstatus",
+              "pl": "Stan inwertera",
+              "ru": "Состояние инвертора",
+              "sv": "Växelriktarstatus"
+            }
+          }
+        ],
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=inverter&capabilities=inverter_status"
+          }
+        ],
+        "id": "inverter_status_changed",
+        "title": {
+          "ar": "تغيرت حالة العاكس",
+          "da": "Inverterstatus ændret",
+          "de": "Wechselrichterstatus geändert",
+          "en": "Inverter status changed",
+          "es": "Estado del inversor cambiado",
+          "fr": "État de l'onduleur modifié",
+          "it": "Stato inverter modificato",
+          "ko": "인버터 상태가 변경됨",
+          "nl": "Omvormerstatus is veranderd",
+          "no": "Vekselretterstatus endret",
+          "pl": "Stan inwertera zmienił się",
+          "ru": "Состояние инвертора изменилось",
+          "sv": "Växelriktarstatus ändrad"
+        }
+      },
+      {
+        "tokens": [
+          {
+            "name": "measure_power.load",
+            "type": "number",
+            "example": 800,
+            "title": {
+              "ar": "استهلاك المنزل",
+              "da": "Husforbrug",
+              "de": "Hausverbrauch",
+              "en": "Home consumption",
+              "es": "Consumo doméstico",
+              "fr": "Consommation domestique",
+              "it": "Consumo domestico",
+              "ko": "가정 소비 전력",
+              "nl": "Thuisverbruik",
+              "no": "Husforbruk",
+              "pl": "Zużycie domowe",
+              "ru": "Домашнее потребление",
+              "sv": "Husförbrukning"
+            }
+          }
+        ],
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=meter&capabilities=measure_power.load"
+          }
+        ],
+        "id": "measure_power.load_changed",
+        "title": {
+          "ar": "تغير استهلاك المنزل",
+          "da": "Husforbrug ændret",
+          "de": "Hausverbrauch geändert",
+          "en": "Home consumption changed",
+          "es": "Consumo doméstico cambiado",
+          "fr": "Consommation domestique modifiée",
+          "it": "Consumo domestico modificato",
+          "ko": "가정 소비 전력이 변경됨",
+          "nl": "Thuisverbruik is veranderd",
+          "no": "Husforbruk endret",
+          "pl": "Zużycie domowe uległo zmianie",
+          "ru": "Домашнее потребление изменилось",
+          "sv": "Husförbrukning ändrad"
+        }
+      },
+      {
+        "tokens": [
+          {
+            "name": "measure_voltage.1",
+            "type": "number",
+            "example": 230,
+            "title": {
+              "ar": "جهد المرحلة 1 (AC)",
+              "da": "Spænding fase 1 (AC)",
+              "de": "Spannung Phase 1 (AC)",
+              "en": "Voltage phase 1 (AC)",
+              "es": "Voltaje fase 1 (CA)",
+              "fr": "Tension phase 1 (CA)",
+              "it": "Tensione fase 1 (CA)",
+              "ko": "전압 위상 1 (AC)",
+              "nl": "Spanning fase 1 (AC)",
+              "no": "Spenning fase 1 (AC)",
+              "pl": "Napięcie fazy 1 (AC)",
+              "ru": "Напряжение фазы 1 (AC)",
+              "sv": "Spänning fas 1 (AC)"
+            }
+          }
+        ],
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=inverter&capabilities=measure_voltage.1"
+          }
+        ],
+        "id": "measure_voltage.1_changed",
+        "title": {
+          "ar": "تغير جهد المرحلة 1",
+          "da": "Spænding fase 1 ændret",
+          "de": "Spannung Phase 1 geändert",
+          "en": "Voltage phase 1 changed",
+          "es": "Voltaje fase 1 cambiado",
+          "fr": "Tension phase 1 modifiée",
+          "it": "Tensione fase 1 modificata",
+          "ko": "전압 위상 1 변경됨",
+          "nl": "Spanning fase 1 is veranderd",
+          "no": "Spenning fase 1 endret",
+          "pl": "Napięcie fazy 1 uległo zmianie",
+          "ru": "Напряжение фазы 1 изменено",
+          "sv": "Spänning fas 1 ändrad"
+        }
+      },
+      {
+        "tokens": [
+          {
+            "name": "measure_voltage.2",
+            "type": "number",
+            "example": 230,
+            "title": {
+              "ar": "جهد المرحلة 2 (AC)",
+              "da": "Spænding fase 2 (AC)",
+              "de": "Spannung Phase 2 (AC)",
+              "en": "Voltage phase 2 (AC)",
+              "es": "Voltaje fase 2 (CA)",
+              "fr": "Tension phase 2 (CA)",
+              "it": "Tensione fase 2 (CA)",
+              "ko": "전압 위상 2 (AC)",
+              "nl": "Spanning fase 2 (AC)",
+              "no": "Spenning fase 2 (AC)",
+              "pl": "Napięcie fazy 2 (AC)",
+              "ru": "Напряжение фазы 2 (AC)",
+              "sv": "Spänning fas 2 (AC)"
+            }
+          }
+        ],
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=inverter&capabilities=measure_voltage.2"
+          }
+        ],
+        "id": "measure_voltage.2_changed",
+        "title": {
+          "ar": "تغير جهد المرحلة 2",
+          "da": "Spænding fase 2 ændret",
+          "de": "Spannung Phase 2 geändert",
+          "en": "Voltage phase 2 changed",
+          "es": "Voltaje fase 2 cambiado",
+          "fr": "Tension phase 2 modifiée",
+          "it": "Tensione fase 2 modificata",
+          "ko": "전압 위상 2 변경됨",
+          "nl": "Spanning fase 2 is veranderd",
+          "no": "Spenning fase 2 endret",
+          "pl": "Napięcie fazy 2 uległo zmianie",
+          "ru": "Напряжение фазы 2 изменено",
+          "sv": "Spänning fas 2 ändrad"
+        }
+      },
+      {
+        "tokens": [
+          {
+            "name": "measure_voltage.3",
+            "type": "number",
+            "example": 230,
+            "title": {
+              "ar": "جهد المرحلة 3 (AC)",
+              "da": "Spænding fase 3 (AC)",
+              "de": "Spannung Phase 3 (AC)",
+              "en": "Voltage phase 3 (AC)",
+              "es": "Voltaje fase 3 (CA)",
+              "fr": "Tension phase 3 (CA)",
+              "it": "Tensione fase 3 (CA)",
+              "ko": "전압 위상 3 (AC)",
+              "nl": "Spanning fase 3 (AC)",
+              "no": "Spenning fase 3 (AC)",
+              "pl": "Napięcie fazy 3 (AC)",
+              "ru": "Напряжение фазы 3 (AC)",
+              "sv": "Spänning fas 3 (AC)"
+            }
+          }
+        ],
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=inverter&capabilities=measure_voltage.3"
+          }
+        ],
+        "id": "measure_voltage.3_changed",
+        "title": {
+          "ar": "تغير جهد المرحلة 3",
+          "da": "Spænding fase 3 ændret",
+          "de": "Spannung Phase 3 geändert",
+          "en": "Voltage phase 3 changed",
+          "es": "Voltaje fase 3 cambiado",
+          "fr": "Tension phase 3 modifiée",
+          "it": "Tensione fase 3 modificata",
+          "ko": "전압 위상 3 변경됨",
+          "nl": "Spanning fase 3 is veranderd",
+          "no": "Spenning fase 3 endret",
+          "pl": "Napięcie fazy 3 uległo zmianie",
+          "ru": "Напряжение фазы 3 изменено",
+          "sv": "Spänning fas 3 ändrad"
+        }
+      },
+      {
+        "tokens": [
+          {
+            "name": "meter_power.day",
+            "type": "number",
+            "example": 12.5,
+            "title": {
+              "ar": "الإنتاج اليوم",
+              "da": "Produceret i dag",
+              "de": "Erzeugung heute",
+              "en": "Generated Today",
+              "es": "Generado hoy",
+              "fr": "Production aujourd'hui",
+              "it": "Prodotto oggi",
+              "ko": "오늘 발전량",
+              "nl": "Opgewekt vandaag",
+              "no": "Produsert i dag",
+              "pl": "Produkcja dzisiaj",
+              "ru": "Выработано сегодня",
+              "sv": "Producerat idag"
+            }
+          }
+        ],
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=inverter&capabilities=meter_power.day"
+          }
+        ],
+        "id": "meter_power.day_changed",
+        "title": {
+          "ar": "تغيرت طاقة اليوم",
+          "da": "Energi i dag ændret",
+          "de": "Energie heute geändert",
+          "en": "Energy today changed",
+          "es": "Energía de hoy cambiada",
+          "fr": "Énergie du jour modifiée",
+          "it": "Energia di oggi modificata",
+          "ko": "오늘의 에너지가 변경됨",
+          "nl": "Energie vandaag is veranderd",
+          "no": "Energi i dag endret",
+          "pl": "Dzisiejsza energia uległa zmianie",
+          "ru": "Энергия за сегодня изменена",
+          "sv": "Energi idag ändrad"
+        }
+      },
+      {
+        "tokens": [
+          {
+            "name": "meter_power.exported",
+            "type": "number",
+            "example": 1234.5,
+            "title": {
+              "ar": "الطاقة المصدرة",
+              "da": "Eksporteret energi",
+              "de": "Exportierte Energie",
+              "en": "Exported Energy",
+              "es": "Energía exportada",
+              "fr": "Énergie exportée",
+              "it": "Energia esportata",
+              "ko": "송전 에너지",
+              "nl": "Geëxporteerde energie",
+              "no": "Eksportert energi",
+              "pl": "Energia oddana",
+              "ru": "Экспортированная энергия",
+              "sv": "Exporterad energi"
+            }
+          }
+        ],
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=meter&capabilities=meter_power.exported"
+          }
+        ],
+        "id": "meter_power.exported_changed",
+        "title": {
+          "ar": "تغيرت الطاقة المصدرة",
+          "da": "Eksporteret energi ændret",
+          "de": "Eingespeiste Energie geändert",
+          "en": "Exported energy changed",
+          "es": "Energía exportada cambiada",
+          "fr": "Énergie exportée modifiée",
+          "it": "Energia esportata modificata",
+          "ko": "내보낸 에너지가 변경됨",
+          "nl": "Teruggeleverde energie is veranderd",
+          "no": "Eksportert energi endret",
+          "pl": "Eksportowana energia uległa zmianie",
+          "ru": "Экспортированная энергия изменена",
+          "sv": "Exporterad energi ändrad"
+        }
+      },
+      {
+        "tokens": [
+          {
+            "name": "meter_power.imported",
+            "type": "number",
+            "example": 1234.5,
+            "title": {
+              "ar": "الطاقة المستوردة",
+              "da": "Importeret energi",
+              "de": "Importierte Energie",
+              "en": "Imported Energy",
+              "es": "Energía importada",
+              "fr": "Énergie importée",
+              "it": "Energia importata",
+              "ko": "수전 에너지",
+              "nl": "Geïmporteerde energie",
+              "no": "Importert energi",
+              "pl": "Energia pobrana",
+              "ru": "Импортированная энергия",
+              "sv": "Importerad energi"
+            }
+          }
+        ],
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=meter&capabilities=meter_power.imported"
+          }
+        ],
+        "id": "meter_power.imported_changed",
+        "title": {
+          "ar": "تغيرت الطاقة المستوردة",
+          "da": "Importeret energi ændret",
+          "de": "Bezogene Energie geändert",
+          "en": "Imported energy changed",
+          "es": "Energía importada cambiada",
+          "fr": "Énergie importée modifiée",
+          "it": "Energia importata modificata",
+          "ko": "가져온 에너지가 변경됨",
+          "nl": "Afgenomen energie is veranderd",
+          "no": "Importert energi endret",
+          "pl": "Importowana energia uległa zmianie",
+          "ru": "Импортированная энергия изменена",
+          "sv": "Importerad energi ändrad"
+        }
+      },
+      {
+        "tokens": [
+          {
+            "name": "solaredge-home-load-controller-state",
+            "type": "string",
+            "example": "auto",
+            "title": {
+              "ar": "الحالة",
+              "da": "Tilstand",
+              "de": "Zustand",
+              "en": "State",
+              "es": "Estado",
+              "fr": "État",
+              "it": "Stato",
+              "ko": "상태",
+              "nl": "Status",
+              "no": "Tilstand",
+              "pl": "Stan",
+              "ru": "Состояние",
+              "sv": "Tillstånd"
+            }
+          }
+        ],
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=home-load-controller&capabilities=solaredge-home-load-controller-state"
+          }
+        ],
+        "id": "solaredge-home-load-controller-state_changed",
+        "title": {
+          "ar": "تغيّرت الحالة",
+          "da": "Tilstand er ændret",
+          "de": "Zustand hat sich geändert",
+          "en": "State changed",
+          "es": "El estado ha cambiado",
+          "fr": "L'état a changé",
+          "it": "Lo stato è cambiato",
+          "ko": "상태가 변경됨",
+          "nl": "Status is veranderd",
+          "no": "Tilstand er endret",
+          "pl": "Stan się zmienił",
+          "ru": "Состояние изменилось",
+          "sv": "Tillståndet har ändrats"
+        }
+      }
+    ],
+    "conditions": [
+      {
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=evcharger&capabilities=ev_charge_mode"
+          },
+          {
+            "name": "mode",
+            "type": "dropdown",
+            "values": [
+              {
+                "id": "auto",
+                "title": {
+                  "en": "Automatic",
+                  "nl": "Automatisch",
+                  "de": "Automatisch",
+                  "fr": "Automatique",
+                  "es": "Automático",
+                  "it": "Automatica",
+                  "da": "Automatisk",
+                  "sv": "Automatiskt",
+                  "no": "Automatisk",
+                  "pl": "Automatyczny",
+                  "ru": "Автоматически",
+                  "ar": "تلقائي",
+                  "ko": "자동"
+                }
+              },
+              {
+                "id": "manual",
+                "title": {
+                  "en": "Manual",
+                  "nl": "Handmatig",
+                  "de": "Manuell",
+                  "fr": "Manuel",
+                  "es": "Manual",
+                  "it": "Manuale",
+                  "da": "Manuel",
+                  "sv": "Manuellt",
+                  "no": "Manuell",
+                  "pl": "Ręczny",
+                  "ru": "Вручную",
+                  "ar": "يدوي",
+                  "ko": "수동"
+                }
+              }
+            ],
+            "title": {
+              "ar": "وضع الشحن",
+              "da": "Opladningstilstand",
+              "de": "Lademodus",
+              "en": "Charge mode",
+              "es": "Modo de carga",
+              "fr": "Mode de charge",
+              "it": "Modalità di ricarica",
+              "ko": "충전 모드",
+              "nl": "Laadmodus",
+              "no": "Lademodus",
+              "pl": "Tryb ładowania",
+              "ru": "Режим зарядки",
+              "sv": "Laddläge"
+            }
+          }
+        ],
+        "id": "ev_charge_mode_is",
+        "title": {
+          "ar": "وضع الشحن هو ...",
+          "da": "Opladningstilstand er ...",
+          "de": "Lademodus ist ...",
+          "en": "Charge mode is ...",
+          "es": "El modo de carga es ...",
+          "fr": "Le mode de charge est ...",
+          "it": "La modalità di ricarica è ...",
+          "ko": "충전 모드는 ...",
+          "nl": "Laadmodus is ...",
+          "no": "Lademodus er ...",
+          "pl": "Tryb ładowania to ...",
+          "ru": "Режим зарядки ...",
+          "sv": "Laddläget är ..."
+        },
+        "titleFormatted": {
+          "ar": "وضع الشحن !{{هو|ليس}} [[mode]]",
+          "da": "Opladningstilstand !{{er|er ikke}} [[mode]]",
+          "de": "Lademodus !{{ist|ist nicht}} [[mode]]",
+          "en": "Charge mode !{{is|is not}} [[mode]]",
+          "es": "El modo de carga !{{es|no es}} [[mode]]",
+          "fr": "Le mode de charge !{{est|n'est pas}} [[mode]]",
+          "it": "La modalità di ricarica !{{è|non è}} [[mode]]",
+          "ko": "충전 모드: [[mode]] !{{입니다|이(가) 아닙니다}}",
+          "nl": "Laadmodus !{{is|is niet}} [[mode]]",
+          "no": "Lademodus !{{er|er ikke}} [[mode]]",
+          "pl": "Tryb ładowania !{{to|to nie}} [[mode]]",
+          "ru": "Режим зарядки !{{—|не}} [[mode]]",
+          "sv": "Laddläget !{{är|är inte}} [[mode]]"
+        }
+      },
+      {
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=evcharger&capabilities=ev_solar_charging"
+          }
+        ],
+        "id": "ev_solar_charging_is",
+        "title": {
+          "ar": "الشحن الشمسي مفعّل",
+          "da": "Solcelleopladning er slået til",
+          "de": "Solarüberschussladen ist an",
+          "en": "Solar charging is on",
+          "es": "La carga solar está activada",
+          "fr": "La recharge solaire est activée",
+          "it": "La ricarica solare è attiva",
+          "ko": "태양광 충전이 켜져 있음",
+          "nl": "Laden op zonne-overschot staat aan",
+          "no": "Sollading er på",
+          "pl": "Ładowanie solarne jest włączone",
+          "ru": "Зарядка от солнца включена",
+          "sv": "Solladdning är på"
+        },
+        "titleFormatted": {
+          "ar": "الشحن الشمسي !{{مفعّل|غير مفعّل}}",
+          "da": "Solcelleopladning !{{er|er ikke}} slået til",
+          "de": "Solarüberschussladen !{{ist|ist nicht}} an",
+          "en": "Solar charging !{{is|is not}} on",
+          "es": "La carga solar !{{está|no está}} activada",
+          "fr": "La recharge solaire !{{est|n'est pas}} activée",
+          "it": "La ricarica solare !{{è|non è}} attiva",
+          "ko": "태양광 충전이 !{{켜져 있음|꺼져 있음}}",
+          "nl": "Laden op zonne-overschot !{{staat|staat niet}} aan",
+          "no": "Sollading !{{er|er ikke}} på",
+          "pl": "Ładowanie solarne !{{jest|nie jest}} włączone",
+          "ru": "Зарядка от солнца !{{включена|не включена}}",
+          "sv": "Solladdning !{{är|är inte}} på"
+        }
+      },
+      {
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=inverter&capabilities=inverter_status"
+          },
+          {
+            "name": "status",
+            "type": "dropdown",
+            "values": [
+              {
+                "id": "production",
+                "title": {
+                  "en": "Producing",
+                  "nl": "Produceert",
+                  "de": "Produziert",
+                  "fr": "En production",
+                  "es": "Produciendo",
+                  "it": "In produzione",
+                  "da": "Producerer",
+                  "sv": "Producerar",
+                  "no": "Produserer",
+                  "pl": "Produkcja",
+                  "ru": "Выработка",
+                  "ar": "ينتج",
+                  "ko": "발전 중"
+                }
+              },
+              {
+                "id": "sleeping",
+                "title": {
+                  "en": "Sleeping",
+                  "nl": "Slaapstand",
+                  "de": "Ruhemodus",
+                  "fr": "En veille",
+                  "es": "En reposo",
+                  "it": "In riposo",
+                  "da": "Dvale",
+                  "sv": "Viloläge",
+                  "no": "Hvilemodus",
+                  "pl": "Uśpienie",
+                  "ru": "Спящий режим",
+                  "ar": "سكون",
+                  "ko": "절전"
+                }
+              },
+              {
+                "id": "starting",
+                "title": {
+                  "en": "Starting",
+                  "nl": "Opstarten",
+                  "de": "Startet",
+                  "fr": "Démarrage",
+                  "es": "Iniciando",
+                  "it": "Avvio",
+                  "da": "Starter",
+                  "sv": "Startar",
+                  "no": "Starter",
+                  "pl": "Uruchamianie",
+                  "ru": "Запуск",
+                  "ar": "بدء التشغيل",
+                  "ko": "시작 중"
+                }
+              },
+              {
+                "id": "throttled",
+                "title": {
+                  "en": "Throttled",
+                  "nl": "Begrensd",
+                  "de": "Gedrosselt",
+                  "fr": "Bridé",
+                  "es": "Limitado",
+                  "it": "Limitato",
+                  "da": "Begrænset",
+                  "sv": "Begränsad",
+                  "no": "Begrenset",
+                  "pl": "Ograniczony",
+                  "ru": "Ограничен",
+                  "ar": "مقيد",
+                  "ko": "출력 제한"
+                }
+              },
+              {
+                "id": "shutting_down",
+                "title": {
+                  "en": "Shutting down",
+                  "nl": "Afsluiten",
+                  "de": "Fährt herunter",
+                  "fr": "Arrêt en cours",
+                  "es": "Apagando",
+                  "it": "Spegnimento",
+                  "da": "Lukker ned",
+                  "sv": "Stänger av",
+                  "no": "Slår seg av",
+                  "pl": "Wyłączanie",
+                  "ru": "Выключение",
+                  "ar": "إيقاف التشغيل",
+                  "ko": "종료 중"
+                }
+              },
+              {
+                "id": "fault",
+                "title": {
+                  "en": "Fault",
+                  "nl": "Storing",
+                  "de": "Störung",
+                  "fr": "Défaut",
+                  "es": "Fallo",
+                  "it": "Guasto",
+                  "da": "Fejl",
+                  "sv": "Fel",
+                  "no": "Feil",
+                  "pl": "Awaria",
+                  "ru": "Неисправность",
+                  "ar": "عطل",
+                  "ko": "고장"
+                }
+              },
+              {
+                "id": "standby",
+                "title": {
+                  "en": "Standby",
+                  "nl": "Stand-by",
+                  "de": "Standby",
+                  "fr": "Veille",
+                  "es": "En espera",
+                  "it": "Standby",
+                  "da": "Standby",
+                  "sv": "Standby",
+                  "no": "Standby",
+                  "pl": "Czuwanie",
+                  "ru": "Ожидание",
+                  "ar": "استعداد",
+                  "ko": "대기"
+                }
+              },
+              {
+                "id": "off",
+                "title": {
+                  "en": "Off",
+                  "nl": "Uit",
+                  "de": "Aus",
+                  "fr": "Arrêté",
+                  "es": "Apagado",
+                  "it": "Spento",
+                  "da": "Slukket",
+                  "sv": "Av",
+                  "no": "Av",
+                  "pl": "Wyłączony",
+                  "ru": "Выключен",
+                  "ar": "متوقف",
+                  "ko": "꺼짐"
+                }
+              }
+            ],
+            "title": {
+              "ar": "حالة العاكس",
+              "da": "Inverterstatus",
+              "de": "Wechselrichterstatus",
+              "en": "Inverter status",
+              "es": "Estado del inversor",
+              "fr": "État de l'onduleur",
+              "it": "Stato inverter",
+              "ko": "인버터 상태",
+              "nl": "Omvormerstatus",
+              "no": "Vekselretterstatus",
+              "pl": "Stan inwertera",
+              "ru": "Состояние инвертора",
+              "sv": "Växelriktarstatus"
+            }
+          }
+        ],
+        "id": "inverter_status_is",
+        "title": {
+          "ar": "حالة العاكس هي ...",
+          "da": "Inverterstatus er ...",
+          "de": "Wechselrichterstatus ist ...",
+          "en": "Inverter status is ...",
+          "es": "El estado del inversor es ...",
+          "fr": "L'état de l'onduleur est ...",
+          "it": "Lo stato dell'inverter è ...",
+          "ko": "인버터 상태는 ...",
+          "nl": "Omvormerstatus is ...",
+          "no": "Vekselretterstatus er ...",
+          "pl": "Stan inwertera to ...",
+          "ru": "Состояние инвертора ...",
+          "sv": "Växelriktarstatus är ..."
+        },
+        "titleFormatted": {
+          "ar": "حالة العاكس !{{هي|ليست}} [[status]]",
+          "da": "Inverterstatus !{{er|er ikke}} [[status]]",
+          "de": "Wechselrichterstatus !{{ist|ist nicht}} [[status]]",
+          "en": "Inverter status !{{is|is not}} [[status]]",
+          "es": "Estado del inversor !{{es|no es}} [[status]]",
+          "fr": "État de l'onduleur !{{est|n'est pas}} [[status]]",
+          "it": "Stato inverter !{{è|non è}} [[status]]",
+          "ko": "인버터 상태: [[status]] !{{입니다|이(가) 아닙니다}}",
+          "nl": "Omvormerstatus !{{is|is niet}} [[status]]",
+          "no": "Vekselretterstatus !{{er|er ikke}} [[status]]",
+          "pl": "Stan inwertera !{{jest|nie jest}} [[status]]",
+          "ru": "Состояние инвертора !{{—|не}} [[status]]",
+          "sv": "Växelriktarstatus !{{är|är inte}} [[status]]"
+        }
+      },
+      {
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=home-load-controller&capabilities=solaredge-home-load-controller-state"
+          },
+          {
+            "name": "state",
+            "type": "dropdown",
+            "values": [
+              {
+                "id": "on",
+                "title": {
+                  "en": "On",
+                  "nl": "Aan",
+                  "de": "Ein",
+                  "fr": "Activé",
+                  "it": "Acceso",
+                  "es": "Encendido",
+                  "sv": "På",
+                  "da": "Til",
+                  "fi": "Päällä",
+                  "no": "På",
+                  "ru": "Включено",
+                  "ko": "켜기",
+                  "pl": "Włączony",
+                  "ar": "تشغيل"
+                }
+              },
+              {
+                "id": "off",
+                "title": {
+                  "en": "Off",
+                  "nl": "Uit",
+                  "de": "Aus",
+                  "fr": "Désactivé",
+                  "it": "Spento",
+                  "es": "Apagado",
+                  "sv": "Av",
+                  "da": "Fra",
+                  "fi": "Pois päältä",
+                  "no": "Av",
+                  "ru": "Выключено",
+                  "ko": "끄기",
+                  "pl": "Wyłączony",
+                  "ar": "إيقاف"
+                }
+              },
+              {
+                "id": "auto",
+                "title": {
+                  "en": "Auto",
+                  "nl": "Auto",
+                  "de": "Auto",
+                  "fr": "Auto",
+                  "it": "Auto",
+                  "es": "Auto",
+                  "sv": "Auto",
+                  "da": "Auto",
+                  "fi": "Auto",
+                  "no": "Auto",
+                  "ru": "Авто",
+                  "ko": "자동",
+                  "pl": "Auto",
+                  "ar": "تلقائي"
+                }
+              }
+            ],
+            "title": {
+              "ar": "الحالة",
+              "da": "Tilstand",
+              "de": "Zustand",
+              "en": "State",
+              "es": "Estado",
+              "fr": "État",
+              "it": "Stato",
+              "ko": "상태",
+              "nl": "Status",
+              "no": "Tilstand",
+              "pl": "Stan",
+              "ru": "Состояние",
+              "sv": "Tillstånd"
+            }
+          }
+        ],
+        "id": "solaredge-home-load-controller-state_is",
+        "title": {
+          "ar": "الحالة هي ...",
+          "da": "Tilstand er ...",
+          "de": "Zustand ist ...",
+          "en": "State is ...",
+          "es": "El estado es ...",
+          "fr": "L'état est ...",
+          "it": "Lo stato è ...",
+          "ko": "상태는 ...",
+          "nl": "Status is ...",
+          "no": "Tilstand er ...",
+          "pl": "Stan to ...",
+          "ru": "Состояние ...",
+          "sv": "Tillståndet är ..."
+        },
+        "titleFormatted": {
+          "ar": "الحالة !{{هي|ليست}} [[state]]",
+          "da": "Tilstand !{{er|er ikke}} [[state]]",
+          "de": "Zustand !{{ist|ist nicht}} [[state]]",
+          "en": "State !{{is|is not}} [[state]]",
+          "es": "El estado !{{es|no es}} [[state]]",
+          "fr": "L'état !{{est|n'est pas}} [[state]]",
+          "it": "Lo stato !{{è|non è}} [[state]]",
+          "ko": "상태: [[state]] !{{입니다|이(가) 아닙니다}}",
+          "nl": "Status !{{is|is niet}} [[state]]",
+          "no": "Tilstand !{{er|er ikke}} [[state]]",
+          "pl": "Stan !{{to|to nie}} [[state]]",
+          "ru": "Состояние !{{—|не}} [[state]]",
+          "sv": "Tillståndet !{{är|är inte}} [[state]]"
+        }
+      }
+    ],
+    "actions": [
+      {
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=evcharger"
+          }
+        ],
+        "id": "evcharger-set-auto",
+        "title": {
+          "ar": "الشحن تلقائيًا",
+          "da": "Oplad automatisk",
+          "de": "Automatisch laden",
+          "en": "Charge automatically",
+          "es": "Cargar automáticamente",
+          "fr": "Charger automatiquement",
+          "it": "Ricarica automatica",
+          "ko": "자동 충전",
+          "nl": "Automatisch laden",
+          "no": "Lad automatisk",
+          "pl": "Ładuj automatycznie",
+          "ru": "Заряжать автоматически",
+          "sv": "Ladda automatiskt"
+        },
+        "hint": {
+          "ar": "العودة إلى جدول الشاحن والشحن من فائض الطاقة الشمسية.",
+          "da": "Tilbage til laderens tidsplan og opladning på solcelleoverskud.",
+          "de": "Zurück zum Zeitplan und Überschussladen der Wallbox.",
+          "en": "Back to the charger's schedule and solar surplus charging.",
+          "es": "Volver a la programación y la carga con excedente solar del cargador.",
+          "fr": "Retour au planning et à la recharge sur surplus solaire de la borne.",
+          "it": "Torna alla programmazione e alla ricarica con surplus solare del caricatore.",
+          "ko": "충전기 일정 및 태양광 잉여 충전으로 돌아갑니다.",
+          "nl": "Terug naar het schema en laden op zonne-overschot van de lader.",
+          "no": "Tilbake til laderens tidsplan og lading på soloverskudd.",
+          "pl": "Powrót do harmonogramu ładowarki i ładowania nadwyżką solarną.",
+          "ru": "Вернуться к расписанию зарядной станции и зарядке от избытка солнечной энергии.",
+          "sv": "Tillbaka till laddarens schema och laddning på solöverskott."
+        }
+      },
+      {
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=home-load-controller"
+          },
+          {
+            "name": "state",
+            "type": "dropdown",
+            "values": [
+              {
+                "id": "on",
+                "title": {
+                  "en": "On",
+                  "nl": "Aan",
+                  "de": "Ein",
+                  "fr": "Activé",
+                  "it": "Acceso",
+                  "es": "Encendido",
+                  "sv": "På",
+                  "da": "Til",
+                  "fi": "Päällä",
+                  "no": "På",
+                  "ru": "Включено",
+                  "ko": "켜기",
+                  "pl": "Włączony",
+                  "ar": "تشغيل"
+                }
+              },
+              {
+                "id": "off",
+                "title": {
+                  "en": "Off",
+                  "nl": "Uit",
+                  "de": "Aus",
+                  "fr": "Désactivé",
+                  "it": "Spento",
+                  "es": "Apagado",
+                  "sv": "Av",
+                  "da": "Fra",
+                  "fi": "Pois päältä",
+                  "no": "Av",
+                  "ru": "Выключено",
+                  "ko": "끄기",
+                  "pl": "Wyłączony",
+                  "ar": "إيقاف"
+                }
+              },
+              {
+                "id": "auto",
+                "title": {
+                  "en": "Auto",
+                  "nl": "Auto",
+                  "de": "Auto",
+                  "fr": "Auto",
+                  "it": "Auto",
+                  "es": "Auto",
+                  "sv": "Auto",
+                  "da": "Auto",
+                  "fi": "Auto",
+                  "no": "Auto",
+                  "ru": "Авто",
+                  "ko": "자동",
+                  "pl": "Auto",
+                  "ar": "تلقائي"
+                }
+              }
+            ],
+            "title": {
+              "ar": "الحالة",
+              "da": "Tilstand",
+              "de": "Zustand",
+              "en": "State",
+              "es": "Estado",
+              "fr": "État",
+              "it": "Stato",
+              "ko": "상태",
+              "nl": "Status",
+              "no": "Tilstand",
+              "pl": "Stan",
+              "ru": "Состояние",
+              "sv": "Tillstånd"
+            }
+          }
+        ],
+        "id": "home-load-controller-set-state",
+        "title": {
+          "ar": "تعيين الحالة",
+          "da": "Indstil tilstanden",
+          "de": "Zustand festlegen",
+          "en": "Set the state",
+          "es": "Establecer el estado",
+          "fr": "Définir l'état",
+          "it": "Imposta lo stato",
+          "ko": "상태 설정",
+          "nl": "Stel de status in",
+          "no": "Angi tilstanden",
+          "pl": "Ustaw stan",
+          "ru": "Установить состояние",
+          "sv": "Ställ in tillståndet"
+        },
+        "titleFormatted": {
+          "ar": "تعيين الحالة إلى [[state]]",
+          "da": "Indstil tilstanden til [[state]]",
+          "de": "Zustand auf [[state]] festlegen",
+          "en": "Set the state to [[state]]",
+          "es": "Establecer el estado en [[state]]",
+          "fr": "Définir l'état sur [[state]]",
+          "it": "Imposta lo stato su [[state]]",
+          "ko": "상태를 [[state]](으)로 설정",
+          "nl": "Stel de status in op [[state]]",
+          "no": "Angi tilstanden til [[state]]",
+          "pl": "Ustaw stan na [[state]]",
+          "ru": "Установить состояние [[state]]",
+          "sv": "Ställ in tillståndet till [[state]]"
+        }
+      }
+    ]
+  },
   "drivers": [
     {
       "platforms": [
@@ -1056,375 +2202,6 @@
       }
     }
   ],
-  "flow": {
-    "actions": [
-      {
-        "id": "evcharger-set-auto",
-        "args": [
-          {
-            "type": "device",
-            "name": "device",
-            "filter": "driver_id=evcharger"
-          }
-        ],
-        "title": {
-          "ar": "الشحن تلقائيًا",
-          "da": "Oplad automatisk",
-          "de": "Automatisch laden",
-          "en": "Charge automatically",
-          "es": "Cargar automáticamente",
-          "fr": "Charger automatiquement",
-          "it": "Ricarica automatica",
-          "ko": "자동 충전",
-          "nl": "Automatisch laden",
-          "no": "Lad automatisk",
-          "pl": "Ładuj automatycznie",
-          "ru": "Заряжать автоматически",
-          "sv": "Ladda automatiskt"
-        },
-        "hint": {
-          "ar": "العودة إلى جدول الشاحن والشحن من فائض الطاقة الشمسية.",
-          "da": "Tilbage til laderens tidsplan og opladning på solcelleoverskud.",
-          "de": "Zurück zum Zeitplan und Überschussladen der Wallbox.",
-          "en": "Back to the charger's schedule and solar surplus charging.",
-          "es": "Volver a la programación y la carga con excedente solar del cargador.",
-          "fr": "Retour au planning et à la recharge sur surplus solaire de la borne.",
-          "it": "Torna alla programmazione e alla ricarica con surplus solare del caricatore.",
-          "ko": "충전기 일정 및 태양광 잉여 충전으로 돌아갑니다.",
-          "nl": "Terug naar het schema en laden op zonne-overschot van de lader.",
-          "no": "Tilbake til laderens tidsplan og lading på soloverskudd.",
-          "pl": "Powrót do harmonogramu ładowarki i ładowania nadwyżką solarną.",
-          "ru": "Вернуться к расписанию зарядной станции и зарядке от избытка солнечной энергии.",
-          "sv": "Tillbaka till laddarens schema och laddning på solöverskott."
-        }
-      },
-      {
-        "id": "home-load-controller-set-state",
-        "args": [
-          {
-            "type": "device",
-            "name": "device",
-            "filter": "driver_id=home-load-controller"
-          },
-          {
-            "name": "state",
-            "type": "dropdown",
-            "values": [
-              {
-                "id": "on",
-                "title": {
-                  "en": "On",
-                  "nl": "Aan",
-                  "de": "Ein",
-                  "fr": "Activé",
-                  "it": "Acceso",
-                  "es": "Encendido",
-                  "sv": "På",
-                  "da": "Til",
-                  "fi": "Päällä",
-                  "no": "På",
-                  "ru": "Включено",
-                  "ko": "켜기",
-                  "pl": "Włączony",
-                  "ar": "تشغيل"
-                }
-              },
-              {
-                "id": "off",
-                "title": {
-                  "en": "Off",
-                  "nl": "Uit",
-                  "de": "Aus",
-                  "fr": "Désactivé",
-                  "it": "Spento",
-                  "es": "Apagado",
-                  "sv": "Av",
-                  "da": "Fra",
-                  "fi": "Pois päältä",
-                  "no": "Av",
-                  "ru": "Выключено",
-                  "ko": "끄기",
-                  "pl": "Wyłączony",
-                  "ar": "إيقاف"
-                }
-              },
-              {
-                "id": "auto",
-                "title": {
-                  "en": "Auto",
-                  "nl": "Auto",
-                  "de": "Auto",
-                  "fr": "Auto",
-                  "it": "Auto",
-                  "es": "Auto",
-                  "sv": "Auto",
-                  "da": "Auto",
-                  "fi": "Auto",
-                  "no": "Auto",
-                  "ru": "Авто",
-                  "ko": "자동",
-                  "pl": "Auto",
-                  "ar": "تلقائي"
-                }
-              }
-            ],
-            "title": {
-              "ar": "الحالة",
-              "da": "Tilstand",
-              "de": "Zustand",
-              "en": "State",
-              "es": "Estado",
-              "fr": "État",
-              "it": "Stato",
-              "ko": "상태",
-              "nl": "Status",
-              "no": "Tilstand",
-              "pl": "Stan",
-              "ru": "Состояние",
-              "sv": "Tillstånd"
-            }
-          }
-        ],
-        "title": {
-          "ar": "تعيين الحالة",
-          "da": "Indstil tilstanden",
-          "de": "Zustand festlegen",
-          "en": "Set the state",
-          "es": "Establecer el estado",
-          "fr": "Définir l'état",
-          "it": "Imposta lo stato",
-          "ko": "상태 설정",
-          "nl": "Stel de status in",
-          "no": "Angi tilstanden",
-          "pl": "Ustaw stan",
-          "ru": "Установить состояние",
-          "sv": "Ställ in tillståndet"
-        },
-        "titleFormatted": {
-          "ar": "تعيين الحالة إلى [[state]]",
-          "da": "Indstil tilstanden til [[state]]",
-          "de": "Zustand auf [[state]] festlegen",
-          "en": "Set the state to [[state]]",
-          "es": "Establecer el estado en [[state]]",
-          "fr": "Définir l'état sur [[state]]",
-          "it": "Imposta lo stato su [[state]]",
-          "ko": "상태를 [[state]](으)로 설정",
-          "nl": "Stel de status in op [[state]]",
-          "no": "Angi tilstanden til [[state]]",
-          "pl": "Ustaw stan na [[state]]",
-          "ru": "Установить состояние [[state]]",
-          "sv": "Ställ in tillståndet till [[state]]"
-        }
-      }
-    ],
-    "conditions": [
-      {
-        "id": "inverter_status_is",
-        "args": [
-          {
-            "type": "device",
-            "name": "device",
-            "filter": "driver_id=inverter"
-          },
-          {
-            "name": "status",
-            "type": "dropdown",
-            "values": [
-              {
-                "id": "production",
-                "title": {
-                  "en": "Producing",
-                  "nl": "Produceert",
-                  "de": "Produziert",
-                  "fr": "En production",
-                  "es": "Produciendo",
-                  "it": "In produzione",
-                  "da": "Producerer",
-                  "sv": "Producerar",
-                  "no": "Produserer",
-                  "pl": "Produkcja",
-                  "ru": "Выработка",
-                  "ar": "ينتج",
-                  "ko": "발전 중"
-                }
-              },
-              {
-                "id": "sleeping",
-                "title": {
-                  "en": "Sleeping",
-                  "nl": "Slaapstand",
-                  "de": "Ruhemodus",
-                  "fr": "En veille",
-                  "es": "En reposo",
-                  "it": "In riposo",
-                  "da": "Dvale",
-                  "sv": "Viloläge",
-                  "no": "Hvilemodus",
-                  "pl": "Uśpienie",
-                  "ru": "Спящий режим",
-                  "ar": "سكون",
-                  "ko": "절전"
-                }
-              },
-              {
-                "id": "starting",
-                "title": {
-                  "en": "Starting",
-                  "nl": "Opstarten",
-                  "de": "Startet",
-                  "fr": "Démarrage",
-                  "es": "Iniciando",
-                  "it": "Avvio",
-                  "da": "Starter",
-                  "sv": "Startar",
-                  "no": "Starter",
-                  "pl": "Uruchamianie",
-                  "ru": "Запуск",
-                  "ar": "بدء التشغيل",
-                  "ko": "시작 중"
-                }
-              },
-              {
-                "id": "throttled",
-                "title": {
-                  "en": "Throttled",
-                  "nl": "Begrensd",
-                  "de": "Gedrosselt",
-                  "fr": "Bridé",
-                  "es": "Limitado",
-                  "it": "Limitato",
-                  "da": "Begrænset",
-                  "sv": "Begränsad",
-                  "no": "Begrenset",
-                  "pl": "Ograniczony",
-                  "ru": "Ограничен",
-                  "ar": "مقيد",
-                  "ko": "출력 제한"
-                }
-              },
-              {
-                "id": "shutting_down",
-                "title": {
-                  "en": "Shutting down",
-                  "nl": "Afsluiten",
-                  "de": "Fährt herunter",
-                  "fr": "Arrêt en cours",
-                  "es": "Apagando",
-                  "it": "Spegnimento",
-                  "da": "Lukker ned",
-                  "sv": "Stänger av",
-                  "no": "Slår seg av",
-                  "pl": "Wyłączanie",
-                  "ru": "Выключение",
-                  "ar": "إيقاف التشغيل",
-                  "ko": "종료 중"
-                }
-              },
-              {
-                "id": "fault",
-                "title": {
-                  "en": "Fault",
-                  "nl": "Storing",
-                  "de": "Störung",
-                  "fr": "Défaut",
-                  "es": "Fallo",
-                  "it": "Guasto",
-                  "da": "Fejl",
-                  "sv": "Fel",
-                  "no": "Feil",
-                  "pl": "Awaria",
-                  "ru": "Неисправность",
-                  "ar": "عطل",
-                  "ko": "고장"
-                }
-              },
-              {
-                "id": "standby",
-                "title": {
-                  "en": "Standby",
-                  "nl": "Stand-by",
-                  "de": "Standby",
-                  "fr": "Veille",
-                  "es": "En espera",
-                  "it": "Standby",
-                  "da": "Standby",
-                  "sv": "Standby",
-                  "no": "Standby",
-                  "pl": "Czuwanie",
-                  "ru": "Ожидание",
-                  "ar": "استعداد",
-                  "ko": "대기"
-                }
-              },
-              {
-                "id": "off",
-                "title": {
-                  "en": "Off",
-                  "nl": "Uit",
-                  "de": "Aus",
-                  "fr": "Arrêté",
-                  "es": "Apagado",
-                  "it": "Spento",
-                  "da": "Slukket",
-                  "sv": "Av",
-                  "no": "Av",
-                  "pl": "Wyłączony",
-                  "ru": "Выключен",
-                  "ar": "متوقف",
-                  "ko": "꺼짐"
-                }
-              }
-            ],
-            "title": {
-              "ar": "حالة العاكس",
-              "da": "Inverterstatus",
-              "de": "Wechselrichterstatus",
-              "en": "Inverter status",
-              "es": "Estado del inversor",
-              "fr": "État de l'onduleur",
-              "it": "Stato inverter",
-              "ko": "인버터 상태",
-              "nl": "Omvormerstatus",
-              "no": "Vekselretterstatus",
-              "pl": "Stan inwertera",
-              "ru": "Состояние инвертора",
-              "sv": "Växelriktarstatus"
-            }
-          }
-        ],
-        "title": {
-          "ar": "حالة العاكس هي ...",
-          "da": "Inverterstatus er ...",
-          "de": "Wechselrichterstatus ist ...",
-          "en": "Inverter status is ...",
-          "es": "El estado del inversor es ...",
-          "fr": "L'état de l'onduleur est ...",
-          "it": "Lo stato dell'inverter è ...",
-          "ko": "인버터 상태는 ...",
-          "nl": "Omvormerstatus is ...",
-          "no": "Vekselretterstatus er ...",
-          "pl": "Stan inwertera to ...",
-          "ru": "Состояние инвертора ...",
-          "sv": "Växelriktarstatus är ..."
-        },
-        "titleFormatted": {
-          "ar": "حالة العاكس !{{هي|ليست}} [[status]]",
-          "da": "Inverterstatus !{{er|er ikke}} [[status]]",
-          "de": "Wechselrichterstatus !{{ist|ist nicht}} [[status]]",
-          "en": "Inverter status !{{is|is not}} [[status]]",
-          "es": "Estado del inversor !{{es|no es}} [[status]]",
-          "fr": "État de l'onduleur !{{est|n'est pas}} [[status]]",
-          "it": "Stato inverter !{{è|non è}} [[status]]",
-          "ko": "인버터 상태: [[status]] !{{입니다|이(가) 아닙니다}}",
-          "nl": "Omvormerstatus !{{is|is niet}} [[status]]",
-          "no": "Vekselretterstatus !{{er|er ikke}} [[status]]",
-          "pl": "Stan inwertera !{{jest|nie jest}} [[status]]",
-          "ru": "Состояние инвертора !{{—|не}} [[status]]",
-          "sv": "Växelriktarstatus !{{är|är inte}} [[status]]"
-        }
-      }
-    ]
-  },
   "capabilities": {
     "ev_charge_mode": {
       "type": "enum",

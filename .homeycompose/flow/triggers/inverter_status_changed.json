@@ -1,0 +1,16 @@
+{
+  "tokens": [
+    {
+      "name": "inverter_status",
+      "type": "string",
+      "example": "production"
+    }
+  ],
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=inverter&capabilities=inverter_status"
+    }
+  ]
+}

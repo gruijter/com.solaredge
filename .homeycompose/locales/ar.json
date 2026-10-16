@@ -9,6 +9,127 @@
     }
   },
   "$flow": {
+    "triggers": {
+      "inverter_status_changed": {
+        "title": "تغيرت حالة العاكس",
+        "tokens": {
+          "inverter_status": {
+            "title": "حالة العاكس"
+          }
+        }
+      },
+      "meter_power.day_changed": {
+        "title": "تغيرت طاقة اليوم",
+        "tokens": {
+          "meter_power.day": {
+            "title": "الإنتاج اليوم"
+          }
+        }
+      },
+      "measure_voltage.1_changed": {
+        "title": "تغير جهد المرحلة 1",
+        "tokens": {
+          "measure_voltage.1": {
+            "title": "جهد المرحلة 1 (AC)"
+          }
+        }
+      },
+      "measure_voltage.2_changed": {
+        "title": "تغير جهد المرحلة 2",
+        "tokens": {
+          "measure_voltage.2": {
+            "title": "جهد المرحلة 2 (AC)"
+          }
+        }
+      },
+      "measure_voltage.3_changed": {
+        "title": "تغير جهد المرحلة 3",
+        "tokens": {
+          "measure_voltage.3": {
+            "title": "جهد المرحلة 3 (AC)"
+          }
+        }
+      },
+      "measure_power.load_changed": {
+        "title": "تغير استهلاك المنزل",
+        "tokens": {
+          "measure_power.load": {
+            "title": "استهلاك المنزل"
+          }
+        }
+      },
+      "meter_power.imported_changed": {
+        "title": "تغيرت الطاقة المستوردة",
+        "tokens": {
+          "meter_power.imported": {
+            "title": "الطاقة المستوردة"
+          }
+        }
+      },
+      "meter_power.exported_changed": {
+        "title": "تغيرت الطاقة المصدرة",
+        "tokens": {
+          "meter_power.exported": {
+            "title": "الطاقة المصدرة"
+          }
+        }
+      },
+      "ev_charge_mode_changed": {
+        "title": "تغيّر وضع الشحن",
+        "tokens": {
+          "ev_charge_mode": {
+            "title": "وضع الشحن"
+          }
+        }
+      },
+      "ev_solar_charging_true": {
+        "title": "تم تشغيل الشحن الشمسي"
+      },
+      "ev_solar_charging_false": {
+        "title": "تم إيقاف الشحن الشمسي"
+      },
+      "solaredge-home-load-controller-state_changed": {
+        "title": "تغيّرت الحالة",
+        "tokens": {
+          "solaredge-home-load-controller-state": {
+            "title": "الحالة"
+          }
+        }
+      }
+    },
+    "conditions": {
+      "inverter_status_is": {
+        "title": "حالة العاكس هي ...",
+        "titleFormatted": "حالة العاكس !{{هي|ليست}} [[status]]",
+        "args": {
+          "status": {
+            "title": "حالة العاكس"
+          }
+        }
+      },
+      "ev_charge_mode_is": {
+        "title": "وضع الشحن هو ...",
+        "titleFormatted": "وضع الشحن !{{هو|ليس}} [[mode]]",
+        "args": {
+          "mode": {
+            "title": "وضع الشحن"
+          }
+        }
+      },
+      "ev_solar_charging_is": {
+        "title": "الشحن الشمسي مفعّل",
+        "titleFormatted": "الشحن الشمسي !{{مفعّل|غير مفعّل}}"
+      },
+      "solaredge-home-load-controller-state_is": {
+        "title": "الحالة هي ...",
+        "titleFormatted": "الحالة !{{هي|ليست}} [[state]]",
+        "args": {
+          "state": {
+            "title": "الحالة"
+          }
+        }
+      }
+    },
     "actions": {
       "home-load-controller-set-state": {
         "title": "تعيين الحالة",
@@ -22,17 +143,6 @@
       "evcharger-set-auto": {
         "title": "الشحن تلقائيًا",
         "hint": "العودة إلى جدول الشاحن والشحن من فائض الطاقة الشمسية."
-      }
-    },
-    "conditions": {
-      "inverter_status_is": {
-        "title": "حالة العاكس هي ...",
-        "titleFormatted": "حالة العاكس !{{هي|ليست}} [[status]]",
-        "args": {
-          "status": {
-            "title": "حالة العاكس"
-          }
-        }
       }
     }
   },

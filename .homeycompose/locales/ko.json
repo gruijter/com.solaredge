@@ -9,6 +9,127 @@
     }
   },
   "$flow": {
+    "triggers": {
+      "inverter_status_changed": {
+        "title": "인버터 상태가 변경됨",
+        "tokens": {
+          "inverter_status": {
+            "title": "인버터 상태"
+          }
+        }
+      },
+      "meter_power.day_changed": {
+        "title": "오늘의 에너지가 변경됨",
+        "tokens": {
+          "meter_power.day": {
+            "title": "오늘 발전량"
+          }
+        }
+      },
+      "measure_voltage.1_changed": {
+        "title": "전압 위상 1 변경됨",
+        "tokens": {
+          "measure_voltage.1": {
+            "title": "전압 위상 1 (AC)"
+          }
+        }
+      },
+      "measure_voltage.2_changed": {
+        "title": "전압 위상 2 변경됨",
+        "tokens": {
+          "measure_voltage.2": {
+            "title": "전압 위상 2 (AC)"
+          }
+        }
+      },
+      "measure_voltage.3_changed": {
+        "title": "전압 위상 3 변경됨",
+        "tokens": {
+          "measure_voltage.3": {
+            "title": "전압 위상 3 (AC)"
+          }
+        }
+      },
+      "measure_power.load_changed": {
+        "title": "가정 소비 전력이 변경됨",
+        "tokens": {
+          "measure_power.load": {
+            "title": "가정 소비 전력"
+          }
+        }
+      },
+      "meter_power.imported_changed": {
+        "title": "가져온 에너지가 변경됨",
+        "tokens": {
+          "meter_power.imported": {
+            "title": "수전 에너지"
+          }
+        }
+      },
+      "meter_power.exported_changed": {
+        "title": "내보낸 에너지가 변경됨",
+        "tokens": {
+          "meter_power.exported": {
+            "title": "송전 에너지"
+          }
+        }
+      },
+      "ev_charge_mode_changed": {
+        "title": "충전 모드가 변경됨",
+        "tokens": {
+          "ev_charge_mode": {
+            "title": "충전 모드"
+          }
+        }
+      },
+      "ev_solar_charging_true": {
+        "title": "태양광 충전 켜짐"
+      },
+      "ev_solar_charging_false": {
+        "title": "태양광 충전 꺼짐"
+      },
+      "solaredge-home-load-controller-state_changed": {
+        "title": "상태가 변경됨",
+        "tokens": {
+          "solaredge-home-load-controller-state": {
+            "title": "상태"
+          }
+        }
+      }
+    },
+    "conditions": {
+      "inverter_status_is": {
+        "title": "인버터 상태는 ...",
+        "titleFormatted": "인버터 상태: [[status]] !{{입니다|이(가) 아닙니다}}",
+        "args": {
+          "status": {
+            "title": "인버터 상태"
+          }
+        }
+      },
+      "ev_charge_mode_is": {
+        "title": "충전 모드는 ...",
+        "titleFormatted": "충전 모드: [[mode]] !{{입니다|이(가) 아닙니다}}",
+        "args": {
+          "mode": {
+            "title": "충전 모드"
+          }
+        }
+      },
+      "ev_solar_charging_is": {
+        "title": "태양광 충전이 켜져 있음",
+        "titleFormatted": "태양광 충전이 !{{켜져 있음|꺼져 있음}}"
+      },
+      "solaredge-home-load-controller-state_is": {
+        "title": "상태는 ...",
+        "titleFormatted": "상태: [[state]] !{{입니다|이(가) 아닙니다}}",
+        "args": {
+          "state": {
+            "title": "상태"
+          }
+        }
+      }
+    },
     "actions": {
       "home-load-controller-set-state": {
         "title": "상태 설정",
@@ -22,17 +143,6 @@
       "evcharger-set-auto": {
         "title": "자동 충전",
         "hint": "충전기 일정 및 태양광 잉여 충전으로 돌아갑니다."
-      }
-    },
-    "conditions": {
-      "inverter_status_is": {
-        "title": "인버터 상태는 ...",
-        "titleFormatted": "인버터 상태: [[status]] !{{입니다|이(가) 아닙니다}}",
-        "args": {
-          "status": {
-            "title": "인버터 상태"
-          }
-        }
       }
     }
   },

@@ -1,0 +1,51 @@
+{
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=evcharger&capabilities=ev_charge_mode"
+    },
+    {
+      "name": "mode",
+      "type": "dropdown",
+      "values": [
+        {
+          "id": "auto",
+          "title": {
+            "en": "Automatic",
+            "nl": "Automatisch",
+            "de": "Automatisch",
+            "fr": "Automatique",
+            "es": "Automático",
+            "it": "Automatica",
+            "da": "Automatisk",
+            "sv": "Automatiskt",
+            "no": "Automatisk",
+            "pl": "Automatyczny",
+            "ru": "Автоматически",
+            "ar": "تلقائي",
+            "ko": "자동"
+          }
+        },
+        {
+          "id": "manual",
+          "title": {
+            "en": "Manual",
+            "nl": "Handmatig",
+            "de": "Manuell",
+            "fr": "Manuel",
+            "es": "Manual",
+            "it": "Manuale",
+            "da": "Manuel",
+            "sv": "Manuellt",
+            "no": "Manuell",
+            "pl": "Ręczny",
+            "ru": "Вручную",
+            "ar": "يدوي",
+            "ko": "수동"
+          }
+        }
+      ]
+    }
+  ]
+}

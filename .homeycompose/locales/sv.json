@@ -9,6 +9,127 @@
     }
   },
   "$flow": {
+    "triggers": {
+      "inverter_status_changed": {
+        "title": "Växelriktarstatus ändrad",
+        "tokens": {
+          "inverter_status": {
+            "title": "Växelriktarstatus"
+          }
+        }
+      },
+      "meter_power.day_changed": {
+        "title": "Energi idag ändrad",
+        "tokens": {
+          "meter_power.day": {
+            "title": "Producerat idag"
+          }
+        }
+      },
+      "measure_voltage.1_changed": {
+        "title": "Spänning fas 1 ändrad",
+        "tokens": {
+          "measure_voltage.1": {
+            "title": "Spänning fas 1 (AC)"
+          }
+        }
+      },
+      "measure_voltage.2_changed": {
+        "title": "Spänning fas 2 ändrad",
+        "tokens": {
+          "measure_voltage.2": {
+            "title": "Spänning fas 2 (AC)"
+          }
+        }
+      },
+      "measure_voltage.3_changed": {
+        "title": "Spänning fas 3 ändrad",
+        "tokens": {
+          "measure_voltage.3": {
+            "title": "Spänning fas 3 (AC)"
+          }
+        }
+      },
+      "measure_power.load_changed": {
+        "title": "Husförbrukning ändrad",
+        "tokens": {
+          "measure_power.load": {
+            "title": "Husförbrukning"
+          }
+        }
+      },
+      "meter_power.imported_changed": {
+        "title": "Importerad energi ändrad",
+        "tokens": {
+          "meter_power.imported": {
+            "title": "Importerad energi"
+          }
+        }
+      },
+      "meter_power.exported_changed": {
+        "title": "Exporterad energi ändrad",
+        "tokens": {
+          "meter_power.exported": {
+            "title": "Exporterad energi"
+          }
+        }
+      },
+      "ev_charge_mode_changed": {
+        "title": "Laddläget har ändrats",
+        "tokens": {
+          "ev_charge_mode": {
+            "title": "Laddläge"
+          }
+        }
+      },
+      "ev_solar_charging_true": {
+        "title": "Solladdning aktiverad"
+      },
+      "ev_solar_charging_false": {
+        "title": "Solladdning avaktiverad"
+      },
+      "solaredge-home-load-controller-state_changed": {
+        "title": "Tillståndet har ändrats",
+        "tokens": {
+          "solaredge-home-load-controller-state": {
+            "title": "Tillstånd"
+          }
+        }
+      }
+    },
+    "conditions": {
+      "inverter_status_is": {
+        "title": "Växelriktarstatus är ...",
+        "titleFormatted": "Växelriktarstatus !{{är|är inte}} [[status]]",
+        "args": {
+          "status": {
+            "title": "Växelriktarstatus"
+          }
+        }
+      },
+      "ev_charge_mode_is": {
+        "title": "Laddläget är ...",
+        "titleFormatted": "Laddläget !{{är|är inte}} [[mode]]",
+        "args": {
+          "mode": {
+            "title": "Laddläge"
+          }
+        }
+      },
+      "ev_solar_charging_is": {
+        "title": "Solladdning är på",
+        "titleFormatted": "Solladdning !{{är|är inte}} på"
+      },
+      "solaredge-home-load-controller-state_is": {
+        "title": "Tillståndet är ...",
+        "titleFormatted": "Tillståndet !{{är|är inte}} [[state]]",
+        "args": {
+          "state": {
+            "title": "Tillstånd"
+          }
+        }
+      }
+    },
     "actions": {
       "home-load-controller-set-state": {
         "title": "Ställ in tillståndet",
@@ -22,17 +143,6 @@
       "evcharger-set-auto": {
         "title": "Ladda automatiskt",
         "hint": "Tillbaka till laddarens schema och laddning på solöverskott."
-      }
-    },
-    "conditions": {
-      "inverter_status_is": {
-        "title": "Växelriktarstatus är ...",
-        "titleFormatted": "Växelriktarstatus !{{är|är inte}} [[status]]",
-        "args": {
-          "status": {
-            "title": "Växelriktarstatus"
-          }
-        }
       }
     }
   },

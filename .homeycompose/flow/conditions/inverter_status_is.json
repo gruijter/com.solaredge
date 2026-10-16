@@ -1,0 +1,159 @@
+{
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=inverter&capabilities=inverter_status"
+    },
+    {
+      "name": "status",
+      "type": "dropdown",
+      "values": [
+        {
+          "id": "production",
+          "title": {
+            "en": "Producing",
+            "nl": "Produceert",
+            "de": "Produziert",
+            "fr": "En production",
+            "es": "Produciendo",
+            "it": "In produzione",
+            "da": "Producerer",
+            "sv": "Producerar",
+            "no": "Produserer",
+            "pl": "Produkcja",
+            "ru": "Выработка",
+            "ar": "ينتج",
+            "ko": "발전 중"
+          }
+        },
+        {
+          "id": "sleeping",
+          "title": {
+            "en": "Sleeping",
+            "nl": "Slaapstand",
+            "de": "Ruhemodus",
+            "fr": "En veille",
+            "es": "En reposo",
+            "it": "In riposo",
+            "da": "Dvale",
+            "sv": "Viloläge",
+            "no": "Hvilemodus",
+            "pl": "Uśpienie",
+            "ru": "Спящий режим",
+            "ar": "سكون",
+            "ko": "절전"
+          }
+        },
+        {
+          "id": "starting",
+          "title": {
+            "en": "Starting",
+            "nl": "Opstarten",
+            "de": "Startet",
+            "fr": "Démarrage",
+            "es": "Iniciando",
+            "it": "Avvio",
+            "da": "Starter",
+            "sv": "Startar",
+            "no": "Starter",
+            "pl": "Uruchamianie",
+            "ru": "Запуск",
+            "ar": "بدء التشغيل",
+            "ko": "시작 중"
+          }
+        },
+        {
+          "id": "throttled",
+          "title": {
+            "en": "Throttled",
+            "nl": "Begrensd",
+            "de": "Gedrosselt",
+            "fr": "Bridé",
+            "es": "Limitado",
+            "it": "Limitato",
+            "da": "Begrænset",
+            "sv": "Begränsad",
+            "no": "Begrenset",
+            "pl": "Ograniczony",
+            "ru": "Ограничен",
+            "ar": "مقيد",
+            "ko": "출력 제한"
+          }
+        },
+        {
+          "id": "shutting_down",
+          "title": {
+            "en": "Shutting down",
+            "nl": "Afsluiten",
+            "de": "Fährt herunter",
+            "fr": "Arrêt en cours",
+            "es": "Apagando",
+            "it": "Spegnimento",
+            "da": "Lukker ned",
+            "sv": "Stänger av",
+            "no": "Slår seg av",
+            "pl": "Wyłączanie",
+            "ru": "Выключение",
+            "ar": "إيقاف التشغيل",
+            "ko": "종료 중"
+          }
+        },
+        {
+          "id": "fault",
+          "title": {
+            "en": "Fault",
+            "nl": "Storing",
+            "de": "Störung",
+            "fr": "Défaut",
+            "es": "Fallo",
+            "it": "Guasto",
+            "da": "Fejl",
+            "sv": "Fel",
+            "no": "Feil",
+            "pl": "Awaria",
+            "ru": "Неисправность",
+            "ar": "عطل",
+            "ko": "고장"
+          }
+        },
+        {
+          "id": "standby",
+          "title": {
+            "en": "Standby",
+            "nl": "Stand-by",
+            "de": "Standby",
+            "fr": "Veille",
+            "es": "En espera",
+            "it": "Standby",
+            "da": "Standby",
+            "sv": "Standby",
+            "no": "Standby",
+            "pl": "Czuwanie",
+            "ru": "Ожидание",
+            "ar": "استعداد",
+            "ko": "대기"
+          }
+        },
+        {
+          "id": "off",
+          "title": {
+            "en": "Off",
+            "nl": "Uit",
+            "de": "Aus",
+            "fr": "Arrêté",
+            "es": "Apagado",
+            "it": "Spento",
+            "da": "Slukket",
+            "sv": "Av",
+            "no": "Av",
+            "pl": "Wyłączony",
+            "ru": "Выключен",
+            "ar": "متوقف",
+            "ko": "꺼짐"
+          }
+        }
+      ]
+    }
+  ]
+}

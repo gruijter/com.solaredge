@@ -9,6 +9,127 @@
     }
   },
   "$flow": {
+    "triggers": {
+      "inverter_status_changed": {
+        "title": "Omvormerstatus is veranderd",
+        "tokens": {
+          "inverter_status": {
+            "title": "Omvormerstatus"
+          }
+        }
+      },
+      "meter_power.day_changed": {
+        "title": "Energie vandaag is veranderd",
+        "tokens": {
+          "meter_power.day": {
+            "title": "Opgewekt vandaag"
+          }
+        }
+      },
+      "measure_voltage.1_changed": {
+        "title": "Spanning fase 1 is veranderd",
+        "tokens": {
+          "measure_voltage.1": {
+            "title": "Spanning fase 1 (AC)"
+          }
+        }
+      },
+      "measure_voltage.2_changed": {
+        "title": "Spanning fase 2 is veranderd",
+        "tokens": {
+          "measure_voltage.2": {
+            "title": "Spanning fase 2 (AC)"
+          }
+        }
+      },
+      "measure_voltage.3_changed": {
+        "title": "Spanning fase 3 is veranderd",
+        "tokens": {
+          "measure_voltage.3": {
+            "title": "Spanning fase 3 (AC)"
+          }
+        }
+      },
+      "measure_power.load_changed": {
+        "title": "Thuisverbruik is veranderd",
+        "tokens": {
+          "measure_power.load": {
+            "title": "Thuisverbruik"
+          }
+        }
+      },
+      "meter_power.imported_changed": {
+        "title": "Afgenomen energie is veranderd",
+        "tokens": {
+          "meter_power.imported": {
+            "title": "Geïmporteerde energie"
+          }
+        }
+      },
+      "meter_power.exported_changed": {
+        "title": "Teruggeleverde energie is veranderd",
+        "tokens": {
+          "meter_power.exported": {
+            "title": "Geëxporteerde energie"
+          }
+        }
+      },
+      "ev_charge_mode_changed": {
+        "title": "Laadmodus is veranderd",
+        "tokens": {
+          "ev_charge_mode": {
+            "title": "Laadmodus"
+          }
+        }
+      },
+      "ev_solar_charging_true": {
+        "title": "Laden op zonne-overschot ingeschakeld"
+      },
+      "ev_solar_charging_false": {
+        "title": "Laden op zonne-overschot uitgeschakeld"
+      },
+      "solaredge-home-load-controller-state_changed": {
+        "title": "Status is veranderd",
+        "tokens": {
+          "solaredge-home-load-controller-state": {
+            "title": "Status"
+          }
+        }
+      }
+    },
+    "conditions": {
+      "inverter_status_is": {
+        "title": "Omvormerstatus is ...",
+        "titleFormatted": "Omvormerstatus !{{is|is niet}} [[status]]",
+        "args": {
+          "status": {
+            "title": "Omvormerstatus"
+          }
+        }
+      },
+      "ev_charge_mode_is": {
+        "title": "Laadmodus is ...",
+        "titleFormatted": "Laadmodus !{{is|is niet}} [[mode]]",
+        "args": {
+          "mode": {
+            "title": "Laadmodus"
+          }
+        }
+      },
+      "ev_solar_charging_is": {
+        "title": "Laden op zonne-overschot staat aan",
+        "titleFormatted": "Laden op zonne-overschot !{{staat|staat niet}} aan"
+      },
+      "solaredge-home-load-controller-state_is": {
+        "title": "Status is ...",
+        "titleFormatted": "Status !{{is|is niet}} [[state]]",
+        "args": {
+          "state": {
+            "title": "Status"
+          }
+        }
+      }
+    },
     "actions": {
       "home-load-controller-set-state": {
         "title": "Stel de status in",
@@ -22,17 +143,6 @@
       "evcharger-set-auto": {
         "title": "Automatisch laden",
         "hint": "Terug naar het schema en laden op zonne-overschot van de lader."
-      }
-    },
-    "conditions": {
-      "inverter_status_is": {
-        "title": "Omvormerstatus is ...",
-        "titleFormatted": "Omvormerstatus !{{is|is niet}} [[status]]",
-        "args": {
-          "status": {
-            "title": "Omvormerstatus"
-          }
-        }
       }
     }
   },

@@ -23,12 +23,6 @@ const CommonDriver = require('../../lib/common_driver');
 
 module.exports = class SolarEdgeInverterDriver extends CommonDriver {
 
-  async onInit() {
-    await super.onInit();
-    this.homey.flow.getConditionCard('inverter_status_is')
-      .registerRunListener(async ({ device, status }) => device.hasCapability('inverter_status') && device.getCapabilityValue('inverter_status') === status);
-  }
-
   async onPairFilterSite({ client, site }) {
     const sitePowerflow = await client.getSitePowerflow({ siteId: site.id });
     return sitePowerflow?.solarProduction?.isActive === true;

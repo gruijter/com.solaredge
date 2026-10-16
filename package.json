@@ -7,7 +7,7 @@
   },
   "scripts": {
     "lint": "eslint --ext .js,.ts --ignore-path .gitignore .",
-    "test": "node test/check-manifests.js && node test/migration.js && node test/capture-log.js && node test/devices.js && node test/timing.js && node test/cloud-client.js && node test/responses.js"
+    "test": "node test/check-manifests.js && node test/migration.js && node test/capture-log.js && node test/devices.js && node test/flows.js && node test/timing.js && node test/cloud-client.js && node test/responses.js"
   },
   "devDependencies": {
     "@types/homey": "npm:homey-apps-sdk-v3-types@beta",

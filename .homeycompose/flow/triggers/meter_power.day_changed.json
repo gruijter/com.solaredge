@@ -1,0 +1,16 @@
+{
+  "tokens": [
+    {
+      "name": "meter_power.day",
+      "type": "number",
+      "example": 12.5
+    }
+  ],
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=inverter&capabilities=meter_power.day"
+    }
+  ]
+}

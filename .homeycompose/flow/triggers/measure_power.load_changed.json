@@ -1,0 +1,16 @@
+{
+  "tokens": [
+    {
+      "name": "measure_power.load",
+      "type": "number",
+      "example": 800
+    }
+  ],
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=meter&capabilities=measure_power.load"
+    }
+  ]
+}

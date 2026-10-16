@@ -9,6 +9,127 @@
     }
   },
   "$flow": {
+    "triggers": {
+      "inverter_status_changed": {
+        "title": "État de l'onduleur modifié",
+        "tokens": {
+          "inverter_status": {
+            "title": "État de l'onduleur"
+          }
+        }
+      },
+      "meter_power.day_changed": {
+        "title": "Énergie du jour modifiée",
+        "tokens": {
+          "meter_power.day": {
+            "title": "Production aujourd'hui"
+          }
+        }
+      },
+      "measure_voltage.1_changed": {
+        "title": "Tension phase 1 modifiée",
+        "tokens": {
+          "measure_voltage.1": {
+            "title": "Tension phase 1 (CA)"
+          }
+        }
+      },
+      "measure_voltage.2_changed": {
+        "title": "Tension phase 2 modifiée",
+        "tokens": {
+          "measure_voltage.2": {
+            "title": "Tension phase 2 (CA)"
+          }
+        }
+      },
+      "measure_voltage.3_changed": {
+        "title": "Tension phase 3 modifiée",
+        "tokens": {
+          "measure_voltage.3": {
+            "title": "Tension phase 3 (CA)"
+          }
+        }
+      },
+      "measure_power.load_changed": {
+        "title": "Consommation domestique modifiée",
+        "tokens": {
+          "measure_power.load": {
+            "title": "Consommation domestique"
+          }
+        }
+      },
+      "meter_power.imported_changed": {
+        "title": "Énergie importée modifiée",
+        "tokens": {
+          "meter_power.imported": {
+            "title": "Énergie importée"
+          }
+        }
+      },
+      "meter_power.exported_changed": {
+        "title": "Énergie exportée modifiée",
+        "tokens": {
+          "meter_power.exported": {
+            "title": "Énergie exportée"
+          }
+        }
+      },
+      "ev_charge_mode_changed": {
+        "title": "Le mode de charge a changé",
+        "tokens": {
+          "ev_charge_mode": {
+            "title": "Mode de charge"
+          }
+        }
+      },
+      "ev_solar_charging_true": {
+        "title": "Recharge solaire activée"
+      },
+      "ev_solar_charging_false": {
+        "title": "Recharge solaire désactivée"
+      },
+      "solaredge-home-load-controller-state_changed": {
+        "title": "L'état a changé",
+        "tokens": {
+          "solaredge-home-load-controller-state": {
+            "title": "État"
+          }
+        }
+      }
+    },
+    "conditions": {
+      "inverter_status_is": {
+        "title": "L'état de l'onduleur est ...",
+        "titleFormatted": "État de l'onduleur !{{est|n'est pas}} [[status]]",
+        "args": {
+          "status": {
+            "title": "État de l'onduleur"
+          }
+        }
+      },
+      "ev_charge_mode_is": {
+        "title": "Le mode de charge est ...",
+        "titleFormatted": "Le mode de charge !{{est|n'est pas}} [[mode]]",
+        "args": {
+          "mode": {
+            "title": "Mode de charge"
+          }
+        }
+      },
+      "ev_solar_charging_is": {
+        "title": "La recharge solaire est activée",
+        "titleFormatted": "La recharge solaire !{{est|n'est pas}} activée"
+      },
+      "solaredge-home-load-controller-state_is": {
+        "title": "L'état est ...",
+        "titleFormatted": "L'état !{{est|n'est pas}} [[state]]",
+        "args": {
+          "state": {
+            "title": "État"
+          }
+        }
+      }
+    },
     "actions": {
       "home-load-controller-set-state": {
         "title": "Définir l'état",
@@ -22,17 +143,6 @@
       "evcharger-set-auto": {
         "title": "Charger automatiquement",
         "hint": "Retour au planning et à la recharge sur surplus solaire de la borne."
-      }
-    },
-    "conditions": {
-      "inverter_status_is": {
-        "title": "L'état de l'onduleur est ...",
-        "titleFormatted": "État de l'onduleur !{{est|n'est pas}} [[status]]",
-        "args": {
-          "status": {
-            "title": "État de l'onduleur"
-          }
-        }
       }
     }
   },

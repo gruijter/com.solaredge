@@ -9,6 +9,127 @@
     }
   },
   "$flow": {
+    "triggers": {
+      "inverter_status_changed": {
+        "title": "Wechselrichterstatus geändert",
+        "tokens": {
+          "inverter_status": {
+            "title": "Wechselrichterstatus"
+          }
+        }
+      },
+      "meter_power.day_changed": {
+        "title": "Energie heute geändert",
+        "tokens": {
+          "meter_power.day": {
+            "title": "Erzeugung heute"
+          }
+        }
+      },
+      "measure_voltage.1_changed": {
+        "title": "Spannung Phase 1 geändert",
+        "tokens": {
+          "measure_voltage.1": {
+            "title": "Spannung Phase 1 (AC)"
+          }
+        }
+      },
+      "measure_voltage.2_changed": {
+        "title": "Spannung Phase 2 geändert",
+        "tokens": {
+          "measure_voltage.2": {
+            "title": "Spannung Phase 2 (AC)"
+          }
+        }
+      },
+      "measure_voltage.3_changed": {
+        "title": "Spannung Phase 3 geändert",
+        "tokens": {
+          "measure_voltage.3": {
+            "title": "Spannung Phase 3 (AC)"
+          }
+        }
+      },
+      "measure_power.load_changed": {
+        "title": "Hausverbrauch geändert",
+        "tokens": {
+          "measure_power.load": {
+            "title": "Hausverbrauch"
+          }
+        }
+      },
+      "meter_power.imported_changed": {
+        "title": "Bezogene Energie geändert",
+        "tokens": {
+          "meter_power.imported": {
+            "title": "Importierte Energie"
+          }
+        }
+      },
+      "meter_power.exported_changed": {
+        "title": "Eingespeiste Energie geändert",
+        "tokens": {
+          "meter_power.exported": {
+            "title": "Exportierte Energie"
+          }
+        }
+      },
+      "ev_charge_mode_changed": {
+        "title": "Lademodus hat sich geändert",
+        "tokens": {
+          "ev_charge_mode": {
+            "title": "Lademodus"
+          }
+        }
+      },
+      "ev_solar_charging_true": {
+        "title": "Solarüberschussladen eingeschaltet"
+      },
+      "ev_solar_charging_false": {
+        "title": "Solarüberschussladen ausgeschaltet"
+      },
+      "solaredge-home-load-controller-state_changed": {
+        "title": "Zustand hat sich geändert",
+        "tokens": {
+          "solaredge-home-load-controller-state": {
+            "title": "Zustand"
+          }
+        }
+      }
+    },
+    "conditions": {
+      "inverter_status_is": {
+        "title": "Wechselrichterstatus ist ...",
+        "titleFormatted": "Wechselrichterstatus !{{ist|ist nicht}} [[status]]",
+        "args": {
+          "status": {
+            "title": "Wechselrichterstatus"
+          }
+        }
+      },
+      "ev_charge_mode_is": {
+        "title": "Lademodus ist ...",
+        "titleFormatted": "Lademodus !{{ist|ist nicht}} [[mode]]",
+        "args": {
+          "mode": {
+            "title": "Lademodus"
+          }
+        }
+      },
+      "ev_solar_charging_is": {
+        "title": "Solarüberschussladen ist an",
+        "titleFormatted": "Solarüberschussladen !{{ist|ist nicht}} an"
+      },
+      "solaredge-home-load-controller-state_is": {
+        "title": "Zustand ist ...",
+        "titleFormatted": "Zustand !{{ist|ist nicht}} [[state]]",
+        "args": {
+          "state": {
+            "title": "Zustand"
+          }
+        }
+      }
+    },
     "actions": {
       "home-load-controller-set-state": {
         "title": "Zustand festlegen",
@@ -22,17 +143,6 @@
       "evcharger-set-auto": {
         "title": "Automatisch laden",
         "hint": "Zurück zum Zeitplan und Überschussladen der Wallbox."
-      }
-    },
-    "conditions": {
-      "inverter_status_is": {
-        "title": "Wechselrichterstatus ist ...",
-        "titleFormatted": "Wechselrichterstatus !{{ist|ist nicht}} [[status]]",
-        "args": {
-          "status": {
-            "title": "Wechselrichterstatus"
-          }
-        }
       }
     }
   },

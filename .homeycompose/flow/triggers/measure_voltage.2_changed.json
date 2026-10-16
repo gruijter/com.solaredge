@@ -1,0 +1,16 @@
+{
+  "tokens": [
+    {
+      "name": "measure_voltage.2",
+      "type": "number",
+      "example": 230
+    }
+  ],
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=inverter&capabilities=measure_voltage.2"
+    }
+  ]
+}

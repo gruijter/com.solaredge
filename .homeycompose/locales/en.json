@@ -9,6 +9,127 @@
     }
   },
   "$flow": {
+    "triggers": {
+      "inverter_status_changed": {
+        "title": "Inverter status changed",
+        "tokens": {
+          "inverter_status": {
+            "title": "Inverter status"
+          }
+        }
+      },
+      "meter_power.day_changed": {
+        "title": "Energy today changed",
+        "tokens": {
+          "meter_power.day": {
+            "title": "Generated Today"
+          }
+        }
+      },
+      "measure_voltage.1_changed": {
+        "title": "Voltage phase 1 changed",
+        "tokens": {
+          "measure_voltage.1": {
+            "title": "Voltage phase 1 (AC)"
+          }
+        }
+      },
+      "measure_voltage.2_changed": {
+        "title": "Voltage phase 2 changed",
+        "tokens": {
+          "measure_voltage.2": {
+            "title": "Voltage phase 2 (AC)"
+          }
+        }
+      },
+      "measure_voltage.3_changed": {
+        "title": "Voltage phase 3 changed",
+        "tokens": {
+          "measure_voltage.3": {
+            "title": "Voltage phase 3 (AC)"
+          }
+        }
+      },
+      "measure_power.load_changed": {
+        "title": "Home consumption changed",
+        "tokens": {
+          "measure_power.load": {
+            "title": "Home consumption"
+          }
+        }
+      },
+      "meter_power.imported_changed": {
+        "title": "Imported energy changed",
+        "tokens": {
+          "meter_power.imported": {
+            "title": "Imported Energy"
+          }
+        }
+      },
+      "meter_power.exported_changed": {
+        "title": "Exported energy changed",
+        "tokens": {
+          "meter_power.exported": {
+            "title": "Exported Energy"
+          }
+        }
+      },
+      "ev_charge_mode_changed": {
+        "title": "Charge mode changed",
+        "tokens": {
+          "ev_charge_mode": {
+            "title": "Charge mode"
+          }
+        }
+      },
+      "ev_solar_charging_true": {
+        "title": "Solar charging turned on"
+      },
+      "ev_solar_charging_false": {
+        "title": "Solar charging turned off"
+      },
+      "solaredge-home-load-controller-state_changed": {
+        "title": "State changed",
+        "tokens": {
+          "solaredge-home-load-controller-state": {
+            "title": "State"
+          }
+        }
+      }
+    },
+    "conditions": {
+      "inverter_status_is": {
+        "title": "Inverter status is ...",
+        "titleFormatted": "Inverter status !{{is|is not}} [[status]]",
+        "args": {
+          "status": {
+            "title": "Inverter status"
+          }
+        }
+      },
+      "ev_charge_mode_is": {
+        "title": "Charge mode is ...",
+        "titleFormatted": "Charge mode !{{is|is not}} [[mode]]",
+        "args": {
+          "mode": {
+            "title": "Charge mode"
+          }
+        }
+      },
+      "ev_solar_charging_is": {
+        "title": "Solar charging is on",
+        "titleFormatted": "Solar charging !{{is|is not}} on"
+      },
+      "solaredge-home-load-controller-state_is": {
+        "title": "State is ...",
+        "titleFormatted": "State !{{is|is not}} [[state]]",
+        "args": {
+          "state": {
+            "title": "State"
+          }
+        }
+      }
+    },
     "actions": {
       "home-load-controller-set-state": {
         "title": "Set the state",
@@ -22,17 +143,6 @@
       "evcharger-set-auto": {
         "title": "Charge automatically",
         "hint": "Back to the charger's schedule and solar surplus charging."
-      }
-    },
-    "conditions": {
-      "inverter_status_is": {
-        "title": "Inverter status is ...",
-        "titleFormatted": "Inverter status !{{is|is not}} [[status]]",
-        "args": {
-          "status": {
-            "title": "Inverter status"
-          }
-        }
       }
     }
   },

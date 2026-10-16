@@ -120,6 +120,16 @@ module.exports = class SolarEdgeApp extends Homey.App {
       });
     this.homey.flow.getActionCard('evcharger-set-auto')
       .registerRunListener(async ({ device }) => device.setAutomatic());
+
+    // Homey generates no conditions for custom capabilities; their declared `_changed`, `_true` and
+    // `_false` triggers it runs itself (Flow docs), so the app never triggers those.
+    const valueIs = { inverter_status: 'status', ev_charge_mode: 'mode', 'solaredge-home-load-controller-state': 'state' };
+    for (const [capability, arg] of Object.entries(valueIs)) {
+      this.homey.flow.getConditionCard(`${capability}_is`)
+        .registerRunListener(async (args) => args.device.hasCapability(capability) && args.device.getCapabilityValue(capability) === args[arg]);
+    }
+    this.homey.flow.getConditionCard('ev_solar_charging_is')
+      .registerRunListener(async ({ device }) => device.hasCapability('ev_solar_charging') && device.getCapabilityValue('ev_solar_charging') === true);
   }
 
   /**

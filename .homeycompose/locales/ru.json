@@ -9,6 +9,127 @@
     }
   },
   "$flow": {
+    "triggers": {
+      "inverter_status_changed": {
+        "title": "Состояние инвертора изменилось",
+        "tokens": {
+          "inverter_status": {
+            "title": "Состояние инвертора"
+          }
+        }
+      },
+      "meter_power.day_changed": {
+        "title": "Энергия за сегодня изменена",
+        "tokens": {
+          "meter_power.day": {
+            "title": "Выработано сегодня"
+          }
+        }
+      },
+      "measure_voltage.1_changed": {
+        "title": "Напряжение фазы 1 изменено",
+        "tokens": {
+          "measure_voltage.1": {
+            "title": "Напряжение фазы 1 (AC)"
+          }
+        }
+      },
+      "measure_voltage.2_changed": {
+        "title": "Напряжение фазы 2 изменено",
+        "tokens": {
+          "measure_voltage.2": {
+            "title": "Напряжение фазы 2 (AC)"
+          }
+        }
+      },
+      "measure_voltage.3_changed": {
+        "title": "Напряжение фазы 3 изменено",
+        "tokens": {
+          "measure_voltage.3": {
+            "title": "Напряжение фазы 3 (AC)"
+          }
+        }
+      },
+      "measure_power.load_changed": {
+        "title": "Домашнее потребление изменилось",
+        "tokens": {
+          "measure_power.load": {
+            "title": "Домашнее потребление"
+          }
+        }
+      },
+      "meter_power.imported_changed": {
+        "title": "Импортированная энергия изменена",
+        "tokens": {
+          "meter_power.imported": {
+            "title": "Импортированная энергия"
+          }
+        }
+      },
+      "meter_power.exported_changed": {
+        "title": "Экспортированная энергия изменена",
+        "tokens": {
+          "meter_power.exported": {
+            "title": "Экспортированная энергия"
+          }
+        }
+      },
+      "ev_charge_mode_changed": {
+        "title": "Режим зарядки изменился",
+        "tokens": {
+          "ev_charge_mode": {
+            "title": "Режим зарядки"
+          }
+        }
+      },
+      "ev_solar_charging_true": {
+        "title": "Зарядка от солнца включена"
+      },
+      "ev_solar_charging_false": {
+        "title": "Зарядка от солнца выключена"
+      },
+      "solaredge-home-load-controller-state_changed": {
+        "title": "Состояние изменилось",
+        "tokens": {
+          "solaredge-home-load-controller-state": {
+            "title": "Состояние"
+          }
+        }
+      }
+    },
+    "conditions": {
+      "inverter_status_is": {
+        "title": "Состояние инвертора ...",
+        "titleFormatted": "Состояние инвертора !{{—|не}} [[status]]",
+        "args": {
+          "status": {
+            "title": "Состояние инвертора"
+          }
+        }
+      },
+      "ev_charge_mode_is": {
+        "title": "Режим зарядки ...",
+        "titleFormatted": "Режим зарядки !{{—|не}} [[mode]]",
+        "args": {
+          "mode": {
+            "title": "Режим зарядки"
+          }
+        }
+      },
+      "ev_solar_charging_is": {
+        "title": "Зарядка от солнца включена",
+        "titleFormatted": "Зарядка от солнца !{{включена|не включена}}"
+      },
+      "solaredge-home-load-controller-state_is": {
+        "title": "Состояние ...",
+        "titleFormatted": "Состояние !{{—|не}} [[state]]",
+        "args": {
+          "state": {
+            "title": "Состояние"
+          }
+        }
+      }
+    },
     "actions": {
       "home-load-controller-set-state": {
         "title": "Установить состояние",
@@ -22,17 +143,6 @@
       "evcharger-set-auto": {
         "title": "Заряжать автоматически",
         "hint": "Вернуться к расписанию зарядной станции и зарядке от избытка солнечной энергии."
-      }
-    },
-    "conditions": {
-      "inverter_status_is": {
-        "title": "Состояние инвертора ...",
-        "titleFormatted": "Состояние инвертора !{{—|не}} [[status]]",
-        "args": {
-          "status": {
-            "title": "Состояние инвертора"
-          }
-        }
       }
     }
   },

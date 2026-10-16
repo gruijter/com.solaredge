@@ -1,0 +1,16 @@
+{
+  "tokens": [
+    {
+      "name": "solaredge-home-load-controller-state",
+      "type": "string",
+      "example": "auto"
+    }
+  ],
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=home-load-controller&capabilities=solaredge-home-load-controller-state"
+    }
+  ]
+}

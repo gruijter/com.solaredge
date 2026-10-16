@@ -1,0 +1,16 @@
+{
+  "tokens": [
+    {
+      "name": "meter_power.exported",
+      "type": "number",
+      "example": 1234.5
+    }
+  ],
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=meter&capabilities=meter_power.exported"
+    }
+  ]
+}
