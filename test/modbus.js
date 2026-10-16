@@ -202,6 +202,18 @@ const CASES = [
         const refused = await act(device, { target_power: null });
         check(refused?.message === device.homey.__('errors.powerLimitUnknown') && floatAt(holding, 0xf322) === 100,
           `${name}: a null target power wrote ${floatAt(holding, 0xf322)} % (${refused?.message})`);
+        // the dynamic command is renewed on its own timer, within a third of 0xF310
+        const control = device.controls.find((item) => item.capabilities.includes('target_power'));
+        check(control.keepAliveSeconds(device) === 183, `${name}: keep-alive every ${control.keepAliveSeconds(device)} s`);
+        await act(device, { target_power: 2500 });
+        setFloat(holding, 0xf322, 100);
+        await device.keepAlive();
+        check(floatAt(holding, 0xf322) === 47.62, `${name}: keep-alive wrote ${floatAt(holding, 0xf322)} %`);
+        // an app stop keeps the limit, a deleted device lifts it
+        await device.releaseControls();
+        check(floatAt(holding, 0xf322) === 47.62, `${name}: an app stop left ${floatAt(holding, 0xf322)} %`);
+        await device.releaseControls({ deleted: true });
+        check(floatAt(holding, 0xf322) === 100, `${name}: a deleted device left ${floatAt(holding, 0xf322)} %`);
       },
     },
   },
@@ -344,6 +356,15 @@ const CASES = [
         check(holding[5014] === 0 && holding[5004] === 0, `${name}: stopped, yet the keep-alive wrote ${holding[5004]}`);
         await act(device, { evcharger_charging: true });
         check(holding[5014] === 1 && holding[5004] === 10000, `${name}: start ${holding[5014]} ${holding[5004]}`);
+        // a target of 0 W stops and a higher one starts again; a stop by the user stays
+        await act(device, { target_power: 0 });
+        check(holding[5014] === 0, `${name}: 0 W left charging ${holding[5014]}`);
+        await act(device, { target_power: 6900 });
+        check(holding[5014] === 1, `${name}: back from 0 W charging ${holding[5014]}`);
+        await act(device, { evcharger_charging: false });
+        await act(device, { target_power: 4600 });
+        check(holding[5014] === 0, `${name}: a new target undid the user's stop`);
+        await act(device, { evcharger_charging: true });
         await act(device, { session_energy_limit: 20 });
         await device.poll();
         check(holding[5010] === 2000 && device.getCapabilityValue('session_energy_limit') === 20, `${name}: session limit ${holding[5010]}`);
@@ -466,6 +487,38 @@ const kebaIdentity = () => {
   }), `KEBA identity: ${JSON.stringify(identity)}`);
 };
 
+/** Decisions that need no server: a refused storage block, falling battery counters, meter roles. */
+const unitChecks = async () => {
+  const { detect } = pointMap.battery_modbus;
+  check(!('storageControl' in detect(new Map(), {}, 0, new Set())), 'battery: a storage block that timed out was judged absent');
+  check(detect(new Map(), {}, 0, new Set([0xe004])).storageControl === false, 'battery: a refused storage block was not judged absent');
+
+  const store = {};
+  const device = {
+    base: 0,
+    log() {},
+    getName: () => 'battery',
+    getStoreValue: (key) => store[key] ?? null,
+    setStoreValue: async (key, value) => {
+      store[key] = value;
+    },
+  };
+  const charged = pointMap.battery_modbus.capabilities['meter_power.charged'];
+  const counter = (wh) => {
+    const words = [0, 0, 0, 0].map((_, i) => Math.floor(wh / (0x10000 ** i)) % 0x10000); // uint64, low word first
+    return new Map(words.map((word, i) => [57600 + 122 + i, word]));
+  };
+  const results = [];
+  for (const wh of [5000, 6000, 1000, 1500, 2000]) results.push(await charged(counter(wh), device)); // eslint-disable-line no-await-in-loop
+  check(isDeepStrictEqual(results, [5, 6, 6, 6, 6.5]), `battery: charged after a reset ${JSON.stringify(results)}`);
+
+  const meter = (meterFunction) => pointMap.meter_modbus.energy({
+    getSetting: () => meterFunction, driver: { manifest: { energy: { cumulative: true } } },
+  });
+  check(meter('Export+Import').cumulative === true && meter('').cumulative === true, 'meter: the grid meter is not cumulative');
+  check(meter('Production').cumulative === undefined, 'meter: a production meter is cumulative');
+};
+
 /**
  * Pairing discovery against the fake server on loopback: the scan of 127.0.0.0/24, mDNS (which the
  * scan then skips), and no offer for another SunSpec brand.
@@ -484,6 +537,15 @@ const discovery = async () => {
     check(isDeepStrictEqual(scanned, [{
       host: '127.0.0.1', port, unitId: 1, count: 1,
     }]), `discovery by scan: ${JSON.stringify(scanned)}`);
+
+    // a server the app is connected to already: not probed, but checked over that connection
+    const { pool } = driver.homey.app;
+    const held = pool.acquire({ host: '127.0.0.1', port, unitId: 1 });
+    const pooled = await driver.discover();
+    const entry = pool.entries.get(`127.0.0.1:${port}#1`);
+    check(isDeepStrictEqual(pooled, scanned) && entry?.client === held && entry.refs === 1 && !held.destroyed,
+      `discovery next to a connected device: ${JSON.stringify(pooled)}, refs ${entry?.refs}`);
+    pool.release({ host: '127.0.0.1', port, unitId: 1 });
 
     driver.homey = {
       ...driver.homey,
@@ -508,6 +570,7 @@ const discovery = async () => {
 
 (async () => {
   kebaIdentity();
+  await unitChecks();
   await discovery();
   const modbusDrivers = manifest.drivers.filter((driver) => driver.connectivity.includes('lan')).map((driver) => driver.id);
   for (const testCase of CASES) {

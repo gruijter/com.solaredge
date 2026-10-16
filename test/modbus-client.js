@@ -186,6 +186,38 @@ const tests = {
       client.destroy();
     }
   },
+
+  'settles a connect that a disconnect cuts short, and connects again after': async function() {
+    const server = await startServer(goodServer);
+    const client = new ModbusClient({ host: '127.0.0.1', port: server.address().port, timeout: 500 });
+    try {
+      const connecting = client.connect(); // the socket is connecting now
+      client.disconnect();
+      await assert.rejects(connecting, (error) => ModbusClient.isConnectError(error));
+      assert.strictEqual((await client.readRegisters(7, 1)).readUInt16BE(0), 7);
+    } finally {
+      client.destroy();
+      server.close();
+    }
+  },
+
+  'keeps gapMs between two requests': async function() {
+    const arrivals = [];
+    const server = await startServer((frame, socket) => {
+      arrivals.push(Date.now());
+      goodServer(frame, socket);
+    });
+    const client = new ModbusClient({
+      host: '127.0.0.1', port: server.address().port, timeout: 500, gapMs: 100,
+    });
+    try {
+      await Promise.all([client.readRegisters(1, 1), client.writeRegister(2, 5)]);
+      assert.ok(arrivals[1] - arrivals[0] >= 95, `requests ${arrivals[1] - arrivals[0]} ms apart`);
+    } finally {
+      client.destroy();
+      server.close();
+    }
+  },
 };
 
 const main = async () => {

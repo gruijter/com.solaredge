@@ -23,7 +23,7 @@ const Homey = require('homey');
 const SolarEdgeCloudClient = require('./lib/SolarEdgeCloudClient');
 const ModbusPool = require('./lib/ModbusPool');
 const capture = require('./lib/solarEdgeCapture');
-const { DEFAULT_POLL_INTERVAL, POLL_EVENT } = require('./lib/solarEdgeConstants');
+const { DEFAULT_POLL_INTERVAL, POLL_EVENT, MODBUS_POLL_EVENT } = require('./lib/solarEdgeConstants');
 const {
   PERIOD_MS, MARGIN_MS, learnCadence, judgesTick, tickPhase, adaptMargin, delayToNextTick,
 } = require('./lib/solarEdgeTiming');
@@ -120,7 +120,7 @@ module.exports = class SolarEdgeApp extends Homey.App {
     // the Modbus devices listen for it (lib/modbus_device.js); the cloud is left to its own pace
     this.homey.flow.getActionCard('force_poll')
       .registerRunListener(async () => {
-        this.homey.emit('poll');
+        this.homey.emit(MODBUS_POLL_EVENT);
         return true;
       });
     this.homey.flow.getActionCard('home-load-controller-set-state')
@@ -227,8 +227,8 @@ module.exports = class SolarEdgeApp extends Homey.App {
   }
 
   async onUninit() {
+    // the pool is left to the devices: their onUninit still hands control back through it
     for (const client of [...this.pollers.keys()]) this.stopPolling(client);
-    if (this.pool) this.pool.destroy();
   }
 
 };

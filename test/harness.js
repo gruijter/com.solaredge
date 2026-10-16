@@ -28,6 +28,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const Module = require('node:module');
 const homeyLib = require('homey-lib'); // eslint-disable-line node/no-unpublished-require
+const ModbusPool = require('../lib/ModbusPool');
 
 const ROOT = path.join(__dirname, '..');
 const CAPTURES = path.join(__dirname, 'captures');
@@ -83,6 +84,7 @@ const homey = {
   // Modbus pairing: mDNS sees nothing, the scan runs on loopback
   discovery: { getStrategy: () => ({ getDiscoveryResults: () => ({}) }) },
   cloud: { getLocalAddress: async () => '127.0.0.1:80' },
+  app: { pool: new ModbusPool() },
 };
 
 class SimpleClass {
