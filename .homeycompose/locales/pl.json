@@ -23,6 +23,17 @@
         "title": "Ładuj automatycznie",
         "hint": "Powrót do harmonogramu ładowarki i ładowania nadwyżką solarną."
       }
+    },
+    "conditions": {
+      "inverter_status_is": {
+        "title": "Stan inwertera to ...",
+        "titleFormatted": "Stan inwertera !{{jest|nie jest}} [[status]]",
+        "args": {
+          "status": {
+            "title": "Stan inwertera"
+          }
+        }
+      }
     }
   },
   "$drivers": {
@@ -102,15 +113,6 @@
         "meter_power.year": {
           "title": "Produkcja w tym roku"
         },
-        "measure_power.1": {
-          "title": "Moc fazy 1 (AC)"
-        },
-        "measure_power.2": {
-          "title": "Moc fazy 2 (AC)"
-        },
-        "measure_power.3": {
-          "title": "Moc fazy 3 (AC)"
-        },
         "measure_voltage.1": {
           "title": "Napięcie fazy 1 (AC)"
         },
@@ -119,18 +121,6 @@
         },
         "measure_voltage.3": {
           "title": "Napięcie fazy 3 (AC)"
-        },
-        "measure_current.1": {
-          "title": "Prąd fazy 1 (AC)"
-        },
-        "measure_current.2": {
-          "title": "Prąd fazy 2 (AC)"
-        },
-        "measure_current.3": {
-          "title": "Prąd fazy 3 (AC)"
-        },
-        "measure_voltage.dc": {
-          "title": "Napięcie DC"
         },
         "measure_temperature.max": {
           "title": "Maks. temperatura optymalizatorów dziś"
@@ -182,23 +172,8 @@
           "label": "Interwał odpytywania (sekundy)",
           "hint": "Dotyczy wszystkich urządzeń tego konta."
         }
-      },
-      "capabilitiesOptions": {
-        "measure_power": {
-          "title": "Moc (szacowana)"
-        }
       }
     }
   },
-  "migrating": "Aktualizowanie funkcji…",
-  "inverterStatus": {
-    "production": "Produkcja",
-    "sleeping": "Uśpienie",
-    "starting": "Uruchamianie",
-    "throttled": "Ograniczony",
-    "shutting_down": "Wyłączanie",
-    "fault": "Awaria",
-    "standby": "Czuwanie",
-    "off": "Wyłączony"
-  }
+  "migrating": "Aktualizowanie funkcji…"
 }

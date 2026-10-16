@@ -507,21 +507,7 @@
       ],
       "capabilitiesOptions": {
         "measure_power": {
-          "title": {
-            "ar": "القدرة (تقديرية)",
-            "da": "Effekt (anslået)",
-            "de": "Leistung (geschätzt)",
-            "en": "Power (estimated)",
-            "es": "Potencia (estimada)",
-            "fr": "Puissance (estimée)",
-            "it": "Potenza (stimata)",
-            "ko": "전력 (추정)",
-            "nl": "Vermogen (geschat)",
-            "no": "Effekt (anslått)",
-            "pl": "Moc (szacowana)",
-            "ru": "Мощность (оценка)",
-            "sv": "Effekt (uppskattad)"
-          }
+          "approximated": true
         }
       },
       "id": "home-load-controller",
@@ -752,57 +738,6 @@
             "sv": "Producerad effekt"
           }
         },
-        "measure_power.1": {
-          "title": {
-            "ar": "قدرة المرحلة 1 (AC)",
-            "da": "Effekt fase 1 (AC)",
-            "de": "Leistung Phase 1 (AC)",
-            "en": "Power phase 1 (AC)",
-            "es": "Potencia fase 1 (CA)",
-            "fr": "Puissance phase 1 (CA)",
-            "it": "Potenza fase 1 (CA)",
-            "ko": "전력 위상 1 (AC)",
-            "nl": "Vermogen fase 1 (AC)",
-            "no": "Effekt fase 1 (AC)",
-            "pl": "Moc fazy 1 (AC)",
-            "ru": "Мощность фазы 1 (AC)",
-            "sv": "Effekt fas 1 (AC)"
-          }
-        },
-        "measure_power.2": {
-          "title": {
-            "ar": "قدرة المرحلة 2 (AC)",
-            "da": "Effekt fase 2 (AC)",
-            "de": "Leistung Phase 2 (AC)",
-            "en": "Power phase 2 (AC)",
-            "es": "Potencia fase 2 (CA)",
-            "fr": "Puissance phase 2 (CA)",
-            "it": "Potenza fase 2 (CA)",
-            "ko": "전력 위상 2 (AC)",
-            "nl": "Vermogen fase 2 (AC)",
-            "no": "Effekt fase 2 (AC)",
-            "pl": "Moc fazy 2 (AC)",
-            "ru": "Мощность фазы 2 (AC)",
-            "sv": "Effekt fas 2 (AC)"
-          }
-        },
-        "measure_power.3": {
-          "title": {
-            "ar": "قدرة المرحلة 3 (AC)",
-            "da": "Effekt fase 3 (AC)",
-            "de": "Leistung Phase 3 (AC)",
-            "en": "Power phase 3 (AC)",
-            "es": "Potencia fase 3 (CA)",
-            "fr": "Puissance phase 3 (CA)",
-            "it": "Potenza fase 3 (CA)",
-            "ko": "전력 위상 3 (AC)",
-            "nl": "Vermogen fase 3 (AC)",
-            "no": "Effekt fase 3 (AC)",
-            "pl": "Moc fazy 3 (AC)",
-            "ru": "Мощность фазы 3 (AC)",
-            "sv": "Effekt fas 3 (AC)"
-          }
-        },
         "measure_voltage.1": {
           "title": {
             "ar": "جهد المرحلة 1 (AC)",
@@ -852,74 +787,6 @@
             "pl": "Napięcie fazy 3 (AC)",
             "ru": "Напряжение фазы 3 (AC)",
             "sv": "Spänning fas 3 (AC)"
-          }
-        },
-        "measure_current.1": {
-          "title": {
-            "ar": "تيار المرحلة 1 (AC)",
-            "da": "Strøm fase 1 (AC)",
-            "de": "Strom Phase 1 (AC)",
-            "en": "Current phase 1 (AC)",
-            "es": "Corriente fase 1 (CA)",
-            "fr": "Courant phase 1 (CA)",
-            "it": "Corrente fase 1 (CA)",
-            "ko": "전류 위상 1 (AC)",
-            "nl": "Stroom fase 1 (AC)",
-            "no": "Strøm fase 1 (AC)",
-            "pl": "Prąd fazy 1 (AC)",
-            "ru": "Ток фазы 1 (AC)",
-            "sv": "Ström fas 1 (AC)"
-          }
-        },
-        "measure_current.2": {
-          "title": {
-            "ar": "تيار المرحلة 2 (AC)",
-            "da": "Strøm fase 2 (AC)",
-            "de": "Strom Phase 2 (AC)",
-            "en": "Current phase 2 (AC)",
-            "es": "Corriente fase 2 (CA)",
-            "fr": "Courant phase 2 (CA)",
-            "it": "Corrente fase 2 (CA)",
-            "ko": "전류 위상 2 (AC)",
-            "nl": "Stroom fase 2 (AC)",
-            "no": "Strøm fase 2 (AC)",
-            "pl": "Prąd fazy 2 (AC)",
-            "ru": "Ток фазы 2 (AC)",
-            "sv": "Ström fas 2 (AC)"
-          }
-        },
-        "measure_current.3": {
-          "title": {
-            "ar": "تيار المرحلة 3 (AC)",
-            "da": "Strøm fase 3 (AC)",
-            "de": "Strom Phase 3 (AC)",
-            "en": "Current phase 3 (AC)",
-            "es": "Corriente fase 3 (CA)",
-            "fr": "Courant phase 3 (CA)",
-            "it": "Corrente fase 3 (CA)",
-            "ko": "전류 위상 3 (AC)",
-            "nl": "Stroom fase 3 (AC)",
-            "no": "Strøm fase 3 (AC)",
-            "pl": "Prąd fazy 3 (AC)",
-            "ru": "Ток фазы 3 (AC)",
-            "sv": "Ström fas 3 (AC)"
-          }
-        },
-        "measure_voltage.dc": {
-          "title": {
-            "ar": "جهد التيار المستمر",
-            "da": "DC-spænding",
-            "de": "DC-Spannung",
-            "en": "DC voltage",
-            "es": "Voltaje CC",
-            "fr": "Tension CC",
-            "it": "Tensione CC",
-            "ko": "DC 전압",
-            "nl": "DC-spanning",
-            "no": "DC-spenning",
-            "pl": "Napięcie DC",
-            "ru": "Напряжение DC",
-            "sv": "DC-spänning"
           }
         },
         "measure_temperature.max": {
@@ -1349,6 +1216,213 @@
           "sv": "Ställ in tillståndet till [[state]]"
         }
       }
+    ],
+    "conditions": [
+      {
+        "id": "inverter_status_is",
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=inverter"
+          },
+          {
+            "name": "status",
+            "type": "dropdown",
+            "values": [
+              {
+                "id": "production",
+                "title": {
+                  "en": "Producing",
+                  "nl": "Produceert",
+                  "de": "Produziert",
+                  "fr": "En production",
+                  "es": "Produciendo",
+                  "it": "In produzione",
+                  "da": "Producerer",
+                  "sv": "Producerar",
+                  "no": "Produserer",
+                  "pl": "Produkcja",
+                  "ru": "Выработка",
+                  "ar": "ينتج",
+                  "ko": "발전 중"
+                }
+              },
+              {
+                "id": "sleeping",
+                "title": {
+                  "en": "Sleeping",
+                  "nl": "Slaapstand",
+                  "de": "Ruhemodus",
+                  "fr": "En veille",
+                  "es": "En reposo",
+                  "it": "In riposo",
+                  "da": "Dvale",
+                  "sv": "Viloläge",
+                  "no": "Hvilemodus",
+                  "pl": "Uśpienie",
+                  "ru": "Спящий режим",
+                  "ar": "سكون",
+                  "ko": "절전"
+                }
+              },
+              {
+                "id": "starting",
+                "title": {
+                  "en": "Starting",
+                  "nl": "Opstarten",
+                  "de": "Startet",
+                  "fr": "Démarrage",
+                  "es": "Iniciando",
+                  "it": "Avvio",
+                  "da": "Starter",
+                  "sv": "Startar",
+                  "no": "Starter",
+                  "pl": "Uruchamianie",
+                  "ru": "Запуск",
+                  "ar": "بدء التشغيل",
+                  "ko": "시작 중"
+                }
+              },
+              {
+                "id": "throttled",
+                "title": {
+                  "en": "Throttled",
+                  "nl": "Begrensd",
+                  "de": "Gedrosselt",
+                  "fr": "Bridé",
+                  "es": "Limitado",
+                  "it": "Limitato",
+                  "da": "Begrænset",
+                  "sv": "Begränsad",
+                  "no": "Begrenset",
+                  "pl": "Ograniczony",
+                  "ru": "Ограничен",
+                  "ar": "مقيد",
+                  "ko": "출력 제한"
+                }
+              },
+              {
+                "id": "shutting_down",
+                "title": {
+                  "en": "Shutting down",
+                  "nl": "Afsluiten",
+                  "de": "Fährt herunter",
+                  "fr": "Arrêt en cours",
+                  "es": "Apagando",
+                  "it": "Spegnimento",
+                  "da": "Lukker ned",
+                  "sv": "Stänger av",
+                  "no": "Slår seg av",
+                  "pl": "Wyłączanie",
+                  "ru": "Выключение",
+                  "ar": "إيقاف التشغيل",
+                  "ko": "종료 중"
+                }
+              },
+              {
+                "id": "fault",
+                "title": {
+                  "en": "Fault",
+                  "nl": "Storing",
+                  "de": "Störung",
+                  "fr": "Défaut",
+                  "es": "Fallo",
+                  "it": "Guasto",
+                  "da": "Fejl",
+                  "sv": "Fel",
+                  "no": "Feil",
+                  "pl": "Awaria",
+                  "ru": "Неисправность",
+                  "ar": "عطل",
+                  "ko": "고장"
+                }
+              },
+              {
+                "id": "standby",
+                "title": {
+                  "en": "Standby",
+                  "nl": "Stand-by",
+                  "de": "Standby",
+                  "fr": "Veille",
+                  "es": "En espera",
+                  "it": "Standby",
+                  "da": "Standby",
+                  "sv": "Standby",
+                  "no": "Standby",
+                  "pl": "Czuwanie",
+                  "ru": "Ожидание",
+                  "ar": "استعداد",
+                  "ko": "대기"
+                }
+              },
+              {
+                "id": "off",
+                "title": {
+                  "en": "Off",
+                  "nl": "Uit",
+                  "de": "Aus",
+                  "fr": "Arrêté",
+                  "es": "Apagado",
+                  "it": "Spento",
+                  "da": "Slukket",
+                  "sv": "Av",
+                  "no": "Av",
+                  "pl": "Wyłączony",
+                  "ru": "Выключен",
+                  "ar": "متوقف",
+                  "ko": "꺼짐"
+                }
+              }
+            ],
+            "title": {
+              "ar": "حالة العاكس",
+              "da": "Inverterstatus",
+              "de": "Wechselrichterstatus",
+              "en": "Inverter status",
+              "es": "Estado del inversor",
+              "fr": "État de l'onduleur",
+              "it": "Stato inverter",
+              "ko": "인버터 상태",
+              "nl": "Omvormerstatus",
+              "no": "Vekselretterstatus",
+              "pl": "Stan inwertera",
+              "ru": "Состояние инвертора",
+              "sv": "Växelriktarstatus"
+            }
+          }
+        ],
+        "title": {
+          "ar": "حالة العاكس هي ...",
+          "da": "Inverterstatus er ...",
+          "de": "Wechselrichterstatus ist ...",
+          "en": "Inverter status is ...",
+          "es": "El estado del inversor es ...",
+          "fr": "L'état de l'onduleur est ...",
+          "it": "Lo stato dell'inverter è ...",
+          "ko": "인버터 상태는 ...",
+          "nl": "Omvormerstatus is ...",
+          "no": "Vekselretterstatus er ...",
+          "pl": "Stan inwertera to ...",
+          "ru": "Состояние инвертора ...",
+          "sv": "Växelriktarstatus är ..."
+        },
+        "titleFormatted": {
+          "ar": "حالة العاكس !{{هي|ليست}} [[status]]",
+          "da": "Inverterstatus !{{er|er ikke}} [[status]]",
+          "de": "Wechselrichterstatus !{{ist|ist nicht}} [[status]]",
+          "en": "Inverter status !{{is|is not}} [[status]]",
+          "es": "Estado del inversor !{{es|no es}} [[status]]",
+          "fr": "État de l'onduleur !{{est|n'est pas}} [[status]]",
+          "it": "Stato inverter !{{è|non è}} [[status]]",
+          "ko": "인버터 상태: [[status]] !{{입니다|이(가) 아닙니다}}",
+          "nl": "Omvormerstatus !{{is|is niet}} [[status]]",
+          "no": "Vekselretterstatus !{{er|er ikke}} [[status]]",
+          "pl": "Stan inwertera !{{jest|nie jest}} [[status]]",
+          "ru": "Состояние инвертора !{{—|не}} [[status]]",
+          "sv": "Växelriktarstatus !{{är|är inte}} [[status]]"
+        }
+      }
     ]
   },
   "capabilities": {
@@ -1500,7 +1574,7 @@
       "icon": "./assets/ev_vehicle.svg"
     },
     "inverter_status": {
-      "type": "string",
+      "type": "enum",
       "title": {
         "en": "Inverter status",
         "nl": "Omvormerstatus",
@@ -1516,6 +1590,152 @@
         "ar": "حالة العاكس",
         "ko": "인버터 상태"
       },
+      "values": [
+        {
+          "id": "production",
+          "title": {
+            "en": "Producing",
+            "nl": "Produceert",
+            "de": "Produziert",
+            "fr": "En production",
+            "es": "Produciendo",
+            "it": "In produzione",
+            "da": "Producerer",
+            "sv": "Producerar",
+            "no": "Produserer",
+            "pl": "Produkcja",
+            "ru": "Выработка",
+            "ar": "ينتج",
+            "ko": "발전 중"
+          }
+        },
+        {
+          "id": "sleeping",
+          "title": {
+            "en": "Sleeping",
+            "nl": "Slaapstand",
+            "de": "Ruhemodus",
+            "fr": "En veille",
+            "es": "En reposo",
+            "it": "In riposo",
+            "da": "Dvale",
+            "sv": "Viloläge",
+            "no": "Hvilemodus",
+            "pl": "Uśpienie",
+            "ru": "Спящий режим",
+            "ar": "سكون",
+            "ko": "절전"
+          }
+        },
+        {
+          "id": "starting",
+          "title": {
+            "en": "Starting",
+            "nl": "Opstarten",
+            "de": "Startet",
+            "fr": "Démarrage",
+            "es": "Iniciando",
+            "it": "Avvio",
+            "da": "Starter",
+            "sv": "Startar",
+            "no": "Starter",
+            "pl": "Uruchamianie",
+            "ru": "Запуск",
+            "ar": "بدء التشغيل",
+            "ko": "시작 중"
+          }
+        },
+        {
+          "id": "throttled",
+          "title": {
+            "en": "Throttled",
+            "nl": "Begrensd",
+            "de": "Gedrosselt",
+            "fr": "Bridé",
+            "es": "Limitado",
+            "it": "Limitato",
+            "da": "Begrænset",
+            "sv": "Begränsad",
+            "no": "Begrenset",
+            "pl": "Ograniczony",
+            "ru": "Ограничен",
+            "ar": "مقيد",
+            "ko": "출력 제한"
+          }
+        },
+        {
+          "id": "shutting_down",
+          "title": {
+            "en": "Shutting down",
+            "nl": "Afsluiten",
+            "de": "Fährt herunter",
+            "fr": "Arrêt en cours",
+            "es": "Apagando",
+            "it": "Spegnimento",
+            "da": "Lukker ned",
+            "sv": "Stänger av",
+            "no": "Slår seg av",
+            "pl": "Wyłączanie",
+            "ru": "Выключение",
+            "ar": "إيقاف التشغيل",
+            "ko": "종료 중"
+          }
+        },
+        {
+          "id": "fault",
+          "title": {
+            "en": "Fault",
+            "nl": "Storing",
+            "de": "Störung",
+            "fr": "Défaut",
+            "es": "Fallo",
+            "it": "Guasto",
+            "da": "Fejl",
+            "sv": "Fel",
+            "no": "Feil",
+            "pl": "Awaria",
+            "ru": "Неисправность",
+            "ar": "عطل",
+            "ko": "고장"
+          }
+        },
+        {
+          "id": "standby",
+          "title": {
+            "en": "Standby",
+            "nl": "Stand-by",
+            "de": "Standby",
+            "fr": "Veille",
+            "es": "En espera",
+            "it": "Standby",
+            "da": "Standby",
+            "sv": "Standby",
+            "no": "Standby",
+            "pl": "Czuwanie",
+            "ru": "Ожидание",
+            "ar": "استعداد",
+            "ko": "대기"
+          }
+        },
+        {
+          "id": "off",
+          "title": {
+            "en": "Off",
+            "nl": "Uit",
+            "de": "Aus",
+            "fr": "Arrêté",
+            "es": "Apagado",
+            "it": "Spento",
+            "da": "Slukket",
+            "sv": "Av",
+            "no": "Av",
+            "pl": "Wyłączony",
+            "ru": "Выключен",
+            "ar": "متوقف",
+            "ko": "꺼짐"
+          }
+        }
+      ],
       "getable": true,
       "setable": false,
       "insights": false,
@@ -1665,6 +1885,7 @@
           }
         }
       ],
+      "icon": "./assets/solaredge-home-load-controller-state.svg",
       "title": {
         "ar": "الحالة",
         "da": "Tilstand",

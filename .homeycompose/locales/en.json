@@ -23,6 +23,17 @@
         "title": "Charge automatically",
         "hint": "Back to the charger's schedule and solar surplus charging."
       }
+    },
+    "conditions": {
+      "inverter_status_is": {
+        "title": "Inverter status is ...",
+        "titleFormatted": "Inverter status !{{is|is not}} [[status]]",
+        "args": {
+          "status": {
+            "title": "Inverter status"
+          }
+        }
+      }
     }
   },
   "$drivers": {
@@ -102,15 +113,6 @@
         "meter_power.year": {
           "title": "Generated This Year"
         },
-        "measure_power.1": {
-          "title": "Power phase 1 (AC)"
-        },
-        "measure_power.2": {
-          "title": "Power phase 2 (AC)"
-        },
-        "measure_power.3": {
-          "title": "Power phase 3 (AC)"
-        },
         "measure_voltage.1": {
           "title": "Voltage phase 1 (AC)"
         },
@@ -119,18 +121,6 @@
         },
         "measure_voltage.3": {
           "title": "Voltage phase 3 (AC)"
-        },
-        "measure_current.1": {
-          "title": "Current phase 1 (AC)"
-        },
-        "measure_current.2": {
-          "title": "Current phase 2 (AC)"
-        },
-        "measure_current.3": {
-          "title": "Current phase 3 (AC)"
-        },
-        "measure_voltage.dc": {
-          "title": "DC voltage"
         },
         "measure_temperature.max": {
           "title": "Max optimizer temperature today"
@@ -182,23 +172,8 @@
           "label": "Poll interval (seconds)",
           "hint": "Applies to all devices of this account."
         }
-      },
-      "capabilitiesOptions": {
-        "measure_power": {
-          "title": "Power (estimated)"
-        }
       }
     }
   },
-  "migrating": "Updating capabilities…",
-  "inverterStatus": {
-    "production": "Producing",
-    "sleeping": "Sleeping",
-    "starting": "Starting",
-    "throttled": "Throttled",
-    "shutting_down": "Shutting down",
-    "fault": "Fault",
-    "standby": "Standby",
-    "off": "Off"
-  }
+  "migrating": "Updating capabilities…"
 }

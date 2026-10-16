@@ -23,6 +23,17 @@
         "title": "Ricarica automatica",
         "hint": "Torna alla programmazione e alla ricarica con surplus solare del caricatore."
       }
+    },
+    "conditions": {
+      "inverter_status_is": {
+        "title": "Lo stato dell'inverter è ...",
+        "titleFormatted": "Stato inverter !{{è|non è}} [[status]]",
+        "args": {
+          "status": {
+            "title": "Stato inverter"
+          }
+        }
+      }
     }
   },
   "$drivers": {
@@ -102,15 +113,6 @@
         "meter_power.year": {
           "title": "Prodotto quest'anno"
         },
-        "measure_power.1": {
-          "title": "Potenza fase 1 (CA)"
-        },
-        "measure_power.2": {
-          "title": "Potenza fase 2 (CA)"
-        },
-        "measure_power.3": {
-          "title": "Potenza fase 3 (CA)"
-        },
         "measure_voltage.1": {
           "title": "Tensione fase 1 (CA)"
         },
@@ -119,18 +121,6 @@
         },
         "measure_voltage.3": {
           "title": "Tensione fase 3 (CA)"
-        },
-        "measure_current.1": {
-          "title": "Corrente fase 1 (CA)"
-        },
-        "measure_current.2": {
-          "title": "Corrente fase 2 (CA)"
-        },
-        "measure_current.3": {
-          "title": "Corrente fase 3 (CA)"
-        },
-        "measure_voltage.dc": {
-          "title": "Tensione CC"
         },
         "measure_temperature.max": {
           "title": "Temperatura max ottimizzatori oggi"
@@ -182,23 +172,8 @@
           "label": "Intervallo di polling (secondi)",
           "hint": "Vale per tutti i dispositivi di questo account."
         }
-      },
-      "capabilitiesOptions": {
-        "measure_power": {
-          "title": "Potenza (stimata)"
-        }
       }
     }
   },
-  "migrating": "Aggiornamento delle funzionalità…",
-  "inverterStatus": {
-    "production": "In produzione",
-    "sleeping": "In riposo",
-    "starting": "Avvio",
-    "throttled": "Limitato",
-    "shutting_down": "Spegnimento",
-    "fault": "Guasto",
-    "standby": "Standby",
-    "off": "Spento"
-  }
+  "migrating": "Aggiornamento delle funzionalità…"
 }

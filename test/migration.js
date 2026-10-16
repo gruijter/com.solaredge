@@ -75,10 +75,10 @@ const CASES = [
     name: 'inverter that reported phase 1 and temperature',
     driverId: 'inverter',
     capabilities: ['measure_power', 'meter_power', 'meter_power.day', 'meter_power.month', 'meter_power.year', 'alarm_problem', 'alarm_connectivity'],
-    store: { seenCaps: { 'measure_power.1': true, 'measure_temperature.max': true } },
+    store: { seenCaps: { 'measure_voltage.1': true, 'measure_temperature.max': true } },
     values: { alarm_problem: false },
     expected: ['measure_power', 'meter_power', 'meter_power.day', 'meter_power.month', 'meter_power.year',
-      'alarm_problem', 'alarm_connectivity', 'measure_power.1', 'measure_temperature.max'],
+      'alarm_problem', 'alarm_connectivity', 'measure_voltage.1', 'measure_temperature.max'],
     keep: ['measure_power', 'meter_power', 'meter_power.day', 'meter_power.month', 'meter_power.year', 'alarm_problem', 'alarm_connectivity'],
   },
   {
@@ -86,13 +86,28 @@ const CASES = [
     name: 'inverter that reports its temperature later',
     driverId: 'inverter',
     capabilities: ['measure_power', 'meter_power', 'meter_power.day', 'meter_power.month', 'meter_power.year', 'alarm_problem', 'alarm_connectivity',
-      'measure_power.1', 'inverter_status'],
-    store: { seenCaps: { 'measure_power.1': true, inverter_status: true, 'measure_temperature.max': true } },
+      'measure_voltage.1', 'inverter_status'],
+    store: { seenCaps: { 'measure_voltage.1': true, inverter_status: true, 'measure_temperature.max': true } },
     values: {},
     expected: ['measure_power', 'meter_power', 'meter_power.day', 'meter_power.month', 'meter_power.year', 'alarm_problem', 'alarm_connectivity',
-      'measure_power.1', 'inverter_status', 'measure_temperature.max'],
+      'measure_voltage.1', 'inverter_status', 'measure_temperature.max'],
     keep: ['measure_power', 'meter_power', 'meter_power.day', 'meter_power.month', 'meter_power.year', 'alarm_problem', 'alarm_connectivity',
-      'measure_power.1', 'inverter_status'],
+      'measure_voltage.1', 'inverter_status'],
+  },
+  {
+    name: 'inverter with phase power, phase current and DC voltage',
+    driverId: 'inverter',
+    capabilities: ['measure_power', 'meter_power', 'meter_power.day', 'meter_power.month', 'meter_power.year', 'measure_temperature.max',
+      'measure_voltage.1', 'measure_current.1', 'measure_power.1', 'measure_voltage.dc', 'inverter_status', 'alarm_problem', 'alarm_connectivity'],
+    store: {
+      seenCaps: {
+        'measure_voltage.1': true, 'measure_current.1': true, 'measure_power.1': true, 'measure_voltage.dc': true, inverter_status: true, 'measure_temperature.max': true,
+      },
+    },
+    values: { 'measure_voltage.1': 234.8, inverter_status: 'production' },
+    expected: ['measure_power', 'meter_power', 'meter_power.day', 'meter_power.month', 'meter_power.year', 'alarm_problem', 'alarm_connectivity',
+      'measure_voltage.1', 'inverter_status', 'measure_temperature.max'],
+    keep: ['measure_power', 'meter_power', 'meter_power.day', 'meter_power.month', 'meter_power.year'],
   },
   {
     name: 'battery that reported its health',
@@ -152,8 +167,9 @@ const runCase = async ({
     .filter(([id, options]) => result.includes(id) && options.decimals !== undefined)
     .filter(([id, options]) => (device.options?.[id] ?? options).decimals !== options.decimals);
   check(!wrongDecimals.length, `${name}: decimals not synced: ${wrongDecimals.map(([id]) => id).join(', ')}`);
+  // a system capability has its own title; a sub-capability needs one
   const untitled = device.optionalCapabilities()
-    .filter((id) => !driverManifest.capabilitiesOptions?.[id]?.title && !manifest.capabilities?.[id]?.title);
+    .filter((id) => id.includes('.') && !driverManifest.capabilitiesOptions?.[id]?.title && !manifest.capabilities?.[id]?.title);
   check(!untitled.length, `${name}: optional capabilities without a title: ${untitled.join(', ')}`);
   device.problems.forEach((problem) => failures.push(`${name}: ${problem}`));
   console.log(`  ${name}: removed ${JSON.stringify(removed)} -> ${JSON.stringify(result)}`);

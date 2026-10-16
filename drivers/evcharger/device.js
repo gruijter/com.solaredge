@@ -39,6 +39,8 @@ const ACTIVATION_MODES = { AUTO: 'auto', MANUAL: 'manual' };
 // excessPV: -1 solar surplus charging on, -2 off (briadelour const.py, example_raw_json)
 const EXCESS_PV = { '-1': true, '-2': false };
 
+const number = (value) => (typeof value === 'number' && Number.isFinite(value) ? value : null);
+
 module.exports = class SolarEdgeEVChargerDevice extends CommonDevice {
 
   async onInit() {
@@ -93,13 +95,6 @@ module.exports = class SolarEdgeEVChargerDevice extends CommonDevice {
     const sitePowerflow = await this.client.getSitePowerflow({ siteId });
     const { evCharger } = sitePowerflow;
 
-    // currentPower in kW; null when not charging
-    if (evCharger?.currentPower === null) {
-      await this.setCapability('measure_power', 0);
-    } else if (typeof evCharger?.currentPower === 'number') {
-      await this.setCapability('measure_power', Math.round(evCharger.currentPower * 1000));
-    }
-
     if (evCharger?.connectionStatus) await this.setConnectionStatus(evCharger.connectionStatus);
 
     // devices paired before reporterId was stored cannot read their sessions
@@ -108,15 +103,21 @@ module.exports = class SolarEdgeEVChargerDevice extends CommonDevice {
     }
 
     // optional readings: a failure leaves the device as it is
-    const listed = reporterId
+    const session = reporterId
       ? await this.updateSession(!evCharger?.connectionStatus).catch((error) => {
         this.error(`Error Fetching Site Devices: ${error.message}`);
-        return false;
+        return null;
       })
-      : false;
+      : null;
 
-    // a charger the powerflow does not cover (e.g. a KEBA, only in getSiteDevices) counts as active there
-    if (evCharger?.isActive || listed) {
+    // the powerflow's evCharger is one per site (seen live): this charger's own power comes first
+    let power = session?.power ?? null;
+    // currentPower in kW; null when not charging
+    if (power === null && evCharger?.currentPower === null) power = 0;
+    if (power === null && typeof evCharger?.currentPower === 'number') power = Math.round(evCharger.currentPower * 1000);
+    if (power !== null) await this.setCapability('measure_power', power);
+
+    if (evCharger?.isActive || session?.active) {
       await this.setAvailable();
     } else {
       await this.setUnavailable();
@@ -150,8 +151,10 @@ module.exports = class SolarEdgeEVChargerDevice extends CommonDevice {
    * AUTO/MANUAL, excessPV, applianceData.alias. The session values stay after unplugging
    * (sessionActive false) and show the last session.
    * @param {boolean} withStatus also take the connection status: the powerflow had none
-   * @returns {Promise<boolean>} whether the charger is listed and ACTIVE (deviceStatus, seen in the
-   *   KEBA answer of solaredge-evcharger-ha#6)
+   * @returns {Promise<{active: boolean, power: (number|null)}|null>} null when the charger is not
+   *   listed. active: deviceStatus ACTIVE (seen in the KEBA answer of solaredge-evcharger-ha#6).
+   *   power in W: chargerStatusSubTitle CURRENT_POWER_WH (W despite its name: 93 Wh after 38 s
+   *   at 9509 W), present only while charging, so 0 otherwise.
    */
   async updateSession(withStatus) {
     const { siteId, reporterId } = this.getData();
@@ -159,7 +162,7 @@ module.exports = class SolarEdgeEVChargerDevice extends CommonDevice {
       .find((item) => String(item.reporterId) === String(reporterId));
     if (!charger) {
       this.logOnce('not in devices', 'not in getSiteDevices');
-      return false;
+      return null;
     }
 
     const state = {
@@ -174,7 +177,6 @@ module.exports = class SolarEdgeEVChargerDevice extends CommonDevice {
     if (charger.activationMode && !ACTIVATION_MODES[charger.activationMode]) this.logOnce(`mode ${charger.activationMode}`, 'unknown activationMode', charger.activationMode);
     if (withStatus && charger.connectionStatus) await this.setConnectionStatus(charger.connectionStatus);
 
-    const number = (value) => (typeof value === 'number' && Number.isFinite(value) ? value : null);
     const energy = number(charger.sessionEnergy);
     const duration = number(charger.sessionDuration);
     const values = {
@@ -190,7 +192,10 @@ module.exports = class SolarEdgeEVChargerDevice extends CommonDevice {
       // eslint-disable-next-line no-await-in-loop
       if (value !== null) await this.setCapability(capability, value);
     }
-    return charger.deviceStatus === 'ACTIVE';
+    const subTitle = (charger.chargerStatusSubTitle || []).find((item) => item.subStatusTitle === 'CURRENT_POWER_WH');
+    let power = number(subTitle?.numericValue);
+    if (power === null && String(charger.connectionStatus).toUpperCase() !== 'CHARGING') power = 0;
+    return { active: charger.deviceStatus === 'ACTIVE', power: power === null ? null : Math.round(power) };
   }
 
 };

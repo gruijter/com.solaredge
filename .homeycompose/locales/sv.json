@@ -23,6 +23,17 @@
         "title": "Ladda automatiskt",
         "hint": "Tillbaka till laddarens schema och laddning på solöverskott."
       }
+    },
+    "conditions": {
+      "inverter_status_is": {
+        "title": "Växelriktarstatus är ...",
+        "titleFormatted": "Växelriktarstatus !{{är|är inte}} [[status]]",
+        "args": {
+          "status": {
+            "title": "Växelriktarstatus"
+          }
+        }
+      }
     }
   },
   "$drivers": {
@@ -102,15 +113,6 @@
         "meter_power.year": {
           "title": "Producerat i år"
         },
-        "measure_power.1": {
-          "title": "Effekt fas 1 (AC)"
-        },
-        "measure_power.2": {
-          "title": "Effekt fas 2 (AC)"
-        },
-        "measure_power.3": {
-          "title": "Effekt fas 3 (AC)"
-        },
         "measure_voltage.1": {
           "title": "Spänning fas 1 (AC)"
         },
@@ -119,18 +121,6 @@
         },
         "measure_voltage.3": {
           "title": "Spänning fas 3 (AC)"
-        },
-        "measure_current.1": {
-          "title": "Ström fas 1 (AC)"
-        },
-        "measure_current.2": {
-          "title": "Ström fas 2 (AC)"
-        },
-        "measure_current.3": {
-          "title": "Ström fas 3 (AC)"
-        },
-        "measure_voltage.dc": {
-          "title": "DC-spänning"
         },
         "measure_temperature.max": {
           "title": "Max optimerartemperatur idag"
@@ -182,23 +172,8 @@
           "label": "Uppdateringsintervall (sekunder)",
           "hint": "Gäller för alla enheter på det här kontot."
         }
-      },
-      "capabilitiesOptions": {
-        "measure_power": {
-          "title": "Effekt (uppskattad)"
-        }
       }
     }
   },
-  "migrating": "Uppdaterar funktioner…",
-  "inverterStatus": {
-    "production": "Producerar",
-    "sleeping": "Viloläge",
-    "starting": "Startar",
-    "throttled": "Begränsad",
-    "shutting_down": "Stänger av",
-    "fault": "Fel",
-    "standby": "Standby",
-    "off": "Av"
-  }
+  "migrating": "Uppdaterar funktioner…"
 }

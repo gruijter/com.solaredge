@@ -23,6 +23,17 @@
         "title": "الشحن تلقائيًا",
         "hint": "العودة إلى جدول الشاحن والشحن من فائض الطاقة الشمسية."
       }
+    },
+    "conditions": {
+      "inverter_status_is": {
+        "title": "حالة العاكس هي ...",
+        "titleFormatted": "حالة العاكس !{{هي|ليست}} [[status]]",
+        "args": {
+          "status": {
+            "title": "حالة العاكس"
+          }
+        }
+      }
     }
   },
   "$drivers": {
@@ -102,15 +113,6 @@
         "meter_power.year": {
           "title": "الإنتاج هذا العام"
         },
-        "measure_power.1": {
-          "title": "قدرة المرحلة 1 (AC)"
-        },
-        "measure_power.2": {
-          "title": "قدرة المرحلة 2 (AC)"
-        },
-        "measure_power.3": {
-          "title": "قدرة المرحلة 3 (AC)"
-        },
         "measure_voltage.1": {
           "title": "جهد المرحلة 1 (AC)"
         },
@@ -119,18 +121,6 @@
         },
         "measure_voltage.3": {
           "title": "جهد المرحلة 3 (AC)"
-        },
-        "measure_current.1": {
-          "title": "تيار المرحلة 1 (AC)"
-        },
-        "measure_current.2": {
-          "title": "تيار المرحلة 2 (AC)"
-        },
-        "measure_current.3": {
-          "title": "تيار المرحلة 3 (AC)"
-        },
-        "measure_voltage.dc": {
-          "title": "جهد التيار المستمر"
         },
         "measure_temperature.max": {
           "title": "أقصى درجة حرارة للمُحسِّنات اليوم"
@@ -182,23 +172,8 @@
           "label": "فاصل الاستعلام (ثوانٍ)",
           "hint": "ينطبق على جميع أجهزة هذا الحساب."
         }
-      },
-      "capabilitiesOptions": {
-        "measure_power": {
-          "title": "القدرة (تقديرية)"
-        }
       }
     }
   },
-  "migrating": "جارٍ تحديث الإمكانيات…",
-  "inverterStatus": {
-    "production": "ينتج",
-    "sleeping": "سكون",
-    "starting": "بدء التشغيل",
-    "throttled": "مقيد",
-    "shutting_down": "إيقاف التشغيل",
-    "fault": "عطل",
-    "standby": "استعداد",
-    "off": "متوقف"
-  }
+  "migrating": "جارٍ تحديث الإمكانيات…"
 }

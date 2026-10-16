@@ -74,6 +74,7 @@ const loadControllers = async () => {
     await device.onPoll(); // eslint-disable-line no-await-in-loop
     const got = [device.values['solaredge-home-load-controller-state'], device.values.measure_power];
     check(JSON.stringify(got) === JSON.stringify(HLC_EXPECTED[offer.name]), `hlc ${offer.name}: ${JSON.stringify(got)}, expected ${JSON.stringify(HLC_EXPECTED[offer.name])}`);
+    check(device.options?.measure_power?.approximated === true, `hlc ${offer.name}: estimated power not marked approximated: ${JSON.stringify(device.options)}`);
     check(device.available, `hlc ${offer.name}: unavailable`);
     device.problems.forEach((problem) => failures.push(`hlc ${offer.name}: ${problem}`));
   }
@@ -84,7 +85,10 @@ const evCharger = async () => {
     const charger = response.devicesByType.EV_CHARGER[0];
     const device = newDevice('evcharger', { reporterId: charger.reporterId }, { getSiteDevices: async () => response });
     // the powerflow had no connection status: it comes from the devices answer
-    await device.updateSession(true); // eslint-disable-line no-await-in-loop
+    const session = await device.updateSession(true); // eslint-disable-line no-await-in-loop
+    // CURRENT_POWER_WH: 9508.838 W in the charging answer, 0 in the KEBA one, absent when not charging
+    const power = { charging: 9509, keba_charging: 0 }[state] ?? 0;
+    check(session?.power === power, `ev ${state}: power ${session?.power}, expected ${power}`);
     const v = device.values;
     const got = [v.evcharger_charging_state, v.evcharger_charging, v.ev_charge_mode, v.ev_solar_charging];
     check(JSON.stringify(got) === JSON.stringify(EV_EXPECTED[state]), `ev ${state}: ${JSON.stringify(got)}, expected ${JSON.stringify(EV_EXPECTED[state])}`);
@@ -132,9 +136,9 @@ const nightAlarm = async () => {
   const lastUpload = Date.parse('2026-10-15T16:55:28Z');
   const at = (iso) => Date.parse(iso);
   const cases = [
-    ['asleep at night', at('2026-10-15T18:02:28Z'), 0, false, 'Sleeping'],
-    ['cut off while producing', at('2026-10-15T18:02:28Z'), 1040, true, 'Producing'],
-    ['silent for over a day', lastUpload + 25 * 3600 * 1000, 0, true, 'Producing'],
+    ['asleep at night', at('2026-10-15T18:02:28Z'), 0, false, 'sleeping'],
+    ['cut off while producing', at('2026-10-15T18:02:28Z'), 1040, true, 'production'],
+    ['silent for over a day', lastUpload + 25 * 3600 * 1000, 0, true, 'production'],
   ];
   const RealNow = Date.now;
   try {
@@ -150,7 +154,6 @@ const nightAlarm = async () => {
         getSiteCommunication: async () => ({ connectivityStatus: 'OFFLINE' }),
         getSiteAlerts: async () => ({ totalAlertsCount: 0, topAlerts: [] }),
       });
-      device.homey.__ = (key) => ({ 'inverterStatus.sleeping': 'Sleeping', 'inverterStatus.production': 'Producing' }[key] || key);
       await device.updateInverterDetails(); // eslint-disable-line no-await-in-loop
       await device.updateSiteAlarms(); // eslint-disable-line no-await-in-loop
       check(device.values.alarm_connectivity === alarm, `${name}: alarm_connectivity ${device.values.alarm_connectivity}`);

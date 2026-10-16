@@ -23,6 +23,17 @@
         "title": "Oplad automatisk",
         "hint": "Tilbage til laderens tidsplan og opladning på solcelleoverskud."
       }
+    },
+    "conditions": {
+      "inverter_status_is": {
+        "title": "Inverterstatus er ...",
+        "titleFormatted": "Inverterstatus !{{er|er ikke}} [[status]]",
+        "args": {
+          "status": {
+            "title": "Inverterstatus"
+          }
+        }
+      }
     }
   },
   "$drivers": {
@@ -102,15 +113,6 @@
         "meter_power.year": {
           "title": "Produceret i år"
         },
-        "measure_power.1": {
-          "title": "Effekt fase 1 (AC)"
-        },
-        "measure_power.2": {
-          "title": "Effekt fase 2 (AC)"
-        },
-        "measure_power.3": {
-          "title": "Effekt fase 3 (AC)"
-        },
         "measure_voltage.1": {
           "title": "Spænding fase 1 (AC)"
         },
@@ -119,18 +121,6 @@
         },
         "measure_voltage.3": {
           "title": "Spænding fase 3 (AC)"
-        },
-        "measure_current.1": {
-          "title": "Strøm fase 1 (AC)"
-        },
-        "measure_current.2": {
-          "title": "Strøm fase 2 (AC)"
-        },
-        "measure_current.3": {
-          "title": "Strøm fase 3 (AC)"
-        },
-        "measure_voltage.dc": {
-          "title": "DC-spænding"
         },
         "measure_temperature.max": {
           "title": "Maks. optimizertemperatur i dag"
@@ -182,23 +172,8 @@
           "label": "Opdateringsinterval (sekunder)",
           "hint": "Gælder for alle enheder på denne konto."
         }
-      },
-      "capabilitiesOptions": {
-        "measure_power": {
-          "title": "Effekt (anslået)"
-        }
       }
     }
   },
-  "migrating": "Opdaterer funktioner…",
-  "inverterStatus": {
-    "production": "Producerer",
-    "sleeping": "Dvale",
-    "starting": "Starter",
-    "throttled": "Begrænset",
-    "shutting_down": "Lukker ned",
-    "fault": "Fejl",
-    "standby": "Standby",
-    "off": "Slukket"
-  }
+  "migrating": "Opdaterer funktioner…"
 }

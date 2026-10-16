@@ -3,5 +3,10 @@
   "class": "other",
   "capabilities": [
     "solaredge-home-load-controller-state"
-  ]
+  ],
+  "capabilitiesOptions": {
+    "measure_power": {
+      "approximated": true
+    }
+  }
 }

@@ -23,6 +23,17 @@
         "title": "Automatisch laden",
         "hint": "Zurück zum Zeitplan und Überschussladen der Wallbox."
       }
+    },
+    "conditions": {
+      "inverter_status_is": {
+        "title": "Wechselrichterstatus ist ...",
+        "titleFormatted": "Wechselrichterstatus !{{ist|ist nicht}} [[status]]",
+        "args": {
+          "status": {
+            "title": "Wechselrichterstatus"
+          }
+        }
+      }
     }
   },
   "$drivers": {
@@ -102,15 +113,6 @@
         "meter_power.year": {
           "title": "Erzeugung dieses Jahr"
         },
-        "measure_power.1": {
-          "title": "Leistung Phase 1 (AC)"
-        },
-        "measure_power.2": {
-          "title": "Leistung Phase 2 (AC)"
-        },
-        "measure_power.3": {
-          "title": "Leistung Phase 3 (AC)"
-        },
         "measure_voltage.1": {
           "title": "Spannung Phase 1 (AC)"
         },
@@ -119,18 +121,6 @@
         },
         "measure_voltage.3": {
           "title": "Spannung Phase 3 (AC)"
-        },
-        "measure_current.1": {
-          "title": "Strom Phase 1 (AC)"
-        },
-        "measure_current.2": {
-          "title": "Strom Phase 2 (AC)"
-        },
-        "measure_current.3": {
-          "title": "Strom Phase 3 (AC)"
-        },
-        "measure_voltage.dc": {
-          "title": "DC-Spannung"
         },
         "measure_temperature.max": {
           "title": "Max. Optimierertemperatur heute"
@@ -182,23 +172,8 @@
           "label": "Abfrageintervall (Sekunden)",
           "hint": "Gilt für alle Geräte dieses Kontos."
         }
-      },
-      "capabilitiesOptions": {
-        "measure_power": {
-          "title": "Leistung (geschätzt)"
-        }
       }
     }
   },
-  "migrating": "Fähigkeiten werden aktualisiert…",
-  "inverterStatus": {
-    "production": "Produziert",
-    "sleeping": "Ruhemodus",
-    "starting": "Startet",
-    "throttled": "Gedrosselt",
-    "shutting_down": "Fährt herunter",
-    "fault": "Störung",
-    "standby": "Standby",
-    "off": "Aus"
-  }
+  "migrating": "Fähigkeiten werden aktualisiert…"
 }

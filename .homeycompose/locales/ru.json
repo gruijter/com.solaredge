@@ -23,6 +23,17 @@
         "title": "Заряжать автоматически",
         "hint": "Вернуться к расписанию зарядной станции и зарядке от избытка солнечной энергии."
       }
+    },
+    "conditions": {
+      "inverter_status_is": {
+        "title": "Состояние инвертора ...",
+        "titleFormatted": "Состояние инвертора !{{—|не}} [[status]]",
+        "args": {
+          "status": {
+            "title": "Состояние инвертора"
+          }
+        }
+      }
     }
   },
   "$drivers": {
@@ -102,15 +113,6 @@
         "meter_power.year": {
           "title": "Выработано в этом году"
         },
-        "measure_power.1": {
-          "title": "Мощность фазы 1 (AC)"
-        },
-        "measure_power.2": {
-          "title": "Мощность фазы 2 (AC)"
-        },
-        "measure_power.3": {
-          "title": "Мощность фазы 3 (AC)"
-        },
         "measure_voltage.1": {
           "title": "Напряжение фазы 1 (AC)"
         },
@@ -119,18 +121,6 @@
         },
         "measure_voltage.3": {
           "title": "Напряжение фазы 3 (AC)"
-        },
-        "measure_current.1": {
-          "title": "Ток фазы 1 (AC)"
-        },
-        "measure_current.2": {
-          "title": "Ток фазы 2 (AC)"
-        },
-        "measure_current.3": {
-          "title": "Ток фазы 3 (AC)"
-        },
-        "measure_voltage.dc": {
-          "title": "Напряжение DC"
         },
         "measure_temperature.max": {
           "title": "Макс. температура оптимизаторов сегодня"
@@ -182,23 +172,8 @@
           "label": "Интервал опроса (секунды)",
           "hint": "Применяется ко всем устройствам этой учётной записи."
         }
-      },
-      "capabilitiesOptions": {
-        "measure_power": {
-          "title": "Мощность (оценка)"
-        }
       }
     }
   },
-  "migrating": "Обновление возможностей…",
-  "inverterStatus": {
-    "production": "Выработка",
-    "sleeping": "Спящий режим",
-    "starting": "Запуск",
-    "throttled": "Ограничен",
-    "shutting_down": "Выключение",
-    "fault": "Неисправность",
-    "standby": "Ожидание",
-    "off": "Выключен"
-  }
+  "migrating": "Обновление возможностей…"
 }

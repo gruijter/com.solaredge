@@ -74,7 +74,8 @@ const SYNTHETIC_EXPECTED = {
     measure_power: 500, measure_battery: 62, battery_charging_state: 'charging', 'meter_power.charged': 1234.567, 'meter_power.discharged': 1000, measure_residual_energy: 6.2, measure_soh: 95,
   },
   evcharger: {
-    measure_power: 3100,
+    // the charger's own CURRENT_POWER_WH, not the powerflow's 3.1 kW
+    measure_power: 9509,
     evcharger_charging: true,
     evcharger_charging_state: 'plugged_in_charging',
     'meter_power.charged': 127.456,
@@ -85,7 +86,7 @@ const SYNTHETIC_EXPECTED = {
     ev_vehicle: 'Ioniq',
   },
   'home-load-controller': { 'solaredge-home-load-controller-state': 'on', measure_power: 2000 },
-  inverter: { measure_power: 5600, alarm_problem: true, inverter_status: 'Producing' },
+  inverter: { measure_power: 5600, alarm_problem: true, inverter_status: 'production' },
 };
 
 const runSite = async (file) => {

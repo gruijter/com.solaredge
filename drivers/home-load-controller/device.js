@@ -20,6 +20,7 @@ along with com.solaredge.  If not, see <http://www.gnu.org/licenses/>.
 'use strict';
 
 const CommonDevice = require('../../lib/common_device');
+const DeviceMigrator = require('../../lib/DeviceMigrator');
 const siteDevices = require('../../lib/siteDevices');
 
 const CAPABILITY = 'solaredge-home-load-controller-state';
@@ -43,6 +44,13 @@ module.exports = class SolarEdgeHomeLoadControllerDevice extends CommonDevice {
 
   optionalCapabilities() {
     return OPTIONAL_CAPABILITIES;
+  }
+
+  /** measure_power is marked approximated (Homey Energy docs) unless the device has a meter. */
+  capabilityOptions() {
+    const options = super.capabilityOptions();
+    if (this.hasCapability('measure_power')) options.measure_power = { approximated: this.getStoreValue('powerMeasured') !== true };
+    return options;
   }
 
   async onInit() {
@@ -111,7 +119,12 @@ module.exports = class SolarEdgeHomeLoadControllerDevice extends CommonDevice {
     this.logOnce(`power ${measured === null ? 'estimated' : 'measured'}`, `power ${measured === null ? 'estimated from' : 'measured,'} rated ${rated} W`);
 
     await this.recordSeenCaps({ measure_power: power });
-    if (power !== null) await this.setCapability('measure_power', power);
+    if (power === null) return;
+    if (this.getStoreValue('powerMeasured') !== (measured !== null)) {
+      await this.setStoreValue('powerMeasured', measured !== null);
+      await DeviceMigrator.syncCapabilityOptions(this, this.capabilityOptions());
+    }
+    await this.setCapability('measure_power', power);
   }
 
 };

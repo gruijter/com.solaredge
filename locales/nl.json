@@ -8,15 +8,5 @@
     "deviceNotFound": "Apparaat niet gevonden op deze site.",
     "reAddDevice": "Verwijder dit apparaat en voeg het opnieuw toe voor kWh-waarden."
   },
-  "migrating": "Capabilities bijwerken…",
-  "inverterStatus": {
-    "production": "Produceert",
-    "sleeping": "Slaapstand",
-    "starting": "Opstarten",
-    "throttled": "Begrensd",
-    "shutting_down": "Afsluiten",
-    "fault": "Storing",
-    "standby": "Stand-by",
-    "off": "Uit"
-  }
+  "migrating": "Capabilities bijwerken…"
 }

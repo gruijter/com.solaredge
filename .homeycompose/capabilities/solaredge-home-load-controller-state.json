@@ -60,5 +60,6 @@
         "ar": "تلقائي"
       }
     }
-  ]
+  ],
+  "icon": "./assets/solaredge-home-load-controller-state.svg"
 }

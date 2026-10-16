@@ -23,6 +23,17 @@
         "title": "Automatisch laden",
         "hint": "Terug naar het schema en laden op zonne-overschot van de lader."
       }
+    },
+    "conditions": {
+      "inverter_status_is": {
+        "title": "Omvormerstatus is ...",
+        "titleFormatted": "Omvormerstatus !{{is|is niet}} [[status]]",
+        "args": {
+          "status": {
+            "title": "Omvormerstatus"
+          }
+        }
+      }
     }
   },
   "$drivers": {
@@ -102,15 +113,6 @@
         "meter_power.year": {
           "title": "Opgewekt dit jaar"
         },
-        "measure_power.1": {
-          "title": "Vermogen fase 1 (AC)"
-        },
-        "measure_power.2": {
-          "title": "Vermogen fase 2 (AC)"
-        },
-        "measure_power.3": {
-          "title": "Vermogen fase 3 (AC)"
-        },
         "measure_voltage.1": {
           "title": "Spanning fase 1 (AC)"
         },
@@ -119,18 +121,6 @@
         },
         "measure_voltage.3": {
           "title": "Spanning fase 3 (AC)"
-        },
-        "measure_current.1": {
-          "title": "Stroom fase 1 (AC)"
-        },
-        "measure_current.2": {
-          "title": "Stroom fase 2 (AC)"
-        },
-        "measure_current.3": {
-          "title": "Stroom fase 3 (AC)"
-        },
-        "measure_voltage.dc": {
-          "title": "DC-spanning"
         },
         "measure_temperature.max": {
           "title": "Max. optimizertemperatuur vandaag"
@@ -182,23 +172,8 @@
           "label": "Pollinterval (seconden)",
           "hint": "Geldt voor alle apparaten van dit account."
         }
-      },
-      "capabilitiesOptions": {
-        "measure_power": {
-          "title": "Vermogen (geschat)"
-        }
       }
     }
   },
-  "migrating": "Capabilities bijwerken…",
-  "inverterStatus": {
-    "production": "Produceert",
-    "sleeping": "Slaapstand",
-    "starting": "Opstarten",
-    "throttled": "Begrensd",
-    "shutting_down": "Afsluiten",
-    "fault": "Storing",
-    "standby": "Stand-by",
-    "off": "Uit"
-  }
+  "migrating": "Capabilities bijwerken…"
 }

@@ -23,6 +23,17 @@
         "title": "Cargar automáticamente",
         "hint": "Volver a la programación y la carga con excedente solar del cargador."
       }
+    },
+    "conditions": {
+      "inverter_status_is": {
+        "title": "El estado del inversor es ...",
+        "titleFormatted": "Estado del inversor !{{es|no es}} [[status]]",
+        "args": {
+          "status": {
+            "title": "Estado del inversor"
+          }
+        }
+      }
     }
   },
   "$drivers": {
@@ -102,15 +113,6 @@
         "meter_power.year": {
           "title": "Generado este año"
         },
-        "measure_power.1": {
-          "title": "Potencia fase 1 (CA)"
-        },
-        "measure_power.2": {
-          "title": "Potencia fase 2 (CA)"
-        },
-        "measure_power.3": {
-          "title": "Potencia fase 3 (CA)"
-        },
         "measure_voltage.1": {
           "title": "Voltaje fase 1 (CA)"
         },
@@ -119,18 +121,6 @@
         },
         "measure_voltage.3": {
           "title": "Voltaje fase 3 (CA)"
-        },
-        "measure_current.1": {
-          "title": "Corriente fase 1 (CA)"
-        },
-        "measure_current.2": {
-          "title": "Corriente fase 2 (CA)"
-        },
-        "measure_current.3": {
-          "title": "Corriente fase 3 (CA)"
-        },
-        "measure_voltage.dc": {
-          "title": "Voltaje CC"
         },
         "measure_temperature.max": {
           "title": "Temperatura máx. de optimizadores hoy"
@@ -182,23 +172,8 @@
           "label": "Intervalo de consulta (segundos)",
           "hint": "Se aplica a todos los dispositivos de esta cuenta."
         }
-      },
-      "capabilitiesOptions": {
-        "measure_power": {
-          "title": "Potencia (estimada)"
-        }
       }
     }
   },
-  "migrating": "Actualizando capacidades…",
-  "inverterStatus": {
-    "production": "Produciendo",
-    "sleeping": "En reposo",
-    "starting": "Iniciando",
-    "throttled": "Limitado",
-    "shutting_down": "Apagando",
-    "fault": "Fallo",
-    "standby": "En espera",
-    "off": "Apagado"
-  }
+  "migrating": "Actualizando capacidades…"
 }

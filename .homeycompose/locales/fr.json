@@ -23,6 +23,17 @@
         "title": "Charger automatiquement",
         "hint": "Retour au planning et à la recharge sur surplus solaire de la borne."
       }
+    },
+    "conditions": {
+      "inverter_status_is": {
+        "title": "L'état de l'onduleur est ...",
+        "titleFormatted": "État de l'onduleur !{{est|n'est pas}} [[status]]",
+        "args": {
+          "status": {
+            "title": "État de l'onduleur"
+          }
+        }
+      }
     }
   },
   "$drivers": {
@@ -102,15 +113,6 @@
         "meter_power.year": {
           "title": "Production cette année"
         },
-        "measure_power.1": {
-          "title": "Puissance phase 1 (CA)"
-        },
-        "measure_power.2": {
-          "title": "Puissance phase 2 (CA)"
-        },
-        "measure_power.3": {
-          "title": "Puissance phase 3 (CA)"
-        },
         "measure_voltage.1": {
           "title": "Tension phase 1 (CA)"
         },
@@ -119,18 +121,6 @@
         },
         "measure_voltage.3": {
           "title": "Tension phase 3 (CA)"
-        },
-        "measure_current.1": {
-          "title": "Courant phase 1 (CA)"
-        },
-        "measure_current.2": {
-          "title": "Courant phase 2 (CA)"
-        },
-        "measure_current.3": {
-          "title": "Courant phase 3 (CA)"
-        },
-        "measure_voltage.dc": {
-          "title": "Tension CC"
         },
         "measure_temperature.max": {
           "title": "Température max. des optimiseurs aujourd'hui"
@@ -182,23 +172,8 @@
           "label": "Intervalle d'interrogation (secondes)",
           "hint": "S'applique à tous les appareils de ce compte."
         }
-      },
-      "capabilitiesOptions": {
-        "measure_power": {
-          "title": "Puissance (estimée)"
-        }
       }
     }
   },
-  "migrating": "Mise à jour des capacités…",
-  "inverterStatus": {
-    "production": "En production",
-    "sleeping": "En veille",
-    "starting": "Démarrage",
-    "throttled": "Bridé",
-    "shutting_down": "Arrêt en cours",
-    "fault": "Défaut",
-    "standby": "Veille",
-    "off": "Arrêté"
-  }
+  "migrating": "Mise à jour des capacités…"
 }

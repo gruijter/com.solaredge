@@ -23,6 +23,17 @@
         "title": "자동 충전",
         "hint": "충전기 일정 및 태양광 잉여 충전으로 돌아갑니다."
       }
+    },
+    "conditions": {
+      "inverter_status_is": {
+        "title": "인버터 상태는 ...",
+        "titleFormatted": "인버터 상태: [[status]] !{{입니다|이(가) 아닙니다}}",
+        "args": {
+          "status": {
+            "title": "인버터 상태"
+          }
+        }
+      }
     }
   },
   "$drivers": {
@@ -102,15 +113,6 @@
         "meter_power.year": {
           "title": "올해 발전량"
         },
-        "measure_power.1": {
-          "title": "전력 위상 1 (AC)"
-        },
-        "measure_power.2": {
-          "title": "전력 위상 2 (AC)"
-        },
-        "measure_power.3": {
-          "title": "전력 위상 3 (AC)"
-        },
         "measure_voltage.1": {
           "title": "전압 위상 1 (AC)"
         },
@@ -119,18 +121,6 @@
         },
         "measure_voltage.3": {
           "title": "전압 위상 3 (AC)"
-        },
-        "measure_current.1": {
-          "title": "전류 위상 1 (AC)"
-        },
-        "measure_current.2": {
-          "title": "전류 위상 2 (AC)"
-        },
-        "measure_current.3": {
-          "title": "전류 위상 3 (AC)"
-        },
-        "measure_voltage.dc": {
-          "title": "DC 전압"
         },
         "measure_temperature.max": {
           "title": "오늘 옵티마이저 최고 온도"
@@ -182,23 +172,8 @@
           "label": "폴링 간격(초)",
           "hint": "이 계정의 모든 기기에 적용됩니다."
         }
-      },
-      "capabilitiesOptions": {
-        "measure_power": {
-          "title": "전력 (추정)"
-        }
       }
     }
   },
-  "migrating": "기능 업데이트 중…",
-  "inverterStatus": {
-    "production": "발전 중",
-    "sleeping": "절전",
-    "starting": "시작 중",
-    "throttled": "출력 제한",
-    "shutting_down": "종료 중",
-    "fault": "고장",
-    "standby": "대기",
-    "off": "꺼짐"
-  }
+  "migrating": "기능 업데이트 중…"
 }
