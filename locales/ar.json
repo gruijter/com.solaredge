@@ -29,6 +29,11 @@
   "settings": {
     "host": "عنوان IP",
     "port": "المنفذ",
-    "unitId": "معرّف الوحدة"
+    "unitId": "معرّف الوحدة",
+    "powerControl": {
+      "dynamic": "ديناميكي، يعود إلى __fallback__ % بعد __timeout__ ث دون أمر",
+      "basic": "أساسي",
+      "unavailable": "غير متاح"
+    }
   }
 }

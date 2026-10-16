@@ -1,0 +1,20 @@
+{
+  "id": "phases",
+  "type": "label",
+  "value": "",
+  "label": {
+    "en": "Number of phases",
+    "nl": "Aantal fasen",
+    "de": "Anzahl Phasen",
+    "fr": "Nombre de phases",
+    "es": "Número de fases",
+    "it": "Numero di fasi",
+    "da": "Antal faser",
+    "sv": "Antal faser",
+    "no": "Antall faser",
+    "pl": "Liczba faz",
+    "ru": "Число фаз",
+    "ar": "عدد الأطوار",
+    "ko": "상 수"
+  }
+}

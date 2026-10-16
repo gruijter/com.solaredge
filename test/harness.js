@@ -57,9 +57,10 @@ const invalidValue = (id, value) => {
 
 const homey = {
   manifest,
-  __: (key) => {
+  __: (key, tokens = {}) => {
     if (typeof key === 'object') return key.en;
-    return key.split('.').reduce((node, part) => node?.[part], en) ?? key;
+    const text = key.split('.').reduce((node, part) => node?.[part], en) ?? key;
+    return text.replace(/__(\w+)__/g, (match, token) => String(tokens[token] ?? match));
   },
   clock: { getTimezone: () => 'UTC' },
   i18n: { getLanguage: () => 'en' },

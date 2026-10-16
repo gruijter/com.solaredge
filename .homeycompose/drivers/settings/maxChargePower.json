@@ -1,0 +1,20 @@
+{
+  "id": "maxChargePower",
+  "type": "label",
+  "value": "",
+  "label": {
+    "en": "Max. charge power",
+    "nl": "Max. laadvermogen",
+    "de": "Max. Ladeleistung",
+    "fr": "Puissance de charge max.",
+    "es": "Potencia de carga máx.",
+    "it": "Potenza di carica max.",
+    "da": "Maks. opladeeffekt",
+    "sv": "Max. laddeffekt",
+    "no": "Maks. ladeeffekt",
+    "pl": "Maks. moc ładowania",
+    "ru": "Макс. мощность заряда",
+    "ar": "أقصى قدرة شحن",
+    "ko": "최대 충전 전력"
+  }
+}

@@ -29,6 +29,11 @@
   "settings": {
     "host": "IP-adress",
     "port": "Port",
-    "unitId": "Enhets-ID"
+    "unitId": "Enhets-ID",
+    "powerControl": {
+      "dynamic": "Dynamisk, tillbaka till __fallback__ % efter __timeout__ s utan kommando",
+      "basic": "Grundläggande",
+      "unavailable": "Inte tillgänglig"
+    }
   }
 }

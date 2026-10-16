@@ -29,6 +29,11 @@
   "settings": {
     "host": "IP-adres",
     "port": "Poort",
-    "unitId": "Unit-ID"
+    "unitId": "Unit-ID",
+    "powerControl": {
+      "dynamic": "Dynamisch, terug naar __fallback__ % na __timeout__ s zonder opdracht",
+      "basic": "Basis",
+      "unavailable": "Niet beschikbaar"
+    }
   }
 }

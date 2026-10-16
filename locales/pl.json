@@ -29,6 +29,11 @@
   "settings": {
     "host": "Adres IP",
     "port": "Port",
-    "unitId": "ID jednostki"
+    "unitId": "ID jednostki",
+    "powerControl": {
+      "dynamic": "Dynamiczne, powrót do __fallback__ % po __timeout__ s bez polecenia",
+      "basic": "Podstawowe",
+      "unavailable": "Niedostępne"
+    }
   }
 }

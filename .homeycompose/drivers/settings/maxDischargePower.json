@@ -1,0 +1,20 @@
+{
+  "id": "maxDischargePower",
+  "type": "label",
+  "value": "",
+  "label": {
+    "en": "Max. discharge power",
+    "nl": "Max. ontlaadvermogen",
+    "de": "Max. Entladeleistung",
+    "fr": "Puissance de décharge max.",
+    "es": "Potencia de descarga máx.",
+    "it": "Potenza di scarica max.",
+    "da": "Maks. afladeeffekt",
+    "sv": "Max. urladdningseffekt",
+    "no": "Maks. utladingseffekt",
+    "pl": "Maks. moc rozładowania",
+    "ru": "Макс. мощность разряда",
+    "ar": "أقصى قدرة تفريغ",
+    "ko": "최대 방전 전력"
+  }
+}

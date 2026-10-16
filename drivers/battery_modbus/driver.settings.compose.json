@@ -1,32 +1,98 @@
 [
   {
-    "$extends": "host"
+    "type": "group",
+    "label": {
+      "en": "Connection",
+      "nl": "Verbinding",
+      "de": "Verbindung",
+      "fr": "Connexion",
+      "es": "Conexión",
+      "it": "Connessione",
+      "da": "Forbindelse",
+      "sv": "Anslutning",
+      "no": "Tilkobling",
+      "pl": "Połączenie",
+      "ru": "Подключение",
+      "ar": "الاتصال",
+      "ko": "연결"
+    },
+    "children": [
+      {
+        "$extends": "host"
+      },
+      {
+        "$extends": "port"
+      },
+      {
+        "$extends": "unitId"
+      },
+      {
+        "$extends": "pollInterval"
+      }
+    ]
   },
   {
-    "$extends": "port"
+    "type": "group",
+    "label": {
+      "en": "Device information",
+      "nl": "Apparaatinformatie",
+      "de": "Geräteinformationen",
+      "fr": "Informations de l'appareil",
+      "es": "Información del dispositivo",
+      "it": "Informazioni dispositivo",
+      "da": "Enhedsinformation",
+      "sv": "Enhetsinformation",
+      "no": "Enhetsinformasjon",
+      "pl": "Informacje o urządzeniu",
+      "ru": "Информация об устройстве",
+      "ar": "معلومات الجهاز",
+      "ko": "장치 정보"
+    },
+    "children": [
+      {
+        "$extends": "connectedTo"
+      },
+      {
+        "$extends": "deviceModel"
+      },
+      {
+        "$extends": "deviceSn"
+      },
+      {
+        "$extends": "manufacturer"
+      },
+      {
+        "$extends": "firmware"
+      }
+    ]
   },
   {
-    "$extends": "unitId"
-  },
-  {
-    "$extends": "pollInterval"
-  },
-  {
-    "$extends": "deviceModel"
-  },
-  {
-    "$extends": "deviceSn"
-  },
-  {
-    "$extends": "manufacturer"
-  },
-  {
-    "$extends": "firmware"
-  },
-  {
-    "$extends": "ratedEnergy"
-  },
-  {
-    "$extends": "connectedTo"
+    "type": "group",
+    "label": {
+      "en": "Battery",
+      "nl": "Batterij",
+      "de": "Batterie",
+      "fr": "Batterie",
+      "es": "Batería",
+      "it": "Batteria",
+      "da": "Batteri",
+      "sv": "Batteri",
+      "no": "Batteri",
+      "pl": "Akumulator",
+      "ru": "Аккумулятор",
+      "ar": "البطارية",
+      "ko": "배터리"
+    },
+    "children": [
+      {
+        "$extends": "ratedEnergy"
+      },
+      {
+        "$extends": "maxChargePower"
+      },
+      {
+        "$extends": "maxDischargePower"
+      }
+    ]
   }
 ]

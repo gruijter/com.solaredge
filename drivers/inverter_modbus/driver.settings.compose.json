@@ -1,29 +1,95 @@
 [
   {
-    "$extends": "host"
+    "type": "group",
+    "label": {
+      "en": "Connection",
+      "nl": "Verbinding",
+      "de": "Verbindung",
+      "fr": "Connexion",
+      "es": "Conexión",
+      "it": "Connessione",
+      "da": "Forbindelse",
+      "sv": "Anslutning",
+      "no": "Tilkobling",
+      "pl": "Połączenie",
+      "ru": "Подключение",
+      "ar": "الاتصال",
+      "ko": "연결"
+    },
+    "children": [
+      {
+        "$extends": "host"
+      },
+      {
+        "$extends": "port"
+      },
+      {
+        "$extends": "unitId"
+      },
+      {
+        "$extends": "pollInterval"
+      }
+    ]
   },
   {
-    "$extends": "port"
+    "type": "group",
+    "label": {
+      "en": "Device information",
+      "nl": "Apparaatinformatie",
+      "de": "Geräteinformationen",
+      "fr": "Informations de l'appareil",
+      "es": "Información del dispositivo",
+      "it": "Informazioni dispositivo",
+      "da": "Enhedsinformation",
+      "sv": "Enhetsinformation",
+      "no": "Enhetsinformasjon",
+      "pl": "Informacje o urządzeniu",
+      "ru": "Информация об устройстве",
+      "ar": "معلومات الجهاز",
+      "ko": "장치 정보"
+    },
+    "children": [
+      {
+        "$extends": "deviceModel"
+      },
+      {
+        "$extends": "deviceSn"
+      },
+      {
+        "$extends": "manufacturer"
+      },
+      {
+        "$extends": "firmware"
+      }
+    ]
   },
   {
-    "$extends": "unitId"
-  },
-  {
-    "$extends": "pollInterval"
-  },
-  {
-    "$extends": "deviceModel"
-  },
-  {
-    "$extends": "deviceSn"
-  },
-  {
-    "$extends": "manufacturer"
-  },
-  {
-    "$extends": "firmware"
-  },
-  {
-    "$extends": "ratedPower"
+    "type": "group",
+    "label": {
+      "en": "Inverter",
+      "nl": "Omvormer",
+      "de": "Wechselrichter",
+      "fr": "Onduleur",
+      "es": "Inversor",
+      "it": "Inverter",
+      "da": "Inverter",
+      "sv": "Växelriktare",
+      "no": "Inverter",
+      "pl": "Falownik",
+      "ru": "Инвертор",
+      "ar": "العاكس",
+      "ko": "인버터"
+    },
+    "children": [
+      {
+        "$extends": "ratedPower"
+      },
+      {
+        "$extends": "phases"
+      },
+      {
+        "$extends": "powerControl"
+      }
+    ]
   }
 ]

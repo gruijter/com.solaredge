@@ -1,28 +1,91 @@
 [
   {
-    "$extends": "host"
+    "type": "group",
+    "label": {
+      "en": "Connection",
+      "nl": "Verbinding",
+      "de": "Verbindung",
+      "fr": "Connexion",
+      "es": "Conexión",
+      "it": "Connessione",
+      "da": "Forbindelse",
+      "sv": "Anslutning",
+      "no": "Tilkobling",
+      "pl": "Połączenie",
+      "ru": "Подключение",
+      "ar": "الاتصال",
+      "ko": "연결"
+    },
+    "children": [
+      {
+        "$extends": "host"
+      },
+      {
+        "$extends": "port",
+        "value": 502
+      },
+      {
+        "$extends": "unitId",
+        "value": 255
+      },
+      {
+        "$extends": "pollInterval"
+      }
+    ]
   },
   {
-    "$extends": "port",
-    "value": 502
+    "type": "group",
+    "label": {
+      "en": "Device information",
+      "nl": "Apparaatinformatie",
+      "de": "Geräteinformationen",
+      "fr": "Informations de l'appareil",
+      "es": "Información del dispositivo",
+      "it": "Informazioni dispositivo",
+      "da": "Enhedsinformation",
+      "sv": "Enhetsinformation",
+      "no": "Enhetsinformasjon",
+      "pl": "Informacje o urządzeniu",
+      "ru": "Информация об устройстве",
+      "ar": "معلومات الجهاز",
+      "ko": "장치 정보"
+    },
+    "children": [
+      {
+        "$extends": "deviceModel"
+      },
+      {
+        "$extends": "deviceSn"
+      },
+      {
+        "$extends": "manufacturer"
+      },
+      {
+        "$extends": "firmware"
+      }
+    ]
   },
   {
-    "$extends": "unitId",
-    "value": 255
-  },
-  {
-    "$extends": "pollInterval"
-  },
-  {
-    "$extends": "deviceModel"
-  },
-  {
-    "$extends": "deviceSn"
-  },
-  {
-    "$extends": "manufacturer"
-  },
-  {
-    "$extends": "firmware"
+    "type": "group",
+    "label": {
+      "en": "EV Charger",
+      "nl": "EV-lader",
+      "de": "EV-Ladegerät",
+      "fr": "Borne de recharge VE",
+      "es": "Cargador de VE",
+      "it": "Caricatore EV",
+      "da": "Elbillader",
+      "sv": "Elbilsladdare",
+      "no": "Elbillader",
+      "pl": "Ładowarka EV",
+      "ru": "Зарядная станция для электромобиля",
+      "ar": "شاحن السيارة الكهربائية",
+      "ko": "전기차 충전기"
+    },
+    "children": [
+      {
+        "$extends": "ratedCurrent"
+      }
+    ]
   }
 ]

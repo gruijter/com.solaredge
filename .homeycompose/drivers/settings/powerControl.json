@@ -1,0 +1,20 @@
+{
+  "id": "powerControl",
+  "type": "label",
+  "value": "",
+  "label": {
+    "en": "Power limit control",
+    "nl": "Vermogensbegrenzing",
+    "de": "Leistungsbegrenzung",
+    "fr": "Limitation de puissance",
+    "es": "Limitación de potencia",
+    "it": "Limitazione di potenza",
+    "da": "Effektbegrænsning",
+    "sv": "Effektbegränsning",
+    "no": "Effektbegrensning",
+    "pl": "Ograniczenie mocy",
+    "ru": "Ограничение мощности",
+    "ar": "تحديد القدرة",
+    "ko": "출력 제한"
+  }
+}

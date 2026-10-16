@@ -29,6 +29,11 @@
   "settings": {
     "host": "IP-адрес",
     "port": "Порт",
-    "unitId": "ID устройства"
+    "unitId": "ID устройства",
+    "powerControl": {
+      "dynamic": "Динамическое, возврат к __fallback__ % через __timeout__ с без команды",
+      "basic": "Базовое",
+      "unavailable": "Недоступно"
+    }
   }
 }

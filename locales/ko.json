@@ -29,6 +29,11 @@
   "settings": {
     "host": "IP 주소",
     "port": "포트",
-    "unitId": "유닛 ID"
+    "unitId": "유닛 ID",
+    "powerControl": {
+      "dynamic": "동적, 명령이 없으면 __timeout__초 후 __fallback__ %로 복귀",
+      "basic": "기본",
+      "unavailable": "사용할 수 없음"
+    }
   }
 }

@@ -31,6 +31,7 @@ const path = require('node:path');
 const { isDeepStrictEqual } = require('node:util');
 const { manifest, loadDriver } = require('./harness');
 const ModbusClient = require('../lib/ModbusClient');
+const pointMap = require('../lib/solarEdgePointMap');
 
 const ROOT = path.join(__dirname, '..');
 const FIXTURES = path.join(__dirname, 'fixtures', 'modbus');
@@ -106,7 +107,10 @@ const CASES = [
     }],
     meter_modbus: 'none',
     battery_modbus: 'none',
-    settings: { inverter_modbus: { ratedPower: '17000 W' } }, // no 0xF304: from the model name
+    settings: {
+      // no 0xF304: from the model name
+      inverter_modbus: { ratedPower: '17000 W', phases: '3', powerControl: 'Basic' },
+    },
     // 2500 W of a 17 kW inverter without enhanced dynamic power control: 15 % in 0xF001
     control: {
       driverId: 'inverter_modbus',
@@ -133,7 +137,10 @@ const CASES = [
       setFloat(holding, 0xf322, 100);
     },
     inverter_modbus: [{ measure_power: 865, target_power: 5250 }],
-    settings: { inverter_modbus: { ratedPower: '5250 W' } }, // read from 0xF304
+    settings: {
+      // read from 0xF304
+      inverter_modbus: { ratedPower: '5250 W', phases: '3', powerControl: 'Dynamic, back to 100 % after 550 s without a command' },
+    },
     // 2500 W of 5250 W: 47.62 % in 0xF322, float32
     control: {
       driverId: 'inverter_modbus',
@@ -156,6 +163,12 @@ const CASES = [
     battery_modbus: [{
       measure_power: 0, measure_battery: 100, measure_soh: 100, battery_charging_state: 'idle',
     }, { measure_battery: 99 }],
+    // the dump lacks the charge and discharge power ratings
+    settings: {
+      inverter_modbus: { phases: '1' },
+      meter_modbus: { phases: '3' }, // wye; the dump lacks the meter common block
+      battery_modbus: { ratedEnergy: '9.7 kWh', maxChargePower: '', maxDischargePower: '' },
+    },
   },
   {
     dump: 'issue827_u1',
@@ -267,7 +280,21 @@ const runDriver = async ({
   }
 };
 
+// the KEBA examples of the programmers guide (3.7-3.9); no register dump of a charger
+const kebaIdentity = () => {
+  const words = (value) => [Math.floor(value / 0x10000), value % 0x10000];
+  const regs = new Map([1014, 1016, 1018].flatMap((address, index) => {
+    const [high, low] = words([18416854, 304111, 0x030A0D00][index]);
+    return [[address, high], [address + 1, low]];
+  }));
+  const identity = pointMap.evcharger_modbus.identity(regs);
+  check(isDeepStrictEqual(identity, {
+    manufacturer: 'KEBA', model: 'KeContact P30 c-series', firmware: '3.10.13', serialNumber: '18416854', settings: { ratedCurrent: '32 A' },
+  }), `KEBA identity: ${JSON.stringify(identity)}`);
+};
+
 (async () => {
+  kebaIdentity();
   const modbusDrivers = manifest.drivers.filter((driver) => driver.connectivity.includes('lan')).map((driver) => driver.id);
   for (const testCase of CASES) {
     const { holding } = JSON.parse(fs.readFileSync(path.join(FIXTURES, `${testCase.dump}.json`), 'utf8'));

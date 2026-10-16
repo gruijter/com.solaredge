@@ -1,0 +1,20 @@
+{
+  "id": "ratedCurrent",
+  "type": "label",
+  "value": "",
+  "label": {
+    "en": "Rated current",
+    "nl": "Nominale stroom",
+    "de": "Nennstrom",
+    "fr": "Courant nominal",
+    "es": "Corriente nominal",
+    "it": "Corrente nominale",
+    "da": "Nominel strøm",
+    "sv": "Märkström",
+    "no": "Merkestrøm",
+    "pl": "Prąd znamionowy",
+    "ru": "Номинальный ток",
+    "ar": "التيار الاسمي",
+    "ko": "정격 전류"
+  }
+}
