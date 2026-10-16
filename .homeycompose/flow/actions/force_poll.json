@@ -1,0 +1,32 @@
+{
+  "title": {
+    "en": "Get status update",
+    "nl": "Haal status update op",
+    "de": "Status-Update anfordern",
+    "fr": "Obtenir la mise à jour du statut",
+    "it": "Ottieni aggiornamento di stato",
+    "es": "Obtener actualización de estado",
+    "pl": "Pobierz aktualizację statusu",
+    "sv": "Hämta statusuppdatering",
+    "no": "Hent statusoppdatering",
+    "da": "Hent statusopdatering",
+    "ru": "Получить обновление статуса",
+    "ko": "상태 업데이트 가져오기",
+    "ar": "الحصول على تحديث الحالة"
+  },
+  "hint": {
+    "en": "Reads all local (Modbus) devices right away, on top of the normal update interval.",
+    "nl": "Leest alle lokale (Modbus-)apparaten direct uit, naast het normale update-interval.",
+    "de": "Liest alle lokalen (Modbus-)Geräte sofort aus, zusätzlich zum normalen Aktualisierungsintervall.",
+    "fr": "Lit immédiatement tous les appareils locaux (Modbus), en plus de l'intervalle de mise à jour normal.",
+    "es": "Lee de inmediato todos los dispositivos locales (Modbus), además del intervalo de actualización normal.",
+    "it": "Legge subito tutti i dispositivi locali (Modbus), oltre al normale intervallo di aggiornamento.",
+    "da": "Aflæser alle lokale (Modbus-)enheder med det samme, ud over det normale opdateringsinterval.",
+    "sv": "Läser av alla lokala (Modbus-)enheter direkt, utöver det vanliga uppdateringsintervallet.",
+    "no": "Leser av alle lokale (Modbus-)enheter med en gang, i tillegg til det vanlige oppdateringsintervallet.",
+    "pl": "Odczytuje wszystkie lokalne urządzenia (Modbus) natychmiast, niezależnie od normalnego interwału aktualizacji.",
+    "ru": "Немедленно опрашивает все локальные (Modbus) устройства, в дополнение к обычному интервалу обновления.",
+    "ar": "يقرأ جميع الأجهزة المحلية (Modbus) فورًا، بالإضافة إلى فترة التحديث العادية.",
+    "ko": "일반 업데이트 간격과 별도로 모든 로컬(Modbus) 장치를 즉시 읽습니다."
+  }
+}

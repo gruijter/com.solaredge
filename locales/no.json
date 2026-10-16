@@ -14,7 +14,18 @@
     "modbusUnreachable": "Enheten kan ikke nås:",
     "modbusNoUnits": "Ingenting av denne typen ble funnet på denne adressen.",
     "modbusWriteFailed": "Kunne ikke sende kommandoen:",
-    "powerLimitRejected": "Vekselretteren godtok ikke effektgrensen."
+    "powerLimitRejected": "Vekselretteren godtok ikke effektgrensen.",
+    "powerLimitUnknown": "Effektgrensen kan ikke stilles inn ennå: inverterens effekt er ukjent.",
+    "notSupported": "Denne enheten støtter ikke det.",
+    "exportLimitOff": "Innmatingsbegrensning er av i inverteren: installatøren setter den opp, med en måler.",
+    "exportLimitRejected": "Inverteren godtok ikke innmatingsgrensen.",
+    "advancedPowerControlOff": "Fjernstyring av batteriet krever advanced power control i inverteren (0xF142 = 1, 0xF104 = 4); spør installatøren din.",
+    "exportLimitActive": "Fjernstyring av batteriet virker ikke mens innmatingsbegrensning er på i inverteren (SolarEdge Power Control-dokument).",
+    "socRange": "Reservekapasiteten må være 0–100 %.",
+    "backupReserveRejected": "Inverteren godtok ikke reservekapasiteten.",
+    "noCarConnected": "Ingen bil tilkoblet.",
+    "noChargingSession": "Ingen ladeøkt: koble til en bil først.",
+    "phaseSwitchingOff": "Slå først på \"Faseveksling via Modbus\" i enhetsinnstillingene."
   },
   "migrating": "Oppdaterer funksjoner…",
   "pair": {

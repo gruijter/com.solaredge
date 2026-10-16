@@ -39,11 +39,12 @@ const en = JSON.parse(fs.readFileSync(path.join(ROOT, 'locales', 'en.json'), 'ut
 const capabilityDefinition = (id) => manifest.capabilities?.[id] || homeyLib.getCapability(id.split('.')[0]);
 
 /** Why `value` is not valid for the capability, or null. */
-const invalidValue = (id, value) => {
+/** `options`: the driver's capabilitiesOptions and runtime options, which override the definition. */
+const invalidValue = (id, value, options = {}) => {
   if (value === null) return null;
   const {
     type, min, max, values,
-  } = capabilityDefinition(id);
+  } = { ...capabilityDefinition(id), ...options };
   if (type === 'number') {
     if (typeof value !== 'number' || !Number.isFinite(value)) return `not a finite number: ${value}`;
     if (min !== undefined && value < min) return `below ${min}: ${value}`;
@@ -66,6 +67,19 @@ const homey = {
   i18n: { getLanguage: () => 'en' },
   // pastYearTotals waits a second between years to spare the API; the replay need not
   setTimeout: (fn) => setImmediate(fn),
+  // timers are driven by the tests themselves
+  setInterval: () => ({}),
+  clearInterval: () => {},
+  on() {},
+  removeListener() {},
+  emit() {},
+  flow: {
+    getActionCard: () => ({
+      registerRunListener() {
+        return this;
+      },
+    }),
+  },
 };
 
 class SimpleClass {
@@ -156,7 +170,7 @@ class Device extends SimpleClass {
 
   async setCapabilityValue(id, value) {
     if (!this.hasCapability(id)) throw new Error(`Invalid Capability: ${id}`);
-    const invalid = invalidValue(id, value);
+    const invalid = invalidValue(id, value, { ...this.driverManifest.capabilitiesOptions?.[id], ...this.options?.[id] });
     if (invalid) this.problems.push(`${id} ${invalid}`);
     this.values[id] = value;
   }
@@ -187,6 +201,10 @@ class Device extends SimpleClass {
   }
 
   registerCapabilityListener() {}
+
+  registerMultipleCapabilityListener(capabilities, listener) {
+    this.capabilityListeners = { ...this.capabilityListeners, [capabilities.join()]: listener };
+  }
 
   error(...args) {
     this.problems.push(`error: ${args.map((arg) => arg?.message ?? arg).join(' ')}`);

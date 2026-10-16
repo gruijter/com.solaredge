@@ -61,13 +61,24 @@ app.homey = {
 };
 app.registerFlowListeners();
 
+// the Modbus drivers register their own action cards
+const driverInits = manifest.drivers.filter((driver) => driver.connectivity.includes('lan')).map((driver) => {
+  const Driver = require(path.join(ROOT, 'drivers', driver.id, 'driver.js')); // eslint-disable-line import/no-dynamic-require, global-require
+  const instance = Object.create(Driver.prototype);
+  Object.assign(instance, { homey: app.homey, id: driver.id, log: () => {} });
+  return instance.onInit();
+});
+
 // --- 1. listeners -------------------------------------------------------------------------
 
-for (const kind of ['conditions', 'actions']) {
-  const declared = (manifest.flow[kind] || []).map((item) => item.id);
-  declared.filter((id) => !registered[kind][id]).forEach((id) => failures.push(`${kind} ${id}: no run listener`));
-  Object.keys(registered[kind]).filter((id) => !declared.includes(id)).forEach((id) => failures.push(`${kind} ${id}: listener for a card that is not declared`));
-}
+// after the drivers' onInit, in run()
+const checkListeners = () => {
+  for (const kind of ['conditions', 'actions']) {
+    const declared = (manifest.flow[kind] || []).map((item) => item.id);
+    declared.filter((id) => !registered[kind][id]).forEach((id) => failures.push(`${kind} ${id}: no run listener`));
+    Object.keys(registered[kind]).filter((id) => !declared.includes(id)).forEach((id) => failures.push(`${kind} ${id}: listener for a card that is not declared`));
+  }
+};
 
 // --- 2. conditions on a capability value --------------------------------------------------
 
@@ -89,8 +100,28 @@ const checkEnum = (id, dropdown, capability) => {
 };
 
 const run = async () => {
+  await Promise.all(driverInits);
+  checkListeners();
+  // the Modbus action cards hand their value to the device's control or action
+  const calls = [];
+  const device = {
+    setControl: async (values) => calls.push(['setControl', values]),
+    runAction: async (name, args) => calls.push(['runAction', name, args]),
+  };
+  const ACTION_CALLS = {
+    set_export_limit: [{ watts: 2000 }, ['setControl', { export_limit: 2000 }]],
+    set_backup_reserve: [{ soc: 30 }, ['setControl', { battery_min_soc: 30 }]],
+    set_session_energy_limit: [{ kwh: 20 }, ['setControl', { session_energy_limit: 20 }]],
+    set_charging_phases: [{ phases: '1' }, ['runAction', 'chargingPhases', { phases: '1' }]],
+  };
+  for (const [id, [args, expected]] of Object.entries(ACTION_CALLS)) {
+    calls.length = 0;
+    await registered.actions[id]?.({ device, ...args }); // eslint-disable-line no-await-in-loop
+    check(JSON.stringify(calls) === JSON.stringify([expected]), `${id}: called ${JSON.stringify(calls)}`);
+  }
+
   for (const action of manifest.flow.actions || []) {
-    const dropdown = action.args.find((arg) => arg.type === 'dropdown');
+    const dropdown = (action.args || []).find((arg) => arg.type === 'dropdown');
     if (dropdown && ACTION_ENUMS[action.id]) checkEnum(action.id, dropdown, ACTION_ENUMS[action.id]);
   }
 

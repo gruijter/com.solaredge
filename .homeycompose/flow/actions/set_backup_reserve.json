@@ -1,0 +1,78 @@
+{
+  "title": {
+    "en": "Set backup reserve",
+    "nl": "Stel back-upreserve in",
+    "de": "Notstromreserve einstellen",
+    "fr": "Définir la réserve de secours",
+    "es": "Establecer reserva de respaldo",
+    "it": "Imposta riserva di backup",
+    "da": "Indstil backupreserve",
+    "sv": "Ställ in reservkapacitet",
+    "no": "Still inn reservekapasitet",
+    "pl": "Ustaw rezerwę awaryjną",
+    "ru": "Установить резерв на случай отключения",
+    "ar": "تعيين الاحتياطي للطوارئ",
+    "ko": "백업 예비량 설정"
+  },
+  "titleFormatted": {
+    "en": "Set backup reserve to [[soc]]%",
+    "nl": "Stel back-upreserve in op [[soc]]%",
+    "de": "Notstromreserve auf [[soc]] % einstellen",
+    "fr": "Définir la réserve de secours à [[soc]] %",
+    "es": "Establecer reserva de respaldo en [[soc]] %",
+    "it": "Imposta riserva di backup a [[soc]]%",
+    "da": "Indstil backupreserve til [[soc]] %",
+    "sv": "Ställ in reservkapacitet på [[soc]] %",
+    "no": "Still inn reservekapasitet til [[soc]] %",
+    "pl": "Ustaw rezerwę awaryjną na [[soc]]%",
+    "ru": "Установить резерв [[soc]] %",
+    "ar": "تعيين الاحتياطي للطوارئ إلى [[soc]]%",
+    "ko": "백업 예비량을 [[soc]]%로 설정"
+  },
+  "hint": {
+    "en": "SoC kept for a power outage, on inverters with backup hardware. Stored in the inverter.",
+    "nl": "SoC die bewaard blijft voor een stroomstoring, bij omvormers met back-uphardware. Wordt in de omvormer opgeslagen.",
+    "de": "Für einen Stromausfall zurückgehaltener SoC, bei Wechselrichtern mit Notstromhardware. Wird im Wechselrichter gespeichert.",
+    "fr": "SoC conservé pour une coupure de courant, sur les onduleurs avec matériel de secours. Enregistré dans l'onduleur.",
+    "es": "SoC reservado para un corte de luz, en inversores con hardware de respaldo. Se guarda en el inversor.",
+    "it": "SoC riservato per un'interruzione di corrente, sugli inverter con hardware di backup. Salvato nell'inverter.",
+    "da": "SoC holdt tilbage til strømafbrydelse, på invertere med backuphardware. Gemmes i inverteren.",
+    "sv": "SoC som sparas för strömavbrott, på växelriktare med reservhårdvara. Sparas i växelriktaren.",
+    "no": "SoC holdt av til strømbrudd, på invertere med reservemaskinvare. Lagres i inverteren.",
+    "pl": "SoC zachowany na wypadek awarii zasilania, w falownikach ze sprzętem awaryjnym. Zapisywany w falowniku.",
+    "ru": "SoC, сохраняемый на случай отключения электроэнергии, у инверторов с резервным оборудованием. Сохраняется в инверторе.",
+    "ar": "نسبة الشحن المحفوظة لانقطاع الكهرباء، في العواكس المزودة بأجهزة احتياطية. تُحفظ في العاكس.",
+    "ko": "정전에 대비해 남겨 두는 SoC로, 백업 하드웨어가 있는 인버터에 해당합니다. 인버터에 저장됩니다."
+  },
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=battery_modbus&capabilities=battery_min_soc"
+    },
+    {
+      "type": "range",
+      "name": "soc",
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "label": "%",
+      "labelDecimals": 0,
+      "title": {
+        "en": "Backup reserve",
+        "nl": "Back-upreserve",
+        "de": "Notstromreserve",
+        "fr": "Réserve de secours",
+        "es": "Reserva de respaldo",
+        "it": "Riserva di backup",
+        "da": "Backupreserve",
+        "sv": "Reservkapacitet",
+        "no": "Reservekapasitet",
+        "pl": "Rezerwa awaryjna",
+        "ru": "Резерв",
+        "ar": "الاحتياطي للطوارئ",
+        "ko": "백업 예비량"
+      }
+    }
+  ]
+}

@@ -85,6 +85,9 @@
     "children": [
       {
         "$extends": "ratedCurrent"
+      },
+      {
+        "$extends": "phaseSwitching"
       }
     ]
   }

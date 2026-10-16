@@ -1,0 +1,42 @@
+{
+  "type": "number",
+  "title": {
+    "en": "Session energy limit",
+    "nl": "Laadlimiet sessie",
+    "de": "Energielimit Ladevorgang",
+    "fr": "Limite d'énergie de la session",
+    "es": "Límite de energía de la sesión",
+    "it": "Limite energia sessione",
+    "da": "Energigrænse for session",
+    "sv": "Energigräns för session",
+    "no": "Energigrense for økt",
+    "pl": "Limit energii sesji",
+    "ru": "Лимит энергии сессии",
+    "ar": "حد طاقة الجلسة",
+    "ko": "세션 에너지 한도"
+  },
+  "units": {
+    "en": "kWh",
+    "nl": "kWh",
+    "de": "kWh",
+    "fr": "kWh",
+    "es": "kWh",
+    "it": "kWh",
+    "da": "kWh",
+    "sv": "kWh",
+    "no": "kWh",
+    "pl": "kWh",
+    "ru": "kWh",
+    "ar": "kWh",
+    "ko": "kWh"
+  },
+  "decimals": 0,
+  "min": 0,
+  "max": 100,
+  "step": 1,
+  "getable": true,
+  "setable": true,
+  "insights": false,
+  "uiComponent": "slider",
+  "icon": "./assets/session_energy_limit.svg"
+}

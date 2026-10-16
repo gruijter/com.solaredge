@@ -18,8 +18,11 @@
   "class": "battery",
   "capabilities": [
     "measure_power",
+    "target_power",
+    "target_power_mode",
     "measure_battery",
     "battery_charging_state",
+    "battery_min_soc",
     "meter_power.charged",
     "meter_power.discharged",
     "measure_temperature",
@@ -28,6 +31,157 @@
     "alarm_problem"
   ],
   "capabilitiesOptions": {
+    "target_power": {
+      "min": -5000,
+      "max": 5000,
+      "step": 50
+    },
+    "target_power_mode": {
+      "title": {
+        "en": "Mode",
+        "nl": "Modus",
+        "de": "Modus",
+        "fr": "Mode",
+        "es": "Modo",
+        "it": "Modalità",
+        "da": "Tilstand",
+        "sv": "Läge",
+        "no": "Modus",
+        "pl": "Tryb",
+        "ru": "Режим",
+        "ar": "الوضع",
+        "ko": "모드"
+      },
+      "values": [
+        {
+          "id": "homey",
+          "title": {
+            "en": "Homey",
+            "nl": "Homey",
+            "de": "Homey",
+            "fr": "Homey",
+            "it": "Homey",
+            "es": "Homey",
+            "pl": "Homey",
+            "sv": "Homey",
+            "no": "Homey",
+            "da": "Homey",
+            "ru": "Homey",
+            "ko": "Homey",
+            "ar": "Homey"
+          }
+        },
+        {
+          "id": "self_use",
+          "title": {
+            "en": "Self-use",
+            "nl": "Eigen verbruik",
+            "de": "Eigenverbrauch",
+            "fr": "Autoconsommation",
+            "it": "Autoconsumo",
+            "es": "Autoconsumo",
+            "pl": "Autokonsumpcja",
+            "sv": "Egenanvändning",
+            "no": "Egetforbruk",
+            "da": "Eget forbrug",
+            "ru": "Собственное потребление",
+            "ko": "자가 소비",
+            "ar": "الاستهلاك الذاتي"
+          }
+        },
+        {
+          "id": "time_of_use",
+          "title": {
+            "en": "Time of use",
+            "nl": "Tijdprofiel",
+            "de": "Zeitprofil",
+            "fr": "Profil horaire",
+            "es": "Perfil horario",
+            "it": "Profilo orario",
+            "da": "Tidsprofil",
+            "sv": "Tidsprofil",
+            "no": "Tidsprofil",
+            "pl": "Profil czasowy",
+            "ru": "Профиль по времени",
+            "ar": "ملف زمني",
+            "ko": "시간대 프로필"
+          }
+        },
+        {
+          "id": "backup",
+          "title": {
+            "en": "Backup",
+            "nl": "Back-up",
+            "de": "Notstromreserve",
+            "fr": "Secours",
+            "it": "Backup",
+            "es": "Respaldo",
+            "pl": "Rezerwa",
+            "sv": "Reserv",
+            "no": "Reserve",
+            "da": "Backup",
+            "ru": "Резерв",
+            "ko": "백업",
+            "ar": "احتياطي"
+          }
+        },
+        {
+          "id": "force_charge",
+          "title": {
+            "en": "Force charge",
+            "nl": "Geforceerd laden",
+            "de": "Zwangsladung",
+            "fr": "Charge forcée",
+            "es": "Carga forzada",
+            "it": "Carica forzata",
+            "da": "Tvungen opladning",
+            "sv": "Tvingad laddning",
+            "no": "Tvungen lading",
+            "pl": "Wymuszone ładowanie",
+            "ru": "Принудительный заряд",
+            "ar": "شحن إجباري",
+            "ko": "강제 충전"
+          }
+        },
+        {
+          "id": "force_discharge",
+          "title": {
+            "en": "Force discharge",
+            "nl": "Geforceerd ontladen",
+            "de": "Zwangsentladung",
+            "fr": "Décharge forcée",
+            "es": "Descarga forzada",
+            "it": "Scarica forzata",
+            "da": "Tvungen afladning",
+            "sv": "Tvingad urladdning",
+            "no": "Tvungen utlading",
+            "pl": "Wymuszone rozładowanie",
+            "ru": "Принудительный разряд",
+            "ar": "تفريغ إجباري",
+            "ko": "강제 방전"
+          }
+        }
+      ]
+    },
+    "battery_min_soc": {
+      "title": {
+        "en": "Backup reserve",
+        "nl": "Back-upreserve",
+        "de": "Notstromreserve",
+        "fr": "Réserve de secours",
+        "es": "Reserva de respaldo",
+        "it": "Riserva di backup",
+        "da": "Backupreserve",
+        "sv": "Reservkapacitet",
+        "no": "Reservekapasitet",
+        "pl": "Rezerwa awaryjna",
+        "ru": "Резерв",
+        "ar": "الاحتياطي للطوارئ",
+        "ko": "백업 예비량"
+      },
+      "min": 0,
+      "max": 100
+    },
     "meter_power.charged": {
       "title": {
         "en": "Charged energy",

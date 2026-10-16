@@ -14,7 +14,18 @@
     "modbusUnreachable": "Dispositivo non raggiungibile:",
     "modbusNoUnits": "A questo indirizzo non è stato trovato nulla di questo tipo.",
     "modbusWriteFailed": "Impossibile inviare il comando:",
-    "powerLimitRejected": "L'inverter non ha accettato il limite di potenza."
+    "powerLimitRejected": "L'inverter non ha accettato il limite di potenza.",
+    "powerLimitUnknown": "Il limite di potenza non può ancora essere impostato: la potenza dell'inverter non è nota.",
+    "notSupported": "Questo dispositivo non lo supporta.",
+    "exportLimitOff": "La limitazione di immissione è disattivata nell'inverter: la configura l'installatore, con un contatore.",
+    "exportLimitRejected": "L'inverter non ha accettato il limite di immissione.",
+    "advancedPowerControlOff": "Il controllo remoto della batteria richiede l'advanced power control nell'inverter (0xF142 = 1, 0xF104 = 4); chiedi al tuo installatore.",
+    "exportLimitActive": "Il controllo remoto della batteria non funziona finché la limitazione di immissione è attiva nell'inverter (documento SolarEdge Power Control).",
+    "socRange": "La riserva di backup deve essere 0–100%.",
+    "backupReserveRejected": "L'inverter non ha accettato la riserva di backup.",
+    "noCarConnected": "Nessuna auto collegata.",
+    "noChargingSession": "Nessuna sessione di ricarica: collega prima un'auto.",
+    "phaseSwitchingOff": "Attiva prima \"Commutazione fasi via Modbus\" nelle impostazioni del dispositivo."
   },
   "migrating": "Aggiornamento delle funzionalità…",
   "pair": {

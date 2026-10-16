@@ -14,7 +14,18 @@
     "modbusUnreachable": "Gerät nicht erreichbar:",
     "modbusNoUnits": "Unter dieser Adresse wurde nichts dieser Art gefunden.",
     "modbusWriteFailed": "Befehl konnte nicht gesendet werden:",
-    "powerLimitRejected": "Der Wechselrichter hat das Leistungslimit nicht übernommen."
+    "powerLimitRejected": "Der Wechselrichter hat das Leistungslimit nicht übernommen.",
+    "powerLimitUnknown": "Das Leistungslimit kann noch nicht eingestellt werden: die Leistung des Wechselrichters ist nicht bekannt.",
+    "notSupported": "Dieses Gerät unterstützt das nicht.",
+    "exportLimitOff": "Die Einspeisebegrenzung ist im Wechselrichter aus: der Installateur richtet sie mit einem Zähler ein.",
+    "exportLimitRejected": "Der Wechselrichter hat das Einspeiselimit nicht übernommen.",
+    "advancedPowerControlOff": "Die Fernsteuerung der Batterie erfordert Advanced Power Control im Wechselrichter (0xF142 = 1, 0xF104 = 4); frage deinen Installateur.",
+    "exportLimitActive": "Die Fernsteuerung der Batterie läuft nicht, solange die Einspeisebegrenzung im Wechselrichter an ist (SolarEdge-Power-Control-Dokument).",
+    "socRange": "Die Notstromreserve muss 0–100 % betragen.",
+    "backupReserveRejected": "Der Wechselrichter hat die Notstromreserve nicht übernommen.",
+    "noCarConnected": "Kein Auto angeschlossen.",
+    "noChargingSession": "Kein Ladevorgang: schließe zuerst ein Auto an.",
+    "phaseSwitchingOff": "Schalte zuerst „Phasenumschaltung über Modbus“ in den Geräteeinstellungen ein."
   },
   "migrating": "Fähigkeiten werden aktualisiert…",
   "pair": {

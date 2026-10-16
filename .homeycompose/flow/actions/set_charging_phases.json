@@ -1,0 +1,111 @@
+{
+  "title": {
+    "en": "Set charging phases",
+    "nl": "Stel laadfasen in",
+    "de": "Ladephasen einstellen",
+    "fr": "Définir les phases de charge",
+    "es": "Establecer fases de carga",
+    "it": "Imposta fasi di ricarica",
+    "da": "Indstil ladefaser",
+    "sv": "Ställ in laddfaser",
+    "no": "Still inn ladefaser",
+    "pl": "Ustaw fazy ładowania",
+    "ru": "Установить фазы зарядки",
+    "ar": "تعيين أطوار الشحن",
+    "ko": "충전 상 설정"
+  },
+  "titleFormatted": {
+    "en": "Charge on [[phases]]",
+    "nl": "Laad op [[phases]]",
+    "de": "Auf [[phases]] laden",
+    "fr": "Charger sur [[phases]]",
+    "es": "Cargar en [[phases]]",
+    "it": "Ricarica su [[phases]]",
+    "da": "Lad på [[phases]]",
+    "sv": "Ladda på [[phases]]",
+    "no": "Lad på [[phases]]",
+    "pl": "Ładuj na [[phases]]",
+    "ru": "Заряжать на [[phases]]",
+    "ar": "الشحن على [[phases]]",
+    "ko": "[[phases]]으로 충전"
+  },
+  "hint": {
+    "en": "Switches contact X2 of the charger; needs \"Phase switching via Modbus\" in the device settings.",
+    "nl": "Schakelt contact X2 van de lader; vraagt \"Faseschakeling via Modbus\" in de apparaatinstellingen.",
+    "de": "Schaltet Kontakt X2 der Ladestation; erfordert „Phasenumschaltung über Modbus“ in den Geräteeinstellungen.",
+    "fr": "Commute le contact X2 de la borne ; nécessite « Commutation de phases via Modbus » dans les réglages de l'appareil.",
+    "es": "Conmuta el contacto X2 del cargador; requiere \"Conmutación de fases por Modbus\" en los ajustes del dispositivo.",
+    "it": "Commuta il contatto X2 della stazione; richiede \"Commutazione fasi via Modbus\" nelle impostazioni del dispositivo.",
+    "da": "Skifter laderens kontakt X2; kræver \"Faseskift via Modbus\" i enhedsindstillingerne.",
+    "sv": "Växlar laddarens kontakt X2; kräver \"Fasväxling via Modbus\" i enhetsinställningarna.",
+    "no": "Veksler laderens kontakt X2; krever \"Faseveksling via Modbus\" i enhetsinnstillingene.",
+    "pl": "Przełącza styk X2 ładowarki; wymaga „Przełączanie faz przez Modbus” w ustawieniach urządzenia.",
+    "ru": "Переключает контакт X2 зарядной станции; требуется «Переключение фаз через Modbus» в настройках устройства.",
+    "ar": "يبدّل الملامس X2 في الشاحن؛ يتطلب \"تبديل الأطوار عبر Modbus\" في إعدادات الجهاز.",
+    "ko": "충전기의 X2 접점을 전환합니다. 장치 설정에서 \"Modbus로 상 전환\"이 필요합니다."
+  },
+  "args": [
+    {
+      "type": "device",
+      "name": "device",
+      "filter": "driver_id=evcharger_modbus"
+    },
+    {
+      "type": "dropdown",
+      "name": "phases",
+      "title": {
+        "en": "Phases",
+        "nl": "Fasen",
+        "de": "Phasen",
+        "fr": "Phases",
+        "es": "Fases",
+        "it": "Fasi",
+        "da": "Faser",
+        "sv": "Faser",
+        "no": "Faser",
+        "pl": "Fazy",
+        "ru": "Фазы",
+        "ar": "الأطوار",
+        "ko": "상"
+      },
+      "values": [
+        {
+          "id": "1",
+          "title": {
+            "en": "1 phase",
+            "nl": "1 fase",
+            "de": "1 Phase",
+            "fr": "1 phase",
+            "es": "1 fase",
+            "it": "1 fase",
+            "da": "1 fase",
+            "sv": "1 fas",
+            "no": "1 fase",
+            "pl": "1 fazę",
+            "ru": "1 фазу",
+            "ar": "طور واحد",
+            "ko": "단상"
+          }
+        },
+        {
+          "id": "3",
+          "title": {
+            "en": "3 phases",
+            "nl": "3 fasen",
+            "de": "3 Phasen",
+            "fr": "3 phases",
+            "es": "3 fases",
+            "it": "3 fasi",
+            "da": "3 faser",
+            "sv": "3 faser",
+            "no": "3 faser",
+            "pl": "3 fazy",
+            "ru": "3 фазы",
+            "ar": "ثلاثة أطوار",
+            "ko": "3상"
+          }
+        }
+      ]
+    }
+  ]
+}

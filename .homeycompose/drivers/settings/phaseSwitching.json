@@ -1,0 +1,35 @@
+{
+  "id": "phaseSwitching",
+  "type": "checkbox",
+  "value": false,
+  "label": {
+    "en": "Phase switching via Modbus",
+    "nl": "Faseschakeling via Modbus",
+    "de": "Phasenumschaltung über Modbus",
+    "fr": "Commutation de phases via Modbus",
+    "es": "Conmutación de fases por Modbus",
+    "it": "Commutazione fasi via Modbus",
+    "da": "Faseskift via Modbus",
+    "sv": "Fasväxling via Modbus",
+    "no": "Faseveksling via Modbus",
+    "pl": "Przełączanie faz przez Modbus",
+    "ru": "Переключение фаз через Modbus",
+    "ar": "تبديل الأطوار عبر Modbus",
+    "ko": "Modbus로 상 전환"
+  },
+  "hint": {
+    "en": "Only with a phase switch wired to contact X2 of the charger.",
+    "nl": "Alleen met een faseschakelaar op contact X2 van de lader.",
+    "de": "Nur mit einem Phasenumschalter an Kontakt X2 der Ladestation.",
+    "fr": "Uniquement avec un commutateur de phases raccordé au contact X2 de la borne.",
+    "es": "Solo con un conmutador de fases conectado al contacto X2 del cargador.",
+    "it": "Solo con un commutatore di fase collegato al contatto X2 della stazione.",
+    "da": "Kun med en faseomskifter på laderens kontakt X2.",
+    "sv": "Endast med en fasomkopplare på laddarens kontakt X2.",
+    "no": "Bare med en faseveksler på laderens kontakt X2.",
+    "pl": "Tylko z przełącznikiem faz podłączonym do styku X2 ładowarki.",
+    "ru": "Только с переключателем фаз, подключённым к контакту X2 зарядной станции.",
+    "ar": "فقط مع مبدّل أطوار موصول بالملامس X2 في الشاحن.",
+    "ko": "충전기의 X2 접점에 상 전환기가 연결된 경우에만."
+  }
+}

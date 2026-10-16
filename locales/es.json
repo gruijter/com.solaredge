@@ -14,7 +14,18 @@
     "modbusUnreachable": "Dispositivo no accesible:",
     "modbusNoUnits": "No se encontró nada de este tipo en esta dirección.",
     "modbusWriteFailed": "No se pudo enviar el comando:",
-    "powerLimitRejected": "El inversor no aceptó el límite de potencia."
+    "powerLimitRejected": "El inversor no aceptó el límite de potencia.",
+    "powerLimitUnknown": "Aún no se puede fijar el límite de potencia: no se conoce la potencia del inversor.",
+    "notSupported": "Este dispositivo no lo admite.",
+    "exportLimitOff": "La limitación de inyección está desactivada en el inversor: la configura el instalador, con un medidor.",
+    "exportLimitRejected": "El inversor no aceptó el límite de inyección.",
+    "advancedPowerControlOff": "El control remoto de la batería requiere advanced power control en el inversor (0xF142 = 1, 0xF104 = 4); consulta a tu instalador.",
+    "exportLimitActive": "El control remoto de la batería no funciona mientras la limitación de inyección esté activa en el inversor (documento SolarEdge Power Control).",
+    "socRange": "La reserva de respaldo debe ser 0–100 %.",
+    "backupReserveRejected": "El inversor no aceptó la reserva de respaldo.",
+    "noCarConnected": "No hay ningún coche conectado.",
+    "noChargingSession": "No hay sesión de carga: conecta primero un coche.",
+    "phaseSwitchingOff": "Activa primero \"Conmutación de fases por Modbus\" en los ajustes del dispositivo."
   },
   "migrating": "Actualizando capacidades…",
   "pair": {

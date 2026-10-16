@@ -117,6 +117,12 @@ module.exports = class SolarEdgeApp extends Homey.App {
   }
 
   registerFlowListeners() {
+    // the Modbus devices listen for it (lib/modbus_device.js); the cloud is left to its own pace
+    this.homey.flow.getActionCard('force_poll')
+      .registerRunListener(async () => {
+        this.homey.emit('poll');
+        return true;
+      });
     this.homey.flow.getActionCard('home-load-controller-set-state')
       .registerRunListener(async ({ device, state }) => {
         await device.triggerCapabilityListener('solaredge-home-load-controller-state', state);

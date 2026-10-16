@@ -21,4 +21,12 @@ along with com.solaredge.  If not, see <http://www.gnu.org/licenses/>.
 
 const ModbusDriver = require('../../lib/modbus_driver');
 
-module.exports = class SolarEdgeBatteryModbusDriver extends ModbusDriver {};
+module.exports = class SolarEdgeBatteryModbusDriver extends ModbusDriver {
+
+  async onInit() {
+    await super.onInit();
+    this.homey.flow.getActionCard('set_backup_reserve')
+      .registerRunListener(({ device, soc }) => device.setControl({ battery_min_soc: soc }));
+  }
+
+};

@@ -14,7 +14,18 @@
     "modbusUnreachable": "Urządzenie nieosiągalne:",
     "modbusNoUnits": "Pod tym adresem nie znaleziono niczego tego typu.",
     "modbusWriteFailed": "Nie udało się wysłać polecenia:",
-    "powerLimitRejected": "Falownik nie przyjął limitu mocy."
+    "powerLimitRejected": "Falownik nie przyjął limitu mocy.",
+    "powerLimitUnknown": "Limitu mocy nie można jeszcze ustawić: moc falownika jest nieznana.",
+    "notSupported": "To urządzenie tego nie obsługuje.",
+    "exportLimitOff": "Ograniczenie oddawania jest wyłączone w falowniku: konfiguruje je instalator, z licznikiem.",
+    "exportLimitRejected": "Falownik nie zaakceptował limitu oddawania.",
+    "advancedPowerControlOff": "Zdalne sterowanie akumulatorem wymaga advanced power control w falowniku (0xF142 = 1, 0xF104 = 4); zapytaj instalatora.",
+    "exportLimitActive": "Zdalne sterowanie akumulatorem nie działa, gdy w falowniku włączone jest ograniczenie oddawania (dokument SolarEdge Power Control).",
+    "socRange": "Rezerwa awaryjna musi wynosić 0–100%.",
+    "backupReserveRejected": "Falownik nie zaakceptował rezerwy awaryjnej.",
+    "noCarConnected": "Brak podłączonego samochodu.",
+    "noChargingSession": "Brak sesji ładowania: najpierw podłącz samochód.",
+    "phaseSwitchingOff": "Najpierw włącz „Przełączanie faz przez Modbus” w ustawieniach urządzenia."
   },
   "migrating": "Aktualizowanie funkcji…",
   "pair": {

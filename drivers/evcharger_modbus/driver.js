@@ -21,4 +21,14 @@ along with com.solaredge.  If not, see <http://www.gnu.org/licenses/>.
 
 const ModbusDriver = require('../../lib/modbus_driver');
 
-module.exports = class SolarEdgeEvChargerModbusDriver extends ModbusDriver {};
+module.exports = class SolarEdgeEvChargerModbusDriver extends ModbusDriver {
+
+  async onInit() {
+    await super.onInit();
+    this.homey.flow.getActionCard('set_session_energy_limit')
+      .registerRunListener(({ device, kwh }) => device.setControl({ session_energy_limit: kwh }));
+    this.homey.flow.getActionCard('set_charging_phases')
+      .registerRunListener(({ device, phases }) => device.runAction('chargingPhases', { phases }));
+  }
+
+};

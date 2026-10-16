@@ -14,7 +14,18 @@
     "modbusUnreachable": "Appareil injoignable :",
     "modbusNoUnits": "Rien de ce type n'a été trouvé à cette adresse.",
     "modbusWriteFailed": "Impossible d'envoyer la commande :",
-    "powerLimitRejected": "L'onduleur n'a pas accepté la limite de puissance."
+    "powerLimitRejected": "L'onduleur n'a pas accepté la limite de puissance.",
+    "powerLimitUnknown": "La limite de puissance ne peut pas encore être définie : la puissance de l'onduleur est inconnue.",
+    "notSupported": "Cet appareil ne le prend pas en charge.",
+    "exportLimitOff": "La limitation d'injection est désactivée dans l'onduleur : l'installateur la configure, avec un compteur.",
+    "exportLimitRejected": "L'onduleur n'a pas accepté la limite d'injection.",
+    "advancedPowerControlOff": "Le pilotage à distance de la batterie nécessite l'advanced power control dans l'onduleur (0xF142 = 1, 0xF104 = 4) ; demandez à votre installateur.",
+    "exportLimitActive": "Le pilotage à distance de la batterie ne fonctionne pas tant que la limitation d'injection est active dans l'onduleur (document SolarEdge Power Control).",
+    "socRange": "La réserve de secours doit être de 0 à 100 %.",
+    "backupReserveRejected": "L'onduleur n'a pas accepté la réserve de secours.",
+    "noCarConnected": "Aucune voiture branchée.",
+    "noChargingSession": "Aucune session de charge : branchez d'abord une voiture.",
+    "phaseSwitchingOff": "Activez d'abord « Commutation de phases via Modbus » dans les réglages de l'appareil."
   },
   "migrating": "Mise à jour des capacités…",
   "pair": {

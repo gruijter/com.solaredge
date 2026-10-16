@@ -18,10 +18,14 @@
   "class": "evcharger",
   "capabilities": [
     "measure_power",
+    "evcharger_charging",
     "evcharger_charging_state",
     "meter_power.session",
+    "target_power",
+    "target_power_mode",
     "meter_power.charged",
-    "alarm_problem"
+    "alarm_problem",
+    "session_energy_limit"
   ],
   "capabilitiesOptions": {
     "meter_power.session": {
@@ -41,6 +45,26 @@
         "ko": "이번 세션 에너지"
       },
       "decimals": 3
+    },
+    "target_power": {
+      "title": {
+        "en": "Charging power limit",
+        "nl": "Max laadvermogen",
+        "de": "Ladeleistungsgrenze",
+        "fr": "Limite de puissance de charge",
+        "es": "Límite de potencia de carga",
+        "it": "Limite potenza di ricarica",
+        "da": "Ladeeffektgrænse",
+        "sv": "Laddeffektgräns",
+        "no": "Ladeeffektgrense",
+        "pl": "Limit mocy ładowania",
+        "ru": "Предел мощности зарядки",
+        "ar": "حد قدرة الشحن",
+        "ko": "충전 전력 제한"
+      },
+      "min": 0,
+      "max": 22080,
+      "step": 230
     },
     "meter_power.charged": {
       "title": {

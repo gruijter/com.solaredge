@@ -14,7 +14,18 @@
     "modbusUnreachable": "الجهاز غير قابل للوصول:",
     "modbusNoUnits": "لم يتم العثور على شيء من هذا النوع على هذا العنوان.",
     "modbusWriteFailed": "تعذر إرسال الأمر:",
-    "powerLimitRejected": "لم يقبل العاكس حد القدرة."
+    "powerLimitRejected": "لم يقبل العاكس حد القدرة.",
+    "powerLimitUnknown": "لا يمكن ضبط حد القدرة بعد: قدرة العاكس غير معروفة.",
+    "notSupported": "هذا الجهاز لا يدعم ذلك.",
+    "exportLimitOff": "تحديد التصدير متوقف في العاكس: يقوم المثبت بإعداده مع عداد.",
+    "exportLimitRejected": "لم يقبل العاكس حد التصدير.",
+    "advancedPowerControlOff": "يتطلب التحكم عن بعد في البطارية تفعيل advanced power control في العاكس (0xF142 = 1، 0xF104 = 4)؛ اسأل المثبت.",
+    "exportLimitActive": "لا يعمل التحكم عن بعد في البطارية ما دام تحديد التصدير مفعّلًا في العاكس (مستند SolarEdge Power Control).",
+    "socRange": "يجب أن يكون الاحتياطي للطوارئ بين 0 و100%.",
+    "backupReserveRejected": "لم يقبل العاكس الاحتياطي للطوارئ.",
+    "noCarConnected": "لا توجد سيارة متصلة.",
+    "noChargingSession": "لا توجد جلسة شحن: وصّل سيارة أولًا.",
+    "phaseSwitchingOff": "فعّل أولًا \"تبديل الأطوار عبر Modbus\" في إعدادات الجهاز."
   },
   "migrating": "جارٍ تحديث الإمكانيات…",
   "pair": {

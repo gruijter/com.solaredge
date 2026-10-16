@@ -19,6 +19,7 @@
   "capabilities": [
     "measure_power",
     "target_power",
+    "export_limit",
     "meter_power",
     "measure_temperature",
     "measure_voltage.1",
@@ -63,6 +64,10 @@
         "ar": "حد القدرة",
         "ko": "전력 한도"
       }
+    },
+    "export_limit": {
+      "max": 10000,
+      "step": 10
     },
     "meter_power": {
       "title": {

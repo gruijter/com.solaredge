@@ -21,4 +21,12 @@ along with com.solaredge.  If not, see <http://www.gnu.org/licenses/>.
 
 const ModbusDriver = require('../../lib/modbus_driver');
 
-module.exports = class SolarEdgeInverterModbusDriver extends ModbusDriver {};
+module.exports = class SolarEdgeInverterModbusDriver extends ModbusDriver {
+
+  async onInit() {
+    await super.onInit();
+    this.homey.flow.getActionCard('set_export_limit')
+      .registerRunListener(({ device, watts }) => device.setControl({ export_limit: watts }));
+  }
+
+};

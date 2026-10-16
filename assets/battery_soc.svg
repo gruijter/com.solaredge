@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <g fill="#000000">
+    <!-- battery with two limit marks: SoC window -->
+    <path d="M176 48h160v40h48c22 0 40 18 40 40v296c0 22-18 40-40 40H128c-22 0-40-18-40-40V128c0-22 18-40 40-40h48V48zm-48 88v280h256V136H128z"/>
+    <path d="M152 176h208v32H152zM152 352h208v32H152z"/>
+    <path d="M160 240h192v80H160z" opacity="0.5"/>
+  </g>
+</svg>

@@ -14,7 +14,18 @@
     "modbusUnreachable": "Device not reachable:",
     "modbusNoUnits": "Nothing of this kind was found at this address.",
     "modbusWriteFailed": "Could not send the command:",
-    "powerLimitRejected": "The inverter did not accept the power limit."
+    "powerLimitRejected": "The inverter did not accept the power limit.",
+    "powerLimitUnknown": "The power limit cannot be set yet: the inverter rating is not known.",
+    "notSupported": "This device does not support that.",
+    "exportLimitOff": "Export limitation is off in the inverter: the installer sets it up, with a meter.",
+    "exportLimitRejected": "The inverter did not accept the export limit.",
+    "advancedPowerControlOff": "Remote battery control needs advanced power control in the inverter (0xF142 = 1, 0xF104 = 4); ask your installer.",
+    "exportLimitActive": "Remote battery control does not run while export limitation is on in the inverter (SolarEdge Power Control document).",
+    "socRange": "The backup reserve must be 0–100%.",
+    "backupReserveRejected": "The inverter did not accept the backup reserve.",
+    "noCarConnected": "No car connected.",
+    "noChargingSession": "No charging session: plug in a car first.",
+    "phaseSwitchingOff": "Turn on \"Phase switching via Modbus\" in the device settings first."
   },
   "migrating": "Updating capabilities…",
   "pair": {

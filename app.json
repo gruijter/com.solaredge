@@ -1066,6 +1066,39 @@
         }
       },
       {
+        "title": {
+          "en": "Get status update",
+          "nl": "Haal status update op",
+          "de": "Status-Update anfordern",
+          "fr": "Obtenir la mise à jour du statut",
+          "it": "Ottieni aggiornamento di stato",
+          "es": "Obtener actualización de estado",
+          "pl": "Pobierz aktualizację statusu",
+          "sv": "Hämta statusuppdatering",
+          "no": "Hent statusoppdatering",
+          "da": "Hent statusopdatering",
+          "ru": "Получить обновление статуса",
+          "ko": "상태 업데이트 가져오기",
+          "ar": "الحصول على تحديث الحالة"
+        },
+        "hint": {
+          "en": "Reads all local (Modbus) devices right away, on top of the normal update interval.",
+          "nl": "Leest alle lokale (Modbus-)apparaten direct uit, naast het normale update-interval.",
+          "de": "Liest alle lokalen (Modbus-)Geräte sofort aus, zusätzlich zum normalen Aktualisierungsintervall.",
+          "fr": "Lit immédiatement tous les appareils locaux (Modbus), en plus de l'intervalle de mise à jour normal.",
+          "es": "Lee de inmediato todos los dispositivos locales (Modbus), además del intervalo de actualización normal.",
+          "it": "Legge subito tutti i dispositivi locali (Modbus), oltre al normale intervallo di aggiornamento.",
+          "da": "Aflæser alle lokale (Modbus-)enheder med det samme, ud over det normale opdateringsinterval.",
+          "sv": "Läser av alla lokala (Modbus-)enheter direkt, utöver det vanliga uppdateringsintervallet.",
+          "no": "Leser av alle lokale (Modbus-)enheter med en gang, i tillegg til det vanlige oppdateringsintervallet.",
+          "pl": "Odczytuje wszystkie lokalne urządzenia (Modbus) natychmiast, niezależnie od normalnego interwału aktualizacji.",
+          "ru": "Немедленно опрашивает все локальные (Modbus) устройства, в дополнение к обычному интервалу обновления.",
+          "ar": "يقرأ جميع الأجهزة المحلية (Modbus) فورًا، بالإضافة إلى فترة التحديث العادية.",
+          "ko": "일반 업데이트 간격과 별도로 모든 로컬(Modbus) 장치를 즉시 읽습니다."
+        },
+        "id": "force_poll"
+      },
+      {
         "highlight": true,
         "args": [
           {
@@ -1183,6 +1216,381 @@
           "ru": "Установить состояние [[state]]",
           "sv": "Ställ in tillståndet till [[state]]"
         }
+      },
+      {
+        "title": {
+          "en": "Set backup reserve",
+          "nl": "Stel back-upreserve in",
+          "de": "Notstromreserve einstellen",
+          "fr": "Définir la réserve de secours",
+          "es": "Establecer reserva de respaldo",
+          "it": "Imposta riserva di backup",
+          "da": "Indstil backupreserve",
+          "sv": "Ställ in reservkapacitet",
+          "no": "Still inn reservekapasitet",
+          "pl": "Ustaw rezerwę awaryjną",
+          "ru": "Установить резерв на случай отключения",
+          "ar": "تعيين الاحتياطي للطوارئ",
+          "ko": "백업 예비량 설정"
+        },
+        "titleFormatted": {
+          "en": "Set backup reserve to [[soc]]%",
+          "nl": "Stel back-upreserve in op [[soc]]%",
+          "de": "Notstromreserve auf [[soc]] % einstellen",
+          "fr": "Définir la réserve de secours à [[soc]] %",
+          "es": "Establecer reserva de respaldo en [[soc]] %",
+          "it": "Imposta riserva di backup a [[soc]]%",
+          "da": "Indstil backupreserve til [[soc]] %",
+          "sv": "Ställ in reservkapacitet på [[soc]] %",
+          "no": "Still inn reservekapasitet til [[soc]] %",
+          "pl": "Ustaw rezerwę awaryjną na [[soc]]%",
+          "ru": "Установить резерв [[soc]] %",
+          "ar": "تعيين الاحتياطي للطوارئ إلى [[soc]]%",
+          "ko": "백업 예비량을 [[soc]]%로 설정"
+        },
+        "hint": {
+          "en": "SoC kept for a power outage, on inverters with backup hardware. Stored in the inverter.",
+          "nl": "SoC die bewaard blijft voor een stroomstoring, bij omvormers met back-uphardware. Wordt in de omvormer opgeslagen.",
+          "de": "Für einen Stromausfall zurückgehaltener SoC, bei Wechselrichtern mit Notstromhardware. Wird im Wechselrichter gespeichert.",
+          "fr": "SoC conservé pour une coupure de courant, sur les onduleurs avec matériel de secours. Enregistré dans l'onduleur.",
+          "es": "SoC reservado para un corte de luz, en inversores con hardware de respaldo. Se guarda en el inversor.",
+          "it": "SoC riservato per un'interruzione di corrente, sugli inverter con hardware di backup. Salvato nell'inverter.",
+          "da": "SoC holdt tilbage til strømafbrydelse, på invertere med backuphardware. Gemmes i inverteren.",
+          "sv": "SoC som sparas för strömavbrott, på växelriktare med reservhårdvara. Sparas i växelriktaren.",
+          "no": "SoC holdt av til strømbrudd, på invertere med reservemaskinvare. Lagres i inverteren.",
+          "pl": "SoC zachowany na wypadek awarii zasilania, w falownikach ze sprzętem awaryjnym. Zapisywany w falowniku.",
+          "ru": "SoC, сохраняемый на случай отключения электроэнергии, у инверторов с резервным оборудованием. Сохраняется в инверторе.",
+          "ar": "نسبة الشحن المحفوظة لانقطاع الكهرباء، في العواكس المزودة بأجهزة احتياطية. تُحفظ في العاكس.",
+          "ko": "정전에 대비해 남겨 두는 SoC로, 백업 하드웨어가 있는 인버터에 해당합니다. 인버터에 저장됩니다."
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=battery_modbus&capabilities=battery_min_soc"
+          },
+          {
+            "type": "range",
+            "name": "soc",
+            "min": 0,
+            "max": 100,
+            "step": 1,
+            "label": "%",
+            "labelDecimals": 0,
+            "title": {
+              "en": "Backup reserve",
+              "nl": "Back-upreserve",
+              "de": "Notstromreserve",
+              "fr": "Réserve de secours",
+              "es": "Reserva de respaldo",
+              "it": "Riserva di backup",
+              "da": "Backupreserve",
+              "sv": "Reservkapacitet",
+              "no": "Reservekapasitet",
+              "pl": "Rezerwa awaryjna",
+              "ru": "Резерв",
+              "ar": "الاحتياطي للطوارئ",
+              "ko": "백업 예비량"
+            }
+          }
+        ],
+        "id": "set_backup_reserve"
+      },
+      {
+        "title": {
+          "en": "Set charging phases",
+          "nl": "Stel laadfasen in",
+          "de": "Ladephasen einstellen",
+          "fr": "Définir les phases de charge",
+          "es": "Establecer fases de carga",
+          "it": "Imposta fasi di ricarica",
+          "da": "Indstil ladefaser",
+          "sv": "Ställ in laddfaser",
+          "no": "Still inn ladefaser",
+          "pl": "Ustaw fazy ładowania",
+          "ru": "Установить фазы зарядки",
+          "ar": "تعيين أطوار الشحن",
+          "ko": "충전 상 설정"
+        },
+        "titleFormatted": {
+          "en": "Charge on [[phases]]",
+          "nl": "Laad op [[phases]]",
+          "de": "Auf [[phases]] laden",
+          "fr": "Charger sur [[phases]]",
+          "es": "Cargar en [[phases]]",
+          "it": "Ricarica su [[phases]]",
+          "da": "Lad på [[phases]]",
+          "sv": "Ladda på [[phases]]",
+          "no": "Lad på [[phases]]",
+          "pl": "Ładuj na [[phases]]",
+          "ru": "Заряжать на [[phases]]",
+          "ar": "الشحن على [[phases]]",
+          "ko": "[[phases]]으로 충전"
+        },
+        "hint": {
+          "en": "Switches contact X2 of the charger; needs \"Phase switching via Modbus\" in the device settings.",
+          "nl": "Schakelt contact X2 van de lader; vraagt \"Faseschakeling via Modbus\" in de apparaatinstellingen.",
+          "de": "Schaltet Kontakt X2 der Ladestation; erfordert „Phasenumschaltung über Modbus“ in den Geräteeinstellungen.",
+          "fr": "Commute le contact X2 de la borne ; nécessite « Commutation de phases via Modbus » dans les réglages de l'appareil.",
+          "es": "Conmuta el contacto X2 del cargador; requiere \"Conmutación de fases por Modbus\" en los ajustes del dispositivo.",
+          "it": "Commuta il contatto X2 della stazione; richiede \"Commutazione fasi via Modbus\" nelle impostazioni del dispositivo.",
+          "da": "Skifter laderens kontakt X2; kræver \"Faseskift via Modbus\" i enhedsindstillingerne.",
+          "sv": "Växlar laddarens kontakt X2; kräver \"Fasväxling via Modbus\" i enhetsinställningarna.",
+          "no": "Veksler laderens kontakt X2; krever \"Faseveksling via Modbus\" i enhetsinnstillingene.",
+          "pl": "Przełącza styk X2 ładowarki; wymaga „Przełączanie faz przez Modbus” w ustawieniach urządzenia.",
+          "ru": "Переключает контакт X2 зарядной станции; требуется «Переключение фаз через Modbus» в настройках устройства.",
+          "ar": "يبدّل الملامس X2 في الشاحن؛ يتطلب \"تبديل الأطوار عبر Modbus\" في إعدادات الجهاز.",
+          "ko": "충전기의 X2 접점을 전환합니다. 장치 설정에서 \"Modbus로 상 전환\"이 필요합니다."
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=evcharger_modbus"
+          },
+          {
+            "type": "dropdown",
+            "name": "phases",
+            "title": {
+              "en": "Phases",
+              "nl": "Fasen",
+              "de": "Phasen",
+              "fr": "Phases",
+              "es": "Fases",
+              "it": "Fasi",
+              "da": "Faser",
+              "sv": "Faser",
+              "no": "Faser",
+              "pl": "Fazy",
+              "ru": "Фазы",
+              "ar": "الأطوار",
+              "ko": "상"
+            },
+            "values": [
+              {
+                "id": "1",
+                "title": {
+                  "en": "1 phase",
+                  "nl": "1 fase",
+                  "de": "1 Phase",
+                  "fr": "1 phase",
+                  "es": "1 fase",
+                  "it": "1 fase",
+                  "da": "1 fase",
+                  "sv": "1 fas",
+                  "no": "1 fase",
+                  "pl": "1 fazę",
+                  "ru": "1 фазу",
+                  "ar": "طور واحد",
+                  "ko": "단상"
+                }
+              },
+              {
+                "id": "3",
+                "title": {
+                  "en": "3 phases",
+                  "nl": "3 fasen",
+                  "de": "3 Phasen",
+                  "fr": "3 phases",
+                  "es": "3 fases",
+                  "it": "3 fasi",
+                  "da": "3 faser",
+                  "sv": "3 faser",
+                  "no": "3 faser",
+                  "pl": "3 fazy",
+                  "ru": "3 фазы",
+                  "ar": "ثلاثة أطوار",
+                  "ko": "3상"
+                }
+              }
+            ]
+          }
+        ],
+        "id": "set_charging_phases"
+      },
+      {
+        "title": {
+          "en": "Set export limit",
+          "nl": "Stel terugleverlimiet in",
+          "de": "Einspeiselimit einstellen",
+          "fr": "Définir la limite d'injection",
+          "es": "Establecer límite de inyección",
+          "it": "Imposta limite di immissione",
+          "da": "Indstil leveringsgrænse",
+          "sv": "Ställ in inmatningsgräns",
+          "no": "Still inn innmatingsgrense",
+          "pl": "Ustaw limit oddawania do sieci",
+          "ru": "Установить предел отдачи в сеть",
+          "ar": "تعيين حد التصدير للشبكة",
+          "ko": "송전 한도 설정"
+        },
+        "titleFormatted": {
+          "en": "Set export limit to [[watts]] W",
+          "nl": "Stel terugleverlimiet in op [[watts]] W",
+          "de": "Einspeiselimit auf [[watts]] W einstellen",
+          "fr": "Définir la limite d'injection à [[watts]] W",
+          "es": "Establecer límite de inyección en [[watts]] W",
+          "it": "Imposta limite di immissione a [[watts]] W",
+          "da": "Indstil leveringsgrænse til [[watts]] W",
+          "sv": "Ställ in inmatningsgräns på [[watts]] W",
+          "no": "Still inn innmatingsgrense til [[watts]] W",
+          "pl": "Ustaw limit oddawania do sieci na [[watts]] W",
+          "ru": "Установить предел отдачи в сеть [[watts]] Вт",
+          "ar": "تعيين حد التصدير إلى [[watts]] واط",
+          "ko": "송전 한도를 [[watts]] W로 설정"
+        },
+        "hint": {
+          "en": "Only where the installer set up export limitation with a meter. Stored in the inverter.",
+          "nl": "Alleen als de installateur terugleverbegrenzing met een meter heeft ingesteld. Wordt in de omvormer opgeslagen.",
+          "de": "Nur wenn der Installateur die Einspeisebegrenzung mit einem Zähler eingerichtet hat. Wird im Wechselrichter gespeichert.",
+          "fr": "Uniquement si l'installateur a configuré la limitation d'injection avec un compteur. Enregistré dans l'onduleur.",
+          "es": "Solo si el instalador configuró la limitación de inyección con un medidor. Se guarda en el inversor.",
+          "it": "Solo se l'installatore ha configurato la limitazione di immissione con un contatore. Salvato nell'inverter.",
+          "da": "Kun hvis installatøren har opsat leveringsbegrænsning med en måler. Gemmes i inverteren.",
+          "sv": "Endast om installatören har ställt in inmatningsbegränsning med en mätare. Sparas i växelriktaren.",
+          "no": "Bare hvis installatøren har satt opp innmatingsbegrensning med en måler. Lagres i inverteren.",
+          "pl": "Tylko jeśli instalator skonfigurował ograniczenie oddawania z licznikiem. Zapisywane w falowniku.",
+          "ru": "Только если установщик настроил ограничение отдачи со счётчиком. Сохраняется в инверторе.",
+          "ar": "فقط إذا قام المثبت بإعداد تحديد التصدير مع عداد. يُحفظ في العاكس.",
+          "ko": "설치자가 계량기로 송전 제한을 설정한 경우에만. 인버터에 저장됩니다."
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=inverter_modbus&capabilities=export_limit"
+          },
+          {
+            "type": "number",
+            "name": "watts",
+            "min": 0,
+            "max": 100000,
+            "step": 10,
+            "placeholder": {
+              "en": "0",
+              "nl": "0",
+              "de": "0",
+              "fr": "0",
+              "es": "0",
+              "it": "0",
+              "da": "0",
+              "sv": "0",
+              "no": "0",
+              "pl": "0",
+              "ru": "0",
+              "ar": "0",
+              "ko": "0"
+            },
+            "title": {
+              "en": "Limit",
+              "nl": "Limiet",
+              "de": "Limit",
+              "fr": "Limite",
+              "es": "Límite",
+              "it": "Limite",
+              "da": "Grænse",
+              "sv": "Gräns",
+              "no": "Grense",
+              "pl": "Limit",
+              "ru": "Предел",
+              "ar": "الحد",
+              "ko": "한도"
+            }
+          }
+        ],
+        "id": "set_export_limit"
+      },
+      {
+        "title": {
+          "en": "Set session energy limit",
+          "nl": "Stel laadlimiet voor deze sessie in",
+          "de": "Energielimit für diesen Ladevorgang einstellen",
+          "fr": "Définir la limite d'énergie de la session",
+          "es": "Establecer límite de energía de la sesión",
+          "it": "Imposta limite energia della sessione",
+          "da": "Indstil energigrænse for sessionen",
+          "sv": "Ställ in energigräns för sessionen",
+          "no": "Still inn energigrense for økten",
+          "pl": "Ustaw limit energii sesji",
+          "ru": "Установить лимит энергии сессии",
+          "ar": "تعيين حد طاقة الجلسة",
+          "ko": "세션 에너지 한도 설정"
+        },
+        "titleFormatted": {
+          "en": "Stop this charging session after [[kwh]] kWh",
+          "nl": "Stop deze laadsessie na [[kwh]] kWh",
+          "de": "Diesen Ladevorgang nach [[kwh]] kWh beenden",
+          "fr": "Arrêter cette session de charge après [[kwh]] kWh",
+          "es": "Detener esta sesión de carga tras [[kwh]] kWh",
+          "it": "Ferma questa sessione di ricarica dopo [[kwh]] kWh",
+          "da": "Stop denne ladesession efter [[kwh]] kWh",
+          "sv": "Stoppa denna laddsession efter [[kwh]] kWh",
+          "no": "Stopp denne ladeøkten etter [[kwh]] kWh",
+          "pl": "Zatrzymaj tę sesję ładowania po [[kwh]] kWh",
+          "ru": "Остановить эту сессию зарядки после [[kwh]] кВт·ч",
+          "ar": "أوقف جلسة الشحن هذه بعد [[kwh]] كيلوواط ساعة",
+          "ko": "이 충전 세션을 [[kwh]] kWh 후 중지"
+        },
+        "hint": {
+          "en": "Only while a car is plugged in; applies to this session only.",
+          "nl": "Alleen als er een auto is aangesloten; geldt alleen voor deze sessie.",
+          "de": "Nur wenn ein Auto angeschlossen ist; gilt nur für diesen Ladevorgang.",
+          "fr": "Uniquement quand une voiture est branchée ; s'applique à cette session seulement.",
+          "es": "Solo con un coche conectado; se aplica solo a esta sesión.",
+          "it": "Solo con un'auto collegata; vale solo per questa sessione.",
+          "da": "Kun når en bil er tilsluttet; gælder kun for denne session.",
+          "sv": "Endast när en bil är ansluten; gäller bara för denna session.",
+          "no": "Bare når en bil er tilkoblet; gjelder bare for denne økten.",
+          "pl": "Tylko gdy samochód jest podłączony; dotyczy tylko tej sesji.",
+          "ru": "Только при подключённом автомобиле; действует только для этой сессии.",
+          "ar": "فقط أثناء توصيل سيارة؛ ينطبق على هذه الجلسة فقط.",
+          "ko": "차량이 연결된 동안에만; 이 세션에만 적용됩니다."
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=evcharger_modbus&capabilities=session_energy_limit"
+          },
+          {
+            "type": "number",
+            "name": "kwh",
+            "min": 1,
+            "max": 100,
+            "step": 1,
+            "placeholder": {
+              "en": "20",
+              "nl": "20",
+              "de": "20",
+              "fr": "20",
+              "es": "20",
+              "it": "20",
+              "da": "20",
+              "sv": "20",
+              "no": "20",
+              "pl": "20",
+              "ru": "20",
+              "ar": "20",
+              "ko": "20"
+            },
+            "title": {
+              "en": "Energy",
+              "nl": "Energie",
+              "de": "Energie",
+              "fr": "Énergie",
+              "es": "Energía",
+              "it": "Energia",
+              "da": "Energi",
+              "sv": "Energi",
+              "no": "Energi",
+              "pl": "Energia",
+              "ru": "Энергия",
+              "ar": "الطاقة",
+              "ko": "에너지"
+            }
+          }
+        ],
+        "id": "set_session_energy_limit"
       }
     ]
   },
@@ -1415,8 +1823,11 @@
       "class": "battery",
       "capabilities": [
         "measure_power",
+        "target_power",
+        "target_power_mode",
         "measure_battery",
         "battery_charging_state",
+        "battery_min_soc",
         "meter_power.charged",
         "meter_power.discharged",
         "measure_temperature",
@@ -1425,6 +1836,157 @@
         "alarm_problem"
       ],
       "capabilitiesOptions": {
+        "target_power": {
+          "min": -5000,
+          "max": 5000,
+          "step": 50
+        },
+        "target_power_mode": {
+          "title": {
+            "en": "Mode",
+            "nl": "Modus",
+            "de": "Modus",
+            "fr": "Mode",
+            "es": "Modo",
+            "it": "Modalità",
+            "da": "Tilstand",
+            "sv": "Läge",
+            "no": "Modus",
+            "pl": "Tryb",
+            "ru": "Режим",
+            "ar": "الوضع",
+            "ko": "모드"
+          },
+          "values": [
+            {
+              "id": "homey",
+              "title": {
+                "en": "Homey",
+                "nl": "Homey",
+                "de": "Homey",
+                "fr": "Homey",
+                "it": "Homey",
+                "es": "Homey",
+                "pl": "Homey",
+                "sv": "Homey",
+                "no": "Homey",
+                "da": "Homey",
+                "ru": "Homey",
+                "ko": "Homey",
+                "ar": "Homey"
+              }
+            },
+            {
+              "id": "self_use",
+              "title": {
+                "en": "Self-use",
+                "nl": "Eigen verbruik",
+                "de": "Eigenverbrauch",
+                "fr": "Autoconsommation",
+                "it": "Autoconsumo",
+                "es": "Autoconsumo",
+                "pl": "Autokonsumpcja",
+                "sv": "Egenanvändning",
+                "no": "Egetforbruk",
+                "da": "Eget forbrug",
+                "ru": "Собственное потребление",
+                "ko": "자가 소비",
+                "ar": "الاستهلاك الذاتي"
+              }
+            },
+            {
+              "id": "time_of_use",
+              "title": {
+                "en": "Time of use",
+                "nl": "Tijdprofiel",
+                "de": "Zeitprofil",
+                "fr": "Profil horaire",
+                "es": "Perfil horario",
+                "it": "Profilo orario",
+                "da": "Tidsprofil",
+                "sv": "Tidsprofil",
+                "no": "Tidsprofil",
+                "pl": "Profil czasowy",
+                "ru": "Профиль по времени",
+                "ar": "ملف زمني",
+                "ko": "시간대 프로필"
+              }
+            },
+            {
+              "id": "backup",
+              "title": {
+                "en": "Backup",
+                "nl": "Back-up",
+                "de": "Notstromreserve",
+                "fr": "Secours",
+                "it": "Backup",
+                "es": "Respaldo",
+                "pl": "Rezerwa",
+                "sv": "Reserv",
+                "no": "Reserve",
+                "da": "Backup",
+                "ru": "Резерв",
+                "ko": "백업",
+                "ar": "احتياطي"
+              }
+            },
+            {
+              "id": "force_charge",
+              "title": {
+                "en": "Force charge",
+                "nl": "Geforceerd laden",
+                "de": "Zwangsladung",
+                "fr": "Charge forcée",
+                "es": "Carga forzada",
+                "it": "Carica forzata",
+                "da": "Tvungen opladning",
+                "sv": "Tvingad laddning",
+                "no": "Tvungen lading",
+                "pl": "Wymuszone ładowanie",
+                "ru": "Принудительный заряд",
+                "ar": "شحن إجباري",
+                "ko": "강제 충전"
+              }
+            },
+            {
+              "id": "force_discharge",
+              "title": {
+                "en": "Force discharge",
+                "nl": "Geforceerd ontladen",
+                "de": "Zwangsentladung",
+                "fr": "Décharge forcée",
+                "es": "Descarga forzada",
+                "it": "Scarica forzata",
+                "da": "Tvungen afladning",
+                "sv": "Tvingad urladdning",
+                "no": "Tvungen utlading",
+                "pl": "Wymuszone rozładowanie",
+                "ru": "Принудительный разряд",
+                "ar": "تفريغ إجباري",
+                "ko": "강제 방전"
+              }
+            }
+          ]
+        },
+        "battery_min_soc": {
+          "title": {
+            "en": "Backup reserve",
+            "nl": "Back-upreserve",
+            "de": "Notstromreserve",
+            "fr": "Réserve de secours",
+            "es": "Reserva de respaldo",
+            "it": "Riserva di backup",
+            "da": "Backupreserve",
+            "sv": "Reservkapacitet",
+            "no": "Reservekapasitet",
+            "pl": "Rezerwa awaryjna",
+            "ru": "Резерв",
+            "ar": "الاحتياطي للطوارئ",
+            "ko": "백업 예비량"
+          },
+          "min": 0,
+          "max": 100
+        },
         "meter_power.charged": {
           "title": {
             "en": "Charged energy",
@@ -2065,10 +2627,14 @@
       "class": "evcharger",
       "capabilities": [
         "measure_power",
+        "evcharger_charging",
         "evcharger_charging_state",
         "meter_power.session",
+        "target_power",
+        "target_power_mode",
         "meter_power.charged",
-        "alarm_problem"
+        "alarm_problem",
+        "session_energy_limit"
       ],
       "capabilitiesOptions": {
         "meter_power.session": {
@@ -2088,6 +2654,26 @@
             "ko": "이번 세션 에너지"
           },
           "decimals": 3
+        },
+        "target_power": {
+          "title": {
+            "en": "Charging power limit",
+            "nl": "Max laadvermogen",
+            "de": "Ladeleistungsgrenze",
+            "fr": "Limite de puissance de charge",
+            "es": "Límite de potencia de carga",
+            "it": "Limite potenza di ricarica",
+            "da": "Ladeeffektgrænse",
+            "sv": "Laddeffektgräns",
+            "no": "Ladeeffektgrense",
+            "pl": "Limit mocy ładowania",
+            "ru": "Предел мощности зарядки",
+            "ar": "حد قدرة الشحن",
+            "ko": "충전 전력 제한"
+          },
+          "min": 0,
+          "max": 22080,
+          "step": 230
         },
         "meter_power.charged": {
           "title": {
@@ -2404,6 +2990,41 @@
                 "ru": "Номинальный ток",
                 "ar": "التيار الاسمي",
                 "ko": "정격 전류"
+              }
+            },
+            {
+              "id": "phaseSwitching",
+              "type": "checkbox",
+              "value": false,
+              "label": {
+                "en": "Phase switching via Modbus",
+                "nl": "Faseschakeling via Modbus",
+                "de": "Phasenumschaltung über Modbus",
+                "fr": "Commutation de phases via Modbus",
+                "es": "Conmutación de fases por Modbus",
+                "it": "Commutazione fasi via Modbus",
+                "da": "Faseskift via Modbus",
+                "sv": "Fasväxling via Modbus",
+                "no": "Faseveksling via Modbus",
+                "pl": "Przełączanie faz przez Modbus",
+                "ru": "Переключение фаз через Modbus",
+                "ar": "تبديل الأطوار عبر Modbus",
+                "ko": "Modbus로 상 전환"
+              },
+              "hint": {
+                "en": "Only with a phase switch wired to contact X2 of the charger.",
+                "nl": "Alleen met een faseschakelaar op contact X2 van de lader.",
+                "de": "Nur mit einem Phasenumschalter an Kontakt X2 der Ladestation.",
+                "fr": "Uniquement avec un commutateur de phases raccordé au contact X2 de la borne.",
+                "es": "Solo con un conmutador de fases conectado al contacto X2 del cargador.",
+                "it": "Solo con un commutatore di fase collegato al contatto X2 della stazione.",
+                "da": "Kun med en faseomskifter på laderens kontakt X2.",
+                "sv": "Endast med en fasomkopplare på laddarens kontakt X2.",
+                "no": "Bare med en faseveksler på laderens kontakt X2.",
+                "pl": "Tylko z przełącznikiem faz podłączonym do styku X2 ładowarki.",
+                "ru": "Только с переключателем фаз, подключённым к контакту X2 зарядной станции.",
+                "ar": "فقط مع مبدّل أطوار موصول بالملامس X2 في الشاحن.",
+                "ko": "충전기의 X2 접점에 상 전환기가 연결된 경우에만."
               }
             }
           ]
@@ -2893,6 +3514,7 @@
       "capabilities": [
         "measure_power",
         "target_power",
+        "export_limit",
         "meter_power",
         "measure_temperature",
         "measure_voltage.1",
@@ -2937,6 +3559,10 @@
             "ar": "حد القدرة",
             "ko": "전력 한도"
           }
+        },
+        "export_limit": {
+          "max": 10000,
+          "step": 10
         },
         "meter_power": {
           "title": {
@@ -4156,6 +4782,48 @@
     }
   ],
   "capabilities": {
+    "battery_min_soc": {
+      "type": "number",
+      "title": {
+        "en": "Minimum SoC",
+        "nl": "Minimale SoC",
+        "de": "Minimaler SoC",
+        "fr": "SoC minimal",
+        "es": "SoC mínimo",
+        "it": "SoC minimo",
+        "da": "Minimum SoC",
+        "sv": "Lägsta SoC",
+        "no": "Minimum SoC",
+        "pl": "Minimalny SoC",
+        "ru": "Минимальный SoC",
+        "ar": "الحد الأدنى للشحن",
+        "ko": "최소 SoC"
+      },
+      "units": {
+        "en": "%",
+        "nl": "%",
+        "de": "%",
+        "fr": "%",
+        "es": "%",
+        "it": "%",
+        "da": "%",
+        "sv": "%",
+        "no": "%",
+        "pl": "%",
+        "ru": "%",
+        "ar": "%",
+        "ko": "%"
+      },
+      "decimals": 0,
+      "min": 10,
+      "max": 100,
+      "step": 1,
+      "getable": true,
+      "setable": true,
+      "insights": false,
+      "uiComponent": "slider",
+      "icon": "./assets/battery_soc.svg"
+    },
     "ev_charge_mode": {
       "type": "enum",
       "title": {
@@ -4302,6 +4970,48 @@
       "insights": false,
       "uiComponent": "sensor",
       "icon": "./assets/ev_vehicle.svg"
+    },
+    "export_limit": {
+      "type": "number",
+      "title": {
+        "en": "Export limit",
+        "nl": "Terugleverlimiet",
+        "de": "Einspeiselimit",
+        "fr": "Limite d'injection",
+        "es": "Límite de inyección",
+        "it": "Limite di immissione",
+        "da": "Leveringsgrænse",
+        "sv": "Inmatningsgräns",
+        "no": "Innmatingsgrense",
+        "pl": "Limit oddawania do sieci",
+        "ru": "Предел отдачи в сеть",
+        "ar": "حد التصدير للشبكة",
+        "ko": "송전 한도"
+      },
+      "units": {
+        "en": "W",
+        "nl": "W",
+        "de": "W",
+        "fr": "W",
+        "es": "W",
+        "it": "W",
+        "da": "W",
+        "sv": "W",
+        "no": "W",
+        "pl": "W",
+        "ru": "W",
+        "ar": "W",
+        "ko": "W"
+      },
+      "decimals": 0,
+      "min": 0,
+      "max": 8000,
+      "step": 100,
+      "getable": true,
+      "setable": true,
+      "insights": false,
+      "uiComponent": "slider",
+      "icon": "./assets/export_limit.svg"
     },
     "inverter_status": {
       "type": "enum",
@@ -4551,6 +5261,48 @@
       "insights": true,
       "uiComponent": "sensor",
       "icon": "./assets/measure_soh.svg"
+    },
+    "session_energy_limit": {
+      "type": "number",
+      "title": {
+        "en": "Session energy limit",
+        "nl": "Laadlimiet sessie",
+        "de": "Energielimit Ladevorgang",
+        "fr": "Limite d'énergie de la session",
+        "es": "Límite de energía de la sesión",
+        "it": "Limite energia sessione",
+        "da": "Energigrænse for session",
+        "sv": "Energigräns för session",
+        "no": "Energigrense for økt",
+        "pl": "Limit energii sesji",
+        "ru": "Лимит энергии сессии",
+        "ar": "حد طاقة الجلسة",
+        "ko": "세션 에너지 한도"
+      },
+      "units": {
+        "en": "kWh",
+        "nl": "kWh",
+        "de": "kWh",
+        "fr": "kWh",
+        "es": "kWh",
+        "it": "kWh",
+        "da": "kWh",
+        "sv": "kWh",
+        "no": "kWh",
+        "pl": "kWh",
+        "ru": "kWh",
+        "ar": "kWh",
+        "ko": "kWh"
+      },
+      "decimals": 0,
+      "min": 0,
+      "max": 100,
+      "step": 1,
+      "getable": true,
+      "setable": true,
+      "insights": false,
+      "uiComponent": "slider",
+      "icon": "./assets/session_energy_limit.svg"
     },
     "solaredge-home-load-controller-state": {
       "type": "enum",

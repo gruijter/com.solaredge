@@ -14,7 +14,18 @@
     "modbusUnreachable": "Apparaat niet bereikbaar:",
     "modbusNoUnits": "Op dit adres is niets van deze soort gevonden.",
     "modbusWriteFailed": "Kon de opdracht niet versturen:",
-    "powerLimitRejected": "De omvormer heeft de vermogenslimiet niet overgenomen."
+    "powerLimitRejected": "De omvormer heeft de vermogenslimiet niet overgenomen.",
+    "powerLimitUnknown": "De vermogenslimiet kan nog niet worden ingesteld: het vermogen van de omvormer is niet bekend.",
+    "notSupported": "Dit apparaat ondersteunt dat niet.",
+    "exportLimitOff": "Terugleverbegrenzing staat uit in de omvormer: de installateur stelt die in, met een meter.",
+    "exportLimitRejected": "De omvormer accepteerde de terugleverlimiet niet.",
+    "advancedPowerControlOff": "Batterijsturing op afstand vraagt advanced power control in de omvormer (0xF142 = 1, 0xF104 = 4); vraag je installateur.",
+    "exportLimitActive": "Batterijsturing op afstand werkt niet zolang terugleverbegrenzing aanstaat in de omvormer (SolarEdge Power Control-document).",
+    "socRange": "De back-upreserve moet 0–100% zijn.",
+    "backupReserveRejected": "De omvormer accepteerde de back-upreserve niet.",
+    "noCarConnected": "Geen auto aangesloten.",
+    "noChargingSession": "Geen laadsessie: sluit eerst een auto aan.",
+    "phaseSwitchingOff": "Zet eerst \"Faseschakeling via Modbus\" aan in de apparaatinstellingen."
   },
   "migrating": "Capabilities bijwerken…",
   "pair": {

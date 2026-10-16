@@ -14,7 +14,18 @@
     "modbusUnreachable": "Enheten kan inte nås:",
     "modbusNoUnits": "Inget av den här typen hittades på den här adressen.",
     "modbusWriteFailed": "Kunde inte skicka kommandot:",
-    "powerLimitRejected": "Växelriktaren accepterade inte effektgränsen."
+    "powerLimitRejected": "Växelriktaren accepterade inte effektgränsen.",
+    "powerLimitUnknown": "Effektgränsen kan inte ställas in ännu: växelriktarens effekt är okänd.",
+    "notSupported": "Den här enheten stöder inte det.",
+    "exportLimitOff": "Inmatningsbegränsning är av i växelriktaren: installatören ställer in den, med en mätare.",
+    "exportLimitRejected": "Växelriktaren accepterade inte inmatningsgränsen.",
+    "advancedPowerControlOff": "Fjärrstyrning av batteriet kräver advanced power control i växelriktaren (0xF142 = 1, 0xF104 = 4); fråga din installatör.",
+    "exportLimitActive": "Fjärrstyrning av batteriet fungerar inte medan inmatningsbegränsning är på i växelriktaren (SolarEdge Power Control-dokument).",
+    "socRange": "Reservkapaciteten måste vara 0–100 %.",
+    "backupReserveRejected": "Växelriktaren accepterade inte reservkapaciteten.",
+    "noCarConnected": "Ingen bil ansluten.",
+    "noChargingSession": "Ingen laddsession: anslut först en bil.",
+    "phaseSwitchingOff": "Slå först på \"Fasväxling via Modbus\" i enhetsinställningarna."
   },
   "migrating": "Uppdaterar funktioner…",
   "pair": {
