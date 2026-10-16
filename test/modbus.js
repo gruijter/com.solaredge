@@ -213,7 +213,13 @@ const CASES = [
     // positive export in the register: import positive here
     meter_modbus: [{ measure_power: -5279 }],
     battery_modbus: [{
-      measure_power: 0, measure_battery: 100, measure_soh: 100, battery_charging_state: 'idle',
+      measure_power: 0,
+      measure_battery: 100,
+      measure_soh: 100,
+      battery_charging_state: 'idle',
+      // the dumps lack the lifetime counters: the server's 0x8000 words are not implemented
+      'meter_power.charged': null,
+      'meter_power.discharged': null,
     }, { measure_battery: 99 }],
     // the dump lacks the charge and discharge power ratings
     settings: {
@@ -234,7 +240,12 @@ const CASES = [
   {
     dump: 'issue944_u1',
     battery_modbus: [{
-      measure_power: -66, battery_charging_state: 'discharging', measure_soh: 98, target_power_mode: 'time_of_use', battery_min_soc: 6,
+      measure_power: -66,
+      battery_charging_state: 'discharging',
+      measure_soh: 98,
+      target_power_mode: 'time_of_use',
+      battery_min_soc: 6,
+      'meter_power.charged': null,
     }, { measure_power: -66 }],
     // the dump shows no advanced power control: remote control is refused, nothing written
     scenario: {
