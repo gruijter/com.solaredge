@@ -19,16 +19,13 @@
   "capabilities": [
     "measure_power",
     "target_power",
-    "measure_efficiency",
     "meter_power",
     "measure_temperature",
     "measure_voltage.1",
     "measure_voltage.2",
     "measure_voltage.3",
     "measure_frequency",
-    "measure_power.dc",
     "measure_voltage.dc",
-    "measure_current.dc",
     "inverter_status",
     "alarm_problem"
   ],
@@ -136,24 +133,6 @@
         "ko": "전압 위상 3 (AC)"
       }
     },
-    "measure_power.dc": {
-      "title": {
-        "en": "Solar power (DC)",
-        "nl": "Zonnevermogen (DC)",
-        "de": "Solarleistung (DC)",
-        "fr": "Puissance solaire (CC)",
-        "es": "Potencia solar (CC)",
-        "it": "Potenza solare (CC)",
-        "da": "Soleffekt (DC)",
-        "sv": "Soleffekt (DC)",
-        "no": "Soleffekt (DC)",
-        "pl": "Moc słoneczna (DC)",
-        "ru": "Солнечная мощность (DC)",
-        "ar": "القدرة الشمسية (DC)",
-        "ko": "태양광 전력(DC)"
-      },
-      "decimals": 0
-    },
     "measure_voltage.dc": {
       "title": {
         "en": "PV voltage",
@@ -171,24 +150,6 @@
         "ko": "PV 전압"
       },
       "decimals": 1
-    },
-    "measure_current.dc": {
-      "title": {
-        "en": "PV current",
-        "nl": "PV stroom",
-        "de": "PV Strom",
-        "fr": "Courant PV",
-        "es": "Corriente PV",
-        "it": "Corrente PV",
-        "da": "PV strøm",
-        "sv": "PV ström",
-        "no": "PV strøm",
-        "pl": "Prąd PV",
-        "ru": "Ток PV",
-        "ar": "التيار PV",
-        "ko": "PV 전류"
-      },
-      "decimals": 2
     }
   }
 }

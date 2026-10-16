@@ -97,8 +97,6 @@ const CASES = [
     dump: 'se17k_3phase',
     inverter_modbus: [{
       measure_power: 865,
-      'measure_power.dc': 878,
-      measure_efficiency: 98.5,
       'measure_voltage.dc': 746.9,
       'measure_voltage.1': 228.9,
       'measure_voltage.2': 230,
@@ -151,7 +149,7 @@ const CASES = [
   {
     dump: 'issue913_u1',
     inverter_modbus: [{
-      measure_power: 9490, measure_efficiency: 98.5, meter_power: 18785.652, 'measure_voltage.1': 250.2, measure_frequency: 50.04, inverter_status: 'production',
+      measure_power: 9490, meter_power: 18785.652, 'measure_voltage.1': 250.2, measure_frequency: 50.04, inverter_status: 'production',
     }],
     // positive export in the register: import positive here
     meter_modbus: [{ measure_power: -5279 }],
@@ -161,8 +159,8 @@ const CASES = [
   },
   {
     dump: 'issue827_u1',
-    // charging the battery from the grid at night: no DC -> AC conversion, so no efficiency
-    inverter_modbus: [{ measure_power: -5008, measure_efficiency: null, inverter_status: 'off' }],
+    // charging the battery from the grid at night
+    inverter_modbus: [{ measure_power: -5008, inverter_status: 'off' }],
     meter_modbus: [{ measure_power: -3484 }, { measure_power: -2471 }, { measure_power: -2740 }],
     battery_modbus: [{
       measure_power: 5002, measure_battery: 67, battery_charging_state: 'charging', alarm_problem: false,
