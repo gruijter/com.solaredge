@@ -1,7 +1,7 @@
 {
   "id": "pollInterval",
   "type": "number",
-  "value": 10,
+  "value": 5,
   "min": 1,
   "max": 300,
   "step": 1,

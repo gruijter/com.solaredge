@@ -209,7 +209,7 @@
       },
       "capabilitiesOptions": {
         "measure_power": {
-          "title": "Potenza generata"
+          "title": "Potenza solare (CA)"
         },
         "meter_power": {
           "title": "Produzione totale"

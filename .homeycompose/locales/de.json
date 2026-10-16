@@ -209,7 +209,7 @@
       },
       "capabilitiesOptions": {
         "measure_power": {
-          "title": "Erzeugte Leistung"
+          "title": "Solarleistung (AC)"
         },
         "meter_power": {
           "title": "Gesamterzeugung"

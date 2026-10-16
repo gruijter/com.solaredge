@@ -1382,10 +1382,7 @@
       },
       "pair": [
         {
-          "id": "manual",
-          "navigation": {
-            "next": "list_devices"
-          }
+          "id": "manual"
         },
         {
           "id": "list_devices",
@@ -1556,7 +1553,7 @@
         {
           "id": "pollInterval",
           "type": "number",
-          "value": 10,
+          "value": 5,
           "min": 1,
           "max": 300,
           "step": 1,
@@ -1935,10 +1932,7 @@
       },
       "pair": [
         {
-          "id": "manual",
-          "navigation": {
-            "next": "list_devices"
-          }
+          "id": "manual"
         },
         {
           "id": "list_devices",
@@ -2104,7 +2098,7 @@
         {
           "id": "pollInterval",
           "type": "number",
-          "value": 10,
+          "value": 5,
           "min": 1,
           "max": 300,
           "step": 1,
@@ -2569,19 +2563,19 @@
         },
         "measure_power": {
           "title": {
-            "ar": "القدرة المولدة",
-            "da": "Produceret effekt",
-            "de": "Erzeugte Leistung",
-            "en": "Generated Power",
-            "es": "Potencia generada",
-            "fr": "Puissance produite",
-            "it": "Potenza generata",
-            "ko": "발전 전력",
-            "nl": "Opgewekt vermogen",
-            "no": "Produsert effekt",
-            "pl": "Moc wytwarzana",
-            "ru": "Вырабатываемая мощность",
-            "sv": "Producerad effekt"
+            "ar": "القدرة الشمسية (AC)",
+            "da": "Soleffekt (AC)",
+            "de": "Solarleistung (AC)",
+            "en": "Solar power (AC)",
+            "es": "Potencia solar (CA)",
+            "fr": "Puissance solaire (CA)",
+            "it": "Potenza solare (CA)",
+            "ko": "태양광 전력 (AC)",
+            "nl": "Zonnevermogen (AC)",
+            "no": "Soleffekt (AC)",
+            "pl": "Moc słoneczna (AC)",
+            "ru": "Солнечная мощность (AC)",
+            "sv": "Soleffekt (AC)"
           }
         },
         "measure_voltage.1": {
@@ -2685,10 +2679,7 @@
       },
       "pair": [
         {
-          "id": "manual",
-          "navigation": {
-            "next": "list_devices"
-          }
+          "id": "manual"
         },
         {
           "id": "list_devices",
@@ -2721,31 +2712,35 @@
       "class": "solarpanel",
       "capabilities": [
         "measure_power",
+        "measure_efficiency",
         "meter_power",
         "measure_temperature",
         "measure_voltage.1",
         "measure_voltage.2",
         "measure_voltage.3",
         "measure_frequency",
+        "measure_power.dc",
+        "measure_voltage.dc",
+        "measure_current.dc",
         "inverter_status",
         "alarm_problem"
       ],
       "capabilitiesOptions": {
         "measure_power": {
           "title": {
-            "en": "Generated Power",
-            "nl": "Opgewekt vermogen",
-            "de": "Erzeugte Leistung",
-            "fr": "Puissance produite",
-            "es": "Potencia generada",
-            "it": "Potenza generata",
-            "da": "Produceret effekt",
-            "sv": "Producerad effekt",
-            "no": "Produsert effekt",
-            "pl": "Moc wytwarzana",
-            "ru": "Вырабатываемая мощность",
-            "ar": "القدرة المولدة",
-            "ko": "발전 전력"
+            "en": "Solar power (AC)",
+            "nl": "Zonnevermogen (AC)",
+            "de": "Solarleistung (AC)",
+            "fr": "Puissance solaire (CA)",
+            "es": "Potencia solar (CA)",
+            "it": "Potenza solare (CA)",
+            "da": "Soleffekt (AC)",
+            "sv": "Soleffekt (AC)",
+            "no": "Soleffekt (AC)",
+            "pl": "Moc słoneczna (AC)",
+            "ru": "Солнечная мощность (AC)",
+            "ar": "القدرة الشمسية (AC)",
+            "ko": "태양광 전력 (AC)"
           }
         },
         "meter_power": {
@@ -2816,6 +2811,60 @@
             "ar": "جهد المرحلة 3 (AC)",
             "ko": "전압 위상 3 (AC)"
           }
+        },
+        "measure_power.dc": {
+          "title": {
+            "en": "DC power",
+            "nl": "DC-vermogen",
+            "de": "DC-Leistung",
+            "fr": "Puissance DC",
+            "es": "Potencia CC",
+            "it": "Potenza CC",
+            "da": "DC-effekt",
+            "sv": "DC-effekt",
+            "no": "DC-effekt",
+            "pl": "Moc DC",
+            "ru": "Мощность постоянного тока",
+            "ar": "قدرة التيار المستمر",
+            "ko": "DC 전력"
+          },
+          "decimals": 0
+        },
+        "measure_voltage.dc": {
+          "title": {
+            "en": "DC voltage",
+            "nl": "DC-spanning",
+            "de": "DC-Spannung",
+            "fr": "Tension DC",
+            "es": "Voltaje CC",
+            "it": "Tensione CC",
+            "da": "DC-spænding",
+            "sv": "DC-spänning",
+            "no": "DC-spenning",
+            "pl": "Napięcie DC",
+            "ru": "Напряжение постоянного тока",
+            "ar": "جهد التيار المستمر",
+            "ko": "DC 전압"
+          },
+          "decimals": 1
+        },
+        "measure_current.dc": {
+          "title": {
+            "en": "DC current",
+            "nl": "DC-stroom",
+            "de": "DC-Strom",
+            "fr": "Courant DC",
+            "es": "Corriente CC",
+            "it": "Corrente CC",
+            "da": "DC-strøm",
+            "sv": "DC-ström",
+            "no": "DC-strøm",
+            "pl": "Prąd DC",
+            "ru": "Ток постоянного тока",
+            "ar": "تيار التيار المستمر",
+            "ko": "DC 전류"
+          },
+          "decimals": 2
         }
       },
       "id": "inverter_modbus",
@@ -2904,7 +2953,7 @@
         {
           "id": "pollInterval",
           "type": "number",
-          "value": 10,
+          "value": 5,
           "min": 1,
           "max": 300,
           "step": 1,
@@ -3282,10 +3331,7 @@
       },
       "pair": [
         {
-          "id": "manual",
-          "navigation": {
-            "next": "list_devices"
-          }
+          "id": "manual"
         },
         {
           "id": "list_devices",
@@ -3562,7 +3608,7 @@
         {
           "id": "pollInterval",
           "type": "number",
-          "value": 10,
+          "value": 5,
           "min": 1,
           "max": 300,
           "step": 1,
@@ -4066,6 +4112,45 @@
       "insights": false,
       "uiComponent": "sensor",
       "icon": "./assets/inverter_status.svg"
+    },
+    "measure_efficiency": {
+      "type": "number",
+      "title": {
+        "en": "Inverter efficiency",
+        "nl": "Omvormerrendement",
+        "da": "Invertervirkningsgrad",
+        "de": "Inverter-Wirkungsgrad",
+        "es": "Rendimiento inversor",
+        "fr": "Rendement de l'onduleur",
+        "it": "Rendimento inverter",
+        "no": "Invertervirkningsgrad",
+        "sv": "Växelriktarverkningsgrad",
+        "pl": "Sprawność falownika",
+        "ru": "КПД инвертора",
+        "ko": "인버터 효율",
+        "ar": "كفاءة العاكس"
+      },
+      "units": {
+        "en": "%",
+        "nl": "%",
+        "da": "%",
+        "de": "%",
+        "es": "%",
+        "fr": "%",
+        "it": "%",
+        "no": "%",
+        "sv": "%",
+        "pl": "%",
+        "ru": "%",
+        "ko": "%",
+        "ar": "%"
+      },
+      "decimals": 1,
+      "getable": true,
+      "setable": false,
+      "insights": true,
+      "uiComponent": "sensor",
+      "icon": "./assets/measure_efficiency.svg"
     },
     "measure_residual_energy": {
       "type": "number",

@@ -209,7 +209,7 @@
       },
       "capabilitiesOptions": {
         "measure_power": {
-          "title": "Produsert effekt"
+          "title": "Soleffekt (AC)"
         },
         "meter_power": {
           "title": "Total produksjon"

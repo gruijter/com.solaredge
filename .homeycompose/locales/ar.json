@@ -209,7 +209,7 @@
       },
       "capabilitiesOptions": {
         "measure_power": {
-          "title": "القدرة المولدة"
+          "title": "القدرة الشمسية (AC)"
         },
         "meter_power": {
           "title": "إجمالي الإنتاج"

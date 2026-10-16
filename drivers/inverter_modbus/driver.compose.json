@@ -18,31 +18,35 @@
   "class": "solarpanel",
   "capabilities": [
     "measure_power",
+    "measure_efficiency",
     "meter_power",
     "measure_temperature",
     "measure_voltage.1",
     "measure_voltage.2",
     "measure_voltage.3",
     "measure_frequency",
+    "measure_power.dc",
+    "measure_voltage.dc",
+    "measure_current.dc",
     "inverter_status",
     "alarm_problem"
   ],
   "capabilitiesOptions": {
     "measure_power": {
       "title": {
-        "en": "Generated Power",
-        "nl": "Opgewekt vermogen",
-        "de": "Erzeugte Leistung",
-        "fr": "Puissance produite",
-        "es": "Potencia generada",
-        "it": "Potenza generata",
-        "da": "Produceret effekt",
-        "sv": "Producerad effekt",
-        "no": "Produsert effekt",
-        "pl": "Moc wytwarzana",
-        "ru": "Вырабатываемая мощность",
-        "ar": "القدرة المولدة",
-        "ko": "발전 전력"
+        "en": "Solar power (AC)",
+        "nl": "Zonnevermogen (AC)",
+        "de": "Solarleistung (AC)",
+        "fr": "Puissance solaire (CA)",
+        "es": "Potencia solar (CA)",
+        "it": "Potenza solare (CA)",
+        "da": "Soleffekt (AC)",
+        "sv": "Soleffekt (AC)",
+        "no": "Soleffekt (AC)",
+        "pl": "Moc słoneczna (AC)",
+        "ru": "Солнечная мощность (AC)",
+        "ar": "القدرة الشمسية (AC)",
+        "ko": "태양광 전력 (AC)"
       }
     },
     "meter_power": {
@@ -113,6 +117,60 @@
         "ar": "جهد المرحلة 3 (AC)",
         "ko": "전압 위상 3 (AC)"
       }
+    },
+    "measure_power.dc": {
+      "title": {
+        "en": "DC power",
+        "nl": "DC-vermogen",
+        "de": "DC-Leistung",
+        "fr": "Puissance DC",
+        "es": "Potencia CC",
+        "it": "Potenza CC",
+        "da": "DC-effekt",
+        "sv": "DC-effekt",
+        "no": "DC-effekt",
+        "pl": "Moc DC",
+        "ru": "Мощность постоянного тока",
+        "ar": "قدرة التيار المستمر",
+        "ko": "DC 전력"
+      },
+      "decimals": 0
+    },
+    "measure_voltage.dc": {
+      "title": {
+        "en": "DC voltage",
+        "nl": "DC-spanning",
+        "de": "DC-Spannung",
+        "fr": "Tension DC",
+        "es": "Voltaje CC",
+        "it": "Tensione CC",
+        "da": "DC-spænding",
+        "sv": "DC-spänning",
+        "no": "DC-spenning",
+        "pl": "Napięcie DC",
+        "ru": "Напряжение постоянного тока",
+        "ar": "جهد التيار المستمر",
+        "ko": "DC 전압"
+      },
+      "decimals": 1
+    },
+    "measure_current.dc": {
+      "title": {
+        "en": "DC current",
+        "nl": "DC-stroom",
+        "de": "DC-Strom",
+        "fr": "Courant DC",
+        "es": "Corriente CC",
+        "it": "Corrente CC",
+        "da": "DC-strøm",
+        "sv": "DC-ström",
+        "no": "DC-strøm",
+        "pl": "Prąd DC",
+        "ru": "Ток постоянного тока",
+        "ar": "تيار التيار المستمر",
+        "ko": "DC 전류"
+      },
+      "decimals": 2
     }
   }
 }

@@ -209,7 +209,7 @@
       },
       "capabilitiesOptions": {
         "measure_power": {
-          "title": "Вырабатываемая мощность"
+          "title": "Солнечная мощность (AC)"
         },
         "meter_power": {
           "title": "Всего выработано"

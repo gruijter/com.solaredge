@@ -209,7 +209,7 @@
       },
       "capabilitiesOptions": {
         "measure_power": {
-          "title": "발전 전력"
+          "title": "태양광 전력 (AC)"
         },
         "meter_power": {
           "title": "총 발전량"

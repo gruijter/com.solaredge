@@ -209,7 +209,7 @@
       },
       "capabilitiesOptions": {
         "measure_power": {
-          "title": "Opgewekt vermogen"
+          "title": "Zonnevermogen (AC)"
         },
         "meter_power": {
           "title": "Totaal opgewekt"

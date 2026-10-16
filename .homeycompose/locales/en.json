@@ -209,7 +209,7 @@
       },
       "capabilitiesOptions": {
         "measure_power": {
-          "title": "Generated Power"
+          "title": "Solar power (AC)"
         },
         "meter_power": {
           "title": "Generated Total"

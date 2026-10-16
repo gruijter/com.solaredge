@@ -209,7 +209,7 @@
       },
       "capabilitiesOptions": {
         "measure_power": {
-          "title": "Moc wytwarzana"
+          "title": "Moc słoneczna (AC)"
         },
         "meter_power": {
           "title": "Produkcja całkowita"

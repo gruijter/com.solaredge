@@ -14,10 +14,7 @@
   "pair": [
     {
       "id": "manual",
-      "$template": "manual",
-      "navigation": {
-        "next": "list_devices"
-      }
+      "$template": "manual"
     },
     {
       "id": "list_devices",
