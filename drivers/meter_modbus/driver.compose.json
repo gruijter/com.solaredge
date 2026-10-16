@@ -1,0 +1,179 @@
+{
+  "$extends": "modbus",
+  "name": {
+    "en": "Meter (Modbus)",
+    "nl": "Meter (Modbus)",
+    "de": "Zähler (Modbus)",
+    "fr": "Compteur (Modbus)",
+    "es": "Medidor (Modbus)",
+    "it": "Contatore (Modbus)",
+    "da": "Måler (Modbus)",
+    "sv": "Mätare (Modbus)",
+    "no": "Måler (Modbus)",
+    "pl": "Licznik (Modbus)",
+    "ru": "Счётчик (Modbus)",
+    "ar": "العداد (Modbus)",
+    "ko": "계량기 (Modbus)"
+  },
+  "class": "sensor",
+  "capabilities": [
+    "measure_power",
+    "measure_power.1",
+    "measure_power.2",
+    "measure_power.3",
+    "measure_voltage.1",
+    "measure_voltage.2",
+    "measure_voltage.3",
+    "measure_frequency",
+    "meter_power.imported",
+    "meter_power.exported"
+  ],
+  "capabilitiesOptions": {
+    "measure_power.1": {
+      "title": {
+        "en": "Power phase 1",
+        "nl": "Vermogen fase 1",
+        "de": "Leistung Phase 1",
+        "fr": "Puissance phase 1",
+        "es": "Potencia fase 1",
+        "it": "Potenza fase 1",
+        "da": "Effekt fase 1",
+        "sv": "Effekt fas 1",
+        "no": "Effekt fase 1",
+        "pl": "Moc fazy 1",
+        "ru": "Мощность фазы 1",
+        "ar": "قدرة المرحلة 1",
+        "ko": "전력 위상 1"
+      },
+      "decimals": 0
+    },
+    "measure_power.2": {
+      "title": {
+        "en": "Power phase 2",
+        "nl": "Vermogen fase 2",
+        "de": "Leistung Phase 2",
+        "fr": "Puissance phase 2",
+        "es": "Potencia fase 2",
+        "it": "Potenza fase 2",
+        "da": "Effekt fase 2",
+        "sv": "Effekt fas 2",
+        "no": "Effekt fase 2",
+        "pl": "Moc fazy 2",
+        "ru": "Мощность фазы 2",
+        "ar": "قدرة المرحلة 2",
+        "ko": "전력 위상 2"
+      },
+      "decimals": 0
+    },
+    "measure_power.3": {
+      "title": {
+        "en": "Power phase 3",
+        "nl": "Vermogen fase 3",
+        "de": "Leistung Phase 3",
+        "fr": "Puissance phase 3",
+        "es": "Potencia fase 3",
+        "it": "Potenza fase 3",
+        "da": "Effekt fase 3",
+        "sv": "Effekt fas 3",
+        "no": "Effekt fase 3",
+        "pl": "Moc fazy 3",
+        "ru": "Мощность фазы 3",
+        "ar": "قدرة المرحلة 3",
+        "ko": "전력 위상 3"
+      },
+      "decimals": 0
+    },
+    "measure_voltage.1": {
+      "title": {
+        "en": "Voltage phase 1",
+        "nl": "Voltage fase 1",
+        "de": "Spannung Phase 1",
+        "fr": "Tension phase 1",
+        "it": "Tensione fase 1",
+        "es": "Voltaje fase 1",
+        "pl": "Napięcie fazy 1",
+        "sv": "Spänning fas 1",
+        "no": "Spenning fase 1",
+        "da": "Spænding fase 1",
+        "ru": "Напряжение фазы 1",
+        "ko": "전압 위상 1",
+        "ar": "جهد المرحلة 1"
+      }
+    },
+    "measure_voltage.2": {
+      "title": {
+        "en": "Voltage phase 2",
+        "nl": "Voltage fase 2",
+        "de": "Spannung Phase 2",
+        "fr": "Tension phase 2",
+        "it": "Tensione fase 2",
+        "es": "Voltaje fase 2",
+        "pl": "Napięcie fazy 2",
+        "sv": "Spänning fas 2",
+        "no": "Spenning fase 2",
+        "da": "Spænding fase 2",
+        "ru": "Напряжение фазы 2",
+        "ko": "전압 위상 2",
+        "ar": "جهد المرحلة 2"
+      }
+    },
+    "measure_voltage.3": {
+      "title": {
+        "en": "Voltage phase 3",
+        "nl": "Voltage fase 3",
+        "de": "Spannung Phase 3",
+        "fr": "Tension phase 3",
+        "it": "Tensione fase 3",
+        "es": "Voltaje fase 3",
+        "pl": "Napięcie fazy 3",
+        "sv": "Spänning fas 3",
+        "no": "Spenning fase 3",
+        "da": "Spænding fase 3",
+        "ru": "Напряжение фазы 3",
+        "ko": "전압 위상 3",
+        "ar": "جهد المرحلة 3"
+      }
+    },
+    "meter_power.imported": {
+      "title": {
+        "en": "Imported Energy",
+        "nl": "Geïmporteerde energie",
+        "de": "Importierte Energie",
+        "fr": "Énergie importée",
+        "es": "Energía importada",
+        "it": "Energia importata",
+        "da": "Importeret energi",
+        "sv": "Importerad energi",
+        "no": "Importert energi",
+        "pl": "Energia pobrana",
+        "ru": "Импортированная энергия",
+        "ar": "الطاقة المستوردة",
+        "ko": "수전 에너지"
+      },
+      "decimals": 3
+    },
+    "meter_power.exported": {
+      "title": {
+        "en": "Exported Energy",
+        "nl": "Geëxporteerde energie",
+        "de": "Exportierte Energie",
+        "fr": "Énergie exportée",
+        "es": "Energía exportada",
+        "it": "Energia esportata",
+        "da": "Eksporteret energi",
+        "sv": "Exporterad energi",
+        "no": "Eksportert energi",
+        "pl": "Energia oddana",
+        "ru": "Экспортированная энергия",
+        "ar": "الطاقة المصدرة",
+        "ko": "송전 에너지"
+      },
+      "decimals": 3
+    }
+  },
+  "energy": {
+    "cumulative": true,
+    "cumulativeImportedCapability": "meter_power.imported",
+    "cumulativeExportedCapability": "meter_power.exported"
+  }
+}

@@ -1,0 +1,28 @@
+[
+  {
+    "$extends": "host"
+  },
+  {
+    "$extends": "port",
+    "value": 502
+  },
+  {
+    "$extends": "unitId",
+    "value": 255
+  },
+  {
+    "$extends": "pollInterval"
+  },
+  {
+    "$extends": "deviceModel"
+  },
+  {
+    "$extends": "deviceSn"
+  },
+  {
+    "$extends": "manufacturer"
+  },
+  {
+    "$extends": "firmware"
+  }
+]

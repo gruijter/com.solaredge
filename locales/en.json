@@ -6,7 +6,27 @@
     "api": "SolarEdge error",
     "notLoggedIn": "Not logged in.",
     "deviceNotFound": "Device not found on this site.",
-    "reAddDevice": "Remove and re-add this device to get kWh values."
+    "reAddDevice": "Remove and re-add this device to get kWh values.",
+    "hostRequired": "Enter an IP address.",
+    "hostMissing": "No IP address set.",
+    "modbusProbeFailed": "No compatible device answered at this address.",
+    "modbusNoData": "No data received.",
+    "modbusUnreachable": "Device not reachable:",
+    "modbusNoUnits": "Nothing of this kind was found at this address."
   },
-  "migrating": "Updating capabilities…"
+  "migrating": "Updating capabilities…",
+  "pair": {
+    "manual": {
+      "title": "Enter IP address",
+      "intro": "Give the device a fixed IP address in your router first, so it keeps working after a restart.",
+      "legend": "Connection",
+      "connect": "Connect",
+      "modbus": "Turn on Modbus TCP on the device first. It accepts only one Modbus connection at a time."
+    }
+  },
+  "settings": {
+    "host": "IP address",
+    "port": "Port",
+    "unitId": "Unit ID"
+  }
 }

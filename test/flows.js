@@ -128,8 +128,10 @@ const run = async () => {
     if (!match) continue;
     const [, capability, kind] = match;
     const filter = trigger.args.find((arg) => arg.type === 'device')?.filter || '';
-    const driverId = new URLSearchParams(filter).get('driver_id');
-    check(possible[driverId]?.has(capability), `trigger ${trigger.id}: ${driverId} never has ${capability}`);
+    // driver_id=a|b: a card shared by several drivers
+    for (const driverId of (new URLSearchParams(filter).get('driver_id') || '').split('|')) {
+      check(possible[driverId]?.has(capability), `trigger ${trigger.id}: ${driverId} never has ${capability}`);
+    }
     check(new URLSearchParams(filter).get('capabilities') === capability, `trigger ${trigger.id}: device filter ${filter} lacks capabilities=${capability}`);
     if (kind === 'changed') check(trigger.tokens?.some((token) => token.name === capability), `trigger ${trigger.id}: no token ${capability}`);
     const type = manifest.capabilities?.[capability]?.type;

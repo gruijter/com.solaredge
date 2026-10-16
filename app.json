@@ -159,7 +159,7 @@
           {
             "type": "device",
             "name": "device",
-            "filter": "driver_id=inverter&capabilities=inverter_status"
+            "filter": "driver_id=inverter|inverter_modbus&capabilities=inverter_status"
           }
         ],
         "id": "inverter_status_changed",
@@ -254,7 +254,7 @@
           {
             "type": "device",
             "name": "device",
-            "filter": "driver_id=inverter&capabilities=measure_voltage.1"
+            "filter": "driver_id=inverter|inverter_modbus|meter_modbus&capabilities=measure_voltage.1"
           }
         ],
         "id": "measure_voltage.1_changed",
@@ -301,7 +301,7 @@
           {
             "type": "device",
             "name": "device",
-            "filter": "driver_id=inverter&capabilities=measure_voltage.2"
+            "filter": "driver_id=inverter|inverter_modbus|meter_modbus&capabilities=measure_voltage.2"
           }
         ],
         "id": "measure_voltage.2_changed",
@@ -348,7 +348,7 @@
           {
             "type": "device",
             "name": "device",
-            "filter": "driver_id=inverter&capabilities=measure_voltage.3"
+            "filter": "driver_id=inverter|inverter_modbus|meter_modbus&capabilities=measure_voltage.3"
           }
         ],
         "id": "measure_voltage.3_changed",
@@ -444,7 +444,7 @@
           {
             "type": "device",
             "name": "device",
-            "filter": "driver_id=meter&capabilities=meter_power.exported"
+            "filter": "driver_id=meter|meter_modbus&capabilities=meter_power.exported"
           }
         ],
         "id": "meter_power.exported_changed",
@@ -492,7 +492,7 @@
           {
             "type": "device",
             "name": "device",
-            "filter": "driver_id=meter&capabilities=meter_power.imported"
+            "filter": "driver_id=meter|meter_modbus&capabilities=meter_power.imported"
           }
         ],
         "id": "meter_power.imported_changed",
@@ -704,7 +704,7 @@
           {
             "type": "device",
             "name": "device",
-            "filter": "driver_id=inverter&capabilities=inverter_status"
+            "filter": "driver_id=inverter|inverter_modbus&capabilities=inverter_status"
           },
           {
             "name": "status",
@@ -1369,6 +1369,382 @@
     },
     {
       "platforms": [
+        "local"
+      ],
+      "connectivity": [
+        "lan"
+      ],
+      "deprecated": true,
+      "images": {
+        "small": "/drivers/battery_modbus/assets/images/small.png",
+        "large": "/drivers/battery_modbus/assets/images/large.png",
+        "xlarge": "/drivers/battery_modbus/assets/images/xlarge.png"
+      },
+      "pair": [
+        {
+          "id": "manual",
+          "navigation": {
+            "next": "list_devices"
+          }
+        },
+        {
+          "id": "list_devices",
+          "template": "list_devices",
+          "navigation": {
+            "prev": "manual",
+            "next": "add_devices"
+          }
+        },
+        {
+          "id": "add_devices",
+          "template": "add_devices"
+        }
+      ],
+      "name": {
+        "en": "Battery (Modbus)",
+        "nl": "Batterij (Modbus)",
+        "de": "Batterie (Modbus)",
+        "fr": "Batterie (Modbus)",
+        "es": "Batería (Modbus)",
+        "it": "Batteria (Modbus)",
+        "da": "Batteri (Modbus)",
+        "sv": "Batteri (Modbus)",
+        "no": "Batteri (Modbus)",
+        "pl": "Akumulator (Modbus)",
+        "ru": "Аккумулятор (Modbus)",
+        "ar": "البطارية (Modbus)",
+        "ko": "배터리 (Modbus)"
+      },
+      "class": "battery",
+      "capabilities": [
+        "measure_power",
+        "measure_battery",
+        "battery_charging_state",
+        "meter_power.charged",
+        "meter_power.discharged",
+        "measure_temperature",
+        "measure_soh",
+        "measure_residual_energy",
+        "alarm_problem"
+      ],
+      "capabilitiesOptions": {
+        "meter_power.charged": {
+          "title": {
+            "en": "Charged energy",
+            "nl": "Geladen energie",
+            "de": "Geladene Energie",
+            "fr": "Énergie chargée",
+            "es": "Energía cargada",
+            "it": "Energia caricata",
+            "da": "Opladet energi",
+            "sv": "Laddad energi",
+            "no": "Ladet energi",
+            "pl": "Naładowana energia",
+            "ru": "Заряженная энергия",
+            "ar": "الطاقة المشحونة",
+            "ko": "충전된 에너지"
+          },
+          "decimals": 3
+        },
+        "meter_power.discharged": {
+          "title": {
+            "en": "Discharged energy",
+            "nl": "Ontladen energie",
+            "de": "Entladene Energie",
+            "fr": "Énergie déchargée",
+            "es": "Energía descargada",
+            "it": "Energia scaricata",
+            "da": "Afladet energi",
+            "sv": "Urladdad energi",
+            "no": "Utladet energi",
+            "pl": "Rozładowana energia",
+            "ru": "Разряженная энергия",
+            "ar": "الطاقة المفرغة",
+            "ko": "방전된 에너지"
+          },
+          "decimals": 3
+        }
+      },
+      "energy": {
+        "homeBattery": true,
+        "meterPowerImportedCapability": "meter_power.charged",
+        "meterPowerExportedCapability": "meter_power.discharged"
+      },
+      "id": "battery_modbus",
+      "settings": [
+        {
+          "id": "host",
+          "type": "text",
+          "value": "",
+          "label": {
+            "en": "IP address",
+            "nl": "IP-adres",
+            "de": "IP-Adresse",
+            "fr": "Adresse IP",
+            "es": "Dirección IP",
+            "it": "Indirizzo IP",
+            "da": "IP-adresse",
+            "sv": "IP-adress",
+            "no": "IP-adresse",
+            "pl": "Adres IP",
+            "ru": "IP-адрес",
+            "ar": "عنوان IP",
+            "ko": "IP 주소"
+          },
+          "hint": {
+            "en": "Address of the device on your network.",
+            "nl": "Adres van het apparaat in je netwerk.",
+            "de": "Adresse des Geräts in deinem Netzwerk.",
+            "fr": "Adresse de l'appareil sur votre réseau.",
+            "es": "Dirección del dispositivo en tu red.",
+            "it": "Indirizzo del dispositivo nella tua rete.",
+            "da": "Enhedens adresse på dit netværk.",
+            "sv": "Enhetens adress i ditt nätverk.",
+            "no": "Enhetens adresse i nettverket ditt.",
+            "pl": "Adres urządzenia w Twojej sieci.",
+            "ru": "Адрес устройства в вашей сети.",
+            "ar": "عنوان الجهاز في شبكتك.",
+            "ko": "네트워크에서 장치의 주소입니다."
+          }
+        },
+        {
+          "id": "port",
+          "type": "number",
+          "value": 1502,
+          "min": 1,
+          "max": 65535,
+          "step": 1,
+          "label": {
+            "en": "Port",
+            "nl": "Poort",
+            "de": "Port",
+            "fr": "Port",
+            "es": "Puerto",
+            "it": "Porta",
+            "da": "Port",
+            "sv": "Port",
+            "no": "Port",
+            "pl": "Port",
+            "ru": "Порт",
+            "ar": "المنفذ",
+            "ko": "포트"
+          }
+        },
+        {
+          "id": "unitId",
+          "type": "number",
+          "value": 1,
+          "min": 1,
+          "max": 255,
+          "step": 1,
+          "label": {
+            "en": "Unit ID",
+            "nl": "Unit-ID",
+            "de": "Unit-ID",
+            "fr": "ID d'unité",
+            "es": "ID de unidad",
+            "it": "ID unità",
+            "da": "Enheds-ID",
+            "sv": "Enhets-ID",
+            "no": "Enhets-ID",
+            "pl": "ID jednostki",
+            "ru": "ID устройства",
+            "ar": "معرّف الوحدة",
+            "ko": "유닛 ID"
+          }
+        },
+        {
+          "id": "pollInterval",
+          "type": "number",
+          "value": 10,
+          "min": 1,
+          "max": 300,
+          "step": 1,
+          "label": {
+            "en": "Update interval",
+            "nl": "Update-interval",
+            "de": "Aktualisierungsintervall",
+            "fr": "Intervalle de mise à jour",
+            "es": "Intervalo de actualización",
+            "it": "Intervallo di aggiornamento",
+            "da": "Opdateringsinterval",
+            "sv": "Uppdateringsintervall",
+            "no": "Oppdateringsintervall",
+            "pl": "Interwał aktualizacji",
+            "ru": "Интервал обновления",
+            "ar": "فترة التحديث",
+            "ko": "업데이트 간격"
+          },
+          "units": {
+            "en": "s",
+            "nl": "s",
+            "de": "s",
+            "fr": "s",
+            "es": "s",
+            "it": "s",
+            "da": "s",
+            "sv": "s",
+            "no": "s",
+            "pl": "s",
+            "ru": "с",
+            "ar": "ث",
+            "ko": "초"
+          },
+          "hint": {
+            "en": "How often the device is read.",
+            "nl": "Hoe vaak het apparaat wordt uitgelezen.",
+            "de": "Wie oft das Gerät ausgelesen wird.",
+            "fr": "Fréquence de lecture de l'appareil.",
+            "es": "Con qué frecuencia se lee el dispositivo.",
+            "it": "Con quale frequenza viene letto il dispositivo.",
+            "da": "Hvor ofte enheden aflæses.",
+            "sv": "Hur ofta enheten läses av.",
+            "no": "Hvor ofte enheten leses av.",
+            "pl": "Jak często urządzenie jest odczytywane.",
+            "ru": "Как часто опрашивается устройство.",
+            "ar": "عدد مرات قراءة الجهاز.",
+            "ko": "장치를 읽는 주기입니다."
+          }
+        },
+        {
+          "id": "deviceModel",
+          "type": "label",
+          "value": "",
+          "label": {
+            "en": "Model",
+            "nl": "Model",
+            "de": "Modell",
+            "fr": "Modèle",
+            "es": "Modelo",
+            "it": "Modello",
+            "da": "Model",
+            "sv": "Modell",
+            "no": "Modell",
+            "pl": "Model",
+            "ru": "Модель",
+            "ar": "طراز",
+            "ko": "모델"
+          }
+        },
+        {
+          "id": "deviceSn",
+          "type": "label",
+          "value": "",
+          "label": {
+            "en": "Serial number",
+            "nl": "Serienummer",
+            "de": "Seriennummer",
+            "fr": "Numéro de série",
+            "es": "Número de serie",
+            "it": "Numero di serie",
+            "da": "Serienummer",
+            "sv": "Serienummer",
+            "no": "Serienummer",
+            "pl": "Numer seryjny",
+            "ru": "Серийный номер",
+            "ar": "الرقم التسلسلي",
+            "ko": "일련 번호"
+          }
+        },
+        {
+          "id": "manufacturer",
+          "type": "label",
+          "value": "",
+          "label": {
+            "en": "Manufacturer",
+            "nl": "Fabrikant",
+            "de": "Hersteller",
+            "fr": "Fabricant",
+            "es": "Fabricante",
+            "it": "Produttore",
+            "da": "Producent",
+            "sv": "Tillverkare",
+            "no": "Produsent",
+            "pl": "Producent",
+            "ru": "Производитель",
+            "ar": "الشركة المصنعة",
+            "ko": "제조사"
+          }
+        },
+        {
+          "id": "firmware",
+          "type": "label",
+          "value": "",
+          "label": {
+            "en": "Firmware version",
+            "nl": "Firmwareversie",
+            "de": "Firmware-Version",
+            "fr": "Version du firmware",
+            "es": "Versión de firmware",
+            "it": "Versione firmware",
+            "da": "Firmwareversion",
+            "sv": "Firmwareversion",
+            "no": "Firmwareversjon",
+            "pl": "Wersja firmware",
+            "ru": "Версия прошивки",
+            "ar": "إصدار البرنامج الثابت",
+            "ko": "펌웨어 버전"
+          }
+        },
+        {
+          "id": "ratedEnergy",
+          "type": "label",
+          "value": "",
+          "label": {
+            "en": "Rated capacity",
+            "nl": "Nominale capaciteit",
+            "de": "Nennkapazität",
+            "fr": "Capacité nominale",
+            "es": "Capacidad nominal",
+            "it": "Capacità nominale",
+            "da": "Nominel kapacitet",
+            "sv": "Nominell kapacitet",
+            "no": "Nominell kapasitet",
+            "pl": "Pojemność znamionowa",
+            "ru": "Номинальная емкость",
+            "ar": "السعة الاسمية",
+            "ko": "정격 용량"
+          }
+        },
+        {
+          "id": "connectedTo",
+          "type": "label",
+          "value": "",
+          "label": {
+            "en": "Inverter",
+            "nl": "Omvormer",
+            "de": "Wechselrichter",
+            "fr": "Onduleur",
+            "es": "Inversor",
+            "it": "Inverter",
+            "da": "Inverter",
+            "sv": "Växelriktare",
+            "no": "Vekselretter",
+            "pl": "Falownik",
+            "ru": "Инвертор",
+            "ar": "العاكس",
+            "ko": "인버터"
+          },
+          "hint": {
+            "en": "The inverter this device is read through.",
+            "nl": "De omvormer waarlangs dit apparaat wordt uitgelezen.",
+            "de": "Der Wechselrichter, über den dieses Gerät ausgelesen wird.",
+            "fr": "L'onduleur par lequel cet appareil est lu.",
+            "es": "El inversor a través del cual se lee este dispositivo.",
+            "it": "L'inverter tramite cui viene letto questo dispositivo.",
+            "da": "Inverteren, som denne enhed aflæses via.",
+            "sv": "Växelriktaren som enheten läses av via.",
+            "no": "Vekselretteren denne enheten leses av via.",
+            "pl": "Falownik, przez który odczytywane jest to urządzenie.",
+            "ru": "Инвертор, через который опрашивается это устройство.",
+            "ar": "العاكس الذي تتم قراءة هذا الجهاز من خلاله.",
+            "ko": "이 장치를 읽어오는 인버터입니다."
+          }
+        }
+      ]
+    },
+    {
+      "platforms": [
         "local",
         "cloud"
       ],
@@ -1543,6 +1919,322 @@
         "ru": "Зарядная станция для электромобиля",
         "sv": "Elbilsladdare"
       }
+    },
+    {
+      "platforms": [
+        "local"
+      ],
+      "connectivity": [
+        "lan"
+      ],
+      "deprecated": true,
+      "images": {
+        "small": "/drivers/evcharger_modbus/assets/images/small.png",
+        "large": "/drivers/evcharger_modbus/assets/images/large.png",
+        "xlarge": "/drivers/evcharger_modbus/assets/images/xlarge.png"
+      },
+      "pair": [
+        {
+          "id": "manual",
+          "navigation": {
+            "next": "list_devices"
+          }
+        },
+        {
+          "id": "list_devices",
+          "template": "list_devices",
+          "navigation": {
+            "prev": "manual",
+            "next": "add_devices"
+          }
+        },
+        {
+          "id": "add_devices",
+          "template": "add_devices"
+        }
+      ],
+      "name": {
+        "en": "EV Charger (Modbus)",
+        "nl": "EV-lader (Modbus)",
+        "de": "EV-Ladegerät (Modbus)",
+        "fr": "Borne de recharge VE (Modbus)",
+        "es": "Cargador de VE (Modbus)",
+        "it": "Caricatore EV (Modbus)",
+        "da": "Elbillader (Modbus)",
+        "sv": "Elbilsladdare (Modbus)",
+        "no": "Elbillader (Modbus)",
+        "pl": "Ładowarka EV (Modbus)",
+        "ru": "Зарядная станция для электромобиля (Modbus)",
+        "ar": "شاحن السيارة الكهربائية (Modbus)",
+        "ko": "전기차 충전기 (Modbus)"
+      },
+      "class": "evcharger",
+      "capabilities": [
+        "measure_power",
+        "evcharger_charging_state",
+        "meter_power.session",
+        "meter_power.charged",
+        "alarm_problem"
+      ],
+      "capabilitiesOptions": {
+        "meter_power.session": {
+          "title": {
+            "en": "Energy this session",
+            "nl": "Energie deze sessie",
+            "de": "Energie dieser Sitzung",
+            "fr": "Énergie de cette session",
+            "es": "Energía de esta sesión",
+            "it": "Energia di questa sessione",
+            "da": "Energi denne session",
+            "sv": "Energi denna session",
+            "no": "Energi denne økten",
+            "pl": "Energia tej sesji",
+            "ru": "Энергия за сеанс",
+            "ar": "طاقة هذه الجلسة",
+            "ko": "이번 세션 에너지"
+          },
+          "decimals": 3
+        },
+        "meter_power.charged": {
+          "title": {
+            "en": "Total Charged Energy",
+            "nl": "Totaal opgeladen energie",
+            "de": "Geladene Gesamtenergie",
+            "fr": "Énergie totale chargée",
+            "es": "Energía total cargada",
+            "it": "Energia totale caricata",
+            "da": "Samlet opladet energi",
+            "sv": "Total laddad energi",
+            "no": "Total ladet energi",
+            "pl": "Całkowita energia naładowana",
+            "ru": "Всего заряжено энергии",
+            "ar": "إجمالي الطاقة المشحونة",
+            "ko": "총 충전 에너지"
+          },
+          "decimals": 3
+        }
+      },
+      "energy": {
+        "evCharger": true,
+        "meterPowerImportedCapability": "meter_power.charged"
+      },
+      "id": "evcharger_modbus",
+      "settings": [
+        {
+          "id": "host",
+          "type": "text",
+          "value": "",
+          "label": {
+            "en": "IP address",
+            "nl": "IP-adres",
+            "de": "IP-Adresse",
+            "fr": "Adresse IP",
+            "es": "Dirección IP",
+            "it": "Indirizzo IP",
+            "da": "IP-adresse",
+            "sv": "IP-adress",
+            "no": "IP-adresse",
+            "pl": "Adres IP",
+            "ru": "IP-адрес",
+            "ar": "عنوان IP",
+            "ko": "IP 주소"
+          },
+          "hint": {
+            "en": "Address of the device on your network.",
+            "nl": "Adres van het apparaat in je netwerk.",
+            "de": "Adresse des Geräts in deinem Netzwerk.",
+            "fr": "Adresse de l'appareil sur votre réseau.",
+            "es": "Dirección del dispositivo en tu red.",
+            "it": "Indirizzo del dispositivo nella tua rete.",
+            "da": "Enhedens adresse på dit netværk.",
+            "sv": "Enhetens adress i ditt nätverk.",
+            "no": "Enhetens adresse i nettverket ditt.",
+            "pl": "Adres urządzenia w Twojej sieci.",
+            "ru": "Адрес устройства в вашей сети.",
+            "ar": "عنوان الجهاز في شبكتك.",
+            "ko": "네트워크에서 장치의 주소입니다."
+          }
+        },
+        {
+          "value": 502,
+          "id": "port",
+          "type": "number",
+          "min": 1,
+          "max": 65535,
+          "step": 1,
+          "label": {
+            "en": "Port",
+            "nl": "Poort",
+            "de": "Port",
+            "fr": "Port",
+            "es": "Puerto",
+            "it": "Porta",
+            "da": "Port",
+            "sv": "Port",
+            "no": "Port",
+            "pl": "Port",
+            "ru": "Порт",
+            "ar": "المنفذ",
+            "ko": "포트"
+          }
+        },
+        {
+          "value": 255,
+          "id": "unitId",
+          "type": "number",
+          "min": 1,
+          "max": 255,
+          "step": 1,
+          "label": {
+            "en": "Unit ID",
+            "nl": "Unit-ID",
+            "de": "Unit-ID",
+            "fr": "ID d'unité",
+            "es": "ID de unidad",
+            "it": "ID unità",
+            "da": "Enheds-ID",
+            "sv": "Enhets-ID",
+            "no": "Enhets-ID",
+            "pl": "ID jednostki",
+            "ru": "ID устройства",
+            "ar": "معرّف الوحدة",
+            "ko": "유닛 ID"
+          }
+        },
+        {
+          "id": "pollInterval",
+          "type": "number",
+          "value": 10,
+          "min": 1,
+          "max": 300,
+          "step": 1,
+          "label": {
+            "en": "Update interval",
+            "nl": "Update-interval",
+            "de": "Aktualisierungsintervall",
+            "fr": "Intervalle de mise à jour",
+            "es": "Intervalo de actualización",
+            "it": "Intervallo di aggiornamento",
+            "da": "Opdateringsinterval",
+            "sv": "Uppdateringsintervall",
+            "no": "Oppdateringsintervall",
+            "pl": "Interwał aktualizacji",
+            "ru": "Интервал обновления",
+            "ar": "فترة التحديث",
+            "ko": "업데이트 간격"
+          },
+          "units": {
+            "en": "s",
+            "nl": "s",
+            "de": "s",
+            "fr": "s",
+            "es": "s",
+            "it": "s",
+            "da": "s",
+            "sv": "s",
+            "no": "s",
+            "pl": "s",
+            "ru": "с",
+            "ar": "ث",
+            "ko": "초"
+          },
+          "hint": {
+            "en": "How often the device is read.",
+            "nl": "Hoe vaak het apparaat wordt uitgelezen.",
+            "de": "Wie oft das Gerät ausgelesen wird.",
+            "fr": "Fréquence de lecture de l'appareil.",
+            "es": "Con qué frecuencia se lee el dispositivo.",
+            "it": "Con quale frequenza viene letto il dispositivo.",
+            "da": "Hvor ofte enheden aflæses.",
+            "sv": "Hur ofta enheten läses av.",
+            "no": "Hvor ofte enheten leses av.",
+            "pl": "Jak często urządzenie jest odczytywane.",
+            "ru": "Как часто опрашивается устройство.",
+            "ar": "عدد مرات قراءة الجهاز.",
+            "ko": "장치를 읽는 주기입니다."
+          }
+        },
+        {
+          "id": "deviceModel",
+          "type": "label",
+          "value": "",
+          "label": {
+            "en": "Model",
+            "nl": "Model",
+            "de": "Modell",
+            "fr": "Modèle",
+            "es": "Modelo",
+            "it": "Modello",
+            "da": "Model",
+            "sv": "Modell",
+            "no": "Modell",
+            "pl": "Model",
+            "ru": "Модель",
+            "ar": "طراز",
+            "ko": "모델"
+          }
+        },
+        {
+          "id": "deviceSn",
+          "type": "label",
+          "value": "",
+          "label": {
+            "en": "Serial number",
+            "nl": "Serienummer",
+            "de": "Seriennummer",
+            "fr": "Numéro de série",
+            "es": "Número de serie",
+            "it": "Numero di serie",
+            "da": "Serienummer",
+            "sv": "Serienummer",
+            "no": "Serienummer",
+            "pl": "Numer seryjny",
+            "ru": "Серийный номер",
+            "ar": "الرقم التسلسلي",
+            "ko": "일련 번호"
+          }
+        },
+        {
+          "id": "manufacturer",
+          "type": "label",
+          "value": "",
+          "label": {
+            "en": "Manufacturer",
+            "nl": "Fabrikant",
+            "de": "Hersteller",
+            "fr": "Fabricant",
+            "es": "Fabricante",
+            "it": "Produttore",
+            "da": "Producent",
+            "sv": "Tillverkare",
+            "no": "Produsent",
+            "pl": "Producent",
+            "ru": "Производитель",
+            "ar": "الشركة المصنعة",
+            "ko": "제조사"
+          }
+        },
+        {
+          "id": "firmware",
+          "type": "label",
+          "value": "",
+          "label": {
+            "en": "Firmware version",
+            "nl": "Firmwareversie",
+            "de": "Firmware-Version",
+            "fr": "Version du firmware",
+            "es": "Versión de firmware",
+            "it": "Versione firmware",
+            "da": "Firmwareversion",
+            "sv": "Firmwareversion",
+            "no": "Firmwareversjon",
+            "pl": "Wersja firmware",
+            "ru": "Версия прошивки",
+            "ar": "إصدار البرنامج الثابت",
+            "ko": "펌웨어 버전"
+          }
+        }
+      ]
     },
     {
       "platforms": [
@@ -1980,6 +2672,372 @@
     },
     {
       "platforms": [
+        "local"
+      ],
+      "connectivity": [
+        "lan"
+      ],
+      "deprecated": true,
+      "images": {
+        "small": "/drivers/inverter_modbus/assets/images/small.png",
+        "large": "/drivers/inverter_modbus/assets/images/large.png",
+        "xlarge": "/drivers/inverter_modbus/assets/images/xlarge.png"
+      },
+      "pair": [
+        {
+          "id": "manual",
+          "navigation": {
+            "next": "list_devices"
+          }
+        },
+        {
+          "id": "list_devices",
+          "template": "list_devices",
+          "navigation": {
+            "prev": "manual",
+            "next": "add_devices"
+          }
+        },
+        {
+          "id": "add_devices",
+          "template": "add_devices"
+        }
+      ],
+      "name": {
+        "en": "Inverter (Modbus)",
+        "nl": "Omvormer (Modbus)",
+        "de": "Wechselrichter (Modbus)",
+        "fr": "Onduleur (Modbus)",
+        "es": "Inversor (Modbus)",
+        "it": "Inverter (Modbus)",
+        "da": "Inverter (Modbus)",
+        "sv": "Växelriktare (Modbus)",
+        "no": "Inverter (Modbus)",
+        "pl": "Falownik (Modbus)",
+        "ru": "Инвертор (Modbus)",
+        "ar": "العاكس (Modbus)",
+        "ko": "인버터 (Modbus)"
+      },
+      "class": "solarpanel",
+      "capabilities": [
+        "measure_power",
+        "meter_power",
+        "measure_temperature",
+        "measure_voltage.1",
+        "measure_voltage.2",
+        "measure_voltage.3",
+        "measure_frequency",
+        "inverter_status",
+        "alarm_problem"
+      ],
+      "capabilitiesOptions": {
+        "measure_power": {
+          "title": {
+            "en": "Generated Power",
+            "nl": "Opgewekt vermogen",
+            "de": "Erzeugte Leistung",
+            "fr": "Puissance produite",
+            "es": "Potencia generada",
+            "it": "Potenza generata",
+            "da": "Produceret effekt",
+            "sv": "Producerad effekt",
+            "no": "Produsert effekt",
+            "pl": "Moc wytwarzana",
+            "ru": "Вырабатываемая мощность",
+            "ar": "القدرة المولدة",
+            "ko": "발전 전력"
+          }
+        },
+        "meter_power": {
+          "title": {
+            "en": "Generated Total",
+            "nl": "Totaal opgewekt",
+            "de": "Gesamterzeugung",
+            "fr": "Production totale",
+            "es": "Generación total",
+            "it": "Produzione totale",
+            "da": "Samlet produktion",
+            "sv": "Total produktion",
+            "no": "Total produksjon",
+            "pl": "Produkcja całkowita",
+            "ru": "Всего выработано",
+            "ar": "إجمالي الإنتاج",
+            "ko": "총 발전량"
+          },
+          "decimals": 3
+        },
+        "measure_voltage.1": {
+          "title": {
+            "en": "Voltage phase 1 (AC)",
+            "nl": "Spanning fase 1 (AC)",
+            "de": "Spannung Phase 1 (AC)",
+            "fr": "Tension phase 1 (CA)",
+            "es": "Voltaje fase 1 (CA)",
+            "it": "Tensione fase 1 (CA)",
+            "da": "Spænding fase 1 (AC)",
+            "sv": "Spänning fas 1 (AC)",
+            "no": "Spenning fase 1 (AC)",
+            "pl": "Napięcie fazy 1 (AC)",
+            "ru": "Напряжение фазы 1 (AC)",
+            "ar": "جهد المرحلة 1 (AC)",
+            "ko": "전압 위상 1 (AC)"
+          }
+        },
+        "measure_voltage.2": {
+          "title": {
+            "en": "Voltage phase 2 (AC)",
+            "nl": "Spanning fase 2 (AC)",
+            "de": "Spannung Phase 2 (AC)",
+            "fr": "Tension phase 2 (CA)",
+            "es": "Voltaje fase 2 (CA)",
+            "it": "Tensione fase 2 (CA)",
+            "da": "Spænding fase 2 (AC)",
+            "sv": "Spänning fas 2 (AC)",
+            "no": "Spenning fase 2 (AC)",
+            "pl": "Napięcie fazy 2 (AC)",
+            "ru": "Напряжение фазы 2 (AC)",
+            "ar": "جهد المرحلة 2 (AC)",
+            "ko": "전압 위상 2 (AC)"
+          }
+        },
+        "measure_voltage.3": {
+          "title": {
+            "en": "Voltage phase 3 (AC)",
+            "nl": "Spanning fase 3 (AC)",
+            "de": "Spannung Phase 3 (AC)",
+            "fr": "Tension phase 3 (CA)",
+            "es": "Voltaje fase 3 (CA)",
+            "it": "Tensione fase 3 (CA)",
+            "da": "Spænding fase 3 (AC)",
+            "sv": "Spänning fas 3 (AC)",
+            "no": "Spenning fase 3 (AC)",
+            "pl": "Napięcie fazy 3 (AC)",
+            "ru": "Напряжение фазы 3 (AC)",
+            "ar": "جهد المرحلة 3 (AC)",
+            "ko": "전압 위상 3 (AC)"
+          }
+        }
+      },
+      "id": "inverter_modbus",
+      "settings": [
+        {
+          "id": "host",
+          "type": "text",
+          "value": "",
+          "label": {
+            "en": "IP address",
+            "nl": "IP-adres",
+            "de": "IP-Adresse",
+            "fr": "Adresse IP",
+            "es": "Dirección IP",
+            "it": "Indirizzo IP",
+            "da": "IP-adresse",
+            "sv": "IP-adress",
+            "no": "IP-adresse",
+            "pl": "Adres IP",
+            "ru": "IP-адрес",
+            "ar": "عنوان IP",
+            "ko": "IP 주소"
+          },
+          "hint": {
+            "en": "Address of the device on your network.",
+            "nl": "Adres van het apparaat in je netwerk.",
+            "de": "Adresse des Geräts in deinem Netzwerk.",
+            "fr": "Adresse de l'appareil sur votre réseau.",
+            "es": "Dirección del dispositivo en tu red.",
+            "it": "Indirizzo del dispositivo nella tua rete.",
+            "da": "Enhedens adresse på dit netværk.",
+            "sv": "Enhetens adress i ditt nätverk.",
+            "no": "Enhetens adresse i nettverket ditt.",
+            "pl": "Adres urządzenia w Twojej sieci.",
+            "ru": "Адрес устройства в вашей сети.",
+            "ar": "عنوان الجهاز في شبكتك.",
+            "ko": "네트워크에서 장치의 주소입니다."
+          }
+        },
+        {
+          "id": "port",
+          "type": "number",
+          "value": 1502,
+          "min": 1,
+          "max": 65535,
+          "step": 1,
+          "label": {
+            "en": "Port",
+            "nl": "Poort",
+            "de": "Port",
+            "fr": "Port",
+            "es": "Puerto",
+            "it": "Porta",
+            "da": "Port",
+            "sv": "Port",
+            "no": "Port",
+            "pl": "Port",
+            "ru": "Порт",
+            "ar": "المنفذ",
+            "ko": "포트"
+          }
+        },
+        {
+          "id": "unitId",
+          "type": "number",
+          "value": 1,
+          "min": 1,
+          "max": 255,
+          "step": 1,
+          "label": {
+            "en": "Unit ID",
+            "nl": "Unit-ID",
+            "de": "Unit-ID",
+            "fr": "ID d'unité",
+            "es": "ID de unidad",
+            "it": "ID unità",
+            "da": "Enheds-ID",
+            "sv": "Enhets-ID",
+            "no": "Enhets-ID",
+            "pl": "ID jednostki",
+            "ru": "ID устройства",
+            "ar": "معرّف الوحدة",
+            "ko": "유닛 ID"
+          }
+        },
+        {
+          "id": "pollInterval",
+          "type": "number",
+          "value": 10,
+          "min": 1,
+          "max": 300,
+          "step": 1,
+          "label": {
+            "en": "Update interval",
+            "nl": "Update-interval",
+            "de": "Aktualisierungsintervall",
+            "fr": "Intervalle de mise à jour",
+            "es": "Intervalo de actualización",
+            "it": "Intervallo di aggiornamento",
+            "da": "Opdateringsinterval",
+            "sv": "Uppdateringsintervall",
+            "no": "Oppdateringsintervall",
+            "pl": "Interwał aktualizacji",
+            "ru": "Интервал обновления",
+            "ar": "فترة التحديث",
+            "ko": "업데이트 간격"
+          },
+          "units": {
+            "en": "s",
+            "nl": "s",
+            "de": "s",
+            "fr": "s",
+            "es": "s",
+            "it": "s",
+            "da": "s",
+            "sv": "s",
+            "no": "s",
+            "pl": "s",
+            "ru": "с",
+            "ar": "ث",
+            "ko": "초"
+          },
+          "hint": {
+            "en": "How often the device is read.",
+            "nl": "Hoe vaak het apparaat wordt uitgelezen.",
+            "de": "Wie oft das Gerät ausgelesen wird.",
+            "fr": "Fréquence de lecture de l'appareil.",
+            "es": "Con qué frecuencia se lee el dispositivo.",
+            "it": "Con quale frequenza viene letto il dispositivo.",
+            "da": "Hvor ofte enheden aflæses.",
+            "sv": "Hur ofta enheten läses av.",
+            "no": "Hvor ofte enheten leses av.",
+            "pl": "Jak często urządzenie jest odczytywane.",
+            "ru": "Как часто опрашивается устройство.",
+            "ar": "عدد مرات قراءة الجهاز.",
+            "ko": "장치를 읽는 주기입니다."
+          }
+        },
+        {
+          "id": "deviceModel",
+          "type": "label",
+          "value": "",
+          "label": {
+            "en": "Model",
+            "nl": "Model",
+            "de": "Modell",
+            "fr": "Modèle",
+            "es": "Modelo",
+            "it": "Modello",
+            "da": "Model",
+            "sv": "Modell",
+            "no": "Modell",
+            "pl": "Model",
+            "ru": "Модель",
+            "ar": "طراز",
+            "ko": "모델"
+          }
+        },
+        {
+          "id": "deviceSn",
+          "type": "label",
+          "value": "",
+          "label": {
+            "en": "Serial number",
+            "nl": "Serienummer",
+            "de": "Seriennummer",
+            "fr": "Numéro de série",
+            "es": "Número de serie",
+            "it": "Numero di serie",
+            "da": "Serienummer",
+            "sv": "Serienummer",
+            "no": "Serienummer",
+            "pl": "Numer seryjny",
+            "ru": "Серийный номер",
+            "ar": "الرقم التسلسلي",
+            "ko": "일련 번호"
+          }
+        },
+        {
+          "id": "manufacturer",
+          "type": "label",
+          "value": "",
+          "label": {
+            "en": "Manufacturer",
+            "nl": "Fabrikant",
+            "de": "Hersteller",
+            "fr": "Fabricant",
+            "es": "Fabricante",
+            "it": "Produttore",
+            "da": "Producent",
+            "sv": "Tillverkare",
+            "no": "Produsent",
+            "pl": "Producent",
+            "ru": "Производитель",
+            "ar": "الشركة المصنعة",
+            "ko": "제조사"
+          }
+        },
+        {
+          "id": "firmware",
+          "type": "label",
+          "value": "",
+          "label": {
+            "en": "Firmware version",
+            "nl": "Firmwareversie",
+            "de": "Firmware-Version",
+            "fr": "Version du firmware",
+            "es": "Versión de firmware",
+            "it": "Versione firmware",
+            "da": "Firmwareversion",
+            "sv": "Firmwareversion",
+            "no": "Firmwareversjon",
+            "pl": "Wersja firmware",
+            "ru": "Версия прошивки",
+            "ar": "إصدار البرنامج الثابت",
+            "ko": "펌웨어 버전"
+          }
+        }
+      ]
+    },
+    {
+      "platforms": [
         "local",
         "cloud"
       ],
@@ -2208,6 +3266,488 @@
         "ru": "Счётчик",
         "sv": "Mätare"
       }
+    },
+    {
+      "platforms": [
+        "local"
+      ],
+      "connectivity": [
+        "lan"
+      ],
+      "deprecated": true,
+      "images": {
+        "small": "/drivers/meter_modbus/assets/images/small.png",
+        "large": "/drivers/meter_modbus/assets/images/large.png",
+        "xlarge": "/drivers/meter_modbus/assets/images/xlarge.png"
+      },
+      "pair": [
+        {
+          "id": "manual",
+          "navigation": {
+            "next": "list_devices"
+          }
+        },
+        {
+          "id": "list_devices",
+          "template": "list_devices",
+          "navigation": {
+            "prev": "manual",
+            "next": "add_devices"
+          }
+        },
+        {
+          "id": "add_devices",
+          "template": "add_devices"
+        }
+      ],
+      "name": {
+        "en": "Meter (Modbus)",
+        "nl": "Meter (Modbus)",
+        "de": "Zähler (Modbus)",
+        "fr": "Compteur (Modbus)",
+        "es": "Medidor (Modbus)",
+        "it": "Contatore (Modbus)",
+        "da": "Måler (Modbus)",
+        "sv": "Mätare (Modbus)",
+        "no": "Måler (Modbus)",
+        "pl": "Licznik (Modbus)",
+        "ru": "Счётчик (Modbus)",
+        "ar": "العداد (Modbus)",
+        "ko": "계량기 (Modbus)"
+      },
+      "class": "sensor",
+      "capabilities": [
+        "measure_power",
+        "measure_power.1",
+        "measure_power.2",
+        "measure_power.3",
+        "measure_voltage.1",
+        "measure_voltage.2",
+        "measure_voltage.3",
+        "measure_frequency",
+        "meter_power.imported",
+        "meter_power.exported"
+      ],
+      "capabilitiesOptions": {
+        "measure_power.1": {
+          "title": {
+            "en": "Power phase 1",
+            "nl": "Vermogen fase 1",
+            "de": "Leistung Phase 1",
+            "fr": "Puissance phase 1",
+            "es": "Potencia fase 1",
+            "it": "Potenza fase 1",
+            "da": "Effekt fase 1",
+            "sv": "Effekt fas 1",
+            "no": "Effekt fase 1",
+            "pl": "Moc fazy 1",
+            "ru": "Мощность фазы 1",
+            "ar": "قدرة المرحلة 1",
+            "ko": "전력 위상 1"
+          },
+          "decimals": 0
+        },
+        "measure_power.2": {
+          "title": {
+            "en": "Power phase 2",
+            "nl": "Vermogen fase 2",
+            "de": "Leistung Phase 2",
+            "fr": "Puissance phase 2",
+            "es": "Potencia fase 2",
+            "it": "Potenza fase 2",
+            "da": "Effekt fase 2",
+            "sv": "Effekt fas 2",
+            "no": "Effekt fase 2",
+            "pl": "Moc fazy 2",
+            "ru": "Мощность фазы 2",
+            "ar": "قدرة المرحلة 2",
+            "ko": "전력 위상 2"
+          },
+          "decimals": 0
+        },
+        "measure_power.3": {
+          "title": {
+            "en": "Power phase 3",
+            "nl": "Vermogen fase 3",
+            "de": "Leistung Phase 3",
+            "fr": "Puissance phase 3",
+            "es": "Potencia fase 3",
+            "it": "Potenza fase 3",
+            "da": "Effekt fase 3",
+            "sv": "Effekt fas 3",
+            "no": "Effekt fase 3",
+            "pl": "Moc fazy 3",
+            "ru": "Мощность фазы 3",
+            "ar": "قدرة المرحلة 3",
+            "ko": "전력 위상 3"
+          },
+          "decimals": 0
+        },
+        "measure_voltage.1": {
+          "title": {
+            "en": "Voltage phase 1",
+            "nl": "Voltage fase 1",
+            "de": "Spannung Phase 1",
+            "fr": "Tension phase 1",
+            "it": "Tensione fase 1",
+            "es": "Voltaje fase 1",
+            "pl": "Napięcie fazy 1",
+            "sv": "Spänning fas 1",
+            "no": "Spenning fase 1",
+            "da": "Spænding fase 1",
+            "ru": "Напряжение фазы 1",
+            "ko": "전압 위상 1",
+            "ar": "جهد المرحلة 1"
+          }
+        },
+        "measure_voltage.2": {
+          "title": {
+            "en": "Voltage phase 2",
+            "nl": "Voltage fase 2",
+            "de": "Spannung Phase 2",
+            "fr": "Tension phase 2",
+            "it": "Tensione fase 2",
+            "es": "Voltaje fase 2",
+            "pl": "Napięcie fazy 2",
+            "sv": "Spänning fas 2",
+            "no": "Spenning fase 2",
+            "da": "Spænding fase 2",
+            "ru": "Напряжение фазы 2",
+            "ko": "전압 위상 2",
+            "ar": "جهد المرحلة 2"
+          }
+        },
+        "measure_voltage.3": {
+          "title": {
+            "en": "Voltage phase 3",
+            "nl": "Voltage fase 3",
+            "de": "Spannung Phase 3",
+            "fr": "Tension phase 3",
+            "it": "Tensione fase 3",
+            "es": "Voltaje fase 3",
+            "pl": "Napięcie fazy 3",
+            "sv": "Spänning fas 3",
+            "no": "Spenning fase 3",
+            "da": "Spænding fase 3",
+            "ru": "Напряжение фазы 3",
+            "ko": "전압 위상 3",
+            "ar": "جهد المرحلة 3"
+          }
+        },
+        "meter_power.imported": {
+          "title": {
+            "en": "Imported Energy",
+            "nl": "Geïmporteerde energie",
+            "de": "Importierte Energie",
+            "fr": "Énergie importée",
+            "es": "Energía importada",
+            "it": "Energia importata",
+            "da": "Importeret energi",
+            "sv": "Importerad energi",
+            "no": "Importert energi",
+            "pl": "Energia pobrana",
+            "ru": "Импортированная энергия",
+            "ar": "الطاقة المستوردة",
+            "ko": "수전 에너지"
+          },
+          "decimals": 3
+        },
+        "meter_power.exported": {
+          "title": {
+            "en": "Exported Energy",
+            "nl": "Geëxporteerde energie",
+            "de": "Exportierte Energie",
+            "fr": "Énergie exportée",
+            "es": "Energía exportada",
+            "it": "Energia esportata",
+            "da": "Eksporteret energi",
+            "sv": "Exporterad energi",
+            "no": "Eksportert energi",
+            "pl": "Energia oddana",
+            "ru": "Экспортированная энергия",
+            "ar": "الطاقة المصدرة",
+            "ko": "송전 에너지"
+          },
+          "decimals": 3
+        }
+      },
+      "energy": {
+        "cumulative": true,
+        "cumulativeImportedCapability": "meter_power.imported",
+        "cumulativeExportedCapability": "meter_power.exported"
+      },
+      "id": "meter_modbus",
+      "settings": [
+        {
+          "id": "host",
+          "type": "text",
+          "value": "",
+          "label": {
+            "en": "IP address",
+            "nl": "IP-adres",
+            "de": "IP-Adresse",
+            "fr": "Adresse IP",
+            "es": "Dirección IP",
+            "it": "Indirizzo IP",
+            "da": "IP-adresse",
+            "sv": "IP-adress",
+            "no": "IP-adresse",
+            "pl": "Adres IP",
+            "ru": "IP-адрес",
+            "ar": "عنوان IP",
+            "ko": "IP 주소"
+          },
+          "hint": {
+            "en": "Address of the device on your network.",
+            "nl": "Adres van het apparaat in je netwerk.",
+            "de": "Adresse des Geräts in deinem Netzwerk.",
+            "fr": "Adresse de l'appareil sur votre réseau.",
+            "es": "Dirección del dispositivo en tu red.",
+            "it": "Indirizzo del dispositivo nella tua rete.",
+            "da": "Enhedens adresse på dit netværk.",
+            "sv": "Enhetens adress i ditt nätverk.",
+            "no": "Enhetens adresse i nettverket ditt.",
+            "pl": "Adres urządzenia w Twojej sieci.",
+            "ru": "Адрес устройства в вашей сети.",
+            "ar": "عنوان الجهاز في شبكتك.",
+            "ko": "네트워크에서 장치의 주소입니다."
+          }
+        },
+        {
+          "id": "port",
+          "type": "number",
+          "value": 1502,
+          "min": 1,
+          "max": 65535,
+          "step": 1,
+          "label": {
+            "en": "Port",
+            "nl": "Poort",
+            "de": "Port",
+            "fr": "Port",
+            "es": "Puerto",
+            "it": "Porta",
+            "da": "Port",
+            "sv": "Port",
+            "no": "Port",
+            "pl": "Port",
+            "ru": "Порт",
+            "ar": "المنفذ",
+            "ko": "포트"
+          }
+        },
+        {
+          "id": "unitId",
+          "type": "number",
+          "value": 1,
+          "min": 1,
+          "max": 255,
+          "step": 1,
+          "label": {
+            "en": "Unit ID",
+            "nl": "Unit-ID",
+            "de": "Unit-ID",
+            "fr": "ID d'unité",
+            "es": "ID de unidad",
+            "it": "ID unità",
+            "da": "Enheds-ID",
+            "sv": "Enhets-ID",
+            "no": "Enhets-ID",
+            "pl": "ID jednostki",
+            "ru": "ID устройства",
+            "ar": "معرّف الوحدة",
+            "ko": "유닛 ID"
+          }
+        },
+        {
+          "id": "pollInterval",
+          "type": "number",
+          "value": 10,
+          "min": 1,
+          "max": 300,
+          "step": 1,
+          "label": {
+            "en": "Update interval",
+            "nl": "Update-interval",
+            "de": "Aktualisierungsintervall",
+            "fr": "Intervalle de mise à jour",
+            "es": "Intervalo de actualización",
+            "it": "Intervallo di aggiornamento",
+            "da": "Opdateringsinterval",
+            "sv": "Uppdateringsintervall",
+            "no": "Oppdateringsintervall",
+            "pl": "Interwał aktualizacji",
+            "ru": "Интервал обновления",
+            "ar": "فترة التحديث",
+            "ko": "업데이트 간격"
+          },
+          "units": {
+            "en": "s",
+            "nl": "s",
+            "de": "s",
+            "fr": "s",
+            "es": "s",
+            "it": "s",
+            "da": "s",
+            "sv": "s",
+            "no": "s",
+            "pl": "s",
+            "ru": "с",
+            "ar": "ث",
+            "ko": "초"
+          },
+          "hint": {
+            "en": "How often the device is read.",
+            "nl": "Hoe vaak het apparaat wordt uitgelezen.",
+            "de": "Wie oft das Gerät ausgelesen wird.",
+            "fr": "Fréquence de lecture de l'appareil.",
+            "es": "Con qué frecuencia se lee el dispositivo.",
+            "it": "Con quale frequenza viene letto il dispositivo.",
+            "da": "Hvor ofte enheden aflæses.",
+            "sv": "Hur ofta enheten läses av.",
+            "no": "Hvor ofte enheten leses av.",
+            "pl": "Jak często urządzenie jest odczytywane.",
+            "ru": "Как часто опрашивается устройство.",
+            "ar": "عدد مرات قراءة الجهاز.",
+            "ko": "장치를 읽는 주기입니다."
+          }
+        },
+        {
+          "id": "deviceModel",
+          "type": "label",
+          "value": "",
+          "label": {
+            "en": "Model",
+            "nl": "Model",
+            "de": "Modell",
+            "fr": "Modèle",
+            "es": "Modelo",
+            "it": "Modello",
+            "da": "Model",
+            "sv": "Modell",
+            "no": "Modell",
+            "pl": "Model",
+            "ru": "Модель",
+            "ar": "طراز",
+            "ko": "모델"
+          }
+        },
+        {
+          "id": "deviceSn",
+          "type": "label",
+          "value": "",
+          "label": {
+            "en": "Serial number",
+            "nl": "Serienummer",
+            "de": "Seriennummer",
+            "fr": "Numéro de série",
+            "es": "Número de serie",
+            "it": "Numero di serie",
+            "da": "Serienummer",
+            "sv": "Serienummer",
+            "no": "Serienummer",
+            "pl": "Numer seryjny",
+            "ru": "Серийный номер",
+            "ar": "الرقم التسلسلي",
+            "ko": "일련 번호"
+          }
+        },
+        {
+          "id": "manufacturer",
+          "type": "label",
+          "value": "",
+          "label": {
+            "en": "Manufacturer",
+            "nl": "Fabrikant",
+            "de": "Hersteller",
+            "fr": "Fabricant",
+            "es": "Fabricante",
+            "it": "Produttore",
+            "da": "Producent",
+            "sv": "Tillverkare",
+            "no": "Produsent",
+            "pl": "Producent",
+            "ru": "Производитель",
+            "ar": "الشركة المصنعة",
+            "ko": "제조사"
+          }
+        },
+        {
+          "id": "firmware",
+          "type": "label",
+          "value": "",
+          "label": {
+            "en": "Firmware version",
+            "nl": "Firmwareversie",
+            "de": "Firmware-Version",
+            "fr": "Version du firmware",
+            "es": "Versión de firmware",
+            "it": "Versione firmware",
+            "da": "Firmwareversion",
+            "sv": "Firmwareversion",
+            "no": "Firmwareversjon",
+            "pl": "Wersja firmware",
+            "ru": "Версия прошивки",
+            "ar": "إصدار البرنامج الثابت",
+            "ko": "펌웨어 버전"
+          }
+        },
+        {
+          "id": "meterFunction",
+          "type": "label",
+          "value": "",
+          "label": {
+            "en": "Meter function",
+            "nl": "Meterfunctie",
+            "de": "Zählerfunktion",
+            "fr": "Fonction du compteur",
+            "es": "Función del medidor",
+            "it": "Funzione del contatore",
+            "da": "Målerfunktion",
+            "sv": "Mätarfunktion",
+            "no": "Målerfunksjon",
+            "pl": "Funkcja licznika",
+            "ru": "Функция счетчика",
+            "ar": "وظيفة العداد",
+            "ko": "계량기 기능"
+          }
+        },
+        {
+          "id": "connectedTo",
+          "type": "label",
+          "value": "",
+          "label": {
+            "en": "Inverter",
+            "nl": "Omvormer",
+            "de": "Wechselrichter",
+            "fr": "Onduleur",
+            "es": "Inversor",
+            "it": "Inverter",
+            "da": "Inverter",
+            "sv": "Växelriktare",
+            "no": "Vekselretter",
+            "pl": "Falownik",
+            "ru": "Инвертор",
+            "ar": "العاكس",
+            "ko": "인버터"
+          },
+          "hint": {
+            "en": "The inverter this device is read through.",
+            "nl": "De omvormer waarlangs dit apparaat wordt uitgelezen.",
+            "de": "Der Wechselrichter, über den dieses Gerät ausgelesen wird.",
+            "fr": "L'onduleur par lequel cet appareil est lu.",
+            "es": "El inversor a través del cual se lee este dispositivo.",
+            "it": "L'inverter tramite cui viene letto questo dispositivo.",
+            "da": "Inverteren, som denne enhed aflæses via.",
+            "sv": "Växelriktaren som enheten läses av via.",
+            "no": "Vekselretteren denne enheten leses av via.",
+            "pl": "Falownik, przez który odczytywane jest to urządzenie.",
+            "ru": "Инвертор, через который опрашивается это устройство.",
+            "ar": "العاكس الذي تتم قراءة هذا الجهاز من خلاله.",
+            "ko": "이 장치를 읽어오는 인버터입니다."
+          }
+        }
+      ]
     }
   ],
   "capabilities": {

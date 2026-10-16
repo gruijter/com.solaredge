@@ -11,7 +11,7 @@
     {
       "type": "device",
       "name": "device",
-      "filter": "driver_id=inverter&capabilities=inverter_status"
+      "filter": "driver_id=inverter|inverter_modbus&capabilities=inverter_status"
     }
   ]
 }

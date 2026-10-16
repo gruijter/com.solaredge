@@ -6,7 +6,27 @@
     "api": "Erreur SolarEdge",
     "notLoggedIn": "Non connecté.",
     "deviceNotFound": "Appareil introuvable sur ce site.",
-    "reAddDevice": "Supprimez cet appareil et ajoutez-le à nouveau pour obtenir les valeurs en kWh."
+    "reAddDevice": "Supprimez cet appareil et ajoutez-le à nouveau pour obtenir les valeurs en kWh.",
+    "hostRequired": "Saisissez une adresse IP.",
+    "hostMissing": "Aucune adresse IP définie.",
+    "modbusProbeFailed": "Aucun appareil compatible n'a répondu à cette adresse.",
+    "modbusNoData": "Aucune donnée reçue.",
+    "modbusUnreachable": "Appareil injoignable :",
+    "modbusNoUnits": "Rien de ce type n'a été trouvé à cette adresse."
   },
-  "migrating": "Mise à jour des capacités…"
+  "migrating": "Mise à jour des capacités…",
+  "pair": {
+    "manual": {
+      "title": "Saisir l'adresse IP",
+      "intro": "Attribuez d'abord une adresse IP fixe dans votre routeur, pour que cela continue de fonctionner après un redémarrage.",
+      "legend": "Connexion",
+      "connect": "Connecter",
+      "modbus": "Activez d'abord Modbus TCP sur l'appareil. Il n'accepte qu'une seule connexion Modbus à la fois."
+    }
+  },
+  "settings": {
+    "host": "Adresse IP",
+    "port": "Port",
+    "unitId": "ID d'unité"
+  }
 }

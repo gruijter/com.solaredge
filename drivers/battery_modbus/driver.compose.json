@@ -1,0 +1,73 @@
+{
+  "$extends": "modbus",
+  "name": {
+    "en": "Battery (Modbus)",
+    "nl": "Batterij (Modbus)",
+    "de": "Batterie (Modbus)",
+    "fr": "Batterie (Modbus)",
+    "es": "Batería (Modbus)",
+    "it": "Batteria (Modbus)",
+    "da": "Batteri (Modbus)",
+    "sv": "Batteri (Modbus)",
+    "no": "Batteri (Modbus)",
+    "pl": "Akumulator (Modbus)",
+    "ru": "Аккумулятор (Modbus)",
+    "ar": "البطارية (Modbus)",
+    "ko": "배터리 (Modbus)"
+  },
+  "class": "battery",
+  "capabilities": [
+    "measure_power",
+    "measure_battery",
+    "battery_charging_state",
+    "meter_power.charged",
+    "meter_power.discharged",
+    "measure_temperature",
+    "measure_soh",
+    "measure_residual_energy",
+    "alarm_problem"
+  ],
+  "capabilitiesOptions": {
+    "meter_power.charged": {
+      "title": {
+        "en": "Charged energy",
+        "nl": "Geladen energie",
+        "de": "Geladene Energie",
+        "fr": "Énergie chargée",
+        "es": "Energía cargada",
+        "it": "Energia caricata",
+        "da": "Opladet energi",
+        "sv": "Laddad energi",
+        "no": "Ladet energi",
+        "pl": "Naładowana energia",
+        "ru": "Заряженная энергия",
+        "ar": "الطاقة المشحونة",
+        "ko": "충전된 에너지"
+      },
+      "decimals": 3
+    },
+    "meter_power.discharged": {
+      "title": {
+        "en": "Discharged energy",
+        "nl": "Ontladen energie",
+        "de": "Entladene Energie",
+        "fr": "Énergie déchargée",
+        "es": "Energía descargada",
+        "it": "Energia scaricata",
+        "da": "Afladet energi",
+        "sv": "Urladdad energi",
+        "no": "Utladet energi",
+        "pl": "Rozładowana energia",
+        "ru": "Разряженная энергия",
+        "ar": "الطاقة المفرغة",
+        "ko": "방전된 에너지"
+      },
+      "decimals": 3
+    }
+  },
+  "energy": {
+    "homeBattery": true,
+    "meterPowerImportedCapability": "meter_power.charged",
+    "meterPowerExportedCapability": "meter_power.discharged"
+  }
+}

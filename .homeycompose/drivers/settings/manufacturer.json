@@ -1,0 +1,20 @@
+{
+  "id": "manufacturer",
+  "type": "label",
+  "value": "",
+  "label": {
+    "en": "Manufacturer",
+    "nl": "Fabrikant",
+    "de": "Hersteller",
+    "fr": "Fabricant",
+    "es": "Fabricante",
+    "it": "Produttore",
+    "da": "Producent",
+    "sv": "Tillverkare",
+    "no": "Produsent",
+    "pl": "Producent",
+    "ru": "Производитель",
+    "ar": "الشركة المصنعة",
+    "ko": "제조사"
+  }
+}

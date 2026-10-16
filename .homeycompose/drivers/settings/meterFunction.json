@@ -1,0 +1,20 @@
+{
+  "id": "meterFunction",
+  "type": "label",
+  "value": "",
+  "label": {
+    "en": "Meter function",
+    "nl": "Meterfunctie",
+    "de": "Zählerfunktion",
+    "fr": "Fonction du compteur",
+    "es": "Función del medidor",
+    "it": "Funzione del contatore",
+    "da": "Målerfunktion",
+    "sv": "Mätarfunktion",
+    "no": "Målerfunksjon",
+    "pl": "Funkcja licznika",
+    "ru": "Функция счетчика",
+    "ar": "وظيفة العداد",
+    "ko": "계량기 기능"
+  }
+}

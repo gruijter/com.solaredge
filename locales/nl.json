@@ -6,7 +6,27 @@
     "api": "SolarEdge-fout",
     "notLoggedIn": "Niet ingelogd.",
     "deviceNotFound": "Apparaat niet gevonden op deze site.",
-    "reAddDevice": "Verwijder dit apparaat en voeg het opnieuw toe voor kWh-waarden."
+    "reAddDevice": "Verwijder dit apparaat en voeg het opnieuw toe voor kWh-waarden.",
+    "hostRequired": "Voer een IP-adres in.",
+    "hostMissing": "Geen IP-adres ingesteld.",
+    "modbusProbeFailed": "Geen compatibel apparaat reageerde op dit adres.",
+    "modbusNoData": "Geen data ontvangen.",
+    "modbusUnreachable": "Apparaat niet bereikbaar:",
+    "modbusNoUnits": "Op dit adres is niets van deze soort gevonden."
   },
-  "migrating": "Capabilities bijwerken…"
+  "migrating": "Capabilities bijwerken…",
+  "pair": {
+    "manual": {
+      "title": "IP-adres invoeren",
+      "intro": "Geef het apparaat eerst een vast IP-adres in je router, zodat het na een herstart blijft werken.",
+      "legend": "Verbinding",
+      "connect": "Verbinden",
+      "modbus": "Zet eerst Modbus TCP aan op het apparaat. Het accepteert maar één Modbus-verbinding tegelijk."
+    }
+  },
+  "settings": {
+    "host": "IP-adres",
+    "port": "Poort",
+    "unitId": "Unit-ID"
+  }
 }

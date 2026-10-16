@@ -1,0 +1,23 @@
+{
+  "id": "port",
+  "type": "number",
+  "value": 1502,
+  "min": 1,
+  "max": 65535,
+  "step": 1,
+  "label": {
+    "en": "Port",
+    "nl": "Poort",
+    "de": "Port",
+    "fr": "Port",
+    "es": "Puerto",
+    "it": "Porta",
+    "da": "Port",
+    "sv": "Port",
+    "no": "Port",
+    "pl": "Port",
+    "ru": "Порт",
+    "ar": "المنفذ",
+    "ko": "포트"
+  }
+}

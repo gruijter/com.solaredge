@@ -26,7 +26,8 @@ along with com.solaredge.  If not, see <http://www.gnu.org/licenses/>.
  * 1. What existing devices depend on is still there (ids, setting keys, capabilities).
  * 2. Every capability a device sets is in its manifest or optional or legacy (lib/deviceCapabilities.js),
  *    and the manifest's are in its tile order;
- *    setCapability() skips an unknown one without a word.
+ *    setCapability() skips an unknown one without a word. A Modbus driver's manifest lists exactly
+ *    the capabilities its register map decodes (lib/solarEdgePointMap.js), in that order.
  * 3. Every energy capability reference names a capability of the driver.
  * 4. Every translation has all 13 locales, every errors.* key used in code exists in every
  *    locales file, and every language has its README.
@@ -35,6 +36,7 @@ along with com.solaredge.  If not, see <http://www.gnu.org/licenses/>.
 const fs = require('fs');
 const path = require('path');
 const deviceCapabilities = require('../lib/deviceCapabilities');
+const pointMap = require('../lib/solarEdgePointMap');
 
 const ROOT = path.join(__dirname, '..');
 const LOCALES = ['en', 'nl', 'de', 'fr', 'es', 'it', 'da', 'sv', 'no', 'pl', 'ru', 'ar', 'ko'];
@@ -85,6 +87,14 @@ const CAPABILITY_ID = /^(?:measure|meter|battery|evcharger|alarm|target)_[a-z_]+
 const stringLiterals = (source) => [...source.matchAll(/'([^'\n]+)'/g)].map((match) => match[1]);
 
 for (const driver of app.drivers) {
+  // Modbus drivers: the register map decodes every capability, in tile order
+  if (pointMap[driver.id]) {
+    const decoded = Object.keys(pointMap[driver.id].capabilities);
+    if (decoded.join() !== driver.capabilities.join()) {
+      failures.push(`${driver.id}: manifest capabilities ${driver.capabilities.join(', ')} differ from the register map's ${decoded.join(', ')}`);
+    }
+    continue;
+  }
   const file = path.join(ROOT, 'drivers', driver.id, 'device.js');
   const source = fs.readFileSync(file, 'utf8');
   const extra = [...deviceCapabilities.optional(driver.id), ...deviceCapabilities.legacy(driver.id)];

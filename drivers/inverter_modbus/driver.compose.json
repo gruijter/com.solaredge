@@ -1,0 +1,118 @@
+{
+  "$extends": "modbus",
+  "name": {
+    "en": "Inverter (Modbus)",
+    "nl": "Omvormer (Modbus)",
+    "de": "Wechselrichter (Modbus)",
+    "fr": "Onduleur (Modbus)",
+    "es": "Inversor (Modbus)",
+    "it": "Inverter (Modbus)",
+    "da": "Inverter (Modbus)",
+    "sv": "Växelriktare (Modbus)",
+    "no": "Inverter (Modbus)",
+    "pl": "Falownik (Modbus)",
+    "ru": "Инвертор (Modbus)",
+    "ar": "العاكس (Modbus)",
+    "ko": "인버터 (Modbus)"
+  },
+  "class": "solarpanel",
+  "capabilities": [
+    "measure_power",
+    "meter_power",
+    "measure_temperature",
+    "measure_voltage.1",
+    "measure_voltage.2",
+    "measure_voltage.3",
+    "measure_frequency",
+    "inverter_status",
+    "alarm_problem"
+  ],
+  "capabilitiesOptions": {
+    "measure_power": {
+      "title": {
+        "en": "Generated Power",
+        "nl": "Opgewekt vermogen",
+        "de": "Erzeugte Leistung",
+        "fr": "Puissance produite",
+        "es": "Potencia generada",
+        "it": "Potenza generata",
+        "da": "Produceret effekt",
+        "sv": "Producerad effekt",
+        "no": "Produsert effekt",
+        "pl": "Moc wytwarzana",
+        "ru": "Вырабатываемая мощность",
+        "ar": "القدرة المولدة",
+        "ko": "발전 전력"
+      }
+    },
+    "meter_power": {
+      "title": {
+        "en": "Generated Total",
+        "nl": "Totaal opgewekt",
+        "de": "Gesamterzeugung",
+        "fr": "Production totale",
+        "es": "Generación total",
+        "it": "Produzione totale",
+        "da": "Samlet produktion",
+        "sv": "Total produktion",
+        "no": "Total produksjon",
+        "pl": "Produkcja całkowita",
+        "ru": "Всего выработано",
+        "ar": "إجمالي الإنتاج",
+        "ko": "총 발전량"
+      },
+      "decimals": 3
+    },
+    "measure_voltage.1": {
+      "title": {
+        "en": "Voltage phase 1 (AC)",
+        "nl": "Spanning fase 1 (AC)",
+        "de": "Spannung Phase 1 (AC)",
+        "fr": "Tension phase 1 (CA)",
+        "es": "Voltaje fase 1 (CA)",
+        "it": "Tensione fase 1 (CA)",
+        "da": "Spænding fase 1 (AC)",
+        "sv": "Spänning fas 1 (AC)",
+        "no": "Spenning fase 1 (AC)",
+        "pl": "Napięcie fazy 1 (AC)",
+        "ru": "Напряжение фазы 1 (AC)",
+        "ar": "جهد المرحلة 1 (AC)",
+        "ko": "전압 위상 1 (AC)"
+      }
+    },
+    "measure_voltage.2": {
+      "title": {
+        "en": "Voltage phase 2 (AC)",
+        "nl": "Spanning fase 2 (AC)",
+        "de": "Spannung Phase 2 (AC)",
+        "fr": "Tension phase 2 (CA)",
+        "es": "Voltaje fase 2 (CA)",
+        "it": "Tensione fase 2 (CA)",
+        "da": "Spænding fase 2 (AC)",
+        "sv": "Spänning fas 2 (AC)",
+        "no": "Spenning fase 2 (AC)",
+        "pl": "Napięcie fazy 2 (AC)",
+        "ru": "Напряжение фазы 2 (AC)",
+        "ar": "جهد المرحلة 2 (AC)",
+        "ko": "전압 위상 2 (AC)"
+      }
+    },
+    "measure_voltage.3": {
+      "title": {
+        "en": "Voltage phase 3 (AC)",
+        "nl": "Spanning fase 3 (AC)",
+        "de": "Spannung Phase 3 (AC)",
+        "fr": "Tension phase 3 (CA)",
+        "es": "Voltaje fase 3 (CA)",
+        "it": "Tensione fase 3 (CA)",
+        "da": "Spænding fase 3 (AC)",
+        "sv": "Spänning fas 3 (AC)",
+        "no": "Spenning fase 3 (AC)",
+        "pl": "Napięcie fazy 3 (AC)",
+        "ru": "Напряжение фазы 3 (AC)",
+        "ar": "جهد المرحلة 3 (AC)",
+        "ko": "전압 위상 3 (AC)"
+      }
+    }
+  }
+}

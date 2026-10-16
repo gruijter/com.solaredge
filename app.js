@@ -21,6 +21,7 @@ along with com.solaredge.  If not, see <http://www.gnu.org/licenses/>.
 
 const Homey = require('homey');
 const SolarEdgeCloudClient = require('./lib/SolarEdgeCloudClient');
+const ModbusPool = require('./lib/ModbusPool');
 const capture = require('./lib/solarEdgeCapture');
 const { DEFAULT_POLL_INTERVAL, POLL_EVENT } = require('./lib/solarEdgeConstants');
 const {
@@ -35,6 +36,8 @@ module.exports = class SolarEdgeApp extends Homey.App {
     this.clients = new Map();
     // per client: { timer, energyTimer, phaseMs, marginMs, cadenceMs, snapshots: Map(serial -> ms), judgePending }
     this.pollers = new Map();
+    // the local Modbus devices on one inverter share its single Modbus TCP connection
+    this.pool = new ModbusPool();
     this.registerFlowListeners();
     // users are asked to restart the app before a diagnostics report
     capture.arm('app start', { force: true });
@@ -219,6 +222,7 @@ module.exports = class SolarEdgeApp extends Homey.App {
 
   async onUninit() {
     for (const client of [...this.pollers.keys()]) this.stopPolling(client);
+    if (this.pool) this.pool.destroy();
   }
 
 };

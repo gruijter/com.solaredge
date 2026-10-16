@@ -62,6 +62,7 @@ const homey = {
     return key.split('.').reduce((node, part) => node?.[part], en) ?? key;
   },
   clock: { getTimezone: () => 'UTC' },
+  i18n: { getLanguage: () => 'en' },
   // pastYearTotals waits a second between years to spare the API; the replay need not
   setTimeout: (fn) => setImmediate(fn),
 };
@@ -102,6 +103,14 @@ class Device extends SimpleClass {
 
   getSettings() {
     return this.settings;
+  }
+
+  getSetting(key) {
+    return this.settings[key];
+  }
+
+  async setSettings(settings) {
+    Object.assign(this.settings, settings);
   }
 
   hasCapability(id) {
@@ -293,7 +302,8 @@ const loadDriver = (id) => {
  */
 const pairAndPoll = async ({ client, site }) => {
   const results = [];
-  for (const { id } of manifest.drivers) {
+  // the cloud drivers; the Modbus ones (connectivity lan) answer no cloud API
+  for (const { id } of manifest.drivers.filter((item) => item.connectivity.includes('cloud'))) {
     const driver = loadDriver(id);
     const result = { driverId: id, devices: [] };
     results.push(result);
@@ -331,6 +341,7 @@ const pairAndPoll = async ({ client, site }) => {
 module.exports = {
   CAPTURES,
   manifest,
+  loadDriver,
   freezeTime,
   pairAndPoll,
   recordingClient,

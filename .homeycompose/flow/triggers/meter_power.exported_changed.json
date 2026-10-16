@@ -11,7 +11,7 @@
     {
       "type": "device",
       "name": "device",
-      "filter": "driver_id=meter&capabilities=meter_power.exported"
+      "filter": "driver_id=meter|meter_modbus&capabilities=meter_power.exported"
     }
   ]
 }

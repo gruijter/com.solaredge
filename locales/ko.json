@@ -6,7 +6,27 @@
     "api": "SolarEdge 오류",
     "notLoggedIn": "로그인되지 않았습니다.",
     "deviceNotFound": "이 사이트에서 기기를 찾을 수 없습니다.",
-    "reAddDevice": "kWh 값을 받으려면 이 기기를 제거한 후 다시 추가하세요."
+    "reAddDevice": "kWh 값을 받으려면 이 기기를 제거한 후 다시 추가하세요.",
+    "hostRequired": "IP 주소를 입력하세요.",
+    "hostMissing": "IP 주소가 설정되지 않았습니다.",
+    "modbusProbeFailed": "이 주소에서 호환되는 장치가 응답하지 않았습니다.",
+    "modbusNoData": "데이터를 받지 못했습니다.",
+    "modbusUnreachable": "장치에 연결할 수 없습니다:",
+    "modbusNoUnits": "이 주소에서 이 유형의 장치를 찾지 못했습니다."
   },
-  "migrating": "기능 업데이트 중…"
+  "migrating": "기능 업데이트 중…",
+  "pair": {
+    "manual": {
+      "title": "IP 주소 입력",
+      "intro": "재시작 후에도 작동하도록 라우터에서 장치에 고정 IP 주소를 먼저 지정하세요.",
+      "legend": "연결",
+      "connect": "연결",
+      "modbus": "먼저 장치에서 Modbus TCP를 켜세요. 한 번에 하나의 Modbus 연결만 허용됩니다."
+    }
+  },
+  "settings": {
+    "host": "IP 주소",
+    "port": "포트",
+    "unitId": "유닛 ID"
+  }
 }

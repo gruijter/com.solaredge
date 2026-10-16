@@ -6,7 +6,27 @@
     "api": "Errore SolarEdge",
     "notLoggedIn": "Accesso non effettuato.",
     "deviceNotFound": "Dispositivo non trovato in questo sito.",
-    "reAddDevice": "Rimuovi questo dispositivo e aggiungilo di nuovo per ottenere i valori in kWh."
+    "reAddDevice": "Rimuovi questo dispositivo e aggiungilo di nuovo per ottenere i valori in kWh.",
+    "hostRequired": "Inserisci un indirizzo IP.",
+    "hostMissing": "Nessun indirizzo IP impostato.",
+    "modbusProbeFailed": "Nessun dispositivo compatibile ha risposto a questo indirizzo.",
+    "modbusNoData": "Nessun dato ricevuto.",
+    "modbusUnreachable": "Dispositivo non raggiungibile:",
+    "modbusNoUnits": "A questo indirizzo non è stato trovato nulla di questo tipo."
   },
-  "migrating": "Aggiornamento delle funzionalità…"
+  "migrating": "Aggiornamento delle funzionalità…",
+  "pair": {
+    "manual": {
+      "title": "Inserisci indirizzo IP",
+      "intro": "Assegna prima un indirizzo IP fisso nel router, così continua a funzionare dopo un riavvio.",
+      "legend": "Connessione",
+      "connect": "Connetti",
+      "modbus": "Attiva prima Modbus TCP sul dispositivo. Accetta una sola connessione Modbus alla volta."
+    }
+  },
+  "settings": {
+    "host": "Indirizzo IP",
+    "port": "Porta",
+    "unitId": "ID unità"
+  }
 }

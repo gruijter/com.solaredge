@@ -1,0 +1,35 @@
+{
+  "id": "connectedTo",
+  "type": "label",
+  "value": "",
+  "label": {
+    "en": "Inverter",
+    "nl": "Omvormer",
+    "de": "Wechselrichter",
+    "fr": "Onduleur",
+    "es": "Inversor",
+    "it": "Inverter",
+    "da": "Inverter",
+    "sv": "Växelriktare",
+    "no": "Vekselretter",
+    "pl": "Falownik",
+    "ru": "Инвертор",
+    "ar": "العاكس",
+    "ko": "인버터"
+  },
+  "hint": {
+    "en": "The inverter this device is read through.",
+    "nl": "De omvormer waarlangs dit apparaat wordt uitgelezen.",
+    "de": "Der Wechselrichter, über den dieses Gerät ausgelesen wird.",
+    "fr": "L'onduleur par lequel cet appareil est lu.",
+    "es": "El inversor a través del cual se lee este dispositivo.",
+    "it": "L'inverter tramite cui viene letto questo dispositivo.",
+    "da": "Inverteren, som denne enhed aflæses via.",
+    "sv": "Växelriktaren som enheten läses av via.",
+    "no": "Vekselretteren denne enheten leses av via.",
+    "pl": "Falownik, przez który odczytywane jest to urządzenie.",
+    "ru": "Инвертор, через который опрашивается это устройство.",
+    "ar": "العاكس الذي تتم قراءة هذا الجهاز من خلاله.",
+    "ko": "이 장치를 읽어오는 인버터입니다."
+  }
+}

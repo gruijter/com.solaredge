@@ -6,7 +6,27 @@
     "api": "SolarEdge-fejl",
     "notLoggedIn": "Ikke logget ind.",
     "deviceNotFound": "Enheden blev ikke fundet på dette anlæg.",
-    "reAddDevice": "Fjern denne enhed, og tilføj den igen for at få kWh-værdier."
+    "reAddDevice": "Fjern denne enhed, og tilføj den igen for at få kWh-værdier.",
+    "hostRequired": "Indtast en IP-adresse.",
+    "hostMissing": "Ingen IP-adresse angivet.",
+    "modbusProbeFailed": "Ingen kompatibel enhed svarede på denne adresse.",
+    "modbusNoData": "Ingen data modtaget.",
+    "modbusUnreachable": "Enheden kan ikke nås:",
+    "modbusNoUnits": "Der blev ikke fundet noget af denne type på denne adresse."
   },
-  "migrating": "Opdaterer funktioner…"
+  "migrating": "Opdaterer funktioner…",
+  "pair": {
+    "manual": {
+      "title": "Indtast IP-adresse",
+      "intro": "Giv først enheden en fast IP-adresse i routeren, så den bliver ved med at virke efter en genstart.",
+      "legend": "Forbindelse",
+      "connect": "Forbind",
+      "modbus": "Slå først Modbus TCP til på enheden. Den accepterer kun én Modbus-forbindelse ad gangen."
+    }
+  },
+  "settings": {
+    "host": "IP-adresse",
+    "port": "Port",
+    "unitId": "Enheds-ID"
+  }
 }

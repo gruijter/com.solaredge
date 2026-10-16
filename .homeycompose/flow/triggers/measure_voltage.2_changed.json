@@ -10,7 +10,7 @@
     {
       "type": "device",
       "name": "device",
-      "filter": "driver_id=inverter&capabilities=measure_voltage.2"
+      "filter": "driver_id=inverter|inverter_modbus|meter_modbus&capabilities=measure_voltage.2"
     }
   ]
 }

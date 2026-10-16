@@ -1,0 +1,20 @@
+{
+  "id": "ratedEnergy",
+  "type": "label",
+  "value": "",
+  "label": {
+    "en": "Rated capacity",
+    "nl": "Nominale capaciteit",
+    "de": "Nennkapazität",
+    "fr": "Capacité nominale",
+    "es": "Capacidad nominal",
+    "it": "Capacità nominale",
+    "da": "Nominel kapacitet",
+    "sv": "Nominell kapacitet",
+    "no": "Nominell kapasitet",
+    "pl": "Pojemność znamionowa",
+    "ru": "Номинальная емкость",
+    "ar": "السعة الاسمية",
+    "ko": "정격 용량"
+  }
+}

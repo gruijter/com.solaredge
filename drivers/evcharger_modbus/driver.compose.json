@@ -1,0 +1,68 @@
+{
+  "$extends": "modbus",
+  "name": {
+    "en": "EV Charger (Modbus)",
+    "nl": "EV-lader (Modbus)",
+    "de": "EV-Ladegerät (Modbus)",
+    "fr": "Borne de recharge VE (Modbus)",
+    "es": "Cargador de VE (Modbus)",
+    "it": "Caricatore EV (Modbus)",
+    "da": "Elbillader (Modbus)",
+    "sv": "Elbilsladdare (Modbus)",
+    "no": "Elbillader (Modbus)",
+    "pl": "Ładowarka EV (Modbus)",
+    "ru": "Зарядная станция для электромобиля (Modbus)",
+    "ar": "شاحن السيارة الكهربائية (Modbus)",
+    "ko": "전기차 충전기 (Modbus)"
+  },
+  "class": "evcharger",
+  "capabilities": [
+    "measure_power",
+    "evcharger_charging_state",
+    "meter_power.session",
+    "meter_power.charged",
+    "alarm_problem"
+  ],
+  "capabilitiesOptions": {
+    "meter_power.session": {
+      "title": {
+        "en": "Energy this session",
+        "nl": "Energie deze sessie",
+        "de": "Energie dieser Sitzung",
+        "fr": "Énergie de cette session",
+        "es": "Energía de esta sesión",
+        "it": "Energia di questa sessione",
+        "da": "Energi denne session",
+        "sv": "Energi denna session",
+        "no": "Energi denne økten",
+        "pl": "Energia tej sesji",
+        "ru": "Энергия за сеанс",
+        "ar": "طاقة هذه الجلسة",
+        "ko": "이번 세션 에너지"
+      },
+      "decimals": 3
+    },
+    "meter_power.charged": {
+      "title": {
+        "en": "Total Charged Energy",
+        "nl": "Totaal opgeladen energie",
+        "de": "Geladene Gesamtenergie",
+        "fr": "Énergie totale chargée",
+        "es": "Energía total cargada",
+        "it": "Energia totale caricata",
+        "da": "Samlet opladet energi",
+        "sv": "Total laddad energi",
+        "no": "Total ladet energi",
+        "pl": "Całkowita energia naładowana",
+        "ru": "Всего заряжено энергии",
+        "ar": "إجمالي الطاقة المشحونة",
+        "ko": "총 충전 에너지"
+      },
+      "decimals": 3
+    }
+  },
+  "energy": {
+    "evCharger": true,
+    "meterPowerImportedCapability": "meter_power.charged"
+  }
+}
