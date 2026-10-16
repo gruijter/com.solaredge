@@ -20,6 +20,7 @@ along with com.solaredge.  If not, see <http://www.gnu.org/licenses/>.
 'use strict';
 
 const CommonDevice = require('../../lib/common_device');
+const { isAsleep } = require('../../lib/inverterSleep');
 
 // energyOverview time period -> capability (energy in Wh)
 const ENERGY_CAPABILITIES = {
@@ -127,6 +128,30 @@ module.exports = class SolarEdgeInverterDevice extends CommonDevice {
     return this.serials;
   }
 
+  /** getInvertersInformation; an answer of the last minute is reused (details, then alarms). */
+  async invertersInformation(serials) {
+    if (this.lastInformation && Date.now() - this.lastInformation.at < 60 * 1000) return this.lastInformation.information;
+    const information = await this.client.getInvertersInformation({ serials });
+    this.lastInformation = { at: Date.now(), information };
+    return information;
+  }
+
+  /**
+   * Asleep for the night (lib/inverterSleep.js): an inverter stops uploading, and about an hour after
+   * its last upload the site is no longer ONLINE (Dijker 2026-10-15: 0 W at 18:40, offline 20:02 to
+   * 08:15). False when unknown.
+   */
+  async offlineExpected() {
+    try {
+      const serials = await this.inverterSerials();
+      if (!serials.length) return false;
+      return isAsleep(Object.values((await this.invertersInformation(serials))?.serialToLiveData || {}));
+    } catch (error) {
+      this.error(`Error Fetching Inverter Sleep: ${error.message}`);
+      return false;
+    }
+  }
+
   /**
    * Per phase, DC voltage and the hottest optimizer of today. The site device covers all its
    * inverters: power and current are summed per phase, voltage averaged; DC voltage only with one
@@ -138,7 +163,7 @@ module.exports = class SolarEdgeInverterDevice extends CommonDevice {
     if (!serials.length) return;
 
     const values = {};
-    const information = await this.client.getInvertersInformation({ serials });
+    const information = await this.invertersInformation(serials);
 
     // lineNumber_3ph 1-3; activePower_W, i_ac_A, v_ac_V (line to neutral)
     const phases = Object.values(information?.serialToPhaseMeasurements || {}).flat();
@@ -166,7 +191,9 @@ module.exports = class SolarEdgeInverterDevice extends CommonDevice {
     const statuses = live.map((item) => item.inverterStatus).filter((status) => typeof status === 'string');
     statuses.forEach((status) => this.logOnce(`status ${status}`, 'inverter status', status));
     const status = statuses.find((item) => item.toLowerCase() === 'fault') || statuses[0];
-    if (status) values.inverter_status = this.statusText(status);
+    // asleep for the night the inverter stops uploading, its last status still 'production' (Dijker)
+    if (isAsleep(live)) values.inverter_status = this.statusText('sleeping');
+    else if (status) values.inverter_status = this.statusText(status);
 
     // the highest temperature of each optimizer over the date range
     const today = dateIn(new Date(), await this.siteTimeZone());

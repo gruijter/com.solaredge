@@ -127,7 +127,42 @@ const fahrenheit = async () => {
   check(device.values['measure_temperature.max'] === 40, `fahrenheit: ${device.values['measure_temperature.max']} °C for 104 °F`);
 };
 
+// Dijker 2026-10-15/16: 0 W from 18:40, last upload about 18:55, site offline 20:02 to 08:15
+const nightAlarm = async () => {
+  const lastUpload = Date.parse('2026-10-15T16:55:28Z');
+  const at = (iso) => Date.parse(iso);
+  const cases = [
+    ['asleep at night', at('2026-10-15T18:02:28Z'), 0, false, 'Sleeping'],
+    ['cut off while producing', at('2026-10-15T18:02:28Z'), 1040, true, 'Producing'],
+    ['silent for over a day', lastUpload + 25 * 3600 * 1000, 0, true, 'Producing'],
+  ];
+  const RealNow = Date.now;
+  try {
+    for (const [name, now, power, alarm, status] of cases) {
+      Date.now = () => now;
+      const device = newDevice('inverter', {}, {
+        getSiteEquipment: async () => ({ inverters: { details: [{ serialNumbers: ['I1'] }] } }),
+        getInvertersInformation: async () => ({
+          serialToLiveData: { I1: { lastMeasurement: new Date(lastUpload).toISOString(), inverterStatus: 'production', pAc_W: power } },
+        }),
+        getSites: async () => ({ 1: { id: 1, timezone: 'UTC' } }),
+        getSiteEnergyByInverter: async () => ({ inverters: [] }),
+        getSiteCommunication: async () => ({ connectivityStatus: 'OFFLINE' }),
+        getSiteAlerts: async () => ({ totalAlertsCount: 0, topAlerts: [] }),
+      });
+      device.homey.__ = (key) => ({ 'inverterStatus.sleeping': 'Sleeping', 'inverterStatus.production': 'Producing' }[key] || key);
+      await device.updateInverterDetails(); // eslint-disable-line no-await-in-loop
+      await device.updateSiteAlarms(); // eslint-disable-line no-await-in-loop
+      check(device.values.alarm_connectivity === alarm, `${name}: alarm_connectivity ${device.values.alarm_connectivity}`);
+      check(device.values.inverter_status === status, `${name}: inverter_status ${device.values.inverter_status}`);
+    }
+  } finally {
+    Date.now = RealNow;
+  }
+};
+
 (async () => {
+  await nightAlarm();
   await evCharger();
   await loadControllers();
   await monotonic();
@@ -138,7 +173,7 @@ const fahrenheit = async () => {
     failures.forEach((failure) => console.error(`  ${failure}`));
     process.exitCode = 1;
   } else {
-    console.log(`OK - devices: ${Object.keys(responses).length} EV charger states, 2 load controllers, monotonic counters, battery kWh, Fahrenheit`);
+    console.log(`OK - devices: ${Object.keys(responses).length} EV charger states, 2 load controllers, monotonic counters, battery kWh, Fahrenheit, night alarm`);
   }
 })().catch((error) => {
   console.error(error);
