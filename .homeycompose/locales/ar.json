@@ -186,7 +186,7 @@
       },
       "capabilitiesOptions": {
         "meter_power.charged": {
-          "title": "إجمالي الطاقة المشحونة"
+          "title": "قراءة العداد"
         },
         "meter_power.session": {
           "title": "طاقة هذه الجلسة"
@@ -212,16 +212,16 @@
           "title": "القدرة الشمسية (AC)"
         },
         "meter_power": {
-          "title": "إجمالي الإنتاج"
+          "title": "الطاقة الشمسية (AC)"
         },
         "meter_power.day": {
-          "title": "الإنتاج اليوم"
+          "title": "الطاقة اليوم (AC)"
         },
         "meter_power.month": {
-          "title": "الإنتاج هذا الشهر"
+          "title": "الطاقة هذا الشهر (AC)"
         },
         "meter_power.year": {
-          "title": "الإنتاج هذا العام"
+          "title": "الطاقة هذا العام (AC)"
         },
         "measure_voltage.1": {
           "title": "جهد المرحلة 1 (AC)"
@@ -262,7 +262,7 @@
           "title": "قدرة الشبكة"
         },
         "measure_power.solar": {
-          "title": "القدرة الشمسية"
+          "title": "القدرة الشمسية (AC)"
         },
         "measure_power.load": {
           "title": "استهلاك المنزل"

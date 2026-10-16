@@ -186,7 +186,7 @@
       },
       "capabilitiesOptions": {
         "meter_power.charged": {
-          "title": "총 충전 에너지"
+          "title": "계량기 값"
         },
         "meter_power.session": {
           "title": "이번 세션 에너지"
@@ -212,16 +212,16 @@
           "title": "태양광 전력 (AC)"
         },
         "meter_power": {
-          "title": "총 발전량"
+          "title": "태양광 발전량 (AC)"
         },
         "meter_power.day": {
-          "title": "오늘 발전량"
+          "title": "오늘 태양광 발전량 (AC)"
         },
         "meter_power.month": {
-          "title": "이번 달 발전량"
+          "title": "이번 달 태양광 발전량 (AC)"
         },
         "meter_power.year": {
-          "title": "올해 발전량"
+          "title": "올해 태양광 발전량 (AC)"
         },
         "measure_voltage.1": {
           "title": "전압 위상 1 (AC)"
@@ -253,16 +253,16 @@
       },
       "capabilitiesOptions": {
         "meter_power.imported": {
-          "title": "수전 에너지"
+          "title": "가져온 에너지"
         },
         "meter_power.exported": {
-          "title": "송전 에너지"
+          "title": "내보낸 에너지"
         },
         "measure_power.grid": {
           "title": "계통 전력"
         },
         "measure_power.solar": {
-          "title": "태양광 전력"
+          "title": "태양광 전력 (AC)"
         },
         "measure_power.load": {
           "title": "가정 소비 전력"

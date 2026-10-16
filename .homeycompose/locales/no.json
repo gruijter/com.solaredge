@@ -186,7 +186,7 @@
       },
       "capabilitiesOptions": {
         "meter_power.charged": {
-          "title": "Total ladet energi"
+          "title": "Målerstand"
         },
         "meter_power.session": {
           "title": "Energi denne økten"
@@ -212,16 +212,16 @@
           "title": "Soleffekt (AC)"
         },
         "meter_power": {
-          "title": "Total produksjon"
+          "title": "Solproduksjon (AC)"
         },
         "meter_power.day": {
-          "title": "Produsert i dag"
+          "title": "Produksjon i dag (AC)"
         },
         "meter_power.month": {
-          "title": "Produsert denne måneden"
+          "title": "Produksjon denne måneden (AC)"
         },
         "meter_power.year": {
-          "title": "Produsert i år"
+          "title": "Produksjon i år (AC)"
         },
         "measure_voltage.1": {
           "title": "Spenning fase 1 (AC)"
@@ -262,7 +262,7 @@
           "title": "Netteffekt"
         },
         "measure_power.solar": {
-          "title": "Solcelleeffekt"
+          "title": "Soleffekt (AC)"
         },
         "measure_power.load": {
           "title": "Husforbruk"

@@ -186,7 +186,7 @@
       },
       "capabilitiesOptions": {
         "meter_power.charged": {
-          "title": "Totaal opgeladen energie"
+          "title": "Meterstand"
         },
         "meter_power.session": {
           "title": "Energie deze sessie"
@@ -212,16 +212,16 @@
           "title": "Zonnevermogen (AC)"
         },
         "meter_power": {
-          "title": "Totaal opgewekt"
+          "title": "Zonopbrengst (AC)"
         },
         "meter_power.day": {
-          "title": "Opgewekt vandaag"
+          "title": "Opbrengst vandaag (AC)"
         },
         "meter_power.month": {
-          "title": "Opgewekt deze maand"
+          "title": "Opbrengst deze maand (AC)"
         },
         "meter_power.year": {
-          "title": "Opgewekt dit jaar"
+          "title": "Opbrengst dit jaar (AC)"
         },
         "measure_voltage.1": {
           "title": "Spanning fase 1 (AC)"
@@ -253,16 +253,16 @@
       },
       "capabilitiesOptions": {
         "meter_power.imported": {
-          "title": "Geïmporteerde energie"
+          "title": "Energie import"
         },
         "meter_power.exported": {
-          "title": "Geëxporteerde energie"
+          "title": "Energie export"
         },
         "measure_power.grid": {
           "title": "Netvermogen"
         },
         "measure_power.solar": {
-          "title": "Zonnevermogen"
+          "title": "Zonnevermogen (AC)"
         },
         "measure_power.load": {
           "title": "Thuisverbruik"

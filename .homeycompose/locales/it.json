@@ -186,7 +186,7 @@
       },
       "capabilitiesOptions": {
         "meter_power.charged": {
-          "title": "Energia totale caricata"
+          "title": "Lettura contatore"
         },
         "meter_power.session": {
           "title": "Energia di questa sessione"
@@ -212,16 +212,16 @@
           "title": "Potenza solare (CA)"
         },
         "meter_power": {
-          "title": "Produzione totale"
+          "title": "Produzione solare (CA)"
         },
         "meter_power.day": {
-          "title": "Prodotto oggi"
+          "title": "Produzione di oggi (CA)"
         },
         "meter_power.month": {
-          "title": "Prodotto questo mese"
+          "title": "Produzione di questo mese (CA)"
         },
         "meter_power.year": {
-          "title": "Prodotto quest'anno"
+          "title": "Produzione di quest'anno (CA)"
         },
         "measure_voltage.1": {
           "title": "Tensione fase 1 (CA)"
@@ -262,7 +262,7 @@
           "title": "Potenza di rete"
         },
         "measure_power.solar": {
-          "title": "Potenza solare"
+          "title": "Potenza solare (CA)"
         },
         "measure_power.load": {
           "title": "Consumo domestico"

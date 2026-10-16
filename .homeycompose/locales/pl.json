@@ -186,7 +186,7 @@
       },
       "capabilitiesOptions": {
         "meter_power.charged": {
-          "title": "Całkowita energia naładowana"
+          "title": "Stan licznika"
         },
         "meter_power.session": {
           "title": "Energia tej sesji"
@@ -212,16 +212,16 @@
           "title": "Moc słoneczna (AC)"
         },
         "meter_power": {
-          "title": "Produkcja całkowita"
+          "title": "Uzysk słoneczny (AC)"
         },
         "meter_power.day": {
-          "title": "Produkcja dzisiaj"
+          "title": "Uzysk dzisiaj (AC)"
         },
         "meter_power.month": {
-          "title": "Produkcja w tym miesiącu"
+          "title": "Uzysk w tym miesiącu (AC)"
         },
         "meter_power.year": {
-          "title": "Produkcja w tym roku"
+          "title": "Uzysk w tym roku (AC)"
         },
         "measure_voltage.1": {
           "title": "Napięcie fazy 1 (AC)"
@@ -253,16 +253,16 @@
       },
       "capabilitiesOptions": {
         "meter_power.imported": {
-          "title": "Energia pobrana"
+          "title": "Energia importowana"
         },
         "meter_power.exported": {
-          "title": "Energia oddana"
+          "title": "Energia eksportowana"
         },
         "measure_power.grid": {
           "title": "Moc sieci"
         },
         "measure_power.solar": {
-          "title": "Moc fotowoltaiki"
+          "title": "Moc słoneczna (AC)"
         },
         "measure_power.load": {
           "title": "Zużycie domowe"

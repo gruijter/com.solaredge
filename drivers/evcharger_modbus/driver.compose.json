@@ -44,19 +44,19 @@
     },
     "meter_power.charged": {
       "title": {
-        "en": "Total Charged Energy",
-        "nl": "Totaal opgeladen energie",
-        "de": "Geladene Gesamtenergie",
-        "fr": "Énergie totale chargée",
-        "es": "Energía total cargada",
-        "it": "Energia totale caricata",
-        "da": "Samlet opladet energi",
-        "sv": "Total laddad energi",
-        "no": "Total ladet energi",
-        "pl": "Całkowita energia naładowana",
-        "ru": "Всего заряжено энергии",
-        "ar": "إجمالي الطاقة المشحونة",
-        "ko": "총 충전 에너지"
+        "en": "Meter reading",
+        "nl": "Meterstand",
+        "de": "Zählerstand",
+        "fr": "Relevé du compteur",
+        "es": "Lectura del contador",
+        "it": "Lettura contatore",
+        "da": "Målerstand",
+        "sv": "Mätarställning",
+        "no": "Målerstand",
+        "pl": "Stan licznika",
+        "ru": "Показания счетчика",
+        "ar": "قراءة العداد",
+        "ko": "계량기 값"
       },
       "decimals": 3
     }

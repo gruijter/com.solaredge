@@ -136,8 +136,8 @@
     },
     "meter_power.imported": {
       "title": {
-        "en": "Imported Energy",
-        "nl": "Geïmporteerde energie",
+        "en": "Imported energy",
+        "nl": "Energie import",
         "de": "Importierte Energie",
         "fr": "Énergie importée",
         "es": "Energía importada",
@@ -145,17 +145,17 @@
         "da": "Importeret energi",
         "sv": "Importerad energi",
         "no": "Importert energi",
-        "pl": "Energia pobrana",
+        "pl": "Energia importowana",
         "ru": "Импортированная энергия",
         "ar": "الطاقة المستوردة",
-        "ko": "수전 에너지"
+        "ko": "가져온 에너지"
       },
       "decimals": 3
     },
     "meter_power.exported": {
       "title": {
-        "en": "Exported Energy",
-        "nl": "Geëxporteerde energie",
+        "en": "Exported energy",
+        "nl": "Energie export",
         "de": "Exportierte Energie",
         "fr": "Énergie exportée",
         "es": "Energía exportada",
@@ -163,10 +163,10 @@
         "da": "Eksporteret energi",
         "sv": "Exporterad energi",
         "no": "Eksportert energi",
-        "pl": "Energia oddana",
+        "pl": "Energia eksportowana",
         "ru": "Экспортированная энергия",
         "ar": "الطاقة المصدرة",
-        "ko": "송전 에너지"
+        "ko": "내보낸 에너지"
       },
       "decimals": 3
     }

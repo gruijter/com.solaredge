@@ -186,7 +186,7 @@
       },
       "capabilitiesOptions": {
         "meter_power.charged": {
-          "title": "Geladene Gesamtenergie"
+          "title": "Zählerstand"
         },
         "meter_power.session": {
           "title": "Energie dieser Sitzung"
@@ -212,16 +212,16 @@
           "title": "Solarleistung (AC)"
         },
         "meter_power": {
-          "title": "Gesamterzeugung"
+          "title": "Solarertrag (AC)"
         },
         "meter_power.day": {
-          "title": "Erzeugung heute"
+          "title": "Solarertrag heute (AC)"
         },
         "meter_power.month": {
-          "title": "Erzeugung diesen Monat"
+          "title": "Solarertrag diesen Monat (AC)"
         },
         "meter_power.year": {
-          "title": "Erzeugung dieses Jahr"
+          "title": "Solarertrag dieses Jahr (AC)"
         },
         "measure_voltage.1": {
           "title": "Spannung Phase 1 (AC)"
@@ -262,7 +262,7 @@
           "title": "Netzleistung"
         },
         "measure_power.solar": {
-          "title": "Solarleistung"
+          "title": "Solarleistung (AC)"
         },
         "measure_power.load": {
           "title": "Hausverbrauch"

@@ -186,7 +186,7 @@
       },
       "capabilitiesOptions": {
         "meter_power.charged": {
-          "title": "Всего заряжено энергии"
+          "title": "Показания счетчика"
         },
         "meter_power.session": {
           "title": "Энергия за сеанс"
@@ -212,16 +212,16 @@
           "title": "Солнечная мощность (AC)"
         },
         "meter_power": {
-          "title": "Всего выработано"
+          "title": "Солнечная энергия (AC)"
         },
         "meter_power.day": {
-          "title": "Выработано сегодня"
+          "title": "Энергия сегодня (AC)"
         },
         "meter_power.month": {
-          "title": "Выработано в этом месяце"
+          "title": "Энергия за этот месяц (AC)"
         },
         "meter_power.year": {
-          "title": "Выработано в этом году"
+          "title": "Энергия за этот год (AC)"
         },
         "measure_voltage.1": {
           "title": "Напряжение фазы 1 (AC)"
@@ -262,7 +262,7 @@
           "title": "Мощность сети"
         },
         "measure_power.solar": {
-          "title": "Солнечная мощность"
+          "title": "Солнечная мощность (AC)"
         },
         "measure_power.load": {
           "title": "Домашнее потребление"

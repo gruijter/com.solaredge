@@ -186,7 +186,7 @@
       },
       "capabilitiesOptions": {
         "meter_power.charged": {
-          "title": "Total Charged Energy"
+          "title": "Meter reading"
         },
         "meter_power.session": {
           "title": "Energy this session"
@@ -212,16 +212,16 @@
           "title": "Solar power (AC)"
         },
         "meter_power": {
-          "title": "Generated Total"
+          "title": "Solar energy (AC)"
         },
         "meter_power.day": {
-          "title": "Generated Today"
+          "title": "Solar energy today (AC)"
         },
         "meter_power.month": {
-          "title": "Generated This Month"
+          "title": "Solar energy this month (AC)"
         },
         "meter_power.year": {
-          "title": "Generated This Year"
+          "title": "Solar energy this year (AC)"
         },
         "measure_voltage.1": {
           "title": "Voltage phase 1 (AC)"
@@ -253,16 +253,16 @@
       },
       "capabilitiesOptions": {
         "meter_power.imported": {
-          "title": "Imported Energy"
+          "title": "Imported energy"
         },
         "meter_power.exported": {
-          "title": "Exported Energy"
+          "title": "Exported energy"
         },
         "measure_power.grid": {
-          "title": "Grid Power"
+          "title": "Grid power"
         },
         "measure_power.solar": {
-          "title": "Solar Power"
+          "title": "Solar power (AC)"
         },
         "measure_power.load": {
           "title": "Home consumption"
