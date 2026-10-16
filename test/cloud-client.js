@@ -51,6 +51,10 @@ const server = http.createServer((req, res) => {
 
     if (req.url === '/solaredge-apigw/api/login') {
       const form = new URLSearchParams(body);
+      if (form.get('j_password') === 'locked') {
+        json(500, {});
+        return;
+      }
       if (form.get('j_password') !== 'secret') {
         json(200, {});
         return;
@@ -153,6 +157,20 @@ test('a wrong password holds back automatic logins until the retry delay has pas
   await client.getSites();
   assert.equal(count(isLogin), 3);
   assert.equal(client._loginRetryDelay, 0);
+});
+
+test('a server error on the login holds back automatic logins as LOGIN_REFUSED', async () => {
+  const client = newClient('locked');
+  await assert.rejects(client.getSites(), (error) => error.code === 'LOGIN_REFUSED' && error.status === 500);
+  await assert.rejects(client.getSites(), (error) => error.code === 'LOGIN_REFUSED');
+  assert.equal(count(isLogin), 1);
+  assert.equal(client._loginRetryDelay, SolarEdgeCloudClient.LOGIN_RETRY_MIN);
+  assert.ok(client.backoffUntil > Date.now());
+  // a wrong password after it is reported as such
+  client.password = 'wrong';
+  await assert.rejects(client.login(), (error) => error.code === 'INVALID_CREDENTIALS');
+  await assert.rejects(client.getSites(), (error) => error.code === 'INVALID_CREDENTIALS');
+  assert.equal(client._loginRetryDelay, 2 * SolarEdgeCloudClient.LOGIN_RETRY_MIN);
 });
 
 test('a 401 logs in again and retries the call once', async () => {

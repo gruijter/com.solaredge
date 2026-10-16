@@ -1,6 +1,7 @@
 {
   "errors": {
     "invalidCredentials": "이메일 및/또는 비밀번호가 올바르지 않습니다.",
+    "loginRefused": "SolarEdge가 로그인을 거부했습니다. 앱이 나중에 다시 시도합니다.",
     "timeout": "SolarEdge가 제시간에 응답하지 않았습니다.",
     "unreachable": "SolarEdge에 연결할 수 없습니다.",
     "api": "SolarEdge 오류",

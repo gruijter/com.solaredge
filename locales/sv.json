@@ -1,6 +1,7 @@
 {
   "errors": {
     "invalidCredentials": "Ogiltig e-postadress och/eller lösenord.",
+    "loginRefused": "SolarEdge nekade inloggningen. Appen försöker igen senare.",
     "timeout": "SolarEdge svarade inte i tid.",
     "unreachable": "SolarEdge kan inte nås.",
     "api": "SolarEdge-fel",

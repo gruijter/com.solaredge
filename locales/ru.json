@@ -1,6 +1,7 @@
 {
   "errors": {
     "invalidCredentials": "Неверный адрес электронной почты и/или пароль.",
+    "loginRefused": "SolarEdge отклонил вход. Приложение повторит попытку позже.",
     "timeout": "SolarEdge не ответил вовремя.",
     "unreachable": "SolarEdge недоступен.",
     "api": "Ошибка SolarEdge",

@@ -1,6 +1,7 @@
 {
   "errors": {
     "invalidCredentials": "E-mail e/o password non validi.",
+    "loginRefused": "SolarEdge ha rifiutato l'accesso. L'app riproverà più tardi.",
     "timeout": "SolarEdge non ha risposto in tempo.",
     "unreachable": "SolarEdge non è raggiungibile.",
     "api": "Errore SolarEdge",
