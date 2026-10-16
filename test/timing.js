@@ -79,7 +79,12 @@ check(lastTimeout.ms === delayToNextTick(now, 28000 + MARGIN_MS), `energy tick i
 lastTimeout.fn();
 check(homey.emitted.some(([, , options]) => options?.energy === true), 'energy tick did not ask for energy');
 
-// it found the same measurement: too early, margin grows and the tick moves later
+// right after it, the same measurement says nothing: the next one is not due yet
+app.noteSnapshot(client, 'INV1', at28);
+check(poller.marginMs === MARGIN_MS, `margin ${poller.marginMs} after a measurement that was not due yet`);
+
+// a period later it found the same measurement: too early, margin grows and the tick moves later
+Date.now = () => at28 + PERIOD_MS + MARGIN_MS;
 app.noteSnapshot(client, 'INV1', at28);
 check(poller.marginMs === MARGIN_MS + 15000 && poller.phaseMs === 28000 + MARGIN_MS + 15000, `margin ${poller.marginMs}, phase ${poller.phaseMs} after no new data`);
 
@@ -95,13 +100,36 @@ Date.now = () => at28 + 10 * PERIOD_MS;
 app.noteSnapshot(client, 'INV1', at28 + PERIOD_MS);
 check(poller.marginMs === MARGIN_MS + 10000 && poller.judgePending, 'a stale measurement changed the margin');
 
+// a site that uploads every 15 minutes: ticks without new data in between do not judge
+const slow = { backoffUntil: 0 };
+app.setPollInterval(slow, 10);
+const slowPoller = app.pollers.get(slow);
+Date.now = () => at28 + MARGIN_MS;
+app.noteSnapshot(slow, 'INV2', at28);
+Date.now = () => at28 + 3 * PERIOD_MS + MARGIN_MS;
+slowPoller.judgePending = true;
+app.noteSnapshot(slow, 'INV2', at28 + 3 * PERIOD_MS);
+check(slowPoller.cadenceMs === 3 * PERIOD_MS, `cadence ${slowPoller.cadenceMs}`);
+for (const period of [4, 5]) {
+  Date.now = () => at28 + period * PERIOD_MS + MARGIN_MS;
+  slowPoller.judgePending = true;
+  app.noteSnapshot(slow, 'INV2', at28 + 3 * PERIOD_MS);
+}
+check(slowPoller.marginMs === MARGIN_MS, `15-minute site: margin ${slowPoller.marginMs} after ticks between uploads`);
+// the upload that was due is late: that does judge
+Date.now = () => at28 + 6 * PERIOD_MS + MARGIN_MS;
+slowPoller.judgePending = true;
+app.noteSnapshot(slow, 'INV2', at28 + 3 * PERIOD_MS);
+check(slowPoller.marginMs === MARGIN_MS + 15000, `15-minute site: margin ${slowPoller.marginMs} after a late upload`);
+
 Date.now = RealNow;
 app.stopPolling(client);
+app.stopPolling(slow);
 
 if (failures.length) {
   console.error(`FAIL - ${failures.length} problem(s):\n`);
   failures.forEach((failure) => console.error(`  ${failure}`));
   process.exitCode = 1;
 } else {
-  console.log('OK - timing: energy tick follows the inverter data, margin adapts, night ignored');
+  console.log('OK - timing: energy tick follows the inverter data, margin adapts, night and 15-minute uploads ignored');
 }

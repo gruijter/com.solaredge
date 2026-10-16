@@ -27,7 +27,8 @@ const FIRST_YEAR = 2006;
 // a past year is stored only this long after it ended: then it has ended in every timezone and its
 // last data is in (assumed)
 const YEAR_SETTLE_TIME = 2 * 24 * 60 * 60 * 1000;
-// a year without data is asked again after this, in case that answer was a hiccup
+// a year without data, or without import/export, is asked again after this, in case that answer
+// was a hiccup
 const MISSING_RECHECK_TIME = 24 * 60 * 60 * 1000;
 
 // kept, for their flows, on devices paired while measure_power was still consumption
@@ -63,6 +64,11 @@ module.exports = class SolarEdgeMeterDevice extends CommonDevice {
       let power = Math.round(sitePowerflow.grid.currentPower * 1000);
       // status import/export (compared case-insensitively, as openHAB's solaredge binding does)
       if (String(sitePowerflow.grid?.status).toLowerCase() === 'export') power *= -1;
+      await this.setCapability('measure_power', power);
+      await this.setCapability('measure_power.grid', power);
+    } else if (sitePowerflow.grid?.currentPower === null) {
+      // no exchange with a meter, nothing known without one
+      const power = sitePowerflow.grid.isActive ? 0 : null;
       await this.setCapability('measure_power', power);
       await this.setCapability('measure_power.grid', power);
     }
@@ -112,8 +118,9 @@ module.exports = class SolarEdgeMeterDevice extends CommonDevice {
 
   /**
    * Lifetime import/export as the sum of all yearly totals. Past years are kept in the store as
-   * `measurements-<year>`: { imported, exported } in Wh, or { missing: true, checkedAt } when there
-   * is no data (the site did not exist yet).
+   * `measurements-<year>`: { imported, exported } in Wh (plus unknown, checkedAt when the answer had
+   * no import/export: asked again daily), or { missing: true, checkedAt } when there is no data (the
+   * site did not exist yet).
    */
   async updateTotals(siteId) {
     const measurements = {};
@@ -127,6 +134,10 @@ module.exports = class SolarEdgeMeterDevice extends CommonDevice {
     }
 
     measurements[currentYear] = await this.yearTotals(siteId, currentYear);
+    // the current year only grows: a null answer after real ones is a hiccup, not a meter removed
+    const known = this.currentYearTotals;
+    if (measurements[currentYear].unknown && known?.year === currentYear) measurements[currentYear] = known.totals;
+    else if (!measurements[currentYear].unknown) this.currentYearTotals = { year: currentYear, totals: measurements[currentYear] };
 
     let totalImported = 0;
     let totalExported = 0;
@@ -148,7 +159,7 @@ module.exports = class SolarEdgeMeterDevice extends CommonDevice {
   async pastYearTotals(siteId, year) {
     const key = `measurements-${year}`;
     const stored = this.getStoreValue(key);
-    if (isTotals(stored)) return stored;
+    if (isTotals(stored) && !(stored.unknown && Date.now() - stored.checkedAt >= MISSING_RECHECK_TIME)) return stored;
     if (stored?.missing && Date.now() - stored.checkedAt < MISSING_RECHECK_TIME) return 'missing';
 
     this.log(`Fetching measurements for ${year}...`);
@@ -174,7 +185,10 @@ module.exports = class SolarEdgeMeterDevice extends CommonDevice {
     }
 
     if (Date.now() >= Date.UTC(year + 1, 0, 1) + YEAR_SETTLE_TIME) {
-      await this.setStoreValue(key, value === 'missing' ? { missing: true, checkedAt: Date.now() } : value);
+      let stored = value;
+      if (value === 'missing') stored = { missing: true, checkedAt: Date.now() };
+      else if (value.unknown) stored = { ...value, checkedAt: Date.now() };
+      await this.setStoreValue(key, stored);
     }
     return value;
   }
@@ -182,15 +196,15 @@ module.exports = class SolarEdgeMeterDevice extends CommonDevice {
   /**
    * A year's import/export in Wh; throws INVALID_ARGUMENTS or empty_summary when it has no data
    * (a year before the site existed answers summary: null, seen live). Without a grid meter in that
-   * year import/export are null: counted as 0.
+   * year import/export are null: counted as 0, marked `unknown` (it can also be a hiccup).
    */
   async yearTotals(siteId, year) {
     const result = await this.client.getSiteMeasurements({ siteId, endDate: `${year}-12-31` });
     if (!result.summary) throw new Error('empty_summary');
-    return {
-      imported: result.summary.import ?? 0,
-      exported: result.summary.export ?? 0,
-    };
+    const { import: imported, export: exported } = result.summary;
+    const totals = { imported: imported ?? 0, exported: exported ?? 0 };
+    if (typeof imported !== 'number' || typeof exported !== 'number') totals.unknown = true;
+    return totals;
   }
 
 };

@@ -211,6 +211,14 @@ test('an outage pauses the account; failures of one tick count once; a success r
   assert.equal(client.backoffUntil, 0);
 });
 
+test('one failing endpoint while others answer is no outage', async () => {
+  const client = newClient();
+  await client.getSites();
+  await client.request({ url: 'https://monitoring.solaredge.com/down', errorText: 'x' }).catch(() => {});
+  assert.equal(client._outages, 0);
+  assert.equal(client.backoffUntil, 0);
+});
+
 test('an API error code is no outage', async () => {
   const client = newClient();
   await assert.rejects(client.getSiteMeasurements({ siteId: 1, endDate: '2020-12-31' }), /GENERAL_ERROR/);

@@ -31,6 +31,7 @@ const path = require('node:path');
 const { execFileSync } = require('node:child_process');
 const { isDeepStrictEqual } = require('node:util');
 const capture = require('../lib/solarEdgeCapture');
+const siteDevices = require('../lib/siteDevices');
 
 const fixture = JSON.parse(fs.readFileSync(path.join(__dirname, 'fixtures', 'synthetic-site.json'), 'utf8'));
 const failures = [];
@@ -80,6 +81,15 @@ const backend = new Proxy({ deadline: null }, {
       const site = parsed.result[fixture.site.id];
       check(site.name === '<redacted>', `site name not redacted: ${site.name}`);
       check(site.timezone === fixture.site.timezone && site.installationDate === fixture.site.installationDate, 'site timezone or installationDate lost');
+    } else if (original.method === 'getSiteDevices') {
+      const vehicles = siteDevices(parsed.result).map((device) => device.applianceData).filter(Boolean);
+      check(vehicles.length > 0, 'getSiteDevices: no vehicle in the fixture');
+      vehicles.forEach((vehicle) => check(
+        vehicle.physicalId === '<redacted>' && vehicle.siteApplianceUUID === '<redacted>' && vehicle.id === '<redacted>',
+        `vehicle not redacted: ${JSON.stringify(vehicle)}`,
+      ));
+      const ids = (result) => siteDevices(result).map((device) => device.reporterId);
+      check(isDeepStrictEqual(ids(parsed.result), ids(original.result)), 'getSiteDevices: devices lost on the way');
     } else {
       check(isDeepStrictEqual(parsed.result, original.result), `${original.method}: result changed on the way`);
     }

@@ -102,37 +102,46 @@ module.exports = class SolarEdgeEVChargerDevice extends CommonDevice {
 
     if (evCharger?.connectionStatus) await this.setConnectionStatus(evCharger.connectionStatus);
 
-    if (evCharger?.isActive) {
+    // devices paired before reporterId was stored cannot read their sessions
+    if (!reporterId) {
+      await this.setWarning(this.homey.__('errors.reAddDevice'));
+    }
+
+    // optional readings: a failure leaves the device as it is
+    const listed = reporterId
+      ? await this.updateSession(!evCharger?.connectionStatus).catch((error) => {
+        this.error(`Error Fetching Site Devices: ${error.message}`);
+        return false;
+      })
+      : false;
+
+    // a charger the powerflow does not cover (e.g. a KEBA, only in getSiteDevices) counts as active there
+    if (evCharger?.isActive || listed) {
       await this.setAvailable();
     } else {
       await this.setUnavailable();
     }
 
-    // devices paired before reporterId was stored cannot read their sessions
-    if (!reporterId) {
-      await this.setWarning(this.homey.__('errors.reAddDevice'));
-      return;
+    if (reporterId && this.energyDue()) {
+      await this.updateCharged().catch((error) => this.error(`Error Fetching Sessions: ${error.message}`));
     }
+  }
 
-    // optional readings: a failure leaves the device as it is
-    await this.updateSession(!evCharger?.connectionStatus).catch((error) => this.error(`Error Fetching Site Devices: ${error.message}`));
-
-    if (!this.energyDue()) return;
-
+  /** meter_power.charged: Wh, summed over the sessions of the last year. */
+  async updateCharged() {
+    const { siteId, reporterId } = this.getData();
     const applianceSessionsHistory = await this.client.getSiteDeviceApplianceSessionsHistory({ siteId, reporterId });
+    if (!Array.isArray(applianceSessionsHistory?.applianceDetails)) return;
 
-    if (Array.isArray(applianceSessionsHistory?.applianceDetails)) {
-      // Wh, summed over the sessions of the last year
-      let totalCharged = 0;
-      applianceSessionsHistory.applianceDetails.forEach((applianceDetails) => {
-        const statisticsConsumedEnergy = applianceDetails.statistics.find((statistic) => statistic.subjectEnum === 'CONSUMED_ENERGY');
-        if (typeof statisticsConsumedEnergy?.totalValue === 'number') {
-          totalCharged += statisticsConsumedEnergy.totalValue;
-        }
-      });
-      // old sessions leave the year: monotonic() keeps the Energy meter rising
-      await this.setCapability('meter_power.charged', await this.monotonic('charged', totalCharged / 1000));
-    }
+    let totalCharged = 0;
+    applianceSessionsHistory.applianceDetails.forEach((applianceDetails) => {
+      const statisticsConsumedEnergy = (applianceDetails?.statistics || []).find((statistic) => statistic.subjectEnum === 'CONSUMED_ENERGY');
+      if (typeof statisticsConsumedEnergy?.totalValue === 'number') {
+        totalCharged += statisticsConsumedEnergy.totalValue;
+      }
+    });
+    // old sessions leave the year: monotonic() keeps the Energy meter rising
+    await this.setCapability('meter_power.charged', await this.monotonic('charged', totalCharged / 1000));
   }
 
   /**
@@ -141,6 +150,8 @@ module.exports = class SolarEdgeEVChargerDevice extends CommonDevice {
    * AUTO/MANUAL, excessPV, applianceData.alias. The session values stay after unplugging
    * (sessionActive false) and show the last session.
    * @param {boolean} withStatus also take the connection status: the powerflow had none
+   * @returns {Promise<boolean>} whether the charger is listed and ACTIVE (deviceStatus, seen in the
+   *   KEBA answer of solaredge-evcharger-ha#6)
    */
   async updateSession(withStatus) {
     const { siteId, reporterId } = this.getData();
@@ -148,7 +159,7 @@ module.exports = class SolarEdgeEVChargerDevice extends CommonDevice {
       .find((item) => String(item.reporterId) === String(reporterId));
     if (!charger) {
       this.logOnce('not in devices', 'not in getSiteDevices');
-      return;
+      return false;
     }
 
     const state = {
@@ -179,6 +190,7 @@ module.exports = class SolarEdgeEVChargerDevice extends CommonDevice {
       // eslint-disable-next-line no-await-in-loop
       if (value !== null) await this.setCapability(capability, value);
     }
+    return charger.deviceStatus === 'ACTIVE';
   }
 
 };

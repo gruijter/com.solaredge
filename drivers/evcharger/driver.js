@@ -26,7 +26,7 @@ module.exports = class SolarEdgeEVChargerDriver extends CommonDriver {
   async onPairListDevices({ client, site }) {
     const siteDevices = await client.getSiteDevices({ siteId: site.id });
 
-    const evChargers = siteDevices.devicesByType.EV_CHARGER ?? [];
+    const evChargers = siteDevices?.devicesByType?.EV_CHARGER ?? [];
     return evChargers.map((device) => ({
       name: device.name,
       data: {

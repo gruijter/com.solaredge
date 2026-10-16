@@ -77,9 +77,10 @@ module.exports = class SolarEdgeHomeLoadControllerDevice extends CommonDevice {
       await this.setCapability(CAPABILITY, 'auto');
     } else if (device.activationMode === 'MANUAL') {
       // other levels leave the value as it is
-      if (device.status.level === 0) await this.setCapability(CAPABILITY, 'off');
-      if (device.status.level === 100) await this.setCapability(CAPABILITY, 'on');
-      if (![0, 100].includes(device.status.level)) this.logOnce(`level ${device.status.level}`, 'manual level', device.status.level);
+      const level = device.status?.level;
+      if (level === 0) await this.setCapability(CAPABILITY, 'off');
+      if (level === 100) await this.setCapability(CAPABILITY, 'on');
+      if (![0, 100].includes(level)) this.logOnce(`level ${level}`, 'manual level', level);
     }
 
     if (!['AUTO', 'MANUAL'].includes(device.activationMode)) this.logOnce(`mode ${device.activationMode}`, 'unknown activationMode', device.activationMode);

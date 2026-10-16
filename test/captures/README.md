@@ -19,8 +19,8 @@ node test/from-logs.js report.txt          # test/captures/<siteId>.json per sit
 node test/from-logs.js report.txt --dry    # only show what it found
 ```
 
-The site's name, address, coordinates and image links are redacted in the log; serial numbers and
-device names are kept. Look in the report for the device lines logged once per app run (`battery`,
+The site's name, address, coordinates and image links, and a vehicle's licence plate and ids, are
+redacted in the log; serial numbers and device names are kept. Look in the report for the device lines logged once per app run (`battery`,
 `device state`, `inverter status`, `unknown ...`, `... fell from ...`): they show what the drivers
 made of the data, and where it did not match what they assume.
 

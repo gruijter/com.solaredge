@@ -97,11 +97,12 @@ const evCharger = async () => {
 
 const monotonic = async () => {
   const device = newDevice('battery', {}, {});
-  const readings = [10, 12, 3, 5, 5, 1];
+  const readings = [10, 12, 3, 5, 6, 1, 1, 0, 1, 2];
   const results = [];
   for (const reading of readings) results.push(await device.monotonic('test', reading)); // eslint-disable-line no-await-in-loop
-  // falls at 3 (by 9) and 1 (by 4) continue from the last total
-  check(JSON.stringify(results) === JSON.stringify([10, 12, 12, 14, 14, 14]), `monotonic: ${JSON.stringify(results)}`);
+  // a fall holds the total for one reading and counts once the next is low too (3, 5: by 7; 1, 1:
+  // by 5); a single low reading (0) is held and not counted
+  check(JSON.stringify(results) === JSON.stringify([10, 12, 12, 12, 13, 13, 13, 13, 13, 14]), `monotonic: ${JSON.stringify(results)}`);
 };
 
 const batteryKwh = async () => {

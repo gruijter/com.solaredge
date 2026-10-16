@@ -24,7 +24,7 @@ const SolarEdgeCloudClient = require('./lib/SolarEdgeCloudClient');
 const capture = require('./lib/solarEdgeCapture');
 const { DEFAULT_POLL_INTERVAL, POLL_EVENT } = require('./lib/solarEdgeConstants');
 const {
-  PERIOD_MS, MARGIN_MS, STALE_MS, tickPhase, adaptMargin, delayToNextTick,
+  PERIOD_MS, MARGIN_MS, learnCadence, judgesTick, tickPhase, adaptMargin, delayToNextTick,
 } = require('./lib/solarEdgeTiming');
 
 const clientId = ({ username, password }) => JSON.stringify([username, password]);
@@ -33,7 +33,7 @@ module.exports = class SolarEdgeApp extends Homey.App {
 
   async onInit() {
     this.clients = new Map();
-    // per client: { timer, energyTimer, phaseMs, marginMs, snapshots: Map(serial -> ms), judgePending }
+    // per client: { timer, energyTimer, phaseMs, marginMs, cadenceMs, snapshots: Map(serial -> ms), judgePending }
     this.pollers = new Map();
     this.registerFlowListeners();
     // users are asked to restart the app before a diagnostics report
@@ -87,6 +87,11 @@ module.exports = class SolarEdgeApp extends Homey.App {
       other.connect(other === device ? newSettings : other.getSettings());
     }
 
+    this.dropUnusedClients(devices);
+  }
+
+  /** Stop the ticks of, and forget, the clients none of `devices` uses. */
+  dropUnusedClients(devices = this.getDevices()) {
     const inUse = new Set(devices.map((other) => other.client));
     for (const [key, unused] of this.clients) {
       if (inUse.has(unused)) continue;
@@ -171,15 +176,18 @@ module.exports = class SolarEdgeApp extends Homey.App {
 
   /**
    * An inverter's latest measurement (getInvertersInformation lastMeasurement, epoch ms): the
-   * account's energy tick follows it. A tick that found the old one again came too early.
+   * account's energy tick follows it. A tick that found the old one
+   * again while a new one was due came too early.
    */
   noteSnapshot(client, serial, at) {
     const poller = this.pollers.get(client);
     if (!poller || !Number.isFinite(at)) return;
     const previous = poller.snapshots.get(serial);
     poller.snapshots.set(serial, at);
-    // an inverter that stopped reporting (asleep at night) says nothing about the tick
-    if (poller.judgePending && previous && Date.now() - at < STALE_MS) {
+    if (previous && at > previous) poller.cadenceMs = learnCadence(poller.cadenceMs, at - previous);
+    if (poller.judgePending && previous && judgesTick({
+      previousMs: previous, atMs: at, nowMs: Date.now(), cadenceMs: poller.cadenceMs,
+    })) {
       poller.judgePending = false;
       const margin = adaptMargin(poller.marginMs, at > previous);
       if (margin !== poller.marginMs) {

@@ -31,18 +31,20 @@ const ENERGY_CAPABILITIES = {
 
 const PHASES = [1, 2, 3];
 
-// added once getInvertersInformation / getSiteEnergyByInverter report a value
+// added once getInvertersInformation / getSiteEnergyByInverter report a value. Last in the order,
+// and the temperature (none before sunrise) last of them: a capability added in the middle makes
+// DeviceMigrator remove and re-add every one after it.
 const OPTIONAL_CAPABILITIES = [
-  'measure_temperature.max',
   ...PHASES.map((phase) => `measure_voltage.${phase}`),
   ...PHASES.map((phase) => `measure_current.${phase}`),
   ...PHASES.map((phase) => `measure_power.${phase}`),
   'measure_voltage.dc',
   'inverter_status',
+  'measure_temperature.max',
 ];
 
 const CAPABILITY_ORDER = ['measure_power', 'meter_power', 'meter_power.day', 'meter_power.month', 'meter_power.year',
-  ...OPTIONAL_CAPABILITIES, 'alarm_problem', 'alarm_connectivity'];
+  'alarm_problem', 'alarm_connectivity', ...OPTIONAL_CAPABILITIES];
 
 const finite = (value) => (typeof value === 'number' && Number.isFinite(value) ? value : null);
 const round = (value, decimals) => (value === null ? null : Number(value.toFixed(decimals)));
@@ -85,17 +87,6 @@ module.exports = class SolarEdgeInverterDevice extends CommonDevice {
       await this.setCapability('measure_power', Math.round(sitePowerflow.solarProduction.currentPower * 1000));
     }
 
-    const energy = this.energyDue();
-    if (energy) {
-      const { energyProducedOverviewList } = await this.client.getSiteEnergyOverview({ siteId });
-
-      for (const { timePeriod, energy: value } of Object.values(energyProducedOverviewList)) {
-        const capability = ENERGY_CAPABILITIES[timePeriod];
-        // eslint-disable-next-line no-await-in-loop
-        if (capability) await this.setCapability(capability, value / 1000);
-      }
-    }
-
     if (sitePowerflow.solarProduction?.isActive) {
       await this.setAvailable();
     } else {
@@ -103,9 +94,20 @@ module.exports = class SolarEdgeInverterDevice extends CommonDevice {
     }
 
     // optional readings: a failure leaves the device as it is
-    if (energy) {
+    if (this.energyDue()) {
+      await this.updateEnergy(siteId).catch((error) => this.error(`Error Fetching Energy: ${error.message}`));
       await this.updateInverterDetails().catch((error) => this.error(`Error Fetching Inverter Details: ${error.message}`));
       await this.updateSiteAlarms().catch((error) => this.error(`Error Fetching Site Alarms: ${error.message}`));
+    }
+  }
+
+  /** Lifetime, year, month and day production; a period without a number is left as it is. */
+  async updateEnergy(siteId) {
+    const { energyProducedOverviewList } = await this.client.getSiteEnergyOverview({ siteId });
+    for (const { timePeriod, energy: value } of Object.values(energyProducedOverviewList || {})) {
+      const capability = ENERGY_CAPABILITIES[timePeriod];
+      // eslint-disable-next-line no-await-in-loop
+      if (capability && typeof value === 'number') await this.setCapability(capability, value / 1000);
     }
   }
 

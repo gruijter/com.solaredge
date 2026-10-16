@@ -23,11 +23,12 @@ const CommonDevice = require('../../lib/common_device');
 
 const CHARGING_STATES = ['charging', 'discharging', 'idle'];
 
-// added once getSiteBatteries reports a value
+// added once getSiteBatteries reports a value; last in the order, so adding one never makes
+// DeviceMigrator remove and re-add the Energy meters
 const OPTIONAL_CAPABILITIES = ['measure_residual_energy', 'measure_soh'];
 
-const CAPABILITY_ORDER = ['measure_battery', 'measure_power', 'battery_charging_state', ...OPTIONAL_CAPABILITIES,
-  'meter_power.charged', 'meter_power.discharged', 'alarm_connectivity'];
+const CAPABILITY_ORDER = ['measure_battery', 'measure_power', 'battery_charging_state',
+  'meter_power.charged', 'meter_power.discharged', 'alarm_connectivity', ...OPTIONAL_CAPABILITIES];
 
 /** The sum of `key` over the batteries, or null when one of them has no number. */
 const sum = (batteries, key) => {
@@ -52,11 +53,13 @@ module.exports = class SolarEdgeBatteryDevice extends CommonDevice {
     // charging/discharging/idle, compared case-insensitively (as openHAB's solaredge binding)
     const status = typeof storage?.status === 'string' ? storage.status.toLowerCase() : storage?.status;
 
-    // currentPower in kW, always positive: negative while discharging
+    // currentPower in kW, always positive: negative while discharging; null when there is none
     if (typeof storage?.currentPower === 'number') {
       let power = Math.round(storage.currentPower * 1000);
       if (status === 'discharging') power *= -1;
       await this.setCapability('measure_power', power);
+    } else if (storage?.currentPower === null) {
+      await this.setCapability('measure_power', storage.isActive ? 0 : null);
     }
 
     if (typeof storage?.chargeLevel === 'number') {
@@ -109,8 +112,15 @@ module.exports = class SolarEdgeBatteryDevice extends CommonDevice {
       }));
     });
 
+    // the unit is kept from the last answer with a nameplate: a guess that flips between answers
+    // would change the counters 1000-fold, which monotonic() keeps for good
     const namePlate = sum(batteries, 'namePlateEnergy');
-    const toKwh = namePlate !== null && namePlate > 0 && namePlate < 100 ? 1 : 1 / 1000;
+    let toKwh = this.getStoreValue('energyToKwh') ?? 1 / 1000;
+    if (namePlate !== null && namePlate > 0) {
+      const unit = namePlate < 100 ? 1 : 1 / 1000;
+      if (unit !== toKwh) await this.setStoreValue('energyToKwh', unit);
+      toKwh = unit;
+    }
     this.logOnce(`unit ${toKwh}`, `battery energies taken as ${toKwh === 1 ? 'kWh' : 'Wh'} (nameplate ${namePlate})`);
     const kwh = (key) => {
       const value = sum(batteries, key);
