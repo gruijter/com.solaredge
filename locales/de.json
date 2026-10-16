@@ -12,7 +12,9 @@
     "modbusProbeFailed": "Unter dieser Adresse hat kein kompatibles Gerät geantwortet.",
     "modbusNoData": "Keine Daten empfangen.",
     "modbusUnreachable": "Gerät nicht erreichbar:",
-    "modbusNoUnits": "Unter dieser Adresse wurde nichts dieser Art gefunden."
+    "modbusNoUnits": "Unter dieser Adresse wurde nichts dieser Art gefunden.",
+    "modbusWriteFailed": "Befehl konnte nicht gesendet werden:",
+    "powerLimitRejected": "Der Wechselrichter hat das Leistungslimit nicht übernommen."
   },
   "migrating": "Fähigkeiten werden aktualisiert…",
   "pair": {

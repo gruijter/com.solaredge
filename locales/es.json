@@ -12,7 +12,9 @@
     "modbusProbeFailed": "Ningún dispositivo compatible respondió en esta dirección.",
     "modbusNoData": "No se recibieron datos.",
     "modbusUnreachable": "Dispositivo no accesible:",
-    "modbusNoUnits": "No se encontró nada de este tipo en esta dirección."
+    "modbusNoUnits": "No se encontró nada de este tipo en esta dirección.",
+    "modbusWriteFailed": "No se pudo enviar el comando:",
+    "powerLimitRejected": "El inversor no aceptó el límite de potencia."
   },
   "migrating": "Actualizando capacidades…",
   "pair": {

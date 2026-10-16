@@ -12,7 +12,9 @@
     "modbusProbeFailed": "이 주소에서 호환되는 장치가 응답하지 않았습니다.",
     "modbusNoData": "데이터를 받지 못했습니다.",
     "modbusUnreachable": "장치에 연결할 수 없습니다:",
-    "modbusNoUnits": "이 주소에서 이 유형의 장치를 찾지 못했습니다."
+    "modbusNoUnits": "이 주소에서 이 유형의 장치를 찾지 못했습니다.",
+    "modbusWriteFailed": "명령을 보낼 수 없습니다:",
+    "powerLimitRejected": "인버터가 전력 제한을 받아들이지 않았습니다."
   },
   "migrating": "기능 업데이트 중…",
   "pair": {

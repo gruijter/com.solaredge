@@ -12,7 +12,9 @@
     "modbusProbeFailed": "Ingen kompatibel enhet svarade på den här adressen.",
     "modbusNoData": "Ingen data mottagen.",
     "modbusUnreachable": "Enheten kan inte nås:",
-    "modbusNoUnits": "Inget av den här typen hittades på den här adressen."
+    "modbusNoUnits": "Inget av den här typen hittades på den här adressen.",
+    "modbusWriteFailed": "Kunde inte skicka kommandot:",
+    "powerLimitRejected": "Växelriktaren accepterade inte effektgränsen."
   },
   "migrating": "Uppdaterar funktioner…",
   "pair": {

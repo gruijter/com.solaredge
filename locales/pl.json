@@ -12,7 +12,9 @@
     "modbusProbeFailed": "Pod tym adresem nie odpowiedziało żadne zgodne urządzenie.",
     "modbusNoData": "Nie otrzymano danych.",
     "modbusUnreachable": "Urządzenie nieosiągalne:",
-    "modbusNoUnits": "Pod tym adresem nie znaleziono niczego tego typu."
+    "modbusNoUnits": "Pod tym adresem nie znaleziono niczego tego typu.",
+    "modbusWriteFailed": "Nie udało się wysłać polecenia:",
+    "powerLimitRejected": "Falownik nie przyjął limitu mocy."
   },
   "migrating": "Aktualizowanie funkcji…",
   "pair": {

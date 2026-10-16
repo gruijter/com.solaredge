@@ -12,7 +12,9 @@
     "modbusProbeFailed": "No compatible device answered at this address.",
     "modbusNoData": "No data received.",
     "modbusUnreachable": "Device not reachable:",
-    "modbusNoUnits": "Nothing of this kind was found at this address."
+    "modbusNoUnits": "Nothing of this kind was found at this address.",
+    "modbusWriteFailed": "Could not send the command:",
+    "powerLimitRejected": "The inverter did not accept the power limit."
   },
   "migrating": "Updating capabilities…",
   "pair": {

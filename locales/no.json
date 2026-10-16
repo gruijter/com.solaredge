@@ -12,7 +12,9 @@
     "modbusProbeFailed": "Ingen kompatibel enhet svarte på denne adressen.",
     "modbusNoData": "Ingen data mottatt.",
     "modbusUnreachable": "Enheten kan ikke nås:",
-    "modbusNoUnits": "Ingenting av denne typen ble funnet på denne adressen."
+    "modbusNoUnits": "Ingenting av denne typen ble funnet på denne adressen.",
+    "modbusWriteFailed": "Kunne ikke sende kommandoen:",
+    "powerLimitRejected": "Vekselretteren godtok ikke effektgrensen."
   },
   "migrating": "Oppdaterer funksjoner…",
   "pair": {

@@ -12,7 +12,9 @@
     "modbusProbeFailed": "Ingen kompatibel enhed svarede på denne adresse.",
     "modbusNoData": "Ingen data modtaget.",
     "modbusUnreachable": "Enheden kan ikke nås:",
-    "modbusNoUnits": "Der blev ikke fundet noget af denne type på denne adresse."
+    "modbusNoUnits": "Der blev ikke fundet noget af denne type på denne adresse.",
+    "modbusWriteFailed": "Kunne ikke sende kommandoen:",
+    "powerLimitRejected": "Inverteren accepterede ikke effektgrænsen."
   },
   "migrating": "Opdaterer funktioner…",
   "pair": {

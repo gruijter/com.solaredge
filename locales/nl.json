@@ -12,7 +12,9 @@
     "modbusProbeFailed": "Geen compatibel apparaat reageerde op dit adres.",
     "modbusNoData": "Geen data ontvangen.",
     "modbusUnreachable": "Apparaat niet bereikbaar:",
-    "modbusNoUnits": "Op dit adres is niets van deze soort gevonden."
+    "modbusNoUnits": "Op dit adres is niets van deze soort gevonden.",
+    "modbusWriteFailed": "Kon de opdracht niet versturen:",
+    "powerLimitRejected": "De omvormer heeft de vermogenslimiet niet overgenomen."
   },
   "migrating": "Capabilities bijwerken…",
   "pair": {

@@ -1,0 +1,20 @@
+{
+  "id": "ratedPower",
+  "type": "label",
+  "value": "",
+  "label": {
+    "en": "Rated power",
+    "nl": "Nominaal vermogen",
+    "de": "Nennleistung",
+    "fr": "Puissance nominale",
+    "es": "Potencia nominal",
+    "it": "Potenza nominale",
+    "da": "Nominel effekt",
+    "sv": "Nominell effekt",
+    "no": "Nominell effekt",
+    "pl": "Moc znamionowa",
+    "ru": "Номинальная мощность",
+    "ar": "القدرة الاسمية",
+    "ko": "정격 출력"
+  }
+}

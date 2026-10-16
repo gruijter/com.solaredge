@@ -12,7 +12,9 @@
     "modbusProbeFailed": "Aucun appareil compatible n'a répondu à cette adresse.",
     "modbusNoData": "Aucune donnée reçue.",
     "modbusUnreachable": "Appareil injoignable :",
-    "modbusNoUnits": "Rien de ce type n'a été trouvé à cette adresse."
+    "modbusNoUnits": "Rien de ce type n'a été trouvé à cette adresse.",
+    "modbusWriteFailed": "Impossible d'envoyer la commande :",
+    "powerLimitRejected": "L'onduleur n'a pas accepté la limite de puissance."
   },
   "migrating": "Mise à jour des capacités…",
   "pair": {

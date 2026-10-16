@@ -18,6 +18,7 @@
   "class": "solarpanel",
   "capabilities": [
     "measure_power",
+    "target_power",
     "measure_efficiency",
     "meter_power",
     "measure_temperature",
@@ -47,6 +48,23 @@
         "ru": "Солнечная мощность (AC)",
         "ar": "القدرة الشمسية (AC)",
         "ko": "태양광 전력 (AC)"
+      }
+    },
+    "target_power": {
+      "title": {
+        "en": "Power limit",
+        "nl": "Vermogenslimiet",
+        "de": "Leistungslimit",
+        "fr": "Limite de puissance",
+        "es": "Límite de potencia",
+        "it": "Limite di potenza",
+        "da": "Effektgrænse",
+        "sv": "Effektgräns",
+        "no": "Effektgrense",
+        "pl": "Limit mocy",
+        "ru": "Предел мощности",
+        "ar": "حد القدرة",
+        "ko": "전력 한도"
       }
     },
     "meter_power": {
