@@ -21,6 +21,7 @@ along with com.solaredge.  If not, see <http://www.gnu.org/licenses/>.
 
 const CommonDevice = require('../../lib/common_device');
 const DeviceMigrator = require('../../lib/DeviceMigrator');
+const finite = require('../../lib/finite');
 const siteDevices = require('../../lib/siteDevices');
 
 const CAPABILITY = 'solaredge-home-load-controller-state';
@@ -109,10 +110,9 @@ module.exports = class SolarEdgeHomeLoadControllerDevice extends CommonDevice {
    * An estimate: a switched-on appliance can draw less than its rated power.
    */
   async updatePower(device) {
-    const number = (value) => (typeof value === 'number' && Number.isFinite(value) ? value : null);
-    const measured = number(device.status?.activePowerMeter);
-    const rated = number(device.config?.ratedPower);
-    const level = number(device.status?.level);
+    const measured = finite(device.status?.activePowerMeter);
+    const rated = finite(device.config?.ratedPower);
+    const level = finite(device.status?.level);
     let power = null;
     if (measured !== null) power = Math.round(measured);
     else if (rated !== null && level !== null) power = Math.round((rated * level) / 100);

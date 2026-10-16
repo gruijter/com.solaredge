@@ -212,6 +212,11 @@ module.exports = class SolarEdgeApp extends Homey.App {
     this.scheduleEnergyTick(client);
   }
 
+  /** The account's upload interval in ms (learnCadence); undefined before an inverter's second snapshot. */
+  uploadCadence(client) {
+    return this.pollers.get(client)?.cadenceMs;
+  }
+
   async onUninit() {
     for (const client of [...this.pollers.keys()]) this.stopPolling(client);
   }

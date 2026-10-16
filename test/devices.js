@@ -86,8 +86,10 @@ const evCharger = async () => {
     const device = newDevice('evcharger', { reporterId: charger.reporterId }, { getSiteDevices: async () => response });
     // the powerflow had no connection status: it comes from the devices answer
     const session = await device.updateSession(true); // eslint-disable-line no-await-in-loop
-    // CURRENT_POWER_WH: 9508.838 W in the charging answer, 0 in the KEBA one, absent when not charging
-    const power = { charging: 9509, keba_charging: 0 }[state] ?? 0;
+    // CURRENT_POWER_WH: 9508.838 W in the charging answer, 0.0 while charging in the KEBA one (no
+    // reading), absent when not charging
+    const powers = { charging: 9509, keba_charging: null };
+    const power = state in powers ? powers[state] : 0;
     check(session?.power === power, `ev ${state}: power ${session?.power}, expected ${power}`);
     const v = device.values;
     const got = [v.evcharger_charging_state, v.evcharger_charging, v.ev_charge_mode, v.ev_solar_charging];

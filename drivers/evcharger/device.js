@@ -20,6 +20,7 @@ along with com.solaredge.  If not, see <http://www.gnu.org/licenses/>.
 'use strict';
 
 const CommonDevice = require('../../lib/common_device');
+const finite = require('../../lib/finite');
 const siteDevices = require('../../lib/siteDevices');
 
 // connectionStatus -> [evcharger_charging_state, evcharger_charging]; lower case in the powerflow
@@ -38,8 +39,6 @@ const CAPABILITY_ORDER = ['measure_power', 'meter_power.charged', 'evcharger_cha
 const ACTIVATION_MODES = { AUTO: 'auto', MANUAL: 'manual' };
 // excessPV: -1 solar surplus charging on, -2 off (briadelour const.py, example_raw_json)
 const EXCESS_PV = { '-1': true, '-2': false };
-
-const number = (value) => (typeof value === 'number' && Number.isFinite(value) ? value : null);
 
 module.exports = class SolarEdgeEVChargerDevice extends CommonDevice {
 
@@ -154,7 +153,8 @@ module.exports = class SolarEdgeEVChargerDevice extends CommonDevice {
    * @returns {Promise<{active: boolean, power: (number|null)}|null>} null when the charger is not
    *   listed. active: deviceStatus ACTIVE (seen in the KEBA answer of solaredge-evcharger-ha#6).
    *   power in W: chargerStatusSubTitle CURRENT_POWER_WH (W despite its name: 93 Wh after 38 s
-   *   at 9509 W), present only while charging, so 0 otherwise.
+   *   at 9509 W), present only while charging, so 0 otherwise. 0 while charging is no reading (the
+   *   KEBA answer: 0.0 after 3502 Wh in 1376 s), nor is a missing connectionStatus: null then.
    */
   async updateSession(withStatus) {
     const { siteId, reporterId } = this.getData();
@@ -177,8 +177,8 @@ module.exports = class SolarEdgeEVChargerDevice extends CommonDevice {
     if (charger.activationMode && !ACTIVATION_MODES[charger.activationMode]) this.logOnce(`mode ${charger.activationMode}`, 'unknown activationMode', charger.activationMode);
     if (withStatus && charger.connectionStatus) await this.setConnectionStatus(charger.connectionStatus);
 
-    const energy = number(charger.sessionEnergy);
-    const duration = number(charger.sessionDuration);
+    const energy = finite(charger.sessionEnergy);
+    const duration = finite(charger.sessionDuration);
     const values = {
       'meter_power.session': energy === null ? null : energy / 1000,
       ev_session_duration: duration === null ? null : Math.round(duration / 60),
@@ -193,8 +193,10 @@ module.exports = class SolarEdgeEVChargerDevice extends CommonDevice {
       if (value !== null) await this.setCapability(capability, value);
     }
     const subTitle = (charger.chargerStatusSubTitle || []).find((item) => item.subStatusTitle === 'CURRENT_POWER_WH');
-    let power = number(subTitle?.numericValue);
-    if (power === null && String(charger.connectionStatus).toUpperCase() !== 'CHARGING') power = 0;
+    const status = String(charger.connectionStatus || '').toUpperCase();
+    let power = finite(subTitle?.numericValue);
+    if (status === 'CHARGING' && power === 0) power = null;
+    if (power === null && status && status !== 'CHARGING') power = 0;
     return { active: charger.deviceStatus === 'ACTIVE', power: power === null ? null : Math.round(power) };
   }
 

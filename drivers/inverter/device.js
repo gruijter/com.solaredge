@@ -20,6 +20,7 @@ along with com.solaredge.  If not, see <http://www.gnu.org/licenses/>.
 'use strict';
 
 const CommonDevice = require('../../lib/common_device');
+const finite = require('../../lib/finite');
 const { isAsleep } = require('../../lib/inverterSleep');
 
 // energyOverview time period -> capability (energy in Wh)
@@ -31,9 +32,6 @@ const ENERGY_CAPABILITIES = {
 };
 
 const PHASES = [1, 2, 3];
-
-// the values of the inverter_status capability: lower-case inverterStatus, plus 'sleeping'
-const INVERTER_STATUSES = ['production', 'sleeping', 'starting', 'throttled', 'shutting_down', 'fault', 'standby', 'off'];
 
 // added once getInvertersInformation / getSiteEnergyByInverter report a value. Last in the order,
 // and the temperature (none before sunrise) last of them: a capability added in the middle makes
@@ -49,7 +47,6 @@ const OPTIONAL_CAPABILITIES = [
 const CAPABILITY_ORDER = ['measure_power', 'meter_power', 'meter_power.day', 'meter_power.month', 'meter_power.year',
   'alarm_problem', 'alarm_connectivity', ...OPTIONAL_CAPABILITIES];
 
-const finite = (value) => (typeof value === 'number' && Number.isFinite(value) ? value : null);
 const round = (value, decimals) => (value === null ? null : Number(value.toFixed(decimals)));
 
 /** The sum of `key` over `items`, or null when one of them has no number. */
@@ -98,6 +95,8 @@ module.exports = class SolarEdgeInverterDevice extends CommonDevice {
 
     // optional readings: a failure leaves the device as it is
     if (this.energyDue()) {
+      // updateSiteAlarms reuses the live data of updateInverterDetails
+      this.live = null;
       await this.updateEnergy(siteId).catch((error) => this.error(`Error Fetching Energy: ${error.message}`));
       await this.updateInverterDetails().catch((error) => this.error(`Error Fetching Inverter Details: ${error.message}`));
       await this.updateSiteAlarms().catch((error) => this.error(`Error Fetching Site Alarms: ${error.message}`));
@@ -123,24 +122,28 @@ module.exports = class SolarEdgeInverterDevice extends CommonDevice {
     return this.serials;
   }
 
-  /** getInvertersInformation; an answer of the last minute is reused (details, then alarms). */
-  async invertersInformation(serials) {
-    if (this.lastInformation && Date.now() - this.lastInformation.at < 60 * 1000) return this.lastInformation.information;
-    const information = await this.client.getInvertersInformation({ serials });
-    this.lastInformation = { at: Date.now(), information };
-    return information;
+  /** The values of the inverter_status capability (app.json): lower-case inverterStatus, plus 'sleeping'. */
+  statuses() {
+    return this.homey.manifest.capabilities.inverter_status.values.map((value) => value.id);
+  }
+
+  /** isAsleep at the account's upload interval. */
+  asleep(live) {
+    return isAsleep(live, { cadenceMs: this.homey.app?.uploadCadence?.(this.client) });
   }
 
   /**
    * Asleep for the night (lib/inverterSleep.js): an inverter stops uploading, and about an hour after
    * its last upload the site is no longer ONLINE (Dijker 2026-10-15: 0 W at 18:40, offline 20:02 to
-   * 08:15). False when unknown.
+   * 08:15). From this tick's live data, fetched again when updateInverterDetails failed. False when
+   * unknown.
    */
   async offlineExpected() {
     try {
+      if (this.live) return this.asleep(this.live);
       const serials = await this.inverterSerials();
       if (!serials.length) return false;
-      return isAsleep(Object.values((await this.invertersInformation(serials))?.serialToLiveData || {}));
+      return this.asleep(Object.values((await this.client.getInvertersInformation({ serials }))?.serialToLiveData || {}));
     } catch (error) {
       this.error(`Error Fetching Inverter Sleep: ${error.message}`);
       return false;
@@ -157,7 +160,7 @@ module.exports = class SolarEdgeInverterDevice extends CommonDevice {
     if (!serials.length) return;
 
     const values = {};
-    const information = await this.invertersInformation(serials);
+    const information = await this.client.getInvertersInformation({ serials });
 
     // lineNumber_3ph 1-3; v_ac_V line to neutral
     const phases = Object.values(information?.serialToPhaseMeasurements || {}).flat();
@@ -174,6 +177,7 @@ module.exports = class SolarEdgeInverterDevice extends CommonDevice {
     }
 
     const live = Object.values(information?.serialToLiveData || {});
+    this.live = live;
     if (phases.length && !phases.some((line) => PHASES.includes(line.lineNumber_3ph))) {
       this.logOnce('phases', 'phase measurements without lineNumber_3ph 1-3:', JSON.stringify(phases));
     }
@@ -183,8 +187,8 @@ module.exports = class SolarEdgeInverterDevice extends CommonDevice {
     statuses.forEach((status) => this.logOnce(`status ${status}`, 'inverter status', status));
     const status = (statuses.find((item) => item.toLowerCase() === 'fault') || statuses[0])?.toLowerCase();
     // asleep for the night the inverter stops uploading, its last status still 'production' (Dijker)
-    if (isAsleep(live)) values.inverter_status = 'sleeping';
-    else if (status) values.inverter_status = INVERTER_STATUSES.includes(status) ? status : null;
+    if (this.asleep(live)) values.inverter_status = 'sleeping';
+    else if (status) values.inverter_status = this.statuses().includes(status) ? status : null;
 
     // the highest temperature of each optimizer over the date range
     const today = dateIn(new Date(), await this.siteTimeZone());

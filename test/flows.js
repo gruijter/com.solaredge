@@ -22,7 +22,8 @@ along with com.solaredge.  If not, see <http://www.gnu.org/licenses/>.
 /*
  * The flow cards in the built app.json against the code:
  * 1. every condition and action has a run listener, and nothing else is registered;
- * 2. the `<capability>_is` conditions answer from the capability value;
+ * 2. the `<capability>_is` conditions answer from the capability value, and their dropdowns, like
+ *    those of the actions that set an enum, offer exactly the enum's values;
  * 3. every `<capability>_changed` / `_true` / `_false` trigger names a capability its driver can
  *    have, a `_changed` one with a token of that name. These and the `_is` conditions show only
  *    devices with the capability (device filter capabilities=). Homey runs these itself (homey-app-development
@@ -74,7 +75,24 @@ const fakeDevice = (capability, value) => ({
   getCapabilityValue: (id) => (id === capability ? value : null),
 });
 
+// the actions with a dropdown of an enum capability's values
+const ACTION_ENUMS = { 'home-load-controller-set-state': 'solaredge-home-load-controller-state' };
+
+/** The dropdown of card `id` offers the values of the enum `capability`, in the same order. */
+const checkEnum = (id, dropdown, capability) => {
+  const definition = manifest.capabilities?.[capability];
+  if (definition?.type !== 'enum') return;
+  const offered = dropdown.values.map((value) => value.id).join();
+  const values = definition.values.map((value) => value.id).join();
+  check(offered === values, `${id}: dropdown ${offered}, ${capability} has ${values}`);
+};
+
 const run = async () => {
+  for (const action of manifest.flow.actions || []) {
+    const dropdown = action.args.find((arg) => arg.type === 'dropdown');
+    if (dropdown && ACTION_ENUMS[action.id]) checkEnum(action.id, dropdown, ACTION_ENUMS[action.id]);
+  }
+
   for (const condition of manifest.flow.conditions || []) {
     const listener = registered.conditions[condition.id];
     const capability = condition.id.replace(/_is$/, '');
@@ -82,6 +100,7 @@ const run = async () => {
     if (capability !== condition.id) check(new URLSearchParams(filter).get('capabilities') === capability, `${condition.id}: device filter ${filter} lacks capabilities=${capability}`);
     if (!listener || capability === condition.id) continue;
     const dropdown = condition.args.find((arg) => arg.type === 'dropdown');
+    if (dropdown) checkEnum(condition.id, dropdown, capability);
     if (dropdown) {
       const [first, second] = dropdown.values.map((value) => value.id);
       const args = (id) => ({ device: fakeDevice(capability, first), [dropdown.name]: id });

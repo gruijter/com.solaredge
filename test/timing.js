@@ -30,6 +30,7 @@ require('./harness'); // the homey stub
 const {
   PERIOD_MS, MARGIN_MS, tickPhase, adaptMargin, delayToNextTick,
 } = require('../lib/solarEdgeTiming');
+const { isAsleep } = require('../lib/inverterSleep');
 
 const App = require(path.join(__dirname, '..', 'app.js')); // eslint-disable-line import/no-dynamic-require
 
@@ -122,6 +123,18 @@ slowPoller.judgePending = true;
 app.noteSnapshot(slow, 'INV2', at28 + 3 * PERIOD_MS);
 check(slowPoller.marginMs === MARGIN_MS + 15000, `15-minute site: margin ${slowPoller.marginMs} after a late upload`);
 
+// asleep: 0 W and no upload for one period past the upload interval
+const lastUpload = Date.parse('2026-10-15T18:55:28Z');
+const night = [{ lastMeasurement: '2026-10-15T18:55:28Z', pAc_W: 0 }];
+const minutes = (count) => lastUpload + count * 60 * 1000;
+check(!isAsleep(night, { nowMs: minutes(9) }), 'asleep 9 minutes after the last upload');
+check(isAsleep(night, { nowMs: minutes(10) }), 'not asleep 10 minutes after the last upload');
+check(!isAsleep(night, { cadenceMs: 3 * PERIOD_MS, nowMs: minutes(14) }), '15-minute site: asleep between two uploads');
+check(isAsleep(night, { cadenceMs: 3 * PERIOD_MS, nowMs: minutes(20) }), '15-minute site: not asleep 20 minutes after the last upload');
+check(!isAsleep([{ ...night[0], pAc_W: 1040 }], { nowMs: minutes(60) }), 'asleep after a cut-off while producing');
+check(!isAsleep([{ ...night[0], inverterStatus: 'FAULT' }], { nowMs: minutes(60) }), 'asleep after a fault');
+check(isAsleep([{ ...night[0], inverterStatus: 'PRODUCTION' }], { nowMs: minutes(60) }), 'not asleep with its status still production');
+
 Date.now = RealNow;
 app.stopPolling(client);
 app.stopPolling(slow);
@@ -131,5 +144,5 @@ if (failures.length) {
   failures.forEach((failure) => console.error(`  ${failure}`));
   process.exitCode = 1;
 } else {
-  console.log('OK - timing: energy tick follows the inverter data, margin adapts, night and 15-minute uploads ignored');
+  console.log('OK - timing: energy tick follows the inverter data, margin adapts, night and 15-minute uploads ignored, sleep follows the upload interval');
 }

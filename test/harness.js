@@ -56,6 +56,7 @@ const invalidValue = (id, value) => {
 };
 
 const homey = {
+  manifest,
   __: (key) => {
     if (typeof key === 'object') return key.en;
     return key.split('.').reduce((node, part) => node?.[part], en) ?? key;
