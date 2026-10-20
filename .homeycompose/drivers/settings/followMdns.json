@@ -1,0 +1,35 @@
+{
+  "id": "followMdns",
+  "type": "checkbox",
+  "value": true,
+  "label": {
+    "en": "Follow IP address via mDNS",
+    "nl": "IP-adres volgen via mDNS",
+    "de": "IP-Adresse über mDNS folgen",
+    "fr": "Suivre l'adresse IP via mDNS",
+    "es": "Seguir la dirección IP mediante mDNS",
+    "it": "Segui l'indirizzo IP tramite mDNS",
+    "da": "Følg IP-adresse via mDNS",
+    "sv": "Följ IP-adress via mDNS",
+    "no": "Følg IP-adresse via mDNS",
+    "pl": "Śledź adres IP przez mDNS",
+    "ru": "Отслеживать IP-адрес через mDNS",
+    "ar": "تتبع عنوان IP عبر mDNS",
+    "ko": "mDNS로 IP 주소 따라가기"
+  },
+  "hint": {
+    "en": "Off: the IP address above is never changed by the app.",
+    "nl": "Uit: de app wijzigt het IP-adres hierboven nooit.",
+    "de": "Aus: Die App ändert die obige IP-Adresse nie.",
+    "fr": "Désactivé : l'application ne modifie jamais l'adresse IP ci-dessus.",
+    "es": "Desactivado: la app nunca cambia la dirección IP de arriba.",
+    "it": "Disattivato: l'app non modifica mai l'indirizzo IP sopra.",
+    "da": "Fra: appen ændrer aldrig IP-adressen ovenfor.",
+    "sv": "Av: appen ändrar aldrig IP-adressen ovan.",
+    "no": "Av: appen endrer aldri IP-adressen over.",
+    "pl": "Wyłączone: aplikacja nigdy nie zmienia powyższego adresu IP.",
+    "ru": "Выкл.: приложение никогда не меняет IP-адрес выше.",
+    "ar": "إيقاف: لا يغيّر التطبيق عنوان IP أعلاه أبدًا.",
+    "ko": "끔: 앱이 위의 IP 주소를 변경하지 않습니다."
+  }
+}
