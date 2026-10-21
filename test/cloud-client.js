@@ -234,6 +234,36 @@ test('a refresh token no longer accepted falls back to a login', async () => {
   assert.equal(client._refreshToken, 'rt1');
 });
 
+test('a new refresh token is reported, and null once it is no longer accepted', async () => {
+  const reported = [];
+  const client = new SolarEdgeCloudClient({
+    username: 'user@example.com', password: 'secret', onRefreshToken: (token) => reported.push(token),
+  });
+  await client.getSites();
+  assert.equal(client.refreshToken, 'rt1');
+  // a refresh keeps the refresh token: nothing to report
+  client._tokenExpiresAt = 0;
+  await client.getSites();
+  assert.deepEqual(reported, ['rt1']);
+  refreshValid = false;
+  client._tokenExpiresAt = 0;
+  await client.getSites();
+  // dropped, then the login issued it again
+  assert.deepEqual(reported, ['rt1', null, 'rt1']);
+});
+
+test('a kept refresh token renews without a password login', async () => {
+  const client = newClient('wrong');
+  client.useRefreshToken('rt1');
+  const sites = await client.getSites();
+  assert.deepEqual(sites, { 1: { id: 1, name: 'Home' } });
+  assert.equal(count(isLogin), 0);
+  assert.equal(count(isRefresh), 1);
+  // a token the client already has is not replaced
+  client.useRefreshToken('other');
+  assert.equal(client.refreshToken, 'rt1');
+});
+
 test('concurrent callers share one login and one identical GET', async () => {
   const client = newClient();
   const results = await Promise.all([1, 2, 3, 4].map(() => client.getSitePowerflow({ siteId: 1 })));

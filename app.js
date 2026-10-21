@@ -56,13 +56,30 @@ module.exports = class SolarEdgeApp extends Homey.App {
 
   /** A client whose answers go to the log while capturing is armed (lib/solarEdgeCapture.js). */
   newClient({ username, password }) {
+    let wrapped = null;
     const client = new SolarEdgeCloudClient({
       username,
       password,
       log: (...args) => this.log('[client]', ...args),
       error: (...args) => this.error('[client]', ...args),
+      onRefreshToken: (token) => this.storeRefreshToken(wrapped, token),
     });
-    return capture.wrap(client, (line) => this.log(line));
+    wrapped = capture.wrap(client, (line) => this.log(line));
+    return wrapped;
+  }
+
+  /**
+   * Keep the account's refresh token with each of its devices (CommonDevice#connect restores it),
+   * so an app restart renews the token without sending the password; null removes it.
+   */
+  storeRefreshToken(client, token) {
+    for (const device of this.getDevices()) {
+      if (device.client !== client) continue;
+      const write = token
+        ? device.setStoreValue('refreshToken', { username: client.username, token })
+        : device.unsetStoreValue('refreshToken');
+      write.catch((error) => this.error(error));
+    }
   }
 
   /**
@@ -89,6 +106,8 @@ module.exports = class SolarEdgeApp extends Homey.App {
       if (other !== device) await other.setSettings(credentials);
       other.connect(other === device ? newSettings : other.getSettings());
     }
+    // the login above ran before these devices used the client
+    this.storeRefreshToken(client, client.refreshToken);
 
     this.dropUnusedClients(devices);
   }
