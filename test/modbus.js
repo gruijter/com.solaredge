@@ -56,6 +56,7 @@ const setFloat = (holding, address, value) => {
 /**
  * A Modbus TCP server answering function 0x03 from `holding` ({ address: word }); 0x06 and 0x10
  * write into it. `holding.rejectWrites`: acknowledge but keep the value, as Dijker's inverter did.
+ * `holding.refused`: addresses whose read is answered with exception 2 (illegal data address).
  */
 const serve = (holding) => new Promise((resolve) => {
   const server = net.createServer((socket) => {
@@ -79,6 +80,16 @@ const serve = (holding) => new Promise((resolve) => {
       if (frame.readUInt8(7) !== 0x03) return;
       const address = frame.readUInt16BE(8);
       const count = frame.readUInt16BE(10);
+      if (holding.refused?.some((refused) => refused >= address && refused < address + count)) {
+        const exception = Buffer.alloc(9);
+        frame.copy(exception, 0, 0, 4);
+        exception.writeUInt16BE(3, 4);
+        exception.writeUInt8(frame.readUInt8(6), 6);
+        exception.writeUInt8(0x83, 7);
+        exception.writeUInt8(2, 8);
+        socket.write(exception);
+        return;
+      }
       const reply = Buffer.alloc(9 + count * 2);
       frame.copy(reply, 0, 0, 4);
       reply.writeUInt16BE(3 + count * 2, 4);
@@ -519,13 +530,14 @@ const unitChecks = async () => {
   check(meter('Production').cumulative === undefined, 'meter: a production meter is cumulative');
 };
 
+const load = (dump) => Object.fromEntries(Object.entries(JSON.parse(fs.readFileSync(path.join(FIXTURES, `${dump}.json`), 'utf8')).holding)
+  .map(([address, word]) => [Number(address), word]));
+
 /**
  * Pairing discovery against the fake server on loopback: the scan of 127.0.0.0/24, mDNS (which the
  * scan then skips), and no offer for another SunSpec brand.
  */
 const discovery = async () => {
-  const load = (dump) => Object.fromEntries(Object.entries(JSON.parse(fs.readFileSync(path.join(FIXTURES, `${dump}.json`), 'utf8')).holding)
-    .map(([address, word]) => [Number(address), word]));
   const holding = load('se17k_3phase');
   const server = await serve(holding);
   const { port } = server.address();
@@ -568,10 +580,55 @@ const discovery = async () => {
   }
 };
 
+/**
+ * A battery unreachable at its address and announced over mDNS at another: rediscovery moves it
+ * there, also when the server refuses the optional identity block; with followMdns off it stays.
+ */
+const rediscovery = async () => {
+  const holding = load('issue944_u1');
+  holding.refused = [57600 + 68];
+  const server = await serve(holding);
+  const { port } = server.address();
+  try {
+    const driver = loadDriver('battery_modbus');
+    await driver.onInit();
+    const [offer] = await driver.findDevices({ host: '127.0.0.1', port, unitId: 1 });
+    driver.homey = {
+      ...driver.homey,
+      discovery: { getStrategy: () => ({ getDiscoveryResults: () => ({ a: { address: '127.0.0.1', port: String(port), txt: {} } }) }) },
+    };
+    const DeviceClass = require(path.join(ROOT, 'drivers', 'battery_modbus', 'device.js')); // eslint-disable-line import/no-dynamic-require, global-require
+    const device = new DeviceClass({ driverManifest: driver.manifest, data: offer.data, settings: { ...offer.settings, host: '127.0.0.2' } });
+    device.store = structuredClone(offer.store);
+    device.driver = driver;
+    const logged = [];
+    device.log = (message) => logged.push(message);
+    const { pool } = device.homey.app;
+
+    await device.setSettings({ followMdns: false });
+    await device.rediscover();
+    check(device.getSetting('host') === '127.0.0.2' && !device.client, `rediscovery with followMdns off moved to ${device.getSetting('host')}`);
+
+    await device.setSettings({ followMdns: true });
+    await device.rediscover();
+    const entry = pool.entries.get(`127.0.0.1:${port}#1`);
+    check(device.getSetting('host') === '127.0.0.1' && device.getSetting('port') === port,
+      `rediscovery: at ${device.getSetting('host')}:${device.getSetting('port')}`);
+    check(entry && entry.client === device.client && entry.refs === 1, `rediscovery: pooled client refs ${entry?.refs}`);
+    device.client?.log('probe');
+    check(logged.includes('probe'), 'rediscovery: the pooled client does not log to the device');
+    device.release();
+    check(pool.entries.size === 0, `rediscovery: ${pool.entries.size} pooled client(s) left`);
+  } finally {
+    server.close();
+  }
+};
+
 (async () => {
   kebaIdentity();
   await unitChecks();
   await discovery();
+  await rediscovery();
   const modbusDrivers = manifest.drivers.filter((driver) => driver.connectivity.includes('lan')).map((driver) => driver.id);
   for (const testCase of CASES) {
     const { holding } = testCase.registers
@@ -603,7 +660,7 @@ const discovery = async () => {
     failures.forEach((failure) => console.error(`  ${failure}`));
     process.exitCode = 1;
   } else {
-    console.log(`OK - modbus: ${CASES.length} register dumps paired and polled`);
+    console.log(`OK - modbus: ${CASES.length} register dumps paired and polled, discovery and rediscovery`);
   }
 })().catch((error) => {
   console.error(error);

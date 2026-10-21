@@ -37,6 +37,8 @@ let sessionValid = true;
 let rejectSession = false;
 // the refresh token is no longer accepted
 let refreshValid = true;
+// the code exchange: 'drop' closes the connection unanswered, 'refuse' answers invalid_grant
+let codeExchange = null;
 let issued = 0;
 let validToken = null;
 let challenge = null;
@@ -110,6 +112,14 @@ const server = http.createServer((req, res) => {
     if (url.pathname === '/oauth2/token') {
       const form = new URLSearchParams(body);
       if (form.get('grant_type') === 'authorization_code') {
+        if (codeExchange === 'drop') {
+          req.socket.destroy();
+          return;
+        }
+        if (codeExchange === 'refuse') {
+          json(400, { error: 'invalid_grant' });
+          return;
+        }
         const verified = crypto.createHash('sha256').update(form.get('code_verifier') ?? '').digest('base64url') === challenge;
         if (form.get('code') !== 'code1' || !verified) {
           json(400, { error: 'invalid_grant' });
@@ -200,6 +210,21 @@ test('a redirect elsewhere (second factor) is LOGIN_REFUSED', async () => {
 test('an unexpected status (410) is LOGIN_REFUSED, not a wrong password', async () => {
   const client = newClient('gone');
   await assert.rejects(client.login(), (error) => error.code === 'LOGIN_REFUSED');
+});
+
+test('a code exchange without an answer is an outage, not a refused login', async () => {
+  const client = newClient();
+  codeExchange = 'drop';
+  await assert.rejects(client.login(), (error) => error.message === 'fetch failed' && error.code === undefined);
+  assert.equal(client._loginBlockedUntil, 0);
+  assert.equal(client.isLoggedIn(), false);
+});
+
+test('a refused code exchange is LOGIN_REFUSED', async () => {
+  const client = newClient();
+  codeExchange = 'refuse';
+  await assert.rejects(client.login(), (error) => error.code === 'LOGIN_REFUSED' && error.status === 400);
+  assert.ok(client._loginBlockedUntil > Date.now());
 });
 
 test('the first call logs in, with the app headers and the Bearer token', async () => {
@@ -442,6 +467,7 @@ async function run() {
     sessionValid = true;
     rejectSession = false;
     refreshValid = true;
+    codeExchange = null;
     issued = 0;
     try {
       // eslint-disable-next-line no-await-in-loop

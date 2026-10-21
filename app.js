@@ -106,8 +106,6 @@ module.exports = class SolarEdgeApp extends Homey.App {
       if (other !== device) await other.setSettings(credentials);
       other.connect(other === device ? newSettings : other.getSettings());
     }
-    // the login above ran before these devices used the client
-    this.storeRefreshToken(client, client.refreshToken);
 
     this.dropUnusedClients(devices);
   }

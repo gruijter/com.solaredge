@@ -1985,7 +1985,7 @@
             "ko": "백업 예비량"
           },
           "min": 0,
-          "max": 100
+          "max": 1
         },
         "meter_power.charged": {
           "title": {

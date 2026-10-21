@@ -31,6 +31,8 @@ along with com.solaredge.  If not, see <http://www.gnu.org/licenses/>.
  * 3. Every energy capability reference names a capability of the driver.
  * 4. Every translation has all 13 locales, every errors.* key used in code exists in every
  *    locales file, and every language has its README.
+ * 5. A slider with unit '%' holds 0-1, also with the driver's capabilitiesOptions (homey-app-development
+ *    skill, section 23).
  */
 
 const fs = require('fs');
@@ -154,6 +156,17 @@ for (const locale of LOCALES) {
   if (missing.length) failures.push(`locales/${locale}.json missing: ${missing.join(', ')}`);
   const readme = locale === 'en' ? 'README.txt' : `README.${locale}.txt`;
   if (!fs.existsSync(path.join(ROOT, readme))) failures.push(`${readme} is missing`);
+}
+
+// --- 5. a '%' slider holds 0-1 -----------------------------------------------------------
+
+for (const driver of app.drivers) {
+  for (const capability of driver.capabilities) {
+    const options = { ...app.capabilities?.[capability.split('.')[0]], ...driver.capabilitiesOptions?.[capability] };
+    if (options.uiComponent === 'slider' && options.units?.en === '%' && !(options.max <= 1)) {
+      failures.push(`${driver.id}: ${capability} is a '%' slider with max ${options.max}, not 1`);
+    }
+  }
 }
 
 // --- report -------------------------------------------------------------------------------

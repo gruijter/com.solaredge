@@ -189,6 +189,10 @@ class Device extends SimpleClass {
     this.store[key] = value;
   }
 
+  async unsetStoreValue(key) {
+    delete this.store[key];
+  }
+
   getAvailable() {
     return this.available;
   }
