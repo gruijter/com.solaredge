@@ -58,9 +58,11 @@ const DEVICE_CHECKS = {
   },
   meter: (values, capture, label) => {
     const years = capture.calls.filter((call) => call.method === 'getSiteMeasurements' && call.result?.summary);
-    const sum = (field) => Math.round(years.reduce((total, call) => total + (call.result.summary[field] ?? 0), 0) / 1000);
-    check(values['meter_power.imported'] === sum('import'), `${label}: imported ${values['meter_power.imported']} kWh, the years add up to ${sum('import')}`);
-    check(values['meter_power.exported'] === sum('export'), `${label}: exported ${values['meter_power.exported']} kWh, the years add up to ${sum('export')}`);
+    // kWh at Wh resolution, as the meter keeps them
+    const sum = (field) => years.reduce((total, call) => total + (call.result.summary[field] ?? 0), 0) / 1000;
+    const same = (value, expected) => typeof value === 'number' && Math.abs(value - expected) < 0.0005;
+    check(same(values['meter_power.imported'], sum('import')), `${label}: imported ${values['meter_power.imported']} kWh, the years add up to ${sum('import')}`);
+    check(same(values['meter_power.exported'], sum('export')), `${label}: exported ${values['meter_power.exported']} kWh, the years add up to ${sum('export')}`);
   },
 };
 
