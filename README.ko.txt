@@ -4,7 +4,7 @@ Homey에서 SolarEdge 설비를 실시간으로 확인하세요: 태양광 발�
 - 클라우드: mySolarEdge 계정의 이메일 주소와 비밀번호로 로그인합니다. Homey Cloud를 포함한 모든 Homey에서 작동합니다.
 - Modbus: 로컬 네트워크의 인버터에 직접 연결합니다. Homey Pro에서만 작동합니다. 인버터에서 Modbus TCP가 활성화되어 있어야 합니다(설치 기사가 SetApp에서 설정할 수 있습니다).
 
-클라우드 기기: 인버터, 계량기, 배터리, 전기차 충전기, Home Load Controller.
+클라우드 기기: 인버터(인버터마다 기기 하나), 계량기, 배터리, 전기차 충전기, Home Load Controller.
 Modbus 기기: 인버터, 계량기, 배터리, SolarEdge Home EV Charger. 출력 전력, 전력망 송전, 배터리 충전 및 전기차 충전 제어를 포함합니다.
 
 알려진 제한 사항: 2단계 인증(2FA)을 사용하거나 회사 계정(통합 로그인, SSO)으로 로그인하는 계정은 클라우드 로그인이 작동하지 않습니다.

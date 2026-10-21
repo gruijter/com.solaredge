@@ -17,9 +17,9 @@ During pairing, the app only offers the devices your site actually has.
 
 ### Cloud
 
-- **Inverter:** solar power, plus the energy produced today, this month, this year and in total.
+- **Inverter:** one device per inverter: solar power, the energy produced today, this month, this year and in total, and voltage per phase, optimizer temperature and status. SolarEdge reports power and energy for the whole site; with several inverters the app splits them by what each inverter produced.
 - **Meter** (sites with a grid meter): home consumption, grid power (import positive, export negative), solar power, and the imported and exported energy for Homey Energy.
-- **Battery:** charge and discharge power, state of charge and charging state.
+- **Battery:** all batteries of a site together, as in SolarEdge's own app: charge and discharge power, state of charge, charging state, state of health, and the energy charged and discharged (grid included) for Homey Energy.
 - **EV Charger:** charging power and state, energy charged, and starting and stopping charging from Homey.
 - **Home Load Controller:** SolarEdge smart energy switches. You can set them to on, off or auto from the device or from a Flow.
 
