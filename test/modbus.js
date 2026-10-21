@@ -256,7 +256,7 @@ const CASES = [
       battery_charging_state: 'discharging',
       measure_soh: 98,
       target_power_mode: 'time_of_use',
-      battery_min_soc: 6,
+      battery_min_soc: 0.06,
       'meter_power.charged': null,
     }, { measure_power: -66 }],
     // the dump shows no advanced power control: remote control is refused, nothing written
@@ -273,7 +273,7 @@ const CASES = [
     // issue913 with advanced power control on: remote control through the 1st battery
     dump: 'issue913_u1',
     inject: advancedPowerControl,
-    battery_modbus: [{ target_power_mode: 'self_use', battery_min_soc: 2 }, {}],
+    battery_modbus: [{ target_power_mode: 'self_use', battery_min_soc: 0.02 }, {}],
     scenario: {
       battery_modbus: async ({
         device, holding, index, name,
@@ -300,7 +300,7 @@ const CASES = [
         await act(device, { target_power_mode: 'self_use' });
         await device.poll();
         check(holding[0xe004] === 1 && device.getCapabilityValue('target_power_mode') === 'self_use', `${name}: back to self-use ${holding[0xe004]}`);
-        await act(device, { battery_min_soc: 30 });
+        await act(device, { battery_min_soc: 0.3 });
         check(floatAt(holding, 0xe008) === 30, `${name}: backup reserve ${floatAt(holding, 0xe008)}`);
       },
     },

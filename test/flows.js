@@ -110,7 +110,7 @@ const run = async () => {
   };
   const ACTION_CALLS = {
     set_export_limit: [{ watts: 2000 }, ['setControl', { export_limit: 2000 }]],
-    set_backup_reserve: [{ soc: 30 }, ['setControl', { battery_min_soc: 30 }]],
+    set_backup_reserve: [{ soc: 30 }, ['setControl', { battery_min_soc: 0.3 }]],
     set_session_energy_limit: [{ kwh: 20 }, ['setControl', { session_energy_limit: 20 }]],
     set_charging_phases: [{ phases: '1' }, ['runAction', 'chargingPhases', { phases: '1' }]],
   };

@@ -26,7 +26,7 @@ module.exports = class SolarEdgeBatteryModbusDriver extends ModbusDriver {
   async onInit() {
     await super.onInit();
     this.homey.flow.getActionCard('set_backup_reserve')
-      .registerRunListener(({ device, soc }) => device.setControl({ battery_min_soc: soc }));
+      .registerRunListener(({ device, soc }) => device.setControl({ battery_min_soc: soc / 100 }));
   }
 
 };
