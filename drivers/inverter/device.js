@@ -119,9 +119,15 @@ const livePvShare = (information, serial, batteryPower = {}) => {
   return pv.find(([inverter]) => inverter === serial)[1] / total;
 };
 
+// inverterStatus -> inverter_status where the names differ ('production-limit' seen live, with
+// powerLimit_percent below 100)
+const STATUS_ALIASES = { 'production-limit': 'throttled' };
+
 /** The status of several inverters: a fault first, then production, else the first known one. */
 const statusOf = (reported, statuses) => {
-  const known = reported.map((status) => status.toLowerCase()).filter((status) => statuses.includes(status));
+  const known = reported
+    .map((status) => STATUS_ALIASES[status.toLowerCase()] ?? status.toLowerCase())
+    .filter((status) => statuses.includes(status));
   return ['fault', 'production'].find((status) => known.includes(status)) || known[0] || null;
 };
 
@@ -146,8 +152,8 @@ const liveValues = (information, { serials, statuses, cadenceMs }) => {
     values[`measure_voltage.${phase}`] = round(voltage === null ? null : voltage / lines.length, 1);
   }
 
-  // 'production' and 'setup' (an idle inverter next to a producing one) were seen live; the
-  // others are assumed after the SunSpec states
+  // 'production', 'production-limit' and 'setup' (an idle inverter next to a producing one) were
+  // seen live; the others are assumed after the SunSpec states
   const live = pick(information?.serialToLiveData, serials);
   const reported = live.map((item) => item.inverterStatus).filter((status) => typeof status === 'string');
   // asleep for the night the inverter stops uploading, its last status still 'production' (Dijker)
