@@ -70,5 +70,8 @@
   },
   "2.1.1": {
     "en": "Modbus devices can now be added."
+  },
+  "2.1.2": {
+    "en": "Fixed multiple inverters and batteries. Added inverter throttled status and voltage. Improved Modbus and EV charger energy. Minor other fixes and improvements."
   }
 }
