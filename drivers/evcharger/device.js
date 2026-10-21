@@ -130,7 +130,10 @@ module.exports = class SolarEdgeEVChargerDevice extends CommonDevice {
     }
   }
 
-  /** meter_power.charged: Wh, summed over the sessions of the last year. */
+  /**
+   * meter_power.charged: Wh, summed over all sessions: the history honours startTime (seen live:
+   * 1662 kWh from 0, 607 kWh over 30 days), so startTime 0 gives every session since the first.
+   */
   async updateCharged() {
     const { siteId, reporterId } = this.getData();
     const applianceSessionsHistory = await this.client.getSiteDeviceApplianceSessionsHistory({ siteId, reporterId });
@@ -145,7 +148,7 @@ module.exports = class SolarEdgeEVChargerDevice extends CommonDevice {
         totalCharged += statisticsConsumedEnergy.totalValue;
       }
     });
-    // old sessions leave the year: monotonic() keeps the Energy meter rising
+    // a total that falls (a vehicle removed with its sessions, assumed): monotonic() keeps the Energy meter rising
     await this.setCapability('meter_power.charged', await this.monotonic('charged', totalCharged / 1000));
   }
 
