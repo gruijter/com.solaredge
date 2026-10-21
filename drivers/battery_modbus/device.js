@@ -21,4 +21,19 @@ along with com.solaredge.  If not, see <http://www.gnu.org/licenses/>.
 
 const ModbusDevice = require('../../lib/modbus_device');
 
-module.exports = class SolarEdgeBatteryModbusDevice extends ModbusDevice {};
+module.exports = class SolarEdgeBatteryModbusDevice extends ModbusDevice {
+
+  /**
+   * One device per inverter combines its batteries (lib/solarEdgePointMap.js): a device of a 2nd or
+   * 3rd battery (base above 0, paired before) only asks to be deleted.
+   */
+  async onInit() {
+    if (this.base !== 0) {
+      await this.setUnavailable(this.homey.__('errors.batteryMerged'));
+      this.log(`${this.getName()} is a 2nd or 3rd battery, now part of the inverter's 1st battery device`);
+      return;
+    }
+    await super.onInit();
+  }
+
+};

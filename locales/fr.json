@@ -26,7 +26,8 @@
     "backupReserveRejected": "L'onduleur n'a pas accepté la réserve de secours.",
     "noCarConnected": "Aucune voiture branchée.",
     "noChargingSession": "Aucune session de charge : branchez d'abord une voiture.",
-    "phaseSwitchingOff": "Activez d'abord « Commutation de phases via Modbus » dans les réglages de l'appareil."
+    "phaseSwitchingOff": "Activez d'abord « Commutation de phases via Modbus » dans les réglages de l'appareil.",
+    "batteryMerged": "N'est plus utilisé : cette batterie fait maintenant partie du premier appareil batterie de son onduleur. Supprimez cet appareil."
   },
   "migrating": "Mise à jour des capacités…",
   "pair": {

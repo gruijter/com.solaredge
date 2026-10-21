@@ -26,7 +26,8 @@
     "backupReserveRejected": "Växelriktaren accepterade inte reservkapaciteten.",
     "noCarConnected": "Ingen bil ansluten.",
     "noChargingSession": "Ingen laddsession: anslut först en bil.",
-    "phaseSwitchingOff": "Slå först på \"Fasväxling via Modbus\" i enhetsinställningarna."
+    "phaseSwitchingOff": "Slå först på \"Fasväxling via Modbus\" i enhetsinställningarna.",
+    "batteryMerged": "Används inte längre: batteriet ingår nu i växelriktarens första batterienhet. Ta bort den här enheten."
   },
   "migrating": "Uppdaterar funktioner…",
   "pair": {

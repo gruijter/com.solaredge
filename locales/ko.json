@@ -26,7 +26,8 @@
     "backupReserveRejected": "인버터가 백업 예비량을 받아들이지 않았습니다.",
     "noCarConnected": "연결된 차량이 없습니다.",
     "noChargingSession": "충전 세션이 없습니다. 먼저 차량을 연결하세요.",
-    "phaseSwitchingOff": "먼저 장치 설정에서 \"Modbus로 상 전환\"을 켜세요."
+    "phaseSwitchingOff": "먼저 장치 설정에서 \"Modbus로 상 전환\"을 켜세요.",
+    "batteryMerged": "더 이상 사용하지 않음: 이 배터리는 이제 인버터의 첫 번째 배터리 기기에 포함됩니다. 이 기기를 삭제하세요."
   },
   "migrating": "기능 업데이트 중…",
   "pair": {

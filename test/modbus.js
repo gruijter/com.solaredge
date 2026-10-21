@@ -235,20 +235,22 @@ const CASES = [
     }],
     // positive export in the register: import positive here
     meter_modbus: [{ measure_power: -5279 }],
+    // two batteries (SoE 100 and 99 %, 9.58 and 9.71 kWh left) in one device
     battery_modbus: [{
       measure_power: 0,
       measure_battery: 100,
       measure_soh: 100,
+      measure_residual_energy: 19.29,
       battery_charging_state: 'idle',
       // the dumps lack the lifetime counters: the server's 0x8000 words are not implemented
       'meter_power.charged': null,
       'meter_power.discharged': null,
-    }, { measure_battery: 99 }],
+    }],
     // the dump lacks the charge and discharge power ratings
     settings: {
       inverter_modbus: { phases: '1' },
       meter_modbus: { phases: '3' }, // wye; the dump lacks the meter common block
-      battery_modbus: { ratedEnergy: '9.7 kWh', maxChargePower: '', maxDischargePower: '' },
+      battery_modbus: { ratedEnergy: '19.4 kWh', maxChargePower: '', maxDischargePower: '' },
     },
   },
   {
@@ -262,14 +264,16 @@ const CASES = [
   },
   {
     dump: 'issue944_u1',
+    // two batteries discharging 66 W each (SoE 96 and 95 %, SoH 98 and 99 %) in one device
     battery_modbus: [{
-      measure_power: -66,
+      measure_power: -132,
+      measure_battery: 95,
       battery_charging_state: 'discharging',
-      measure_soh: 98,
+      measure_soh: 98.5,
       target_power_mode: 'time_of_use',
       battery_min_soc: 0.06,
       'meter_power.charged': null,
-    }, { measure_power: -66 }],
+    }],
     // the dump shows no advanced power control: remote control is refused, nothing written
     scenario: {
       battery_modbus: async ({ device, holding, name }) => {
@@ -284,16 +288,9 @@ const CASES = [
     // issue913 with advanced power control on: remote control through the 1st battery
     dump: 'issue913_u1',
     inject: advancedPowerControl,
-    battery_modbus: [{ target_power_mode: 'self_use', battery_min_soc: 0.02 }, {}],
+    battery_modbus: [{ target_power_mode: 'self_use', battery_min_soc: 0.02 }],
     scenario: {
-      battery_modbus: async ({
-        device, holding, index, name,
-      }) => {
-        if (index === 1) {
-          // one control block for all batteries of the inverter
-          check(!device.hasCapability('target_power') && !device.hasCapability('battery_min_soc'), `${name}: controls on the 2nd battery`);
-          return;
-        }
+      battery_modbus: async ({ device, holding, name }) => {
         check(await act(device, { target_power: 2000 }) === null, `${name}: charging refused`);
         check(holding[0xe004] === 4 && holding[0xe00a] === 1 && holding[0xe00b] === 60 && holding[0xe00d] === 3
           && floatAt(holding, 0xe00e) === 2000, `${name}: charge command ${[0xe004, 0xe00a, 0xe00b, 0xe00d].map((a) => holding[a])} ${floatAt(holding, 0xe00e)}`);
@@ -500,6 +497,30 @@ const kebaIdentity = () => {
 
 /** Decisions that need no server: a refused storage block, falling battery counters, meter roles. */
 const unitChecks = async () => {
+  // a device of a 2nd battery, paired before one device combined them, only asks to be deleted
+  const BatteryDevice = require(path.join(ROOT, 'drivers', 'battery_modbus', 'device.js')); // eslint-disable-line import/no-dynamic-require, global-require
+  const retired = new BatteryDevice({ driverManifest: loadDriver('battery_modbus').manifest, data: { id: 'X-battery-256' }, settings: { host: '127.0.0.1' } });
+  retired.store = { base: 256 };
+  await retired.onInit();
+  check(!retired.available && retired.unavailableMessage === retired.homey.__('errors.batteryMerged') && !retired.client,
+    `battery: a 2nd battery device is ${retired.available ? 'available' : retired.unavailableMessage}`);
+
+  // the ratings of all batteries of the inverter add up; a later battery without them leaves none
+  const ratings = new Map();
+  const put = (address, value) => {
+    const buffer = Buffer.alloc(4);
+    buffer.writeFloatLE(value);
+    ratings.set(address, buffer.readUInt16LE(0)).set(address + 1, buffer.readUInt16LE(2));
+  };
+  [0, 256].forEach((base) => {
+    put(57600 + base + 66, 9700);
+    put(57600 + base + 68, 5000);
+    put(57600 + base + 70, 4000);
+  });
+  const combined = pointMap.battery_modbus.detect(ratings, {}, 0, new Set());
+  check(isDeepStrictEqual([combined.batteries, combined.maxChargePower, combined.maxDischargePower], [[0, 256], 10000, 8000]),
+    `battery: combined ratings ${JSON.stringify(combined)}`);
+
   const { detect } = pointMap.battery_modbus;
   check(!('storageControl' in detect(new Map(), {}, 0, new Set())), 'battery: a storage block that timed out was judged absent');
   check(detect(new Map(), {}, 0, new Set([0xe004])).storageControl === false, 'battery: a refused storage block was not judged absent');

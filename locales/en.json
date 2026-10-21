@@ -26,7 +26,8 @@
     "backupReserveRejected": "The inverter did not accept the backup reserve.",
     "noCarConnected": "No car connected.",
     "noChargingSession": "No charging session: plug in a car first.",
-    "phaseSwitchingOff": "Turn on \"Phase switching via Modbus\" in the device settings first."
+    "phaseSwitchingOff": "Turn on \"Phase switching via Modbus\" in the device settings first.",
+    "batteryMerged": "No longer used: this battery is now part of the first battery device of its inverter. Please delete this device."
   },
   "migrating": "Updating capabilities…",
   "pair": {

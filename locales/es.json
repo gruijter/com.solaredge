@@ -26,7 +26,8 @@
     "backupReserveRejected": "El inversor no aceptó la reserva de respaldo.",
     "noCarConnected": "No hay ningún coche conectado.",
     "noChargingSession": "No hay sesión de carga: conecta primero un coche.",
-    "phaseSwitchingOff": "Activa primero \"Conmutación de fases por Modbus\" en los ajustes del dispositivo."
+    "phaseSwitchingOff": "Activa primero \"Conmutación de fases por Modbus\" en los ajustes del dispositivo.",
+    "batteryMerged": "Ya no se usa: esta batería forma parte ahora del primer dispositivo de batería de su inversor. Elimina este dispositivo."
   },
   "migrating": "Actualizando capacidades…",
   "pair": {

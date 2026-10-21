@@ -26,7 +26,8 @@
     "backupReserveRejected": "Falownik nie zaakceptował rezerwy awaryjnej.",
     "noCarConnected": "Brak podłączonego samochodu.",
     "noChargingSession": "Brak sesji ładowania: najpierw podłącz samochód.",
-    "phaseSwitchingOff": "Najpierw włącz „Przełączanie faz przez Modbus” w ustawieniach urządzenia."
+    "phaseSwitchingOff": "Najpierw włącz „Przełączanie faz przez Modbus” w ustawieniach urządzenia.",
+    "batteryMerged": "Nieużywane: ten magazyn energii jest teraz częścią pierwszego urządzenia magazynu energii falownika. Usuń to urządzenie."
   },
   "migrating": "Aktualizowanie funkcji…",
   "pair": {

@@ -26,7 +26,8 @@
     "backupReserveRejected": "Inverteren godtok ikke reservekapasiteten.",
     "noCarConnected": "Ingen bil tilkoblet.",
     "noChargingSession": "Ingen ladeøkt: koble til en bil først.",
-    "phaseSwitchingOff": "Slå først på \"Faseveksling via Modbus\" i enhetsinnstillingene."
+    "phaseSwitchingOff": "Slå først på \"Faseveksling via Modbus\" i enhetsinnstillingene.",
+    "batteryMerged": "Brukes ikke lenger: dette batteriet er nå en del av den første batterienheten til vekselretteren. Slett denne enheten."
   },
   "migrating": "Oppdaterer funksjoner…",
   "pair": {

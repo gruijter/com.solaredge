@@ -26,7 +26,8 @@
     "backupReserveRejected": "Inverteren accepterede ikke backupreserven.",
     "noCarConnected": "Ingen bil tilsluttet.",
     "noChargingSession": "Ingen ladesession: tilslut først en bil.",
-    "phaseSwitchingOff": "Slå først \"Faseskift via Modbus\" til i enhedsindstillingerne."
+    "phaseSwitchingOff": "Slå først \"Faseskift via Modbus\" til i enhedsindstillingerne.",
+    "batteryMerged": "Bruges ikke længere: batteriet er nu en del af inverterens første batterienhed. Slet denne enhed."
   },
   "migrating": "Opdaterer funktioner…",
   "pair": {

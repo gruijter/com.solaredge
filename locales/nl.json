@@ -26,7 +26,8 @@
     "backupReserveRejected": "De omvormer accepteerde de back-upreserve niet.",
     "noCarConnected": "Geen auto aangesloten.",
     "noChargingSession": "Geen laadsessie: sluit eerst een auto aan.",
-    "phaseSwitchingOff": "Zet eerst \"Faseschakeling via Modbus\" aan in de apparaatinstellingen."
+    "phaseSwitchingOff": "Zet eerst \"Faseschakeling via Modbus\" aan in de apparaatinstellingen.",
+    "batteryMerged": "Niet meer in gebruik: deze batterij zit nu in het eerste batterijapparaat van de omvormer. Verwijder dit apparaat."
   },
   "migrating": "Capabilities bijwerken…",
   "pair": {

@@ -26,7 +26,8 @@
     "backupReserveRejected": "Der Wechselrichter hat die Notstromreserve nicht übernommen.",
     "noCarConnected": "Kein Auto angeschlossen.",
     "noChargingSession": "Kein Ladevorgang: schließe zuerst ein Auto an.",
-    "phaseSwitchingOff": "Schalte zuerst „Phasenumschaltung über Modbus“ in den Geräteeinstellungen ein."
+    "phaseSwitchingOff": "Schalte zuerst „Phasenumschaltung über Modbus“ in den Geräteeinstellungen ein.",
+    "batteryMerged": "Nicht mehr verwendet: Diese Batterie gehört jetzt zum ersten Batteriegerät ihres Wechselrichters. Bitte lösche dieses Gerät."
   },
   "migrating": "Fähigkeiten werden aktualisiert…",
   "pair": {
