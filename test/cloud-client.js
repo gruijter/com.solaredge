@@ -20,13 +20,14 @@ along with com.solaredge.  If not, see <http://www.gnu.org/licenses/>.
 'use strict';
 
 /*
- * SolarEdgeCloudClient against a local server that mimics monitoring.solaredge.com: the cookie
- * login (302), session expiry (401), error codes, request coalescing, the PUT body, the login
- * backoff, the outage backoff and the pairing deadline.
+ * SolarEdgeCloudClient against a local server that mimics monitoring.solaredge.com and
+ * login.solaredge.com: the OAuth2 PKCE login, token refresh, token expiry (401), error codes,
+ * request coalescing, the PUT body, the login backoff, the outage backoff and the pairing deadline.
  * No network or credentials needed.
  */
 
 const assert = require('node:assert/strict');
+const crypto = require('node:crypto');
 const http = require('node:http');
 const SolarEdgeCloudClient = require('../lib/SolarEdgeCloudClient');
 
@@ -34,6 +35,14 @@ const requests = [];
 let sessionValid = true;
 // every API call answers 401, also right after a login
 let rejectSession = false;
+// the refresh token is no longer accepted
+let refreshValid = true;
+let issued = 0;
+let validToken = null;
+let challenge = null;
+
+const FORM_PAGE = '<form method="post" action="/login?x=1"><input type="hidden" name="csrf" value="csrf1"/>'
+  + '<input name="username" value=""/><input name="password" value=""/></form>';
 
 const server = http.createServer((req, res) => {
   let body = '';
@@ -49,20 +58,72 @@ const server = http.createServer((req, res) => {
       res.end(JSON.stringify(data));
     };
 
-    if (req.url === '/solaredge-apigw/api/login') {
+    const url = new URL(req.url, 'http://local');
+    const issue = (refreshToken) => {
+      issued += 1;
+      validToken = `at${issued}`;
+      sessionValid = true;
+      json(200, {
+        access_token: validToken, id_token: 'id', refresh_token: refreshToken, expires_in: 86400, token_type: 'Bearer',
+      });
+    };
+
+    if (url.pathname === '/oauth2/authorize') {
+      challenge = url.searchParams.get('code_challenge');
+      res.setHeader('Set-Cookie', ['XSRF-TOKEN=x1; Path=/; Secure', 'csrf-state=s1; Path=/']);
+      res.writeHead(302, { Location: `/login${url.search}` });
+      res.end();
+      return;
+    }
+    if (url.pathname === '/login' && req.method === 'GET') {
+      res.setHeader('Set-Cookie', ['cognito=c1; Path=/', 'XSRF-TOKEN=x2; Path=/']);
+      res.writeHead(200, { 'Content-Type': 'text/html' });
+      res.end(FORM_PAGE);
+      return;
+    }
+    if (url.pathname === '/login') {
       const form = new URLSearchParams(body);
-      if (form.get('j_password') === 'locked') {
+      if (form.get('password') === 'locked') {
         json(500, {});
         return;
       }
-      if (form.get('j_password') !== 'secret') {
-        json(200, {});
+      if (form.get('password') === 'gone') {
+        res.writeHead(410, { 'Content-Type': 'text/html' });
+        res.end('legacy api');
         return;
       }
-      sessionValid = true;
-      res.setHeader('Set-Cookie', ['JSESSIONID=abc; Path=/; HttpOnly', 'SPRING=xyz; Path=/']);
-      res.writeHead(302, { Location: '/solaredge-web/p/home' });
+      if (form.get('password') === 'mfa') {
+        res.writeHead(302, { Location: '/mfa?session=1' });
+        res.end();
+        return;
+      }
+      if (form.get('password') !== 'secret' || form.get('csrf') !== 'csrf1'
+        || req.headers.cookie !== 'XSRF-TOKEN=x2; csrf-state=s1; cognito=c1') {
+        res.writeHead(200, { 'Content-Type': 'text/html' });
+        res.end(FORM_PAGE);
+        return;
+      }
+      res.writeHead(302, { Location: 'https://monitoring.solaredge.com/mfe/auth/callback?code=code1' });
       res.end();
+      return;
+    }
+    if (url.pathname === '/oauth2/token') {
+      const form = new URLSearchParams(body);
+      if (form.get('grant_type') === 'authorization_code') {
+        const verified = crypto.createHash('sha256').update(form.get('code_verifier') ?? '').digest('base64url') === challenge;
+        if (form.get('code') !== 'code1' || !verified) {
+          json(400, { error: 'invalid_grant' });
+          return;
+        }
+        issue('rt1');
+        return;
+      }
+      if (form.get('refresh_token') !== 'rt1' || !refreshValid) {
+        json(400, { error: 'invalid_grant' });
+        return;
+      }
+      // Cognito sends no new refresh token on a refresh
+      issue(undefined);
       return;
     }
     if (req.url === '/down') {
@@ -73,7 +134,7 @@ const server = http.createServer((req, res) => {
       setTimeout(() => json(200, {}), 1000);
       return;
     }
-    if (rejectSession || !sessionValid || req.headers.cookie !== 'JSESSIONID=abc; SPRING=xyz') {
+    if (rejectSession || !sessionValid || req.headers.authorization !== `Bearer ${validToken}`) {
       json(401, {});
       return;
     }
@@ -104,32 +165,73 @@ const test = (name, fn) => tests.push({ name, fn });
 
 const newClient = (password = 'secret') => new SolarEdgeCloudClient({ username: 'user@example.com', password });
 const count = (predicate) => requests.filter(predicate).length;
-const isLogin = (r) => r.url === '/solaredge-apigw/api/login';
+const isLogin = (r) => r.method === 'POST' && r.url.startsWith('/login');
+const isRefresh = (r) => r.url === '/oauth2/token' && r.body.includes('grant_type=refresh_token');
 
-test('login keeps the session cookies of the 302', async () => {
+test('login posts the form with its csrf and cookies, and keeps the token of the code', async () => {
   const client = newClient();
   await client.login();
-  assert.deepEqual(client.cookies, ['JSESSIONID=abc', 'SPRING=xyz']);
+  assert.equal(client.token, 'at1');
+  assert.equal(client.isLoggedIn(), true);
   const login = requests.find(isLogin);
-  assert.equal(login.method, 'POST');
+  assert.ok(login.url.includes('code_challenge_method=S256'));
   assert.equal(login.headers['content-type'], 'application/x-www-form-urlencoded;charset=UTF-8');
-  assert.equal(new URLSearchParams(login.body).get('j_username'), 'user@example.com');
+  const form = new URLSearchParams(login.body);
+  assert.equal(form.get('username'), 'user@example.com');
+  assert.equal(form.get('csrf'), 'csrf1');
+  const token = new URLSearchParams(requests.at(-1).body);
+  assert.equal(token.get('client_id'), 'ugfnsujd3384sshcjehaphlh3');
+  assert.equal(token.get('redirect_uri'), 'https://monitoring.solaredge.com/mfe/auth/callback');
 });
 
-test('a wrong password throws and leaves no session', async () => {
+test('a wrong password (the form served again) throws and leaves no session', async () => {
   const client = newClient('wrong');
-  await assert.rejects(client.login(), /Invalid e-mail and\/or password\./);
+  await assert.rejects(client.login(), (error) => error.code === 'INVALID_CREDENTIALS');
+  assert.equal(client.isLoggedIn(), false);
+  assert.equal(count((r) => r.url === '/oauth2/token'), 0);
+});
+
+test('a redirect elsewhere (second factor) is LOGIN_REFUSED', async () => {
+  const client = newClient('mfa');
+  await assert.rejects(client.login(), (error) => error.code === 'LOGIN_REFUSED');
   assert.equal(client.isLoggedIn(), false);
 });
 
-test('the first call logs in, with the app headers and cookies', async () => {
+test('an unexpected status (410) is LOGIN_REFUSED, not a wrong password', async () => {
+  const client = newClient('gone');
+  await assert.rejects(client.login(), (error) => error.code === 'LOGIN_REFUSED');
+});
+
+test('the first call logs in, with the app headers and the Bearer token', async () => {
   const client = newClient();
   const sites = await client.getSites();
   assert.deepEqual(sites, { 1: { id: 1, name: 'Home' } });
   const call = requests.at(-1);
   assert.equal(call.headers['user-agent'], SolarEdgeCloudClient.HEADERS['User-Agent']);
   assert.equal(call.headers['client-version'], '3.12');
+  assert.equal(call.headers.authorization, 'Bearer at1');
   assert.equal(count(isLogin), 1);
+});
+
+test('an expired token is refreshed before the call, without a login', async () => {
+  const client = newClient();
+  await client.getSites();
+  client._tokenExpiresAt = Date.now() - 1;
+  await client.getSites();
+  assert.equal(client.token, 'at2');
+  assert.equal(count(isRefresh), 1);
+  assert.equal(count(isLogin), 1);
+});
+
+test('a refresh token no longer accepted falls back to a login', async () => {
+  const client = newClient();
+  await client.getSites();
+  client._tokenExpiresAt = Date.now() - 1;
+  refreshValid = false;
+  await client.getSites();
+  assert.equal(count(isRefresh), 1);
+  assert.equal(count(isLogin), 2);
+  assert.equal(client._refreshToken, 'rt1');
 });
 
 test('concurrent callers share one login and one identical GET', async () => {
@@ -173,25 +275,26 @@ test('a server error on the login holds back automatic logins as LOGIN_REFUSED',
   assert.equal(client._loginRetryDelay, 2 * SolarEdgeCloudClient.LOGIN_RETRY_MIN);
 });
 
-test('a 401 logs in again and retries the call once', async () => {
+test('a 401 renews the token and retries the call once', async () => {
   const client = newClient();
   await client.getSites();
   sessionValid = false;
   const sites = await client.getSites();
   assert.deepEqual(sites, { 1: { id: 1, name: 'Home' } });
-  assert.equal(count(isLogin), 2);
+  assert.equal(count(isRefresh), 1);
+  assert.equal(count(isLogin), 1);
 });
 
-test('a 401 right after the new login is a rejected login and drops the session', async () => {
+test('a 401 right after the renewed token is a rejected login and drops the session', async () => {
   const client = newClient();
   await client.getSites();
   rejectSession = true;
   await assert.rejects(client.getSites(), (error) => error.code === 'INVALID_CREDENTIALS');
   assert.equal(client.isLoggedIn(), false);
-  assert.equal(count(isLogin), 2);
+  assert.equal(count(isRefresh), 1);
 });
 
-test('a 302 whose session answers 401 holds back automatic logins, doubling per login', async () => {
+test('a token whose first answer is 401 holds back automatic logins, doubling per login', async () => {
   const client = newClient();
   rejectSession = true;
   await assert.rejects(client.getSites(), (error) => error.code === 'INVALID_CREDENTIALS');
@@ -199,8 +302,10 @@ test('a 302 whose session answers 401 holds back automatic logins, doubling per 
   assert.equal(count(isLogin), 1);
   assert.equal(client._loginRetryDelay, SolarEdgeCloudClient.LOGIN_RETRY_MIN);
   client._loginBlockedUntil = 0;
+  // the next try renews with the refresh token: no password goes out again
   await assert.rejects(client.getSites(), (error) => error.code === 'INVALID_CREDENTIALS');
-  assert.equal(count(isLogin), 2);
+  assert.equal(count(isLogin), 1);
+  assert.equal(count(isRefresh), 1);
   assert.equal(client._loginRetryDelay, 2 * SolarEdgeCloudClient.LOGIN_RETRY_MIN);
   rejectSession = false;
   client._loginBlockedUntil = 0;
@@ -208,16 +313,16 @@ test('a 302 whose session answers 401 holds back automatic logins, doubling per 
   assert.equal(client._loginRetryDelay, 0);
 });
 
-test('a late 401 does not drop a session from a later login', async () => {
+test('a late 401 does not drop a token from a later renewal', async () => {
   const client = newClient();
   await client.getSites();
-  const fresh = ['JSESSIONID=abc', 'SPRING=xyz'];
   const realFetch = globalThis.fetch;
-  // a login lands while this call is in flight with stale cookies
+  // a renewal lands while this call is in flight with a stale token
   globalThis.fetch = async (url, opts) => {
     globalThis.fetch = realFetch;
-    const res = await realFetch(url, { ...opts, headers: { ...opts.headers, Cookie: 'old=1' } });
-    client.cookies = fresh;
+    const res = await realFetch(url, { ...opts, headers: { ...opts.headers, Authorization: 'Bearer old' } });
+    validToken = 'fresh';
+    client.token = 'fresh';
     return res;
   };
   try {
@@ -225,8 +330,9 @@ test('a late 401 does not drop a session from a later login', async () => {
   } finally {
     globalThis.fetch = realFetch;
   }
-  assert.equal(client.cookies, fresh);
+  assert.equal(client.token, 'fresh');
   assert.equal(count(isLogin), 1);
+  assert.equal(count(isRefresh), 0);
 });
 
 test('an outage pauses the account; failures of one tick count once; a success resumes', async () => {
@@ -278,7 +384,7 @@ test('the error code of a JSON error is the message', async () => {
 
 test('a non-JSON error gives the status text', async () => {
   const client = newClient();
-  await assert.rejects(client.getSite({ siteId: 1 }), /^Error: Server Error$/);
+  await assert.rejects(client.request({ url: 'https://monitoring.solaredge.com/unknown', errorText: 'x' }), /^Error: Server Error$/);
 });
 
 test('activationState is a JSON PUT', async () => {
@@ -293,16 +399,20 @@ test('activationState is a JSON PUT', async () => {
 });
 
 async function run() {
-  // send the client's https://monitoring.solaredge.com calls to the local server
+  // send the client's monitoring.solaredge.com and login.solaredge.com calls to the local server
   const realFetch = globalThis.fetch;
   const local = `http://127.0.0.1:${server.address().port}`;
-  globalThis.fetch = (url, opts) => realFetch(String(url).replace('https://monitoring.solaredge.com', local), opts);
+  globalThis.fetch = (url, opts) => realFetch(String(url)
+    .replace('https://monitoring.solaredge.com', local)
+    .replace('https://login.solaredge.com', local), opts);
 
   let failed = 0;
   for (const { name, fn } of tests) {
     requests.length = 0;
     sessionValid = true;
     rejectSession = false;
+    refreshValid = true;
+    issued = 0;
     try {
       // eslint-disable-next-line no-await-in-loop
       await fn();
