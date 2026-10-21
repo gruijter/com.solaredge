@@ -33,7 +33,11 @@ module.exports = class SolarEdgeInverterDriver extends CommonDriver {
   async onPairListDevices({ client, site }) {
     const devices = await super.onPairListDevices({ client, site });
     if (!devices.length) return devices;
-    const serials = SolarEdgeInverterDevice.serialsOf(await client.getSiteEquipment({ siteId: site.id }));
+    const equipment = await SolarEdgeInverterDevice.siteEquipment(client, site.id).catch((error) => {
+      this.error(`[Pair] equipment of site ${site.id} failed:`, error.message);
+      return null;
+    });
+    const serials = SolarEdgeInverterDevice.serialsOf(equipment);
     if (!serials.length) return devices;
     return serials.map((serialNumber) => ({
       ...devices[0],

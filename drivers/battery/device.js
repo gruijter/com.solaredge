@@ -98,18 +98,20 @@ module.exports = class SolarEdgeBatteryDevice extends CommonDevice {
    * meter_power.charged/.discharged: the energy into and out of the site's batteries since
    * installation, grid included: getSiteStorageDistribution over the years, sources and
    * destinations in Wh (seen live: their pv and building parts equal the summed yearly
-   * productionToBattery and consumptionFromBattery of getSiteMeasurements).
+   * productionToBattery and consumptionFromBattery of getSiteMeasurements). 0, as on a site without
+   * a battery, is skipped: monotonic() would take it for a fall. Store keys other than v2.0.0's
+   * 'charged'/'discharged', whose offsets came from the batteries' power.
    */
   async updateStorageTotals() {
     const distribution = await this.client.getSiteStorageDistribution({
       siteId: this.getData().siteId, timeUnit: 'years', startDate: await this.siteStartDate(), endDate: await this.siteToday(),
     });
     for (const [capability, name, total] of [
-      ['meter_power.charged', 'charged', distribution?.sources?.total],
-      ['meter_power.discharged', 'discharged', distribution?.destinations?.total],
+      ['meter_power.charged', 'storageCharged', distribution?.sources?.total],
+      ['meter_power.discharged', 'storageDischarged', distribution?.destinations?.total],
     ]) {
       // eslint-disable-next-line no-await-in-loop
-      if (typeof total === 'number') await this.setCapability(capability, await this.monotonic(name, total / 1000));
+      if (typeof total === 'number' && total > 0) await this.setCapability(capability, await this.monotonic(name, total / 1000));
     }
   }
 

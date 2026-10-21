@@ -36,4 +36,20 @@ module.exports = class SolarEdgeBatteryModbusDevice extends ModbusDevice {
     await super.onInit();
   }
 
+  /** Such a device was never set up: a changed address must not start it. */
+  async onSettings(event) {
+    if (this.base !== 0) return;
+    await super.onSettings(event);
+  }
+
+  async setControl(values) {
+    if (this.base !== 0) throw Error(this.homey.__('errors.batteryMerged'));
+    await super.setControl(values);
+  }
+
+  async runAction(name, args) {
+    if (this.base !== 0) throw Error(this.homey.__('errors.batteryMerged'));
+    await super.runAction(name, args);
+  }
+
 };

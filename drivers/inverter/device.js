@@ -20,6 +20,7 @@ along with com.solaredge.  If not, see <http://www.gnu.org/licenses/>.
 'use strict';
 
 const CommonDevice = require('../../lib/common_device');
+const { dateIn } = require('../../lib/deviceHelpers');
 const finite = require('../../lib/finite');
 const { isAsleep } = require('../../lib/inverterSleep');
 
@@ -47,11 +48,6 @@ const celsius = (reading) => {
   if (value === null) return null;
   return String(reading.temperatureUnit || 'CELSIUS').toUpperCase() === 'FAHRENHEIT' ? round(((value - 32) * 5) / 9, 1) : value;
 };
-
-/** Today in `timeZone` as YYYY-MM-DD. */
-const dateIn = (date, timeZone) => new Intl.DateTimeFormat('en-CA', {
-  timeZone, year: 'numeric', month: '2-digit', day: '2-digit',
-}).format(date);
 
 /** The serials of the site's inverters, from getSiteEquipment. */
 const serialsOf = (equipment) => (equipment?.inverters?.details || []).flatMap((detail) => detail.serialNumbers || []);
@@ -182,6 +178,35 @@ const statusesOf = (homey) => homey.manifest.capabilities.inverter_status.values
 
 // an inverter's part of the site's month, year and lifetime production is fetched again after this
 const SHARE_REFRESH_TIME = 60 * 60 * 1000;
+// an answer of this energy tick (5 min apart), or of this pairing, is shared this long
+const TICK_SHARE_TIME = 60 * 1000;
+
+// client -> key -> { until, answer }: the site-wide answers the devices of a site (one per inverter) share
+const sharedAnswers = new WeakMap();
+
+/** The answer of `fetch()`, shared by every caller on `client` with the same `key` for `ttl` ms. */
+const shared = (client, key, ttl, fetch) => {
+  if (!sharedAnswers.has(client)) sharedAnswers.set(client, new Map());
+  const answers = sharedAnswers.get(client);
+  const now = Date.now();
+  if (answers.get(key)?.until > now) return answers.get(key).answer;
+  for (const [stale, { until }] of answers) if (until <= now) answers.delete(stale);
+  const answer = fetch();
+  answers.set(key, { until: now + ttl, answer });
+  answer.catch(() => {
+    if (answers.get(key)?.answer === answer) answers.delete(key);
+  });
+  return answer;
+};
+
+const siteEquipment = (client, siteId) => shared(client, `equipment ${siteId}`, TICK_SHARE_TIME, () => client.getSiteEquipment({ siteId }));
+
+const invertersInformation = (client, serials) => shared(client, `information ${serials}`, TICK_SHARE_TIME, () => client.getInvertersInformation({ serials }));
+
+/** Today's getSiteEnergyByInverter of all the site's inverters, with temperatures. */
+const dayEnergy = (client, siteId, today, serials) => shared(client, `day ${siteId} ${today} ${serials}`, TICK_SHARE_TIME, () => client.getSiteEnergyByInverter({
+  siteId, startDate: today, endDate: today, inverterSerials: serials, includeMaxTemperature: true,
+}));
 
 // energyOverview time period -> the start of its range for getSiteEnergyByInverter, from today
 const PERIOD_STARTS = {
@@ -199,6 +224,11 @@ module.exports = class SolarEdgeInverterDevice extends CommonDevice {
   /** The serials of the site's inverters, from getSiteEquipment. */
   static serialsOf(equipment) {
     return serialsOf(equipment);
+  }
+
+  /** getSiteEquipment, shared with the site's other devices and with pairValues. */
+  static siteEquipment(client, siteId) {
+    return siteEquipment(client, siteId);
   }
 
   /** The inverter's serial; null for a device of the whole site. */
@@ -235,9 +265,12 @@ module.exports = class SolarEdgeInverterDevice extends CommonDevice {
     }
   }
 
-  /** Whether the device has all of the site's production: a site device, or the site's only inverter. */
+  /**
+   * Whether the device has all of the site's production: a site device, or the site's only
+   * inverter. Not for an inverter of an equipment list without inverters: then unknown.
+   */
   async wholeSite() {
-    return !this.serial || (await this.inverterSerials()).length <= 1;
+    return !this.serial || (await this.inverterSerials()).length === 1;
   }
 
   /** The inverters of the device. */
@@ -285,33 +318,33 @@ module.exports = class SolarEdgeInverterDevice extends CommonDevice {
   /** Today's getSiteEnergyByInverter of all the site's inverters, with temperatures; once per energy tick. */
   async dayByInverter() {
     if (!this.dayAnswer) {
-      const today = await this.siteToday();
-      this.dayAnswer = await this.client.getSiteEnergyByInverter({
-        siteId: this.getData().siteId, startDate: today, endDate: today, inverterSerials: await this.inverterSerials(), includeMaxTemperature: true,
-      });
+      this.dayAnswer = await dayEnergy(this.client, this.getData().siteId, await this.siteToday(), await this.inverterSerials());
     }
     return this.dayAnswer;
   }
 
   /** This inverter's part of the site's production over an energyOverview period (shareOf); null when unknown. */
   async energyShare(timePeriod) {
+    if (!(await this.inverterSerials()).length) return null;
     if (timePeriod === 'LAST_DAY') return shareOf(await this.dayByInverter(), this.serial, { storage: this.storage });
-    const cached = this.shares?.[timePeriod];
-    if (cached && cached.storage === this.storage && Date.now() - cached.at < SHARE_REFRESH_TIME) return cached.value;
-
+    const { siteId } = this.getData();
     const today = await this.siteToday();
     const startDate = PERIOD_STARTS[timePeriod]?.(today) ?? await this.siteStartDate();
-    const value = shareOf(await this.client.getSiteEnergyByInverter({
-      siteId: this.getData().siteId, startDate, endDate: today, inverterSerials: await this.inverterSerials(),
-    }), this.serial, { storage: this.storage });
-    this.shares = { ...this.shares, [timePeriod]: { value, storage: this.storage, at: Date.now() } };
-    return value;
+    const serials = await this.inverterSerials();
+    const byInverter = await shared(this.client, `period ${siteId} ${startDate} ${today} ${serials}`, SHARE_REFRESH_TIME, () => this.client.getSiteEnergyByInverter({
+      siteId, startDate, endDate: today, inverterSerials: serials,
+    }));
+    return shareOf(byInverter, this.serial, { storage: this.storage });
   }
 
-  /** The serials of the site's inverters, from its equipment list; fetched once per app run. */
+  /**
+   * The serials of the site's inverters, from its equipment list; fetched once per app run, a list
+   * without inverters again after SHARE_REFRESH_TIME.
+   */
   async inverterSerials() {
-    if (!this.serials?.length) {
-      this.serials = serialsOf(await this.client.getSiteEquipment({ siteId: this.getData().siteId }));
+    if (!this.serials?.length && !(Date.now() < this.serialsRetryAt)) {
+      this.serials = serialsOf(await siteEquipment(this.client, this.getData().siteId));
+      if (!this.serials.length) this.serialsRetryAt = Date.now() + SHARE_REFRESH_TIME;
     }
     return this.serials;
   }
@@ -332,7 +365,7 @@ module.exports = class SolarEdgeInverterDevice extends CommonDevice {
       if (this.live) return this.asleep(this.live);
       const serials = await this.inverterSerials();
       if (!serials.length) return false;
-      return this.asleep(pick((await this.client.getInvertersInformation({ serials }))?.serialToLiveData, await this.ownSerials()));
+      return this.asleep(pick((await invertersInformation(this.client, serials))?.serialToLiveData, await this.ownSerials()));
     } catch (error) {
       this.error(`Error Fetching Inverter Sleep: ${error.message}`);
       return false;
@@ -350,7 +383,7 @@ module.exports = class SolarEdgeInverterDevice extends CommonDevice {
     if (!serials.length) return;
     const own = await this.ownSerials();
 
-    const information = await this.client.getInvertersInformation({ serials });
+    const information = await invertersInformation(this.client, serials);
     const {
       values, phases, live, reported,
     } = liveValues(information, { serials: own, statuses: statusesOf(this.homey), cadenceMs: this.homey.app?.uploadCadence?.(this.client) });
@@ -372,7 +405,7 @@ module.exports = class SolarEdgeInverterDevice extends CommonDevice {
 
     if (!(await this.wholeSite())) {
       const batteryPower = this.storage
-        ? batteryPowerByInverter(await this.client.getSiteBatteries({ siteId }).catch((error) => {
+        ? batteryPowerByInverter(await shared(this.client, `batteries ${siteId}`, TICK_SHARE_TIME, () => this.client.getSiteBatteries({ siteId })).catch((error) => {
           this.error(`Error Fetching Batteries: ${error.message}`);
           return null;
         }))
@@ -397,14 +430,12 @@ module.exports = class SolarEdgeInverterDevice extends CommonDevice {
   static async pairValues({
     client, site, homey, device,
   }) {
-    const serials = serialsOf(await client.getSiteEquipment({ siteId: site.id }));
+    const serials = serialsOf(await siteEquipment(client, site.id));
     if (!serials.length) return {};
     const own = device?.data?.serialNumber ? [device.data.serialNumber] : serials;
-    const { values } = liveValues(await client.getInvertersInformation({ serials }), { serials: own, statuses: statusesOf(homey) });
+    const { values } = liveValues(await invertersInformation(client, serials), { serials: own, statuses: statusesOf(homey) });
     const today = dateIn(new Date(), site.timezone || homey.clock.getTimezone());
-    values['measure_temperature.max'] = maxTemperature(await client.getSiteEnergyByInverter({
-      siteId: site.id, startDate: today, endDate: today, inverterSerials: serials, includeMaxTemperature: true,
-    }), own);
+    values['measure_temperature.max'] = maxTemperature(await dayEnergy(client, site.id, today, serials), own);
     return values;
   }
 

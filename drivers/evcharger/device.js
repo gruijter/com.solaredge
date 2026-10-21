@@ -140,6 +140,8 @@ module.exports = class SolarEdgeEVChargerDevice extends CommonDevice {
     // PASSED with applianceDetails null: no sessions yet (seen live)
     const none = applianceSessionsHistory?.status === 'PASSED' && applianceSessionsHistory.applianceDetails === null;
     if (!none && !Array.isArray(applianceSessionsHistory?.applianceDetails)) return;
+    // after sessions were counted: an odd answer, which monotonic() would take for a fall
+    if (none && this.getCapabilityValue('meter_power.charged') > 0) return;
 
     let totalCharged = 0;
     (applianceSessionsHistory.applianceDetails || []).forEach((applianceDetails) => {

@@ -31,8 +31,6 @@ const MISSING_RECHECK_TIME = 24 * 60 * 60 * 1000;
 
 const isTotals = (value) => typeof value?.imported === 'number' && typeof value?.exported === 'number';
 
-const yearIn = (date, timeZone) => Number(new Intl.DateTimeFormat('en-US', { year: 'numeric', timeZone }).format(date));
-
 module.exports = class SolarEdgeMeterDevice extends CommonDevice {
 
   async onPoll() {
@@ -90,12 +88,10 @@ module.exports = class SolarEdgeMeterDevice extends CommonDevice {
 
   /** The site's current and first year with data (installationDate, seen live), else FIRST_YEAR. */
   async siteYears() {
-    const timeZone = await this.siteTimeZone();
-    const { installationDate } = await this.site();
-    const installed = installationDate ? new Date(installationDate) : null;
+    const installed = await this.siteInstalled();
     return {
-      currentYear: yearIn(new Date(), timeZone),
-      firstYear: installed ? yearIn(installed, timeZone) : FIRST_YEAR,
+      currentYear: Number((await this.siteToday()).slice(0, 4)),
+      firstYear: installed ? Number(installed.slice(0, 4)) : FIRST_YEAR,
     };
   }
 

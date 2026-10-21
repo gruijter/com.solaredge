@@ -537,6 +537,13 @@ const unitChecks = async () => {
   await retired.onInit();
   check(!retired.available && retired.unavailableMessage === retired.homey.__('errors.batteryMerged') && !retired.client,
     `battery: a 2nd battery device is ${retired.available ? 'available' : retired.unavailableMessage}`);
+  await retired.onSettings({ newSettings: { host: '127.0.0.2' }, changedKeys: ['host'] });
+  const merged = await retired.setControl({ battery_min_soc: 0.1 }).catch((error) => error.message);
+  await new Promise((resolve) => {
+    setTimeout(resolve, 1100);
+  });
+  check(!retired.client && !retired.pollInterval && merged === retired.homey.__('errors.batteryMerged'),
+    `battery: a 2nd battery device started (${retired.client ? 'client' : 'no client'}) or controlled (${merged})`);
 
   // the ratings of all batteries of the inverter add up; a later battery without them leaves none
   const ratings = new Map();
@@ -576,6 +583,28 @@ const unitChecks = async () => {
   const results = [];
   for (const wh of [5000, 6000, 1000, 1500, 2000]) results.push(await charged(counter(wh), device)); // eslint-disable-line no-await-in-loop
   check(isDeepStrictEqual(results, [5, 6, 6, 6, 6.5]), `battery: charged after a reset ${JSON.stringify(results)}`);
+
+  // a timed-out rating read keeps the batteries found before; a refused one drops the battery
+  const firstOnly = new Map([...ratings].filter(([address]) => address < 57600 + 256));
+  check(isDeepStrictEqual(detect(firstOnly, { batteries: [0, 256] }, 0, new Set()).batteries, [0, 256]),
+    'battery: a timed-out read of the 2nd battery dropped it');
+  check(isDeepStrictEqual(detect(firstOnly, { batteries: [0, 256] }, 0, new Set([57600 + 256 + 66])).batteries, [0]),
+    'battery: a refused 2nd battery was kept');
+
+  // two batteries: a counter that reads 0 gives no sum; the 1st battery's counter continues on both
+  const pairStore = { chargedLast: 6 };
+  const pair = {
+    ...device,
+    detected: { batteries: [0, 256] },
+    getStoreValue: (key) => pairStore[key] ?? null,
+    setStoreValue: async (key, value) => {
+      pairStore[key] = value;
+    },
+  };
+  const both = (wh1, wh2) => new Map([...counter(wh1), ...[...counter(wh2)].map(([address, word]) => [address + 256, word])]);
+  const summed = [];
+  for (const [wh1, wh2] of [[6000, 4000], [6500, 4500], [6600, 0], [6600, 0], [7000, 5000]]) summed.push(await charged(both(wh1, wh2), pair)); // eslint-disable-line no-await-in-loop
+  check(isDeepStrictEqual(summed, [6, 7, null, null, 8]), `battery: two batteries charged ${JSON.stringify(summed)}`);
 
   const meter = (meterFunction) => pointMap.meter_modbus.energy({
     getSetting: () => meterFunction, driver: { manifest: { energy: { cumulative: true } } },

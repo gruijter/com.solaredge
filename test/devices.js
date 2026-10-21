@@ -139,6 +139,48 @@ const storageTotals = async () => {
   await device.updateStorageTotals();
   check(device.values['meter_power.charged'] === 15925.24 && device.values['meter_power.discharged'] === 15848.842, `storage totals: ${JSON.stringify(device.values)}`);
   check(asked[0]?.startDate === '2021-11-30' && asked[0]?.timeUnit === 'years', `storage totals asked ${JSON.stringify(asked[0])}`);
+
+  // zeros (as on a site without a battery) are no fall; v2.0.0's offsets under 'charged' are not used
+  device.store = { ...device.store, chargedOffset: 87.4, dischargedOffset: 120.2 };
+  distribution.sources.total = 0;
+  distribution.destinations.total = 0;
+  await device.updateStorageTotals();
+  await device.updateStorageTotals();
+  distribution.sources.total = 15925240;
+  distribution.destinations.total = 15848842;
+  await device.updateStorageTotals();
+  check(device.values['meter_power.charged'] === 15925.24 && device.values['meter_power.discharged'] === 15848.842, `storage totals after zeros: ${JSON.stringify(device.values)}`);
+};
+
+// PASSED without applianceDetails: 0 before the first session, skipped after sessions were counted
+const evNoSessions = async () => {
+  let history = { status: 'PASSED', applianceDetails: null };
+  const device = newDevice('evcharger', { reporterId: 1 }, { getSiteDeviceApplianceSessionsHistory: async () => history });
+  await device.updateCharged();
+  check(device.values['meter_power.charged'] === 0, `ev without sessions: ${device.values['meter_power.charged']}`);
+  history = { status: 'PASSED', applianceDetails: [{ statistics: [{ subjectEnum: 'CONSUMED_ENERGY', totalValue: 1662000 }] }] };
+  await device.updateCharged();
+  history = { status: 'PASSED', applianceDetails: null };
+  await device.updateCharged();
+  await device.updateCharged();
+  history = { status: 'PASSED', applianceDetails: [{ statistics: [{ subjectEnum: 'CONSUMED_ENERGY', totalValue: 1662000 }] }] };
+  await device.updateCharged();
+  check(device.values['meter_power.charged'] === 1662, `ev after answers without sessions: ${device.values['meter_power.charged']}`);
+};
+
+// an equipment list without inverters: an inverter's device does not take the whole site
+const inverterUnknown = async () => {
+  const device = newDevice('inverter', { serialNumber: 'I1' }, {
+    getSitePowerflow: async () => ({ solarProduction: { isActive: true, currentPower: 5 } }),
+    getSiteEquipment: async () => ({ inverters: {} }),
+    getSiteEnergyOverview: async () => ({ energyProducedOverviewList: [{ timePeriod: 'LIFE_TIME', energy: 77009180 }] }),
+    getSites: async () => ({ 1: { id: 1, timezone: 'UTC' } }),
+    getSiteCommunication: async () => ({ connectivityStatus: 'ONLINE' }),
+    getSiteAlerts: async () => ({ totalAlertsCount: 0 }),
+  });
+  device.energyPending = true;
+  await device.onPoll();
+  check(device.values.measure_power === null && device.values.meter_power === null, `inverter without equipment: ${device.values.measure_power} W, ${device.values.meter_power} kWh`);
 };
 
 // site 2598568, 2026-10-21 (captured): two inverters, each with a battery, one of them discharging
@@ -278,6 +320,8 @@ const nightAlarm = async () => {
   await monotonic();
   await batteryKwh();
   await storageTotals();
+  await evNoSessions();
+  await inverterUnknown();
   await inverterSplit();
   await inverterStatus();
   await fahrenheit();
