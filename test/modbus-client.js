@@ -201,6 +201,29 @@ const tests = {
     }
   },
 
+  'serves other unit ids over the same socket': async function() {
+    const units = [];
+    let connections = 0;
+    const server = await startServer((frame, socket) => {
+      units.push(frame.readUInt8(6));
+      goodServer(frame, socket);
+    });
+    server.on('connection', () => {
+      connections += 1;
+    });
+    const client = new ModbusClient({ host: '127.0.0.1', port: server.address().port, timeout: 500 });
+    try {
+      const follower = client.forUnit(2);
+      await Promise.all([client.readRegisters(1, 1), follower.readRegisters(1, 1), follower.writeRegister(2, 5)]);
+      assert.deepStrictEqual(units, [1, 2, 2]);
+      assert.strictEqual(connections, 1);
+      assert.strictEqual(follower.id, `127.0.0.1:${server.address().port}#2`);
+    } finally {
+      client.destroy();
+      server.close();
+    }
+  },
+
   'keeps gapMs between two requests': async function() {
     const arrivals = [];
     const server = await startServer((frame, socket) => {

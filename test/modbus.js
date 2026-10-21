@@ -57,19 +57,36 @@ const setFloat = (holding, address, value) => {
  * A Modbus TCP server answering function 0x03 from `holding` ({ address: word }); 0x06 and 0x10
  * write into it. `holding.rejectWrites`: acknowledge but keep the value, as Dijker's inverter did.
  * `holding.refused`: addresses whose read is answered with exception 2 (illegal data address).
+ * Unit id 1 is `holding`; `holding.units` ({ unitId: holding }) adds followers, other unit ids get
+ * exception 11 (gateway target device failed to respond).
  */
 const serve = (holding) => new Promise((resolve) => {
+  const exceptionReply = (frame, code) => {
+    const exception = Buffer.alloc(9);
+    frame.copy(exception, 0, 0, 4);
+    exception.writeUInt16BE(3, 4);
+    exception.writeUInt8(frame.readUInt8(6), 6);
+    exception.writeUInt8(frame.readUInt8(7) | 0x80, 7);
+    exception.writeUInt8(code, 8);
+    return exception;
+  };
   const server = net.createServer((socket) => {
     socket.on('error', () => {});
     socket.on('data', (frame) => {
+      const unit = frame.readUInt8(6);
+      const regs = unit === 1 ? holding : holding.units?.[unit];
+      if (!regs) {
+        socket.write(exceptionReply(frame, 11));
+        return;
+      }
       const fc = frame.readUInt8(7);
       if (fc === 0x06 || fc === 0x10) {
         const address = frame.readUInt16BE(8);
         const words = fc === 0x06 ? [frame.readUInt16BE(10)]
           : Array.from({ length: frame.readUInt16BE(10) }, (_, i) => frame.readUInt16BE(13 + i * 2));
-        if (!holding.rejectWrites) {
+        if (!regs.rejectWrites) {
           words.forEach((word, i) => {
-            holding[address + i] = word;
+            regs[address + i] = word;
           });
         } // eslint-disable-line no-param-reassign
         const reply = Buffer.from(frame.subarray(0, 12)); // 0x06 echoes; 0x10 answers address and count
@@ -77,26 +94,20 @@ const serve = (holding) => new Promise((resolve) => {
         socket.write(reply);
         return;
       }
-      if (frame.readUInt8(7) !== 0x03) return;
+      if (fc !== 0x03) return;
       const address = frame.readUInt16BE(8);
       const count = frame.readUInt16BE(10);
-      if (holding.refused?.some((refused) => refused >= address && refused < address + count)) {
-        const exception = Buffer.alloc(9);
-        frame.copy(exception, 0, 0, 4);
-        exception.writeUInt16BE(3, 4);
-        exception.writeUInt8(frame.readUInt8(6), 6);
-        exception.writeUInt8(0x83, 7);
-        exception.writeUInt8(2, 8);
-        socket.write(exception);
+      if (regs.refused?.some((refused) => refused >= address && refused < address + count)) {
+        socket.write(exceptionReply(frame, 2));
         return;
       }
       const reply = Buffer.alloc(9 + count * 2);
       frame.copy(reply, 0, 0, 4);
       reply.writeUInt16BE(3 + count * 2, 4);
-      reply.writeUInt8(frame.readUInt8(6), 6);
+      reply.writeUInt8(unit, 6);
       reply.writeUInt8(0x03, 7);
       reply.writeUInt8(count * 2, 8);
-      for (let i = 0; i < count; i += 1) reply.writeUInt16BE(holding[address + i] ?? ABSENT, 9 + i * 2);
+      for (let i = 0; i < count; i += 1) reply.writeUInt16BE(regs[address + i] ?? ABSENT, 9 + i * 2);
       socket.write(reply);
     });
   });
@@ -143,6 +154,9 @@ const floatAt = (holding, address) => Math.round(wordsFloat(holding[address], ho
 const advancedPowerControl = (holding) => {
   [holding[0xf104], holding[0xf105], holding[0xf142], holding[0xf143]] = [4, 0, 1, 0]; // eslint-disable-line no-param-reassign
 };
+
+const load = (dump) => Object.fromEntries(Object.entries(JSON.parse(fs.readFileSync(path.join(FIXTURES, `${dump}.json`), 'utf8')).holding)
+  .map(([address, word]) => [Number(address), word]));
 
 const CASES = [
   {
@@ -281,6 +295,23 @@ const CASES = [
         const refused = await act(device, { target_power: 1000 });
         check(refused?.message === device.homey.__('errors.advancedPowerControlOff'), `${name}: ${refused?.message}`);
         check(holding[0xe004] === 2, `${name}: storage mode ${holding[0xe004]} after a refusal`);
+      },
+    },
+  },
+  {
+    // leader/follower: issue944 behind issue913 on unit id 2, found when pairing on the leader
+    dump: 'issue913_u1',
+    inject: (holding) => {
+      holding.units = { 2: load('issue944_u1') }; // eslint-disable-line no-param-reassign
+    },
+    inverter_modbus: [{ measure_power: 9490 }, {}],
+    battery_modbus: [{ measure_power: 0, measure_battery: 100 }, { measure_power: -132, measure_battery: 95 }],
+    scenario: {
+      inverter_modbus: async ({ device, index, name }) => {
+        check(Number(device.getSetting('unitId')) === index + 1, `${name}: unit id ${device.getSetting('unitId')}`);
+      },
+      battery_modbus: async ({ device, index, name }) => {
+        check(Number(device.getSetting('unitId')) === index + 1, `${name}: unit id ${device.getSetting('unitId')}`);
       },
     },
   },
@@ -448,7 +479,9 @@ const runDriver = async ({
     device.store = structuredClone(offer.store);
     device.blocks = device.definition.blocks(device.base).map((block) => ({ ...block, failures: 0 }));
     device.unmappedLogged = new Set();
-    device.client = new ModbusClient({ host: '127.0.0.1', port, timeout: 1000 });
+    device.client = new ModbusClient({
+      host: '127.0.0.1', port, unitId: offer.settings.unitId, timeout: 1000,
+    });
     let values;
     try {
       await device.runDetection(); // eslint-disable-line no-await-in-loop
@@ -551,9 +584,6 @@ const unitChecks = async () => {
   check(meter('Production').cumulative === undefined, 'meter: a production meter is cumulative');
 };
 
-const load = (dump) => Object.fromEntries(Object.entries(JSON.parse(fs.readFileSync(path.join(FIXTURES, `${dump}.json`), 'utf8')).holding)
-  .map(([address, word]) => [Number(address), word]));
-
 /**
  * Pairing discovery against the fake server on loopback: the scan of 127.0.0.0/24, mDNS (which the
  * scan then skips), and no offer for another SunSpec brand.
@@ -575,9 +605,9 @@ const discovery = async () => {
     const { pool } = driver.homey.app;
     const held = pool.acquire({ host: '127.0.0.1', port, unitId: 1 });
     const pooled = await driver.discover();
-    const entry = pool.entries.get(`127.0.0.1:${port}#1`);
-    check(isDeepStrictEqual(pooled, scanned) && entry?.client === held && entry.refs === 1 && !held.destroyed,
-      `discovery next to a connected device: ${JSON.stringify(pooled)}, refs ${entry?.refs}`);
+    const entry = pool.entries.get(`127.0.0.1:${port}`);
+    check(isDeepStrictEqual(pooled, scanned) && held.unitId === 1 && entry?.units.get(1) === 1 && !entry.client.destroyed,
+      `discovery next to a connected device: ${JSON.stringify(pooled)}, refs ${entry?.units.get(1)}`);
     pool.release({ host: '127.0.0.1', port, unitId: 1 });
 
     driver.homey = {
@@ -632,10 +662,10 @@ const rediscovery = async () => {
 
     await device.setSettings({ followMdns: true });
     await device.rediscover();
-    const entry = pool.entries.get(`127.0.0.1:${port}#1`);
+    const entry = pool.entries.get(`127.0.0.1:${port}`);
     check(device.getSetting('host') === '127.0.0.1' && device.getSetting('port') === port,
       `rediscovery: at ${device.getSetting('host')}:${device.getSetting('port')}`);
-    check(entry && entry.client === device.client && entry.refs === 1, `rediscovery: pooled client refs ${entry?.refs}`);
+    check(entry && device.client?.unitId === 1 && entry.units.get(1) === 1, `rediscovery: pooled client refs ${entry?.units.get(1)}`);
     device.client?.log('probe');
     check(logged.includes('probe'), 'rediscovery: the pooled client does not log to the device');
     device.release();
