@@ -64,5 +64,8 @@
   },
   "2.0.0": {
     "en": "Complete app rewrite. Many fixes. Improved and extended API handling. Many capabilities and flow cards added. EVCharger control added. Translations added."
+  },
+  "2.1.0": {
+    "en": "Fixed / switched to new SolarEdge cloud login. Added local Modbus drivers. Improved reliability."
   }
 }
