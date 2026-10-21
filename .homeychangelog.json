@@ -67,5 +67,8 @@
   },
   "2.1.0": {
     "en": "Fixed / switched to new SolarEdge cloud login. Added local Modbus drivers. Improved reliability."
+  },
+  "2.1.1": {
+    "en": "Modbus devices can now be added."
   }
 }
