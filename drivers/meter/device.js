@@ -20,10 +20,8 @@ along with com.solaredge.  If not, see <http://www.gnu.org/licenses/>.
 'use strict';
 
 const CommonDevice = require('../../lib/common_device');
+const { FIRST_YEAR } = require('../../lib/solarEdgeConstants');
 
-// SolarEdge was founded in 2006: no site has data before. Only used when the site's
-// installationDate is unknown.
-const FIRST_YEAR = 2006;
 // a past year is stored only this long after it ended: then it has ended in every timezone and its
 // last data is in (assumed)
 const YEAR_SETTLE_TIME = 2 * 24 * 60 * 60 * 1000;

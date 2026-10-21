@@ -41,19 +41,38 @@ const check = (condition, message) => {
 
 const resultOf = (capture, method) => capture.calls.find((call) => call.method === method && !call.error)?.result;
 
+/** Checks over all devices of a driver on the site: one per inverter adds up to the site. */
+const SITE_CHECKS = {
+  inverter: (devices, capture, label) => {
+    const power = resultOf(capture, 'getSitePowerflow')?.solarProduction?.currentPower;
+    const sum = (id) => devices.reduce((total, values) => total + values[id], 0);
+    if (typeof power === 'number') check(Math.abs(sum('measure_power') - power * 1000) <= devices.length, `${label}: measure_power adds up to ${sum('measure_power')} W for ${power} kW`);
+    const overview = resultOf(capture, 'getSiteEnergyOverview')?.energyProducedOverviewList || [];
+    for (const [period, id] of [['LIFE_TIME', 'meter_power'], ['LAST_YEAR', 'meter_power.year'], ['LAST_MONTH', 'meter_power.month'], ['LAST_DAY', 'meter_power.day']]) {
+      const energy = overview.find((item) => item.timePeriod === period)?.energy;
+      if (typeof energy === 'number') check(Math.abs(sum(id) - energy / 1000) < 1e-6, `${label}: ${id} adds up to ${sum(id)} kWh, the site has ${energy / 1000}`);
+    }
+  },
+};
+
 /** Checks on the data itself, not on how the code maps it. */
 const DEVICE_CHECKS = {
   inverter: (values, capture, label) => {
     const totals = ['meter_power.day', 'meter_power.month', 'meter_power.year', 'meter_power'].map((id) => values[id]);
     check(totals.every((value, i) => i === 0 || totals[i - 1] <= value), `${label}: day <= month <= year <= lifetime, got ${totals.join(' / ')} kWh`);
-    const power = resultOf(capture, 'getSitePowerflow')?.solarProduction?.currentPower;
-    if (typeof power === 'number') check(values.measure_power === Math.round(power * 1000), `${label}: measure_power ${values.measure_power} W for ${power} kW`);
     const live = Object.values(resultOf(capture, 'getInvertersInformation')?.serialToLiveData || {});
     const phases = [1, 2, 3].map((phase) => values[`measure_power.${phase}`]).filter((value) => typeof value === 'number');
     if (live.length && phases.length) {
       const ac = live.reduce((total, item) => total + item.pAc_W, 0);
       const sum = phases.reduce((total, value) => total + value, 0);
       check(Math.abs(sum - ac) <= Math.max(5, ac * 0.02), `${label}: phases add up to ${sum} W, the inverters report ${ac} W`);
+    }
+  },
+  battery: (values, capture, label) => {
+    const distribution = resultOf(capture, 'getSiteStorageDistribution');
+    if (!distribution) return;
+    for (const [id, total] of [['meter_power.charged', distribution.sources.total], ['meter_power.discharged', distribution.destinations.total]]) {
+      check(values[id] === Math.round(total) / 1000, `${label}: ${id} ${values[id]} kWh, the distribution has ${total} Wh`);
     }
   },
   meter: (values, capture, label) => {
@@ -107,7 +126,7 @@ const runSite = async (file) => {
     }
     check(!result.thrown, `${site} ${result.driverId}: pairing threw ${result.thrown?.message}`);
     for (const { device, offer, thrown } of result.devices) {
-      const label = `${site} ${result.driverId}`;
+      const label = `${site} ${result.driverId}${result.devices.length > 1 ? ` ${device.getData().serialNumber}` : ''}`;
       if (skipped(thrown)) {
         console.log(`  ${label}: paired ${JSON.stringify(device.getData())}`);
         skips.push(`${result.driverId} poll`);
@@ -132,6 +151,8 @@ const runSite = async (file) => {
       }
       console.log(`  ${label} ${device.available ? 'available' : 'unavailable'}: ${JSON.stringify(device.values)}`);
     }
+    const polled = result.devices.filter((entry) => !entry.thrown);
+    if (!capture.partial && polled.length) SITE_CHECKS[result.driverId]?.(polled.map((entry) => entry.device.values), capture, `${site} ${result.driverId}`);
   }
   if (skips.length) console.log(`  ${site}: skipped (calls not in the capture): ${skips.join(', ')}`);
   const offered = results.filter((result) => result.offered?.length).map((result) => result.driverId);

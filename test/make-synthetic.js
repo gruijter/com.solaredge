@@ -93,6 +93,10 @@ const backend = {
       }],
     },
   }),
+  getSiteStorageDistribution: async () => ({
+    sources: { total: 1234567, pv: 1200000, grid: 34567 },
+    destinations: { total: 1000000, building: 950000, grid: 50000 },
+  }),
   getSiteMeasurements: async ({ endDate }) => {
     const totals = YEARS[endDate.slice(0, 4)];
     if (!totals) throw new Error('INVALID_ARGUMENTS');

@@ -134,10 +134,12 @@ module.exports = class SolarEdgeEVChargerDevice extends CommonDevice {
   async updateCharged() {
     const { siteId, reporterId } = this.getData();
     const applianceSessionsHistory = await this.client.getSiteDeviceApplianceSessionsHistory({ siteId, reporterId });
-    if (!Array.isArray(applianceSessionsHistory?.applianceDetails)) return;
+    // PASSED with applianceDetails null: no sessions yet (seen live)
+    const none = applianceSessionsHistory?.status === 'PASSED' && applianceSessionsHistory.applianceDetails === null;
+    if (!none && !Array.isArray(applianceSessionsHistory?.applianceDetails)) return;
 
     let totalCharged = 0;
-    applianceSessionsHistory.applianceDetails.forEach((applianceDetails) => {
+    (applianceSessionsHistory.applianceDetails || []).forEach((applianceDetails) => {
       const statisticsConsumedEnergy = (applianceDetails?.statistics || []).find((statistic) => statistic.subjectEnum === 'CONSUMED_ENERGY');
       if (typeof statisticsConsumedEnergy?.totalValue === 'number') {
         totalCharged += statisticsConsumedEnergy.totalValue;

@@ -29,8 +29,23 @@ module.exports = class SolarEdgeInverterDriver extends CommonDriver {
     return sitePowerflow?.solarProduction?.isActive === true;
   }
 
-  async onPairCapabilityValues({ client, site }) {
-    return SolarEdgeInverterDevice.pairValues({ client, site, homey: this.homey });
+  /** One device per inverter (as SolarEdge's web portal shows them); one for the site without an equipment list. */
+  async onPairListDevices({ client, site }) {
+    const devices = await super.onPairListDevices({ client, site });
+    if (!devices.length) return devices;
+    const serials = SolarEdgeInverterDevice.serialsOf(await client.getSiteEquipment({ siteId: site.id }));
+    if (!serials.length) return devices;
+    return serials.map((serialNumber) => ({
+      ...devices[0],
+      name: serials.length > 1 ? `${devices[0].name} ${serialNumber}` : devices[0].name,
+      data: { serialNumber },
+    }));
+  }
+
+  async onPairCapabilityValues({ client, site, device }) {
+    return SolarEdgeInverterDevice.pairValues({
+      client, site, homey: this.homey, device,
+    });
   }
 
 };

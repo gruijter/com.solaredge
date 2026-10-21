@@ -21,8 +21,8 @@ along with com.solaredge.  If not, see <http://www.gnu.org/licenses/>.
 
 /*
  * Device mappings that the replays cannot reach: the EV charger in every state of a real answer
- * (test/fixtures/ev-charger-devices.json), counters that never fall, battery energies in kWh, and
- * optimizer temperatures in Fahrenheit.
+ * (test/fixtures/ev-charger-devices.json), counters that never fall, battery energies in kWh and
+ * totals, a site's inverters split, and optimizer temperatures in Fahrenheit.
  */
 
 const fs = require('node:fs');
@@ -113,19 +113,117 @@ const monotonic = async () => {
 
 const batteryKwh = async () => {
   const battery = {
-    chargeEnergy: 1234.5, dischargeEnergy: 1000, remainingEnergy: 6.2, fullPackEnergy: 9.2, namePlateEnergy: 9.7, info: { serialNumber: 'B1' },
+    chargeEnergy: 0, dischargeEnergy: -944, remainingEnergy: 6.2, fullPackEnergy: 9.2, namePlateEnergy: 9.7, info: { serialNumber: 'B1' },
   };
   const device = newDevice('battery', {}, { getSiteBatteries: async () => ({ devicesByType: { BATTERY: [battery] } }) });
   await device.updateBatteries();
   const v = device.values;
-  check(v['meter_power.charged'] === 1234.5 && v.measure_residual_energy === 6.2 && v.measure_soh === 95, `battery kWh: ${JSON.stringify(v)}`);
+  // chargeEnergy/dischargeEnergy are power: never an Energy meter
+  check(v.measure_residual_energy === 6.2 && v.measure_soh === 95 && v['meter_power.discharged'] === null, `battery kWh: ${JSON.stringify(v)}`);
+};
 
-  // a unit taken as kWh first, Wh later: the counter rescales, no offset is left behind
-  battery.namePlateEnergy = 9700;
-  await device.updateBatteries();
-  await device.updateBatteries();
-  const offset = device.getStoreValue('chargedRawOffset');
-  check(device.values['meter_power.charged'] === 1.235 && !offset, `battery unit change: ${device.values['meter_power.charged']} kWh, offset ${offset}`);
+// site 2598568, 2026-10-21 (live): getSiteStorageDistribution from installation
+const storageTotals = async () => {
+  const distribution = {
+    destinations: { total: 15848842, building: 15089295, grid: 759545.94 },
+    sources: { total: 15925240, pv: 15598723, grid: 326517.16 },
+  };
+  const asked = [];
+  const device = newDevice('battery', {}, {
+    getSites: async () => ({ 1: { id: 1, timezone: 'UTC', installationDate: '2021-11-30T00:00:00Z' } }),
+    getSiteStorageDistribution: async (args) => {
+      asked.push(args);
+      return distribution;
+    },
+  });
+  await device.updateStorageTotals();
+  check(device.values['meter_power.charged'] === 15925.24 && device.values['meter_power.discharged'] === 15848.842, `storage totals: ${JSON.stringify(device.values)}`);
+  check(asked[0]?.startDate === '2021-11-30' && asked[0]?.timeUnit === 'years', `storage totals asked ${JSON.stringify(asked[0])}`);
+};
+
+// site 2598568, 2026-10-21 (captured): two inverters, each with a battery, one of them discharging
+const inverterSplit = async () => {
+  const serials = ['7E061442-DA', '7E06143A-D2'];
+  const byInverter = (energies) => ({
+    inverters: serials.map((serial, i) => ({
+      serial, energy: { value: energies[i][0] }, optimizers: [{ energy: { value: energies[i][1] }, temperature: { temperature: 20 + i } }],
+    })),
+  });
+  const client = {
+    getSites: async () => ({ 1: { id: 1, timezone: 'UTC', installationDate: '2021-11-30T00:00:00Z' } }),
+    getSitePowerflow: async () => ({ solarProduction: { isActive: true, currentPower: 0.41 }, storage: { isActive: true } }),
+    getSiteEquipment: async () => ({ inverters: { details: [{ serialNumbers: serials }] } }),
+    getSiteEnergyOverview: async () => ({
+      energyProducedOverviewList: [
+        { timePeriod: 'LIFE_TIME', energy: 77009180 }, { timePeriod: 'LAST_YEAR', energy: 14809780 },
+        { timePeriod: 'LAST_MONTH', energy: 800031.06 }, { timePeriod: 'LAST_DAY', energy: 9776.23 },
+      ],
+    }),
+    getSiteEnergyByInverter: async ({ startDate }) => ({
+      '2021-11-30': byInverter([[38803590, 41608033], [38346560, 41008738]]),
+      '2026-01-01': byInverter([[7419730, 8077737], [7343395, 7950021]]),
+      '2026-10-01': byInverter([[419931, 445175], [401399, 420950]]),
+    }[startDate] || byInverter([[4623, 6106], [4955, 6316]])),
+    getInvertersInformation: async () => ({
+      serialToLiveData: {
+        '7E061442-DA': { lastMeasurement: '2026-10-21T15:08:44Z', inverterStatus: 'setup', pAc_W: 0 },
+        '7E06143A-D2': { lastMeasurement: '2026-10-21T15:08:38Z', inverterStatus: 'production', pAc_W: 923 },
+      },
+    }),
+    getSiteBatteries: async () => ({
+      devicesByType: {
+        POLESTAR: [{ connectedDevices: [1], info: { serialNumber: '7E061442' } }, { connectedDevices: [2], info: { serialNumber: '7E06143A' } }],
+        BATTERY: [
+          {
+            batteryState: 'STANDBY', chargeEnergy: 0, dischargeEnergy: 0, info: { deviceId: 1 },
+          },
+          {
+            batteryState: 'DISCHARGE', chargeEnergy: 0, dischargeEnergy: -518, info: { deviceId: 2 },
+          },
+        ],
+      },
+    }),
+    getSiteCommunication: async () => ({ connectivityStatus: 'ONLINE' }),
+    getSiteAlerts: async () => ({ totalAlertsCount: 0 }),
+  };
+  const RealNow = Date.now;
+  Date.now = () => Date.parse('2026-10-21T15:09:20Z');
+  try {
+    const devices = serials.map((serialNumber) => newDevice('inverter', { serialNumber }, client));
+    for (const device of devices) {
+      device.energyPending = true;
+      await device.onPoll(); // eslint-disable-line no-await-in-loop
+    }
+    const [idle, producing] = devices.map((device) => device.values);
+    check(idle.measure_power === 0 && producing.measure_power === 410, `split power: ${idle.measure_power} + ${producing.measure_power} W of 410`);
+    check(idle.inverter_status == null, `idle inverter status ${idle.inverter_status}`);
+    check(producing.inverter_status === 'production', `producing inverter status ${producing.inverter_status}`);
+    check(idle['measure_temperature.max'] === 20 && producing['measure_temperature.max'] === 21, `split temperatures ${idle['measure_temperature.max']}, ${producing['measure_temperature.max']}`);
+    for (const [capability, total] of [['meter_power', 77009.18], ['meter_power.year', 14809.78], ['meter_power.month', 800.03106], ['meter_power.day', 9.77623]]) {
+      const sum = idle[capability] + producing[capability];
+      check(Math.abs(sum - total) < 1e-6, `split ${capability}: ${idle[capability]} + ${producing[capability]} kWh, site ${total}`);
+    }
+    // with a battery by DC energy: 6106 / (6106 + 6316) of the day
+    check(Math.abs(idle['meter_power.day'] - (9.77623 * 6106) / 12422) < 1e-9, `split day by DC: ${idle['meter_power.day']}`);
+  } finally {
+    Date.now = RealNow;
+  }
+};
+
+const inverterStatus = async () => {
+  const device = newDevice('inverter', {}, {
+    getSiteEquipment: async () => ({ inverters: { details: [{ serialNumbers: ['I1', 'I2'] }] } }),
+    getInvertersInformation: async () => ({
+      serialToLiveData: {
+        I1: { lastMeasurement: new Date().toISOString(), inverterStatus: 'setup', pAc_W: 0 },
+        I2: { lastMeasurement: new Date().toISOString(), inverterStatus: 'production', pAc_W: 900 },
+      },
+    }),
+    getSites: async () => ({ 1: { id: 1, timezone: 'UTC' } }),
+    getSiteEnergyByInverter: async () => ({ inverters: [] }),
+  });
+  await device.updateInverterDetails();
+  check(device.values.inverter_status === 'production', `site of a setup and a producing inverter: ${device.values.inverter_status}`);
 };
 
 const fahrenheit = async () => {
@@ -179,13 +277,16 @@ const nightAlarm = async () => {
   await loadControllers();
   await monotonic();
   await batteryKwh();
+  await storageTotals();
+  await inverterSplit();
+  await inverterStatus();
   await fahrenheit();
   if (failures.length) {
     console.error(`FAIL - ${failures.length} problem(s):\n`);
     failures.forEach((failure) => console.error(`  ${failure}`));
     process.exitCode = 1;
   } else {
-    console.log(`OK - devices: ${Object.keys(responses).length} EV charger states, 2 load controllers, monotonic counters, battery kWh, Fahrenheit, night alarm`);
+    console.log(`OK - devices: ${Object.keys(responses).length} EV charger states, 2 load controllers, monotonic counters, battery kWh and totals, inverter split and status, Fahrenheit, night alarm`);
   }
 })().catch((error) => {
   console.error(error);

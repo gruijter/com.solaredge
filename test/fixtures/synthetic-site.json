@@ -79,6 +79,40 @@
    }
   },
   {
+   "method": "getSites",
+   "result": {
+    "9999999": {
+     "id": 9999999,
+     "status": "ACTIVE",
+     "name": "Synthetic site",
+     "peakPower": 8,
+     "timezone": "Europe/Amsterdam",
+     "installationDate": "2024-03-01T10:00:00Z"
+    }
+   }
+  },
+  {
+   "method": "getSiteStorageDistribution",
+   "args": {
+    "siteId": 9999999,
+    "timeUnit": "years",
+    "startDate": "2024-03-01",
+    "endDate": "2026-10-15"
+   },
+   "result": {
+    "sources": {
+     "total": 1234567,
+     "pv": 1200000,
+     "grid": 34567
+    },
+    "destinations": {
+     "total": 1000000,
+     "building": 950000,
+     "grid": 50000
+    }
+   }
+  },
+  {
    "method": "getSiteCommunication",
    "args": {
     "siteId": 9999999
@@ -262,36 +296,6 @@
    }
   },
   {
-   "method": "getSiteEnergyOverview",
-   "args": {
-    "siteId": 9999999
-   },
-   "result": {
-    "energyProducedOverviewList": [
-     {
-      "timePeriod": "LIFE_TIME",
-      "energy": 29338528,
-      "revenue": null
-     },
-     {
-      "timePeriod": "LAST_YEAR",
-      "energy": 4345507,
-      "revenue": null
-     },
-     {
-      "timePeriod": "LAST_MONTH",
-      "energy": 176703,
-      "revenue": null
-     },
-     {
-      "timePeriod": "LAST_DAY",
-      "energy": 7131,
-      "revenue": null
-     }
-    ]
-   }
-  },
-  {
    "method": "getSiteEquipment",
    "args": {
     "siteId": 9999999
@@ -403,19 +407,6 @@
        "lineNumber_3ph": 3
       }
      ]
-    }
-   }
-  },
-  {
-   "method": "getSites",
-   "result": {
-    "9999999": {
-     "id": 9999999,
-     "status": "ACTIVE",
-     "name": "Synthetic site",
-     "peakPower": 8,
-     "timezone": "Europe/Amsterdam",
-     "installationDate": "2024-03-01T10:00:00Z"
     }
    }
   },
@@ -644,6 +635,36 @@
         "color": 0.5693121693121693
        }
       ]
+     }
+    ]
+   }
+  },
+  {
+   "method": "getSiteEnergyOverview",
+   "args": {
+    "siteId": 9999999
+   },
+   "result": {
+    "energyProducedOverviewList": [
+     {
+      "timePeriod": "LIFE_TIME",
+      "energy": 29338528,
+      "revenue": null
+     },
+     {
+      "timePeriod": "LAST_YEAR",
+      "energy": 4345507,
+      "revenue": null
+     },
+     {
+      "timePeriod": "LAST_MONTH",
+      "energy": 176703,
+      "revenue": null
+     },
+     {
+      "timePeriod": "LAST_DAY",
+      "energy": 7131,
+      "revenue": null
      }
     ]
    }

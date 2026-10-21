@@ -37,7 +37,7 @@ const unitOf = (namePlate) => {
 };
 
 /**
- * Energies (kWh) and health of the batteries; charged and discharged as reported, without monotonic().
+ * Remaining energy (kWh) and health of the batteries.
  * @param {object[]} batteries
  * @param {number} toKwh
  */
@@ -49,8 +49,6 @@ const readings = (batteries, toKwh) => {
   const namePlate = sum(batteries, 'namePlateEnergy');
   const fullPack = kwh('fullPackEnergy');
   return {
-    'meter_power.charged': kwh('chargeEnergy'),
-    'meter_power.discharged': kwh('dischargeEnergy'),
     measure_residual_energy: kwh('remainingEnergy'),
     measure_soh: fullPack !== null && namePlate > 0 ? Math.min(100, Math.round((fullPack / (namePlate * toKwh)) * 100)) : null,
   };
@@ -91,17 +89,36 @@ module.exports = class SolarEdgeBatteryDevice extends CommonDevice {
 
     if (this.energyDue()) {
       await this.updateBatteries().catch((error) => this.error(`Error Fetching Batteries: ${error.message}`));
+      await this.updateStorageTotals().catch((error) => this.error(`Error Fetching Storage Totals: ${error.message}`));
       await this.updateSiteAlarms().catch((error) => this.error(`Error Fetching Site Alarms: ${error.message}`));
     }
   }
 
   /**
-   * Energy, remaining energy and health of the site's batteries (getSiteBatteries, summed). Not
-   * seen live: the fields are from nerd2/solaredgego. Energies are taken as Wh, as in the other
-   * home-automation answers (EV sessionEnergy Wh, ratedPower W: briadelour example_raw_json),
-   * unless the nameplate is below 100, which can only be kWh. chargeEnergy/dischargeEnergy may be
-   * lifetime or periodic counters: monotonic() keeps the Energy meters rising either way. The raw
-   * values are logged once per app run to check this in diagnostics reports.
+   * meter_power.charged/.discharged: the energy into and out of the site's batteries since
+   * installation, grid included: getSiteStorageDistribution over the years, sources and
+   * destinations in Wh (seen live: their pv and building parts equal the summed yearly
+   * productionToBattery and consumptionFromBattery of getSiteMeasurements).
+   */
+  async updateStorageTotals() {
+    const distribution = await this.client.getSiteStorageDistribution({
+      siteId: this.getData().siteId, timeUnit: 'years', startDate: await this.siteStartDate(), endDate: await this.siteToday(),
+    });
+    for (const [capability, name, total] of [
+      ['meter_power.charged', 'charged', distribution?.sources?.total],
+      ['meter_power.discharged', 'discharged', distribution?.destinations?.total],
+    ]) {
+      // eslint-disable-next-line no-await-in-loop
+      if (typeof total === 'number') await this.setCapability(capability, await this.monotonic(name, total / 1000));
+    }
+  }
+
+  /**
+   * Remaining energy and health of the site's batteries (getSiteBatteries, summed). Energies in Wh
+   * (seen live: remainingEnergy / fullPackEnergy is the powerflow's chargeLevel, nameplate 12000 for
+   * a 12 kWh BYD), unless the nameplate is below 100, which can only be kWh. chargeEnergy and
+   * dischargeEnergy are the batteries' power in W, not energy (drivers/inverter/device.js,
+   * batteryPowerByInverter). The raw values are logged once per app run.
    */
   async updateBatteries() {
     const response = await this.client.getSiteBatteries({ siteId: this.getData().siteId });
@@ -135,17 +152,6 @@ module.exports = class SolarEdgeBatteryDevice extends CommonDevice {
     this.logOnce(`unit ${toKwh}`, `battery energies taken as ${toKwh === 1 ? 'kWh' : 'Wh'} (nameplate ${namePlate})`);
 
     const values = readings(batteries, toKwh);
-    // monotonic() on the raw counters: a unit corrected later then rescales them, instead of
-    // leaving an offset in the wrong unit
-    for (const [capability, name, key] of [
-      ['meter_power.charged', 'chargedRaw', 'chargeEnergy'],
-      ['meter_power.discharged', 'dischargedRaw', 'dischargeEnergy'],
-    ]) {
-      const raw = sum(batteries, key);
-      // eslint-disable-next-line no-await-in-loop
-      if (raw !== null) values[capability] = Math.round((await this.monotonic(name, raw)) * toKwh * 1000) / 1000;
-    }
-
     await this.recordSeenCaps(values);
     for (const [capability, value] of Object.entries(values)) {
       // eslint-disable-next-line no-await-in-loop
