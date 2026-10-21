@@ -143,10 +143,12 @@ const statusOf = (reported, statuses) => {
 const liveValues = (information, { serials, statuses, cadenceMs }) => {
   const values = {};
 
-  // lineNumber_3ph 1-3; v_ac_V line to neutral
+  // lineNumber_3ph 1-3; v_ac_V line to neutral. A 1-phase inverter has one line without
+  // lineNumber_3ph (seen live: SE3500H, SE3680H): phase 1.
   const phases = pick(information?.serialToPhaseMeasurements, serials).flat();
+  const phaseOf = (line) => line.lineNumber_3ph ?? 1;
   for (const phase of PHASES) {
-    const lines = phases.filter((line) => line.lineNumber_3ph === phase);
+    const lines = phases.filter((line) => phaseOf(line) === phase);
     if (!lines.length) continue;
     const voltage = sum(lines, 'v_ac_V');
     values[`measure_voltage.${phase}`] = round(voltage === null ? null : voltage / lines.length, 1);
@@ -359,8 +361,8 @@ module.exports = class SolarEdgeInverterDevice extends CommonDevice {
     }
 
     this.live = live;
-    if (phases.length && !phases.some((line) => PHASES.includes(line.lineNumber_3ph))) {
-      this.logOnce('phases', 'phase measurements without lineNumber_3ph 1-3:', JSON.stringify(phases));
+    if (phases.some((line) => line.lineNumber_3ph !== undefined && !PHASES.includes(line.lineNumber_3ph))) {
+      this.logOnce('phases', 'phase measurements with lineNumber_3ph other than 1-3:', JSON.stringify(phases));
     }
     reported.forEach((status) => this.logOnce(`status ${status}`, 'inverter status', status));
 
