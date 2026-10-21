@@ -191,6 +191,14 @@ const CASES = [
     },
   },
   {
+    // asleep, as Dijker's SE5K at night (2026-10-21): status 2, heat sink 0
+    dump: 'se17k_3phase',
+    inject: (holding) => {
+      [holding[40103], holding[40107]] = [0, 2]; // eslint-disable-line no-param-reassign
+    },
+    inverter_modbus: [{ inverter_status: 'sleeping', measure_temperature: null }],
+  },
+  {
     // the same inverter with Dijker's enhanced dynamic power control block (read live 2026-10-16)
     dump: 'se17k_3phase',
     inject: (holding) => {
@@ -239,6 +247,12 @@ const CASES = [
         check(floatAt(holding, 0xf322) === 47.62, `${name}: an app stop left ${floatAt(holding, 0xf322)} %`);
         await device.releaseControls({ deleted: true });
         check(floatAt(holding, 0xf322) === 100, `${name}: a deleted device left ${floatAt(holding, 0xf322)} %`);
+        // Dijker 2026-10-21: a poll while a new limit settles does not write the previous one back
+        const { pause } = device;
+        device.pause = async () => device.poll();
+        const raced = await act(device, { target_power: 80 });
+        device.pause = pause;
+        check(raced === null && floatAt(holding, 0xf322) === 1.52, `${name}: a poll during the write left ${floatAt(holding, 0xf322)} % (${raced?.message})`);
       },
     },
   },
